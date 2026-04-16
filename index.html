@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Oprava diakritiky a načítanie bez GitHub prihlásenia." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Robustné načítanie z GitHubu s opravou kódovania." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -565,10 +565,7 @@ const el = {
 
   year: $('year'),
 
-  // stats
-  statTotal: $('stat-total'),
-  statFiltered: $('stat-filtered'),
-  statRated: $('stat-rated'),
+  // chips
   chipTotal: $('chip-total'),
   chipShown: $('chip-shown'),
   chipRated: $('chip-rated'),
@@ -633,7 +630,7 @@ function init(){
 
   // Identity (admin)
   el.btnRelogin.addEventListener('click', showAuthOverlay);
-  el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart); // preferuje public URL
+  el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart);
 
   // Stĺpcové filtre
   const deb = debounce(onColumnFiltersChanged, 120);
@@ -649,7 +646,6 @@ function init(){
   applyBrandingToDOM();
 
   renderTable();
-  updateIdentityUI();
   updateStats();
 }
 
@@ -691,9 +687,8 @@ function handleAuthSubmit(){
   el.overlay.classList.remove('show');
   document.body.classList.remove('locked');
   updateIdentityUI();
-  // Ulož e‑mail do GitHub databázy (ak nakonfigurované)
   saveEmailToGitHub(val).catch(()=>{});
-  // Automaticky načítať katalóg – preferuj verejnú URL (bez prihlásenia)
+  // Načítať katalóg – preferuj verejnú URL (bez prihlásenia)
   loadCatalogSmart().catch(()=>{});
   showToast('Prihlásenie úspešné.');
 }
@@ -755,7 +750,7 @@ function tryLoadLocal(){
   }catch(e){ console.warn('Local load error', e); }
 }
 
-// ======= Načítanie XLSX (ADMIN) + OPRAVA DIKRITIKY =======
+// ======= Načítanie XLSX (ADMIN) =======
 function onLoadXLSX(){
   if (typeof XLSX === 'undefined'){
     showToast('Knižnica XLSX nie je načítaná – ste offline?');
@@ -774,7 +769,7 @@ function onLoadXLSX(){
       const ws = wb.Sheets[sheetName];
       if(!ws){ alert('Nepodarilo sa načítať prvý hárok.'); return; }
       const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true});
-      const wines = parseRows(rows).map(fixWineFieldsDiacritics);
+      const wines = parseRows(rows);
       state.wines = wines;
 
       if(state.persistWines){
@@ -807,7 +802,7 @@ async function publishCatalogToGitHub(){
   }
 }
 
-// ======= GitHub / PUBLIC načítanie =======
+// ======= GitHub / PUBLIC načítanie (s opravou kódovania) =======
 function ensureGhConfigured(mode='read', alertUser=false){
   const needForRead = !!(state.gh.owner && state.gh.repo && (state.gh.branch || 'main'));
   const hasCatalogPath = !!state.gh.catalogPath;
@@ -827,57 +822,78 @@ function ensureGhConfigured(mode='read', alertUser=false){
   return ok;
 }
 
-// Smart loader: Pages → Raw → API
+// Smart loader: Pages → Raw → API (všetko s vlastným dekódovaním)
 async function loadCatalogSmart(){
   if(!ensureGhConfigured('read', true)) return;
 
-  const pagesUrl = `https://${encodeURIComponent(state.gh.owner)}.github.io/${encodeURIComponent(state.gh.repo)}/${state.gh.catalogPath.replace(/^\//,'')}`;
-  const rawUrl = `https://raw.githubusercontent.com/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/${encodeURIComponent(state.gh.branch||'main')}/${state.gh.catalogPath.replace(/^\//,'')}`;
+  const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
+  const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
 
-  // 1) GitHub Pages (ak je zapnuté)
+  // 1) GitHub Pages
   try{
-    const data = await fetchPublicJSON(pagesUrl);
+    const data = await fetchJSONWithEncodingFallback(pagesUrl);
     if(Array.isArray(data)){
-      state.wines = data.map(fixWineFieldsDiacritics);
+      state.wines = data;
       renderTable(); updateStats();
       showToast(`Katalóg načítaný (Pages) – ${state.wines.length} položiek.`);
       return;
     }
-  }catch(e){ /* ignoruj */ }
+  }catch(e){ /* pokračuj */ }
 
   // 2) Raw GitHub
   try{
-    const data = await fetchPublicJSON(rawUrl);
+    const data = await fetchJSONWithEncodingFallback(rawUrl);
     if(Array.isArray(data)){
-      state.wines = data.map(fixWineFieldsDiacritics);
+      state.wines = data;
       renderTable(); updateStats();
       showToast(`Katalóg načítaný (Raw GitHub) – ${state.wines.length} položiek.`);
       return;
     }
-  }catch(e){ /* ignoruj */ }
+  }catch(e){ /* pokračuj */ }
 
-  // 3) Contents API (s tokenom alebo bez)
+  // 3) Contents API
   await loadCatalogFromGitHubAPI();
 }
 
-async function fetchPublicJSON(url){
-  const res = await fetch(url, { mode:'cors', headers: { 'Accept':'application/json' } });
+// Stiahnutie JSON s detekciou a fallback dekódovaním (UTF‑8 → Windows‑1250 → ISO‑8859‑2 → Latin1)
+async function fetchJSONWithEncodingFallback(url){
+  const res = await fetch(url, { mode:'cors', cache:'no-cache' });
   if(!res.ok) throw new Error('HTTP '+res.status);
-  return res.json();
+  const buf = await res.arrayBuffer();
+  const bytes = new Uint8Array(buf);
+  const txt = decodeBytesWithFallback(bytes);
+  return JSON.parse(txt);
 }
 
+// Contents API – čítanie base64 a dekódovanie bajtov cez fallback
 async function loadCatalogFromGitHubAPI(){
   try{
     const meta = await ghGetFile(state.gh.catalogPath);
     if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
-    const txt = atob(meta.content.replace(/\n/g,''));
-    let data = JSON.parse(txt);
+    const bytes = base64ToBytes(meta.content);
+    const txt = decodeBytesWithFallback(bytes);
+    const data = JSON.parse(txt);
     if(!Array.isArray(data)){ alert('Katalóg na GitHube má neočakávaný formát.'); return; }
-    state.wines = data.map(fixWineFieldsDiacritics);
+    state.wines = data;
     renderTable(); updateStats();
     showToast(`Katalóg načítaný (GitHub API) – ${data.length} položiek.`);
   }catch(err){
     alert('Načítanie katalógu z GitHubu zlyhalo (skontrolujte Owner/Repo/Branch/Cestu).');
+    console.error(err);
+  }
+}
+
+async function downloadEmailsFromGitHub(){
+  if(!ensureGhConfigured('emails', true) || !state.gh.emailsPath) return;
+  try{
+    const meta = await ghGetFile(state.gh.emailsPath);
+    if(!meta || !meta.content){ alert('Súbor e‑mailov sa nenašiel.'); return; }
+    const bytes = base64ToBytes(meta.content);
+    const txt = decodeBytesWithFallback(bytes);
+    const blob = new Blob([txt], {type:'application/json;charset=utf-8;'});
+    downloadBlob(blob, `emails_github_${tsFile()}.json`);
+  }catch(err){
+    alert('Načítanie e‑mailov z GitHubu zlyhalo.');
     console.error(err);
   }
 }
@@ -921,7 +937,8 @@ async function saveEmailToGitHub(email){
     let list = [];
     let sha = null;
     if(existing && existing.content){
-      const txt = atob(existing.content.replace(/\n/g,''));
+      const bytes = base64ToBytes(existing.content);
+      const txt = decodeBytesWithFallback(bytes);
       try{ list = JSON.parse(txt) || []; }catch{}
       sha = existing.sha;
     }
@@ -959,8 +976,7 @@ function renderTable(){
   tbody.innerHTML = '';
   const list = applyFilters(state.wines.slice());
 
-  for(const w0 of list){
-    const w = fixWineFieldsDiacritics(w0); // preventívne pri renderi
+  for(const w of list){
     const tr = document.createElement('tr');
 
     const tdPor = document.createElement('td'); tdPor.textContent = w.poradie ?? w.id ?? ''; tr.appendChild(tdPor);
@@ -1015,15 +1031,14 @@ function applyFilters(arr){
   const f = state.filters;
 
   return arr.filter(w=>{
-    const z = fixWineFieldsDiacritics(w);
     const test = (val, needle)=> String(val||'').toLowerCase().includes(needle);
-    if(f.vystavovatel && !test(z.vystavovatel, f.vystavovatel)) return false;
-    if(f.adresa && !test(z.adresa, f.adresa)) return false;
-    if(f.odroda && !test(z.odroda, f.odroda)) return false;
-    if(f.rocnik && !String(z.rocnik||'').toLowerCase().includes(f.rocnik)) return false;
-    if(f.privlastok && !test(z.privlastok, f.privlastok)) return false;
+    if(f.vystavovatel && !test(w.vystavovatel, f.vystavovatel)) return false;
+    if(f.adresa && !test(w.adresa, f.adresa)) return false;
+    if(f.odroda && !test(w.odroda, f.odroda)) return false;
+    if(f.rocnik && !String(w.rocnik||'').toLowerCase().includes(f.rocnik)) return false;
+    if(f.privlastok && !test(w.privlastok, f.privlastok)) return false;
 
-    const b = toIntSafe(z.body);
+    const b = toIntSafe(w.body);
     const min = f.bodyMin==='' ? null : parseInt(f.bodyMin,10);
     const max = f.bodyMax==='' ? null : parseInt(f.bodyMax,10);
     if(min!==null && (b===null || b<min)) return false;
@@ -1073,7 +1088,7 @@ function exportPDF(){
   const title = 'Moje hodnotenia – ' + (state.email || 'neprihlásený');
   doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text(title, 40, 40);
   const rows = state.ratings.filter(r=>r.email===state.email).map(r=>{
-    const w = fixWineFieldsDiacritics(r.wine || {});
+    const w = r.wine || {};
     return [ w.poradie ?? w.id ?? '', w.vystavovatel || '', w.odroda || '', w.rocnik || '', r.points, new Date(r.timestamp).toLocaleString() ];
   });
   if(rows.length===0){ doc.setFontSize(12); doc.text('Zatiaľ žiadne hodnotenia.', 40, 70); }
@@ -1241,6 +1256,7 @@ function toIntSafe(v){
   const n = parseInt(String(v).replace(/[^\d-]/g,''),10);
   return Number.isFinite(n) ? n : null;
 }
+
 function downloadBlob(blob, filename){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href = url; a.download = filename;
@@ -1283,42 +1299,43 @@ function safeSetItem(key, value){
   catch(err){ console.warn('localStorage setItem zlyhal pre kľúč', key, err); return false; }
 }
 
-// ======= OPRAVA DIAKRITIKY =======
-// 1) Rýchla oprava UTF-8→Latin-1 mojibake (Ã©, Ã½, …)
-function looksBroken(str){
-  if(!str) return false;
-  return /Ã|�|Â|Ä|Å/.test(str);
-}
-function fixDiacriticsIfBroken(str){
-  if(!str || !looksBroken(str)) return str;
-  try{
-    // Pokus: Latin-1 → UTF-8
-    const fixed = decodeURIComponent(escape(str));
-    if(!looksBroken(fixed)) return fixed;
-  }catch(_){}
-  // Doplňujúca mapa najčastejších párov
-  const map = {
-    'Ã¡':'á','Ã¤':'ä','Ã©':'é','Ã¨':'è','Ã­':'í','Ã³':'ó','Ã´':'ô','Ãº':'ú','Ã½':'ý','Ã¾':'þ',
-    'Ã':'Á','Ã„':'Ä','Ã‰':'É','Ã':'Í','Ã“':'Ó','Ã”':'Ô','Ãš':'Ú','Ã':'Ý',
-    'Å¡':'š','Å¾':'ž','Ä':'č','Ä':'Č','Ä':'ď','Ä':'Ď','Å¥':'ť','Å ĺ':'ĺ','Ä¾':'ľ','Åˆ':'ň',
-    'Å Ľ':'Ľ','Å á':'á','ÅĄ':'Ť','Å ĺ':'ĺ','Å˜':'Ř','Å™':'ř'
+// ======= Dekódovanie bajtov s fallback kódovaním =======
+// Poradie: UTF‑8 → Windows‑1250 → ISO‑8859‑2 → Latin‑1
+function decodeBytesWithFallback(bytes){
+  const tryDec = (label)=>{
+    try{
+      const dec = new TextDecoder(label, { fatal:false });
+      return dec.decode(bytes);
+    }catch(_){ return null; }
   };
-  let out = str;
-  Object.keys(map).forEach(k=>{ out = out.split(k).join(map[k]); });
-  return out;
-}
-function fixWineFieldsDiacritics(w){
-  if(!w || typeof w!=='object') return w;
-  const out = { ...w };
-  ['vystavovatel','adresa','odroda','rocnik','privlastok'].forEach(k=>{
-    if(k in out){ out[k] = fixDiacriticsIfBroken(String(out[k]??'')); }
-  });
-  if('poradie' in out){ out.poradie = toIntSafe(fixDiacriticsIfBroken(String(out.poradie??''))) ?? out.poradie; }
-  if('id' in out){ out.id = fixDiacriticsIfBroken(String(out.id??'')); }
-  return out;
+  let txt = tryDec('utf-8');
+  if(txt && looksMojibake(txt)) txt = null;
+  if(!txt) txt = tryDec('windows-1250');
+  if(txt && looksMojibake(txt)) txt = null;
+  if(!txt) txt = tryDec('iso-8859-2');
+  if(txt && looksMojibake(txt)) txt = null;
+  if(!txt) txt = tryDec('latin1');
+  return txt || '';
 }
 
-// base64 pre unicode (GitHub API)
+function looksMojibake(str){
+  if(!str) return false;
+  // veľa "Ã", "�", "Â" signalizuje rozbité UTF‑8
+  const bad = (str.match(/Ã|�|Â/g)||[]).length;
+  const letters = (str.match(/[A-Za-zÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽáäčďéíĺľňóôŕšťúýž]/g)||[]).length;
+  return bad>0 && bad >= letters*0.05; // hrubý odhad
+}
+
+function base64ToBytes(b64){
+  const clean = b64.replace(/\n/g,'');
+  const bin = atob(clean);
+  const len = bin.length;
+  const bytes = new Uint8Array(len);
+  for(let i=0;i<len;i++) bytes[i] = bin.charCodeAt(i) & 0xFF;
+  return bytes;
+}
+
+// base64 pre unicode (GitHub API) – na zápis
 function b64encodeUnicode(str) {
   const bytes = new TextEncoder().encode(str);
   let binary = '';
