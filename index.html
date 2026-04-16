@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -64,7 +64,7 @@ body.locked{ overflow:hidden; }
   border-bottom: 1px solid rgba(255,255,255,.2);
   box-shadow: var(--shadow-1);
 }
-.header__inner{ display:flex; align-items:center; gap:var(--space-4); max-width: 1200px; margin:0 auto; padding: 0 var(--space-4); }
+.header__inner{ display:flex; align-items:center; gap:var(--space-4); max-width: 1200px; margin:0 auto; padding: 0 var(--space-4); flex-wrap: wrap; }
 .logo{ width:64px; height:64px; object-fit:contain; border-radius:10px; background: rgba(255,255,255,.9); padding: 4px; box-shadow: var(--shadow-1); }
 .title{ margin:.2rem 0; font-size: clamp(1.4rem, 2.3vw, 2rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .95; font-weight: 600; }
@@ -178,11 +178,35 @@ details{ border-left: 3px solid rgba(29,155,178,.35); padding-left: .6rem; }
 .dialog h2{ margin-top:0; }
 .note{ color: var(--muted); font-size: .9rem; }
 
+/* ======= Responzívne vylepšenia ======= */
+@media (max-width: 1024px){
+  .header__stats{ flex-wrap: wrap; }
+  .stat{ min-width: 220px; }
+}
+
 @media (max-width: 920px){
   thead .filters-row th{ top: 48px; }
+  .header__stats{ gap: var(--space-3); }
+  .stat__value{ font-size: 1.4rem; }
+  .dialog{ padding: var(--space-4); }
 }
+
 @media (max-width: 720px){
   .header__inner{ flex-direction:row; }
+  .logo{ width:52px; height:52px; }
+  .subtitle{ font-size:.95rem; }
+  .card__body{ padding: var(--space-4); }
+  .inline-row .btn{ flex: 1 1 auto; min-width: 140px; }
+  thead .filters-row input{ min-width: 100px; }
+  th, td { padding:.5rem .45rem; }
+  .rating-input{ width: 100%; min-width: 88px; }
+}
+
+@media (max-width: 480px){
+  .title{ font-size: 1.35rem; }
+  .subtitle{ display:block; font-size:.85rem; }
+  .header__stats{ flex-direction: column; }
+  .stat{ padding: var(--space-3); }
 }
 </style>
 
@@ -350,7 +374,7 @@ details{ border-left: 3px solid rgba(29,155,178,.35); padding-left: .6rem; }
       <h2 id="auth-title">4) Identita (ADMIN)</h2>
     </div>
     <div class="card__body">
-      <p id="identity-text">Prihlásenie prebehne po spustení. Aktuálny používateľ: <strong id="whoami">neprihlásený</strong>.</p>
+      <p id="identity-text">Aktuálny používateľ: <strong id="whoami">neprihlásený</strong>.</p>
       <div class="inline-row">
         <button id="btn-relogin" class="btn btn-ghost" type="button">Zmeniť používateľa</button>
         <button id="btn-load-catalog-gh" class="btn btn-primary" type="button" title="Načítať katalóg z GitHubu">Načítať katalóg z GitHubu</button>
