@@ -1,0 +1,3452 @@
+[
+  {
+    "id": "42",
+    "poradie": 42,
+    "vystavovatel": "Javornický Michal",
+    "adresa": "Petrov 510",
+    "odroda": "MM",
+    "rocnik": "2025",
+    "privlastok": "20.5",
+    "body": 97
+  },
+  {
+    "id": "43",
+    "poradie": 43,
+    "vystavovatel": "Kováč Radek",
+    "adresa": "Novosedly",
+    "odroda": "MM",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 79
+  },
+  {
+    "id": "44",
+    "poradie": 44,
+    "vystavovatel": "Ovečka Pavol",
+    "adresa": "Skalica",
+    "odroda": "MM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 93
+  },
+  {
+    "id": "45",
+    "poradie": 45,
+    "vystavovatel": "Popelka Marek",
+    "adresa": "Strážnice 1400",
+    "odroda": "MM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "46",
+    "poradie": 46,
+    "vystavovatel": "Šťastný Josef",
+    "adresa": "Petrov 107",
+    "odroda": "MM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 92
+  },
+  {
+    "id": "47",
+    "poradie": 47,
+    "vystavovatel": "Březovský Jan",
+    "adresa": "Petrov 459",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 57
+  },
+  {
+    "id": "48",
+    "poradie": 48,
+    "vystavovatel": "Kašný Roman",
+    "adresa": "Tv. Lhota 282",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 72
+  },
+  {
+    "id": "49",
+    "poradie": 49,
+    "vystavovatel": "Macalík Stanislav",
+    "adresa": "Petrov 435",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 56
+  },
+  {
+    "id": "50",
+    "poradie": 50,
+    "vystavovatel": "Macháček Jan",
+    "adresa": "Petrov 457",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "51",
+    "poradie": 51,
+    "vystavovatel": "Martinek Josef",
+    "adresa": "Petrov 37",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 82
+  },
+  {
+    "id": "52",
+    "poradie": 52,
+    "vystavovatel": "Obrtlíková Jiřina",
+    "adresa": "Petrov 551",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "Kab",
+    "body": 51
+  },
+  {
+    "id": "53",
+    "poradie": 53,
+    "vystavovatel": "Opavský Jan",
+    "adresa": "Petrov 414",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "54",
+    "poradie": 54,
+    "vystavovatel": "Smrž Radek",
+    "adresa": "Dolní Bojanovice 750",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "55",
+    "poradie": 55,
+    "vystavovatel": "Šural Petr",
+    "adresa": "Petrov 374",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 99
+  },
+  {
+    "id": "56",
+    "poradie": 56,
+    "vystavovatel": "Vajčner Petr",
+    "adresa": "Petrov 467",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 53
+  },
+  {
+    "id": "57",
+    "poradie": 57,
+    "vystavovatel": "VaZ Moravany",
+    "adresa": "Moravany 73",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 56
+  },
+  {
+    "id": "58",
+    "poradie": 58,
+    "vystavovatel": "Zálešák Roman",
+    "adresa": "Moravany 294",
+    "odroda": "MT",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 77
+  },
+  {
+    "id": "59",
+    "poradie": 59,
+    "vystavovatel": "Bačík Michal",
+    "adresa": "Petrov 180",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "24",
+    "body": 85
+  },
+  {
+    "id": "60",
+    "poradie": 60,
+    "vystavovatel": "Bellay Vladimír",
+    "adresa": "Skalica",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 87
+  },
+  {
+    "id": "61",
+    "poradie": 61,
+    "vystavovatel": "Daněk Michal Ing. Ph.D.",
+    "adresa": "Strážnice 1208",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "23",
+    "body": 58
+  },
+  {
+    "id": "62",
+    "poradie": 62,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "Pa",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 59
+  },
+  {
+    "id": "63",
+    "poradie": 63,
+    "vystavovatel": "Hudeček Josef",
+    "adresa": "Petrov 11",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 74
+  },
+  {
+    "id": "64",
+    "poradie": 64,
+    "vystavovatel": "Komosný Pavel",
+    "adresa": "Hodonín",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 97
+  },
+  {
+    "id": "65",
+    "poradie": 65,
+    "vystavovatel": "Koštuřík Richard",
+    "adresa": "Petrov 350",
+    "odroda": "Pa",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 84
+  },
+  {
+    "id": "66",
+    "poradie": 66,
+    "vystavovatel": "Kováč Radek",
+    "adresa": "Novosedly",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 56
+  },
+  {
+    "id": "67",
+    "poradie": 67,
+    "vystavovatel": "Macalík Stanislav",
+    "adresa": "Petrov 435",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 81
+  },
+  {
+    "id": "68",
+    "poradie": 68,
+    "vystavovatel": "Ovečka Pavol",
+    "adresa": "Skalica",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "PZ",
+    "body": 54
+  },
+  {
+    "id": "69",
+    "poradie": 69,
+    "vystavovatel": "Pavlica František",
+    "adresa": "Hroznová Lhota 387",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 53
+  },
+  {
+    "id": "70",
+    "poradie": 70,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 76
+  },
+  {
+    "id": "71",
+    "poradie": 71,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 86
+  },
+  {
+    "id": "72",
+    "poradie": 72,
+    "vystavovatel": "Říhová Monika",
+    "adresa": "Mutěnice 1215",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "24.5",
+    "body": 66
+  },
+  {
+    "id": "73",
+    "poradie": 73,
+    "vystavovatel": "Telesz Jiří",
+    "adresa": "Strážnice 646",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 82
+  },
+  {
+    "id": "74",
+    "poradie": 74,
+    "vystavovatel": "Vinařství Janča",
+    "adresa": "Petrov 404",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "25",
+    "body": 83
+  },
+  {
+    "id": "75",
+    "poradie": 75,
+    "vystavovatel": "Vinařství Tomanovský",
+    "adresa": "Petrov 465",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "76",
+    "poradie": 76,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 73
+  },
+  {
+    "id": "77",
+    "poradie": 77,
+    "vystavovatel": "Vríčan Radim",
+    "adresa": "Skalica",
+    "odroda": "Pa",
+    "rocnik": "2025",
+    "privlastok": "24",
+    "body": 65
+  },
+  {
+    "id": "227",
+    "poradie": 227,
+    "vystavovatel": "Vinný sklep U Ševčíků",
+    "adresa": "Mutěnice",
+    "odroda": "Dě",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 95
+  },
+  {
+    "id": "233",
+    "poradie": 233,
+    "vystavovatel": "Mlýnek Radek",
+    "adresa": "Strážnice 1639",
+    "odroda": "IO",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 57
+  },
+  {
+    "id": "234",
+    "poradie": 234,
+    "vystavovatel": "Vinný sklep U Ševčíků",
+    "adresa": "Mutěnice",
+    "odroda": "IO",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "1",
+    "poradie": 1,
+    "vystavovatel": "Režňák Marek",
+    "adresa": "Petrov 368",
+    "odroda": "Cuvée bílé",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "2",
+    "poradie": 2,
+    "vystavovatel": "Vajčner Petr",
+    "adresa": "Petrov 467",
+    "odroda": "Cuvée bílé",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 52
+  },
+  {
+    "id": "3",
+    "poradie": 3,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Cuvée Donauriesling + Ch + Hib",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 52
+  },
+  {
+    "id": "4",
+    "poradie": 4,
+    "vystavovatel": "Bureš Vín",
+    "adresa": "Skalica",
+    "odroda": "Cuvée Evelin",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 60
+  },
+  {
+    "id": "5",
+    "poradie": 5,
+    "vystavovatel": "Daněk Michal Ing. Ph.D.",
+    "adresa": "Strážnice 1208",
+    "odroda": "Cuvée Hib+Ng+Rb",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 67
+  },
+  {
+    "id": "6",
+    "poradie": 6,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "Cuvée Ch + IO",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 87
+  },
+  {
+    "id": "7",
+    "poradie": 7,
+    "vystavovatel": "Vladyka Josef",
+    "adresa": "Moravany 13",
+    "odroda": "Cuvée IO + MM",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 88
+  },
+  {
+    "id": "8",
+    "poradie": 8,
+    "vystavovatel": "Macháček Zdeněk",
+    "adresa": "Petrov 420",
+    "odroda": "Cuvée Mal + Ot",
+    "rocnik": "2025",
+    "privlastok": "Kab",
+    "body": 51
+  },
+  {
+    "id": "9",
+    "poradie": 9,
+    "vystavovatel": "Urbánek Petr",
+    "adresa": "Strážnice 145",
+    "odroda": "Cuvée RR + RV",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 61
+  },
+  {
+    "id": "10",
+    "poradie": 10,
+    "vystavovatel": "Břečka Karel",
+    "adresa": "Vnorovy 235",
+    "odroda": "Cuvée RR + Sol",
+    "rocnik": "2025",
+    "privlastok": "23",
+    "body": 55
+  },
+  {
+    "id": "11",
+    "poradie": 11,
+    "vystavovatel": "Hudeček Josef",
+    "adresa": "Petrov 11",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 91
+  },
+  {
+    "id": "12",
+    "poradie": 12,
+    "vystavovatel": "Javornický Michal",
+    "adresa": "Petrov 510",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "23.5",
+    "body": 73
+  },
+  {
+    "id": "13",
+    "poradie": 13,
+    "vystavovatel": "Krůtil Martin",
+    "adresa": "Petrov 509",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "20",
+    "body": 80
+  },
+  {
+    "id": "14",
+    "poradie": 14,
+    "vystavovatel": "Lekavý Petr",
+    "adresa": "Dolní Bojanovice 676",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 80
+  },
+  {
+    "id": "15",
+    "poradie": 15,
+    "vystavovatel": "Macalík Stanislav",
+    "adresa": "Petrov 435",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 68
+  },
+  {
+    "id": "16",
+    "poradie": 16,
+    "vystavovatel": "Macháček Jan",
+    "adresa": "Petrov 457",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 88
+  },
+  {
+    "id": "17",
+    "poradie": 17,
+    "vystavovatel": "Možnar Leoš",
+    "adresa": "Strážnice 91",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 97
+  },
+  {
+    "id": "18",
+    "poradie": 18,
+    "vystavovatel": "Pavlica František",
+    "adresa": "Hroznová Lhota 387",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 100
+  },
+  {
+    "id": "19",
+    "poradie": 19,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 68
+  },
+  {
+    "id": "20",
+    "poradie": 20,
+    "vystavovatel": "Rusňák Radek",
+    "adresa": "Strážnice 1626",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 73
+  },
+  {
+    "id": "21",
+    "poradie": 21,
+    "vystavovatel": "Říhová Monika",
+    "adresa": "Mutěnice 1215",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "25.5",
+    "body": 54
+  },
+  {
+    "id": "22",
+    "poradie": 22,
+    "vystavovatel": "Urbánek Vlastimil Ing.",
+    "adresa": "Hodonín 3",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 51
+  },
+  {
+    "id": "23",
+    "poradie": 23,
+    "vystavovatel": "Vaculovič Jozef",
+    "adresa": "Mutěnice 1130",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 55
+  },
+  {
+    "id": "24",
+    "poradie": 24,
+    "vystavovatel": "Vajčner Petr",
+    "adresa": "Petrov 467",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 69
+  },
+  {
+    "id": "25",
+    "poradie": 25,
+    "vystavovatel": "Vinařství Janča",
+    "adresa": "Petrov 404",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "23",
+    "body": 85
+  },
+  {
+    "id": "26",
+    "poradie": 26,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 87
+  },
+  {
+    "id": "27",
+    "poradie": 27,
+    "vystavovatel": "Vinařství Tomanovský",
+    "adresa": "Petrov 465",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 95
+  },
+  {
+    "id": "28",
+    "poradie": 28,
+    "vystavovatel": "Vinný sklep U Ševčíků",
+    "adresa": "Mutěnice",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 67
+  },
+  {
+    "id": "29",
+    "poradie": 29,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 51
+  },
+  {
+    "id": "30",
+    "poradie": 30,
+    "vystavovatel": "Vyskočil Radoslav",
+    "adresa": "Blatnice pod sv. Ant. 389",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 86
+  },
+  {
+    "id": "31",
+    "poradie": 31,
+    "vystavovatel": "Zezula František",
+    "adresa": "Petrov 41",
+    "odroda": "Hib",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 57
+  },
+  {
+    "id": "239",
+    "poradie": 239,
+    "vystavovatel": "Macháček Jan",
+    "adresa": "Petrov 457",
+    "odroda": "Mal",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 78
+  },
+  {
+    "id": "240",
+    "poradie": 240,
+    "vystavovatel": "Mikéska Miroslav",
+    "adresa": "Petrov 429",
+    "odroda": "Mal",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 69
+  },
+  {
+    "id": "249",
+    "poradie": 249,
+    "vystavovatel": "Říha Lubomír",
+    "adresa": "Mutěnice 1215",
+    "odroda": "Saphira",
+    "rocnik": "2025",
+    "privlastok": "Kab",
+    "body": 100
+  },
+  {
+    "id": "250",
+    "poradie": 250,
+    "vystavovatel": "Adamec Ondřej",
+    "adresa": "Strážnice 202",
+    "odroda": "Sol",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 90
+  },
+  {
+    "id": "251",
+    "poradie": 251,
+    "vystavovatel": "Břečka Karel",
+    "adresa": "Vnorovy 235",
+    "odroda": "Sol",
+    "rocnik": "2025",
+    "privlastok": "26",
+    "body": 98
+  },
+  {
+    "id": "252",
+    "poradie": 252,
+    "vystavovatel": "Hudeček Josef",
+    "adresa": "Petrov 11",
+    "odroda": "Sol",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 93
+  },
+  {
+    "id": "253",
+    "poradie": 253,
+    "vystavovatel": "Vinařství Janča",
+    "adresa": "Petrov 404",
+    "odroda": "Sol",
+    "rocnik": "2025",
+    "privlastok": "24",
+    "body": 52
+  },
+  {
+    "id": "106",
+    "poradie": 106,
+    "vystavovatel": "Bačík Michal",
+    "adresa": "Petrov 180",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 96
+  },
+  {
+    "id": "107",
+    "poradie": 107,
+    "vystavovatel": "Břečka Karel",
+    "adresa": "Vnorovy 235",
+    "odroda": "RR",
+    "rocnik": "2023",
+    "privlastok": "21",
+    "body": 77
+  },
+  {
+    "id": "108",
+    "poradie": 108,
+    "vystavovatel": "Březovský Jan",
+    "adresa": "Petrov 459",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 92
+  },
+  {
+    "id": "109",
+    "poradie": 109,
+    "vystavovatel": "Dubský Lubomír",
+    "adresa": "Moravany 315",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 87
+  },
+  {
+    "id": "110",
+    "poradie": 110,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 866",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 93
+  },
+  {
+    "id": "111",
+    "poradie": 111,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 70",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 83
+  },
+  {
+    "id": "112",
+    "poradie": 112,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "RR",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 100
+  },
+  {
+    "id": "113",
+    "poradie": 113,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 78
+  },
+  {
+    "id": "114",
+    "poradie": 114,
+    "vystavovatel": "Kalinec Jaroslav",
+    "adresa": "Moravany 43",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "115",
+    "poradie": 115,
+    "vystavovatel": "Koštuřík Stanislav",
+    "adresa": "Petrov 421",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 69
+  },
+  {
+    "id": "116",
+    "poradie": 116,
+    "vystavovatel": "Kováč Radek",
+    "adresa": "Novosedly",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 70
+  },
+  {
+    "id": "117",
+    "poradie": 117,
+    "vystavovatel": "Macháček Jan",
+    "adresa": "Petrov 457",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 62
+  },
+  {
+    "id": "118",
+    "poradie": 118,
+    "vystavovatel": "Macháček Zdeněk",
+    "adresa": "Petrov 420",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 79
+  },
+  {
+    "id": "119",
+    "poradie": 119,
+    "vystavovatel": "Makudera František",
+    "adresa": "Dolní Bojanovice 372",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 69
+  },
+  {
+    "id": "120",
+    "poradie": 120,
+    "vystavovatel": "Opavský Jan",
+    "adresa": "Petrov 414",
+    "odroda": "RR",
+    "rocnik": "2024",
+    "privlastok": "22",
+    "body": 93
+  },
+  {
+    "id": "121",
+    "poradie": 121,
+    "vystavovatel": "Petrucha František",
+    "adresa": "Hroznová Lhota 442",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 60
+  },
+  {
+    "id": "122",
+    "poradie": 122,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 58
+  },
+  {
+    "id": "123",
+    "poradie": 123,
+    "vystavovatel": "Režňák Marek",
+    "adresa": "Petrov 368",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 76
+  },
+  {
+    "id": "124",
+    "poradie": 124,
+    "vystavovatel": "Režňák Marek",
+    "adresa": "Petrov 368",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 93
+  },
+  {
+    "id": "125",
+    "poradie": 125,
+    "vystavovatel": "Rusňák Roland",
+    "adresa": "Strážnice 1712",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "126",
+    "poradie": 126,
+    "vystavovatel": "Smutný Krištof",
+    "adresa": "Petrov 551",
+    "odroda": "RR",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 70
+  },
+  {
+    "id": "127",
+    "poradie": 127,
+    "vystavovatel": "Svoboda Jan",
+    "adresa": "Strážnice 1591",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "128",
+    "poradie": 128,
+    "vystavovatel": "Šťastný Josef",
+    "adresa": "Petrov 107",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 60
+  },
+  {
+    "id": "129",
+    "poradie": 129,
+    "vystavovatel": "Veselý Miroslav",
+    "adresa": "Brumovice",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 77
+  },
+  {
+    "id": "130",
+    "poradie": 130,
+    "vystavovatel": "Vinařství Tomanovský",
+    "adresa": "Petrov 465",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 53
+  },
+  {
+    "id": "131",
+    "poradie": 131,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 58
+  },
+  {
+    "id": "132",
+    "poradie": 132,
+    "vystavovatel": "Vyskočil Radoslav",
+    "adresa": "Blatnice pod sv. Ant. 389",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 97
+  },
+  {
+    "id": "133",
+    "poradie": 133,
+    "vystavovatel": "Žůrek Martin",
+    "adresa": "Hroznová Lhota 352",
+    "odroda": "RR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "178",
+    "poradie": 178,
+    "vystavovatel": "Adamec Ondřej",
+    "adresa": "Strážnice 202",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 89
+  },
+  {
+    "id": "179",
+    "poradie": 179,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 866",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 97
+  },
+  {
+    "id": "180",
+    "poradie": 180,
+    "vystavovatel": "Hulcký Zdeněk",
+    "adresa": "Moravany 156",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 99
+  },
+  {
+    "id": "181",
+    "poradie": 181,
+    "vystavovatel": "Kačíková Kateřina",
+    "adresa": "Vracov",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 80
+  },
+  {
+    "id": "182",
+    "poradie": 182,
+    "vystavovatel": "Kalinec Jaroslav",
+    "adresa": "Moravany 43",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "Kab",
+    "body": 96
+  },
+  {
+    "id": "183",
+    "poradie": 183,
+    "vystavovatel": "Keprt Lukáš",
+    "adresa": "Radějov 214",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 84
+  },
+  {
+    "id": "184",
+    "poradie": 184,
+    "vystavovatel": "Možnar Leoš",
+    "adresa": "Strážnice 91",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 50
+  },
+  {
+    "id": "185",
+    "poradie": 185,
+    "vystavovatel": "Obrtlík František",
+    "adresa": "Petrov 551",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 69
+  },
+  {
+    "id": "186",
+    "poradie": 186,
+    "vystavovatel": "Vajčner Jan",
+    "adresa": "Strážnice 453",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "187",
+    "poradie": 187,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "SZ",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 50
+  },
+  {
+    "id": "188",
+    "poradie": 188,
+    "vystavovatel": "Vyskočil Radoslav",
+    "adresa": "Blatnice pod sv. Ant. 389",
+    "odroda": "SZ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 63
+  },
+  {
+    "id": "32",
+    "poradie": 32,
+    "vystavovatel": "Hynek Ladislav Ing",
+    "adresa": "Petrov",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 71
+  },
+  {
+    "id": "33",
+    "poradie": 33,
+    "vystavovatel": "Lekavý Petr",
+    "adresa": "Dolní Bojanovice 676",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 78
+  },
+  {
+    "id": "34",
+    "poradie": 34,
+    "vystavovatel": "Mokruša Josef",
+    "adresa": "Mutěnice",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "35",
+    "poradie": 35,
+    "vystavovatel": "Nenička Pavel Ing.",
+    "adresa": "Vlkoš 407",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 54
+  },
+  {
+    "id": "36",
+    "poradie": 36,
+    "vystavovatel": "Ovečka Pavol",
+    "adresa": "Skalica",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "PZ",
+    "body": 57
+  },
+  {
+    "id": "37",
+    "poradie": 37,
+    "vystavovatel": "Petrucha František",
+    "adresa": "Hroznová Lhota 442",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 53
+  },
+  {
+    "id": "38",
+    "poradie": 38,
+    "vystavovatel": "Popelka Marek",
+    "adresa": "Strážnice 1400",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 71
+  },
+  {
+    "id": "39",
+    "poradie": 39,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 68
+  },
+  {
+    "id": "40",
+    "poradie": 40,
+    "vystavovatel": "Veselý Miroslav",
+    "adresa": "Brumovice",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 95
+  },
+  {
+    "id": "41",
+    "poradie": 41,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "Ch",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 61
+  },
+  {
+    "id": "78",
+    "poradie": 78,
+    "vystavovatel": "Bačík Michal",
+    "adresa": "Petrov 180",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 79
+  },
+  {
+    "id": "79",
+    "poradie": 79,
+    "vystavovatel": "Barák Vladimír",
+    "adresa": "Petrov 373",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "80",
+    "poradie": 80,
+    "vystavovatel": "Březovský Jan",
+    "adresa": "Petrov 459",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 50
+  },
+  {
+    "id": "81",
+    "poradie": 81,
+    "vystavovatel": "Daněk Michal Ing. Ph.D.",
+    "adresa": "Strážnice 1208",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 57
+  },
+  {
+    "id": "82",
+    "poradie": 82,
+    "vystavovatel": "Dubský Lubomír",
+    "adresa": "Moravany 315",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 59
+  },
+  {
+    "id": "83",
+    "poradie": 83,
+    "vystavovatel": "Hačunda Jaromír",
+    "adresa": "Moravany 121",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 54
+  },
+  {
+    "id": "84",
+    "poradie": 84,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "RB",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 95
+  },
+  {
+    "id": "85",
+    "poradie": 85,
+    "vystavovatel": "Káčerek Stanislav",
+    "adresa": "Petrov 427",
+    "odroda": "RB",
+    "rocnik": "2024",
+    "privlastok": "26",
+    "body": 77
+  },
+  {
+    "id": "86",
+    "poradie": 86,
+    "vystavovatel": "Kašný Roman",
+    "adresa": "Tv. Lhota 282",
+    "odroda": "RB",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 69
+  },
+  {
+    "id": "87",
+    "poradie": 87,
+    "vystavovatel": "Macalík Stanislav",
+    "adresa": "Petrov 435",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 66
+  },
+  {
+    "id": "88",
+    "poradie": 88,
+    "vystavovatel": "Macháček Jan",
+    "adresa": "Petrov 457",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 56
+  },
+  {
+    "id": "89",
+    "poradie": 89,
+    "vystavovatel": "Makudera František",
+    "adresa": "Dolní Bojanovice 372",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "90",
+    "poradie": 90,
+    "vystavovatel": "Martinek Josef",
+    "adresa": "Petrov 37",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 70
+  },
+  {
+    "id": "91",
+    "poradie": 91,
+    "vystavovatel": "Martinek Stanislav",
+    "adresa": "Petrov 191",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 92
+  },
+  {
+    "id": "92",
+    "poradie": 92,
+    "vystavovatel": "Martinek Tomáš",
+    "adresa": "Petrov 191",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "93",
+    "poradie": 93,
+    "vystavovatel": "Matyáš Štěpán",
+    "adresa": "Strážnice 1562",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 96
+  },
+  {
+    "id": "94",
+    "poradie": 94,
+    "vystavovatel": "Měchura Jiří",
+    "adresa": "Vacenovice",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 76
+  },
+  {
+    "id": "95",
+    "poradie": 95,
+    "vystavovatel": "Nekarda Vojtěch",
+    "adresa": "Hroznová Lhota 62",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 69
+  },
+  {
+    "id": "96",
+    "poradie": 96,
+    "vystavovatel": "Ospalík Tomáš",
+    "adresa": "Sudoměřice  449",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 71
+  },
+  {
+    "id": "97",
+    "poradie": 97,
+    "vystavovatel": "Smutný Josef",
+    "adresa": "Petrov 551",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "98",
+    "poradie": 98,
+    "vystavovatel": "Svoboda Jan",
+    "adresa": "Petrov 408",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 69
+  },
+  {
+    "id": "99",
+    "poradie": 99,
+    "vystavovatel": "Svoboda Jan",
+    "adresa": "Strážnice 1591",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "100",
+    "poradie": 100,
+    "vystavovatel": "Urbánek Vlastimil Ing.",
+    "adresa": "Hodonín 3",
+    "odroda": "RB",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "101",
+    "poradie": 101,
+    "vystavovatel": "Vinařství Tomanovský",
+    "adresa": "Petrov 465",
+    "odroda": "RB",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "102",
+    "poradie": 102,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 63
+  },
+  {
+    "id": "103",
+    "poradie": 103,
+    "vystavovatel": "Vríčan Radim",
+    "adresa": "Skalica",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 96
+  },
+  {
+    "id": "104",
+    "poradie": 104,
+    "vystavovatel": "Zubek Matěj",
+    "adresa": "Petrov 446",
+    "odroda": "RB",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 92
+  },
+  {
+    "id": "105",
+    "poradie": 105,
+    "vystavovatel": "Vinařství Janča",
+    "adresa": "Petrov 404",
+    "odroda": "RB bar.",
+    "rocnik": "2024",
+    "privlastok": "26",
+    "body": 62
+  },
+  {
+    "id": "228",
+    "poradie": 228,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "Donauriesling",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 68
+  },
+  {
+    "id": "229",
+    "poradie": 229,
+    "vystavovatel": "VINICE NA LOUCE",
+    "adresa": "Strážnice 1460",
+    "odroda": "Donauriesling",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 72
+  },
+  {
+    "id": "134",
+    "poradie": 134,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 866",
+    "odroda": "RŠ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 97
+  },
+  {
+    "id": "135",
+    "poradie": 135,
+    "vystavovatel": "Káčerek Stanislav",
+    "adresa": "Petrov 427",
+    "odroda": "RŠ",
+    "rocnik": "2024",
+    "privlastok": "28",
+    "body": 52
+  },
+  {
+    "id": "136",
+    "poradie": 136,
+    "vystavovatel": "Macháček Jan",
+    "adresa": "Petrov 457",
+    "odroda": "RŠ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 50
+  },
+  {
+    "id": "137",
+    "poradie": 137,
+    "vystavovatel": "Macháček Zdeněk",
+    "adresa": "Petrov 420",
+    "odroda": "RŠ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 78
+  },
+  {
+    "id": "138",
+    "poradie": 138,
+    "vystavovatel": "Martinek Stanislav",
+    "adresa": "Petrov 191",
+    "odroda": "RŠ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 85
+  },
+  {
+    "id": "139",
+    "poradie": 139,
+    "vystavovatel": "Vinařství Brázdová",
+    "adresa": "Sudoměřice",
+    "odroda": "RŠ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 81
+  },
+  {
+    "id": "173",
+    "poradie": 173,
+    "vystavovatel": "Bačík Michal",
+    "adresa": "Petrov 180",
+    "odroda": "SGR",
+    "rocnik": "2025",
+    "privlastok": "23.5",
+    "body": 80
+  },
+  {
+    "id": "174",
+    "poradie": 174,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 866",
+    "odroda": "SGR",
+    "rocnik": "2025",
+    "privlastok": "23",
+    "body": 67
+  },
+  {
+    "id": "175",
+    "poradie": 175,
+    "vystavovatel": "Hudeček Josef",
+    "adresa": "Petrov 11",
+    "odroda": "SGR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 87
+  },
+  {
+    "id": "176",
+    "poradie": 176,
+    "vystavovatel": "Rusňák Radek",
+    "adresa": "Strážnice 1626",
+    "odroda": "SGR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 76
+  },
+  {
+    "id": "177",
+    "poradie": 177,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "SGR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 55
+  },
+  {
+    "id": "200",
+    "poradie": 200,
+    "vystavovatel": "Bačík Michal",
+    "adresa": "Petrov 180",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 95
+  },
+  {
+    "id": "201",
+    "poradie": 201,
+    "vystavovatel": "Baňař František",
+    "adresa": "Strážnice 1693",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 96
+  },
+  {
+    "id": "202",
+    "poradie": 202,
+    "vystavovatel": "Baňař Jindřich",
+    "adresa": "Strážnice 55",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 60
+  },
+  {
+    "id": "203",
+    "poradie": 203,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 866",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 79
+  },
+  {
+    "id": "204",
+    "poradie": 204,
+    "vystavovatel": "Hačunda Jaromír",
+    "adresa": "Moravany 121",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 66
+  },
+  {
+    "id": "205",
+    "poradie": 205,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "VZ",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "206",
+    "poradie": 206,
+    "vystavovatel": "Kašný Roman",
+    "adresa": "Tv. Lhota 282",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 60
+  },
+  {
+    "id": "207",
+    "poradie": 207,
+    "vystavovatel": "Koštuřík Richard",
+    "adresa": "Petrov 350",
+    "odroda": "VZ",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 58
+  },
+  {
+    "id": "208",
+    "poradie": 208,
+    "vystavovatel": "Krůtil Martin",
+    "adresa": "Petrov 509",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 94
+  },
+  {
+    "id": "209",
+    "poradie": 209,
+    "vystavovatel": "Kuta Martin",
+    "adresa": "Blažovice 444",
+    "odroda": "VZ",
+    "rocnik": "2024",
+    "privlastok": "19",
+    "body": 81
+  },
+  {
+    "id": "210",
+    "poradie": 210,
+    "vystavovatel": "Kuta Martin",
+    "adresa": "Blažovice 444",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 80
+  },
+  {
+    "id": "211",
+    "poradie": 211,
+    "vystavovatel": "Macháček Zdeněk",
+    "adresa": "Petrov 420",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 58
+  },
+  {
+    "id": "212",
+    "poradie": 212,
+    "vystavovatel": "Mikéska Miroslav",
+    "adresa": "Petrov 429",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 80
+  },
+  {
+    "id": "213",
+    "poradie": 213,
+    "vystavovatel": "Možnar Leoš",
+    "adresa": "Strážnice 91",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 58
+  },
+  {
+    "id": "214",
+    "poradie": 214,
+    "vystavovatel": "Nenička Pavel Ing.",
+    "adresa": "Vlkoš 407",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 67
+  },
+  {
+    "id": "215",
+    "poradie": 215,
+    "vystavovatel": "Obrtlík Karel RnDr.",
+    "adresa": "Petrov 230",
+    "odroda": "VZ",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 50
+  },
+  {
+    "id": "216",
+    "poradie": 216,
+    "vystavovatel": "Ospalík Tomáš",
+    "adresa": "Sudoměřice  449",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "20",
+    "body": 98
+  },
+  {
+    "id": "217",
+    "poradie": 217,
+    "vystavovatel": "Svoboda Jan",
+    "adresa": "Petrov 408",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 58
+  },
+  {
+    "id": "218",
+    "poradie": 218,
+    "vystavovatel": "Šťastný Josef",
+    "adresa": "Petrov 107",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "20",
+    "body": 89
+  },
+  {
+    "id": "219",
+    "poradie": 219,
+    "vystavovatel": "Šural Petr",
+    "adresa": "Petrov 374",
+    "odroda": "VZ",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 57
+  },
+  {
+    "id": "220",
+    "poradie": 220,
+    "vystavovatel": "Urbánek Petr",
+    "adresa": "Strážnice 145",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 70
+  },
+  {
+    "id": "221",
+    "poradie": 221,
+    "vystavovatel": "Vaculovič Jozef",
+    "adresa": "Mutěnice 1130",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 91
+  },
+  {
+    "id": "222",
+    "poradie": 222,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 81
+  },
+  {
+    "id": "223",
+    "poradie": 223,
+    "vystavovatel": "Zezula Petr",
+    "adresa": "Petrov 546",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 97
+  },
+  {
+    "id": "224",
+    "poradie": 224,
+    "vystavovatel": "Zezula Petr",
+    "adresa": "Petrov 546",
+    "odroda": "VZ",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "225",
+    "poradie": 225,
+    "vystavovatel": "Zubek Daniel",
+    "adresa": "Petrov 446",
+    "odroda": "VZ",
+    "rocnik": "2024",
+    "privlastok": "VZH",
+    "body": 89
+  },
+  {
+    "id": "226",
+    "poradie": 226,
+    "vystavovatel": "Zubek Ondřej",
+    "adresa": "Petrov 110",
+    "odroda": "VZ",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 95
+  },
+  {
+    "id": "254",
+    "poradie": 254,
+    "vystavovatel": "Martinek Stanislav",
+    "adresa": "Petrov 191",
+    "odroda": "VČR",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "140",
+    "poradie": 140,
+    "vystavovatel": "Baňař František",
+    "adresa": "Strážnice 1693",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "141",
+    "poradie": 141,
+    "vystavovatel": "Bellay Vladimír",
+    "adresa": "Skalica",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 91
+  },
+  {
+    "id": "142",
+    "poradie": 142,
+    "vystavovatel": "Daněk Michal Ing. Ph.D.",
+    "adresa": "Strážnice 1208",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "23",
+    "body": 71
+  },
+  {
+    "id": "143",
+    "poradie": 143,
+    "vystavovatel": "Gajda Antonín",
+    "adresa": "Strážnice 70",
+    "odroda": "RV",
+    "rocnik": "2024",
+    "privlastok": "22",
+    "body": 61
+  },
+  {
+    "id": "144",
+    "poradie": 144,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "RV",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 85
+  },
+  {
+    "id": "145",
+    "poradie": 145,
+    "vystavovatel": "Koštuřík Stanislav",
+    "adresa": "Petrov 421",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "146",
+    "poradie": 146,
+    "vystavovatel": "Macalík Stanislav",
+    "adresa": "Petrov 435",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 74
+  },
+  {
+    "id": "147",
+    "poradie": 147,
+    "vystavovatel": "Makudera František",
+    "adresa": "Dolní Bojanovice 372",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 93
+  },
+  {
+    "id": "148",
+    "poradie": 148,
+    "vystavovatel": "Martinek Josef",
+    "adresa": "Petrov 37",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 50
+  },
+  {
+    "id": "149",
+    "poradie": 149,
+    "vystavovatel": "Martinek Stanislav",
+    "adresa": "Petrov 191",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "150",
+    "poradie": 150,
+    "vystavovatel": "Moravanský Jakub",
+    "adresa": "Moravany 106",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "151",
+    "poradie": 151,
+    "vystavovatel": "Obrtlík František",
+    "adresa": "Petrov 299",
+    "odroda": "RV",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 96
+  },
+  {
+    "id": "152",
+    "poradie": 152,
+    "vystavovatel": "Popelka Marek",
+    "adresa": "Strážnice 1400",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 78
+  },
+  {
+    "id": "153",
+    "poradie": 153,
+    "vystavovatel": "Rusňák Roland",
+    "adresa": "Strážnice 1712",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "154",
+    "poradie": 154,
+    "vystavovatel": "Smrž Radek",
+    "adresa": "Dolní Bojanovice 750",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 56
+  },
+  {
+    "id": "155",
+    "poradie": 155,
+    "vystavovatel": "Vajčner Jan",
+    "adresa": "Strážnice 453",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 87
+  },
+  {
+    "id": "156",
+    "poradie": 156,
+    "vystavovatel": "VINICE NA LOUCE",
+    "adresa": "Strážnice 1460",
+    "odroda": "RV",
+    "rocnik": "2024",
+    "privlastok": "24",
+    "body": 64
+  },
+  {
+    "id": "157",
+    "poradie": 157,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "RV",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 69
+  },
+  {
+    "id": "158",
+    "poradie": 158,
+    "vystavovatel": "Daněk Michal Ing. Ph.D.",
+    "adresa": "Strážnice 1208",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 100
+  },
+  {
+    "id": "159",
+    "poradie": 159,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "Sg",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 86
+  },
+  {
+    "id": "160",
+    "poradie": 160,
+    "vystavovatel": "Komosný Pavel",
+    "adresa": "Hodonín",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 58
+  },
+  {
+    "id": "161",
+    "poradie": 161,
+    "vystavovatel": "Kováč Radek",
+    "adresa": "Novosedly",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 79
+  },
+  {
+    "id": "162",
+    "poradie": 162,
+    "vystavovatel": "Kuta Martin",
+    "adresa": "Blažovice 444",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "20",
+    "body": 54
+  },
+  {
+    "id": "163",
+    "poradie": 163,
+    "vystavovatel": "Macalík Stanislav",
+    "adresa": "Petrov 435",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 74
+  },
+  {
+    "id": "164",
+    "poradie": 164,
+    "vystavovatel": "Marek Zbyněk",
+    "adresa": "Strážnice 452",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "165",
+    "poradie": 165,
+    "vystavovatel": "Martinek Josef",
+    "adresa": "Petrov 37",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 94
+  },
+  {
+    "id": "166",
+    "poradie": 166,
+    "vystavovatel": "Matyáš Štěpán",
+    "adresa": "Strážnice 1562",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 88
+  },
+  {
+    "id": "167",
+    "poradie": 167,
+    "vystavovatel": "Mlýnek Radek",
+    "adresa": "Strážnice 1639",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 58
+  },
+  {
+    "id": "168",
+    "poradie": 168,
+    "vystavovatel": "Popelka Marek",
+    "adresa": "Strážnice 1400",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 69
+  },
+  {
+    "id": "169",
+    "poradie": 169,
+    "vystavovatel": "Veselý Miroslav",
+    "adresa": "Brumovice",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "170",
+    "poradie": 170,
+    "vystavovatel": "Vinařství Brázdová",
+    "adresa": "Sudoměřice",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 53
+  },
+  {
+    "id": "171",
+    "poradie": 171,
+    "vystavovatel": "Vyskočil Radoslav",
+    "adresa": "Blatnice pod sv. Ant. 389",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 68
+  },
+  {
+    "id": "172",
+    "poradie": 172,
+    "vystavovatel": "Zálešák Roman",
+    "adresa": "Moravany 294",
+    "odroda": "Sg",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "230",
+    "poradie": 230,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "Frašták",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 97
+  },
+  {
+    "id": "243",
+    "poradie": 243,
+    "vystavovatel": "Krůtil Martin",
+    "adresa": "Petrov 509",
+    "odroda": "Ng",
+    "rocnik": "2025",
+    "privlastok": "20",
+    "body": 65
+  },
+  {
+    "id": "244",
+    "poradie": 244,
+    "vystavovatel": "Kubiš Jan",
+    "adresa": "Hroznová Lhota 333",
+    "odroda": "Ng",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 73
+  },
+  {
+    "id": "245",
+    "poradie": 245,
+    "vystavovatel": "Mokruša Josef",
+    "adresa": "Mutěnice",
+    "odroda": "Ng",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 97
+  },
+  {
+    "id": "246",
+    "poradie": 246,
+    "vystavovatel": "Nenička Pavel Ing.",
+    "adresa": "Vlkoš 407",
+    "odroda": "Ng",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "189",
+    "poradie": 189,
+    "vystavovatel": "Hudeček Josef",
+    "adresa": "Petrov 11",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 77
+  },
+  {
+    "id": "190",
+    "poradie": 190,
+    "vystavovatel": "Káčerek Stanislav",
+    "adresa": "Petrov 427",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "24",
+    "body": 59
+  },
+  {
+    "id": "191",
+    "poradie": 191,
+    "vystavovatel": "Martinek Josef",
+    "adresa": "Petrov 37",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 56
+  },
+  {
+    "id": "192",
+    "poradie": 192,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 56
+  },
+  {
+    "id": "193",
+    "poradie": 193,
+    "vystavovatel": "Sýkora Miroslav",
+    "adresa": "Petrov 310",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "22.5",
+    "body": 77
+  },
+  {
+    "id": "194",
+    "poradie": 194,
+    "vystavovatel": "Vinařství Janča",
+    "adresa": "Petrov 404",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "23",
+    "body": 52
+  },
+  {
+    "id": "195",
+    "poradie": 195,
+    "vystavovatel": "Vinařství Janča",
+    "adresa": "Petrov 404",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "24",
+    "body": 86
+  },
+  {
+    "id": "196",
+    "poradie": 196,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 56
+  },
+  {
+    "id": "197",
+    "poradie": 197,
+    "vystavovatel": "Vinařství Tomanovský",
+    "adresa": "Petrov 465",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 91
+  },
+  {
+    "id": "198",
+    "poradie": 198,
+    "vystavovatel": "Vinný sklep U Ševčíků",
+    "adresa": "Mutěnice",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 80
+  },
+  {
+    "id": "199",
+    "poradie": 199,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "TČ",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 98
+  },
+  {
+    "id": "231",
+    "poradie": 231,
+    "vystavovatel": "Lekavý Petr",
+    "adresa": "Dolní Bojanovice 676",
+    "odroda": "Chor",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "232",
+    "poradie": 232,
+    "vystavovatel": "Veselý Miroslav",
+    "adresa": "Brumovice",
+    "odroda": "Chor",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 93
+  },
+  {
+    "id": "235",
+    "poradie": 235,
+    "vystavovatel": "Břečka Karel",
+    "adresa": "Vnorovy 235",
+    "odroda": "Joh",
+    "rocnik": "2025",
+    "privlastok": "21.5",
+    "body": 82
+  },
+  {
+    "id": "236",
+    "poradie": 236,
+    "vystavovatel": "Hudeček Josef",
+    "adresa": "Petrov 11",
+    "odroda": "Joh",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 96
+  },
+  {
+    "id": "237",
+    "poradie": 237,
+    "vystavovatel": "Vinařství Brázdová",
+    "adresa": "Sudoměřice",
+    "odroda": "Joh",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 74
+  },
+  {
+    "id": "238",
+    "poradie": 238,
+    "vystavovatel": "Říha Lubomír",
+    "adresa": "Mutěnice 1215",
+    "odroda": "Ko",
+    "rocnik": "2025",
+    "privlastok": "Kab",
+    "body": 86
+  },
+  {
+    "id": "241",
+    "poradie": 241,
+    "vystavovatel": "Kováč Radek",
+    "adresa": "Novosedly",
+    "odroda": "MO",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 80
+  },
+  {
+    "id": "242",
+    "poradie": 242,
+    "vystavovatel": "Mokruša Josef",
+    "adresa": "Mutěnice",
+    "odroda": "MO",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 72
+  },
+  {
+    "id": "247",
+    "poradie": 247,
+    "vystavovatel": "Bačík Michal",
+    "adresa": "Petrov 180",
+    "odroda": "Ot",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 95
+  },
+  {
+    "id": "248",
+    "poradie": 248,
+    "vystavovatel": "Opavský Petr",
+    "adresa": "Strážnice 1811",
+    "odroda": "Ot",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "255",
+    "poradie": 255,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Cuvée Rosé",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 88
+  },
+  {
+    "id": "256",
+    "poradie": 256,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Cuvée Rosé",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 98
+  },
+  {
+    "id": "257",
+    "poradie": 257,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "Cuvée Rosé",
+    "rocnik": "2025",
+    "privlastok": "MZV",
+    "body": 78
+  },
+  {
+    "id": "258",
+    "poradie": 258,
+    "vystavovatel": "Komosný Pavel",
+    "adresa": "Hodonín",
+    "odroda": "Cuvée Rosé An + Izabela",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 81
+  },
+  {
+    "id": "259",
+    "poradie": 259,
+    "vystavovatel": "Mokruša Josef",
+    "adresa": "Mutěnice",
+    "odroda": "Cuvée Rosé Zw + An",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 84
+  },
+  {
+    "id": "260",
+    "poradie": 260,
+    "vystavovatel": "Kašný Roman",
+    "adresa": "Tv. Lhota 282",
+    "odroda": "Klaret Fr",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 76
+  },
+  {
+    "id": "261",
+    "poradie": 261,
+    "vystavovatel": "Opavský Petr",
+    "adresa": "Strážnice 1811",
+    "odroda": "Klaret RM",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 98
+  },
+  {
+    "id": "262",
+    "poradie": 262,
+    "vystavovatel": "Hynek Ladislav Ing",
+    "adresa": "Petrov",
+    "odroda": "Klaret Sv",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 84
+  },
+  {
+    "id": "263",
+    "poradie": 263,
+    "vystavovatel": "Vladyka Josef",
+    "adresa": "Moravany 13",
+    "odroda": "Rosé An",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 54
+  },
+  {
+    "id": "264",
+    "poradie": 264,
+    "vystavovatel": "Daněk Michal Ing. Ph.D.",
+    "adresa": "Strážnice 1208",
+    "odroda": "Rosé CS",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 90
+  },
+  {
+    "id": "265",
+    "poradie": 265,
+    "vystavovatel": "Zezulová Lenka",
+    "adresa": "Petrov 546",
+    "odroda": "Rosé CS",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "266",
+    "poradie": 266,
+    "vystavovatel": "Vinařství Brázdová",
+    "adresa": "Sudoměřice",
+    "odroda": "Rosé Me",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 64
+  },
+  {
+    "id": "267",
+    "poradie": 267,
+    "vystavovatel": "Matyáš Štěpán",
+    "adresa": "Strážnice 1562",
+    "odroda": "Rosé RM",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 78
+  },
+  {
+    "id": "268",
+    "poradie": 268,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "Rosé RM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "269",
+    "poradie": 269,
+    "vystavovatel": "Dubský Lubomír",
+    "adresa": "Moravany 315",
+    "odroda": "Rosé Sv",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "270",
+    "poradie": 270,
+    "vystavovatel": "Marková Renata",
+    "adresa": "Strážnice 452",
+    "odroda": "Rosé Sv",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 83
+  },
+  {
+    "id": "271",
+    "poradie": 271,
+    "vystavovatel": "Vajčner Petr",
+    "adresa": "Petrov 467",
+    "odroda": "Rosé Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 61
+  },
+  {
+    "id": "272",
+    "poradie": 272,
+    "vystavovatel": "Zezulová Lenka",
+    "adresa": "Petrov 546",
+    "odroda": "Rosé Zw",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 51
+  },
+  {
+    "id": "273",
+    "poradie": 273,
+    "vystavovatel": "Dubský Lubomír",
+    "adresa": "Moravany 315",
+    "odroda": "Cuvée CM + Fr",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "274",
+    "poradie": 274,
+    "vystavovatel": "Koštuřík Richard",
+    "adresa": "Petrov 350",
+    "odroda": "Cuvée CS + Ac + Me",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "275",
+    "poradie": 275,
+    "vystavovatel": "Telesz Jiří",
+    "adresa": "Strážnice 646",
+    "odroda": "Cuvée CS + CM",
+    "rocnik": "2025",
+    "privlastok": "19",
+    "body": 89
+  },
+  {
+    "id": "276",
+    "poradie": 276,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Cuvée červené",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 100
+  },
+  {
+    "id": "277",
+    "poradie": 277,
+    "vystavovatel": "Vajčner Petr",
+    "adresa": "Petrov 467",
+    "odroda": "Cuvée červené",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 83
+  },
+  {
+    "id": "278",
+    "poradie": 278,
+    "vystavovatel": "Makudera František",
+    "adresa": "Dolní Bojanovice 372",
+    "odroda": "Cuvée Dor + MP",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 70
+  },
+  {
+    "id": "279",
+    "poradie": 279,
+    "vystavovatel": "Kubiš Jan",
+    "adresa": "Hroznová Lhota 333",
+    "odroda": "Cuvée Fr + Sv + MP",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 100
+  },
+  {
+    "id": "280",
+    "poradie": 280,
+    "vystavovatel": "Macháček Zdeněk",
+    "adresa": "Petrov 420",
+    "odroda": "Cuvée Fr + Zw + Sv",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 67
+  },
+  {
+    "id": "281",
+    "poradie": 281,
+    "vystavovatel": "Barák Vladimír",
+    "adresa": "Petrov 373",
+    "odroda": "Cuvée Sv + Fr",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "282",
+    "poradie": 282,
+    "vystavovatel": "Šťastný Josef",
+    "adresa": "Petrov 107",
+    "odroda": "Cuvée Zw + CS",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 54
+  },
+  {
+    "id": "298",
+    "poradie": 298,
+    "vystavovatel": "Bureš Vín",
+    "adresa": "Skalica",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 72
+  },
+  {
+    "id": "299",
+    "poradie": 299,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "300",
+    "poradie": 300,
+    "vystavovatel": "Javornický Michal",
+    "adresa": "Petrov 510",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "21",
+    "body": 77
+  },
+  {
+    "id": "301",
+    "poradie": 301,
+    "vystavovatel": "Káčerek Stanislav",
+    "adresa": "Petrov 427",
+    "odroda": "Fr",
+    "rocnik": "2023",
+    "privlastok": "24",
+    "body": 52
+  },
+  {
+    "id": "302",
+    "poradie": 302,
+    "vystavovatel": "Káčerek Stanislav",
+    "adresa": "Petrov 427",
+    "odroda": "Fr",
+    "rocnik": "2021",
+    "privlastok": "24",
+    "body": 88
+  },
+  {
+    "id": "303",
+    "poradie": 303,
+    "vystavovatel": "Martinková Ludmila",
+    "adresa": "Petrov 37",
+    "odroda": "Fr",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 100
+  },
+  {
+    "id": "304",
+    "poradie": 304,
+    "vystavovatel": "Mikéska Miroslav",
+    "adresa": "Petrov 429",
+    "odroda": "Fr",
+    "rocnik": "2025",
+    "privlastok": "21",
+    "body": 85
+  },
+  {
+    "id": "305",
+    "poradie": 305,
+    "vystavovatel": "Nenička Pavel Ing.",
+    "adresa": "Vlkoš 407",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 100
+  },
+  {
+    "id": "306",
+    "poradie": 306,
+    "vystavovatel": "Obrtlík Pavel Mgr.",
+    "adresa": "Petrov 551",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "23.5",
+    "body": 72
+  },
+  {
+    "id": "307",
+    "poradie": 307,
+    "vystavovatel": "Opavský Petr",
+    "adresa": "Strážnice 1811",
+    "odroda": "Fr",
+    "rocnik": "2025",
+    "privlastok": "22",
+    "body": 80
+  },
+  {
+    "id": "308",
+    "poradie": 308,
+    "vystavovatel": "Ovečka Pavol",
+    "adresa": "Skalica",
+    "odroda": "Fr",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 71
+  },
+  {
+    "id": "309",
+    "poradie": 309,
+    "vystavovatel": "Svoboda Jan",
+    "adresa": "Petrov 408",
+    "odroda": "Fr",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 70
+  },
+  {
+    "id": "310",
+    "poradie": 310,
+    "vystavovatel": "Šural Petr",
+    "adresa": "Petrov 374",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 69
+  },
+  {
+    "id": "311",
+    "poradie": 311,
+    "vystavovatel": "Vajčner Petr",
+    "adresa": "Petrov 467",
+    "odroda": "Fr",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 55
+  },
+  {
+    "id": "312",
+    "poradie": 312,
+    "vystavovatel": "Veselý Miroslav",
+    "adresa": "Brumovice",
+    "odroda": "Fr",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 87
+  },
+  {
+    "id": "313",
+    "poradie": 313,
+    "vystavovatel": "Vinařství Brázdová",
+    "adresa": "Sudoměřice",
+    "odroda": "Fr",
+    "rocnik": "2023",
+    "privlastok": "VZH",
+    "body": 87
+  },
+  {
+    "id": "314",
+    "poradie": 314,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "Fr",
+    "rocnik": "2024",
+    "privlastok": "MZV",
+    "body": 95
+  },
+  {
+    "id": "315",
+    "poradie": 315,
+    "vystavovatel": "Obrtlík František",
+    "adresa": "Petrov 299",
+    "odroda": "Fr bar.",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "316",
+    "poradie": 316,
+    "vystavovatel": "Kováč Radek",
+    "adresa": "Novosedly",
+    "odroda": "Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 65
+  },
+  {
+    "id": "317",
+    "poradie": 317,
+    "vystavovatel": "Měchura Jiří",
+    "adresa": "Vacenovice",
+    "odroda": "Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 99
+  },
+  {
+    "id": "318",
+    "poradie": 318,
+    "vystavovatel": "Náhlík Stanislav",
+    "adresa": "Hroznová Lhota 60",
+    "odroda": "Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 77
+  },
+  {
+    "id": "319",
+    "poradie": 319,
+    "vystavovatel": "Popelka Marek",
+    "adresa": "Strážnice 1400",
+    "odroda": "Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "320",
+    "poradie": 320,
+    "vystavovatel": "Vaculovič Jozef",
+    "adresa": "Mutěnice 1130",
+    "odroda": "Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 100
+  },
+  {
+    "id": "321",
+    "poradie": 321,
+    "vystavovatel": "Vinařství Tomanovský",
+    "adresa": "Petrov 465",
+    "odroda": "Zw",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 77
+  },
+  {
+    "id": "322",
+    "poradie": 322,
+    "vystavovatel": "Zezula František",
+    "adresa": "Petrov 41",
+    "odroda": "Zw",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 58
+  },
+  {
+    "id": "325",
+    "poradie": 325,
+    "vystavovatel": "Konevalik Martin",
+    "adresa": "Skalica",
+    "odroda": "An",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 88
+  },
+  {
+    "id": "283",
+    "poradie": 283,
+    "vystavovatel": "Břečka Karel",
+    "adresa": "Vnorovy 235",
+    "odroda": "CM",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 90
+  },
+  {
+    "id": "284",
+    "poradie": 284,
+    "vystavovatel": "Břečka Karel",
+    "adresa": "Vnorovy 235",
+    "odroda": "CM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 92
+  },
+  {
+    "id": "285",
+    "poradie": 285,
+    "vystavovatel": "Janota Boris",
+    "adresa": "Skalica",
+    "odroda": "CM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "286",
+    "poradie": 286,
+    "vystavovatel": "Kubiš Jan",
+    "adresa": "Hroznová Lhota 333",
+    "odroda": "CM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 75
+  },
+  {
+    "id": "287",
+    "poradie": 287,
+    "vystavovatel": "Měchura Jiří",
+    "adresa": "Vacenovice",
+    "odroda": "CM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 95
+  },
+  {
+    "id": "288",
+    "poradie": 288,
+    "vystavovatel": "Náhlík Stanislav",
+    "adresa": "Hroznová Lhota 60",
+    "odroda": "CM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 73
+  },
+  {
+    "id": "289",
+    "poradie": 289,
+    "vystavovatel": "Tesař Jan",
+    "adresa": "Petrov 392",
+    "odroda": "CM",
+    "rocnik": "2018",
+    "privlastok": "-",
+    "body": 92
+  },
+  {
+    "id": "290",
+    "poradie": 290,
+    "vystavovatel": "Vinařství Klásek",
+    "adresa": "Petrov 73",
+    "odroda": "CM",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 98
+  },
+  {
+    "id": "291",
+    "poradie": 291,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "CM",
+    "rocnik": "2024",
+    "privlastok": "MZV",
+    "body": 55
+  },
+  {
+    "id": "292",
+    "poradie": 292,
+    "vystavovatel": "Kašný Roman",
+    "adresa": "Tv. Lhota 282",
+    "odroda": "Dor",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 57
+  },
+  {
+    "id": "293",
+    "poradie": 293,
+    "vystavovatel": "Koštuřík Richard",
+    "adresa": "Petrov 350",
+    "odroda": "Dor",
+    "rocnik": "2023",
+    "privlastok": "PS",
+    "body": 80
+  },
+  {
+    "id": "294",
+    "poradie": 294,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "Dor",
+    "rocnik": "2025",
+    "privlastok": "PS",
+    "body": 60
+  },
+  {
+    "id": "295",
+    "poradie": 295,
+    "vystavovatel": "Vajčner Jan",
+    "adresa": "Strážnice 453",
+    "odroda": "Dor",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 66
+  },
+  {
+    "id": "296",
+    "poradie": 296,
+    "vystavovatel": "Veselý Miroslav",
+    "adresa": "Brumovice",
+    "odroda": "Dor",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 74
+  },
+  {
+    "id": "297",
+    "poradie": 297,
+    "vystavovatel": "Víno Martinek",
+    "adresa": "Strážnice 1753",
+    "odroda": "Dor",
+    "rocnik": "2024",
+    "privlastok": "MZV",
+    "body": 66
+  },
+  {
+    "id": "323",
+    "poradie": 323,
+    "vystavovatel": "Koštuřík Richard",
+    "adresa": "Petrov 350",
+    "odroda": "ACOLON",
+    "rocnik": "2024",
+    "privlastok": "PS",
+    "body": 53
+  },
+  {
+    "id": "324",
+    "poradie": 324,
+    "vystavovatel": "Bellay Vladimír",
+    "adresa": "Skalica",
+    "odroda": "Al",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 89
+  },
+  {
+    "id": "326",
+    "poradie": 326,
+    "vystavovatel": "Zubek Daniel",
+    "adresa": "Petrov 446",
+    "odroda": "Bl",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 99
+  },
+  {
+    "id": "327",
+    "poradie": 327,
+    "vystavovatel": "Pukančík Pavol",
+    "adresa": "Kunov 242",
+    "odroda": "CC",
+    "rocnik": "2025",
+    "privlastok": "VZH",
+    "body": 87
+  },
+  {
+    "id": "328",
+    "poradie": 328,
+    "vystavovatel": "VINICE NA LOUCE",
+    "adresa": "Strážnice 1460",
+    "odroda": "CC",
+    "rocnik": "2024",
+    "privlastok": "25.5",
+    "body": 70
+  },
+  {
+    "id": "329",
+    "poradie": 329,
+    "vystavovatel": "Vríčan Radim",
+    "adresa": "Skalica",
+    "odroda": "CC",
+    "rocnik": "2024",
+    "privlastok": "27",
+    "body": 57
+  },
+  {
+    "id": "330",
+    "poradie": 330,
+    "vystavovatel": "Daněk Pavel",
+    "adresa": "Strážnice",
+    "odroda": "CS",
+    "rocnik": "2024",
+    "privlastok": "23",
+    "body": 82
+  },
+  {
+    "id": "331",
+    "poradie": 331,
+    "vystavovatel": "Komosný Pavel",
+    "adresa": "Hodonín",
+    "odroda": "CS",
+    "rocnik": "2018",
+    "privlastok": "-",
+    "body": 52
+  },
+  {
+    "id": "332",
+    "poradie": 332,
+    "vystavovatel": "Keprt Lukáš",
+    "adresa": "Radějov 214",
+    "odroda": "Me",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 56
+  },
+  {
+    "id": "333",
+    "poradie": 333,
+    "vystavovatel": "Koštuřík Richard",
+    "adresa": "Petrov 350",
+    "odroda": "Me",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 78
+  },
+  {
+    "id": "334",
+    "poradie": 334,
+    "vystavovatel": "Sýkora Miroslav",
+    "adresa": "Petrov 310",
+    "odroda": "Me",
+    "rocnik": "2023",
+    "privlastok": "23",
+    "body": 54
+  },
+  {
+    "id": "335",
+    "poradie": 335,
+    "vystavovatel": "Vinařství Brázdová",
+    "adresa": "Sudoměřice",
+    "odroda": "Me",
+    "rocnik": "2024",
+    "privlastok": "MZV",
+    "body": 86
+  },
+  {
+    "id": "336",
+    "poradie": 336,
+    "vystavovatel": "Nenička Pavel Ing.",
+    "adresa": "Vlkoš 407",
+    "odroda": "MP",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 51
+  },
+  {
+    "id": "337",
+    "poradie": 337,
+    "vystavovatel": "Horák Petr",
+    "adresa": "Petrov 42",
+    "odroda": "Ni",
+    "rocnik": "2023",
+    "privlastok": "-",
+    "body": 95
+  },
+  {
+    "id": "338",
+    "poradie": 338,
+    "vystavovatel": "Martinková Ludmila",
+    "adresa": "Petrov 37",
+    "odroda": "Ni",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 62
+  },
+  {
+    "id": "339",
+    "poradie": 339,
+    "vystavovatel": "Urbánek Vlastimil Ing.",
+    "adresa": "Hodonín 3",
+    "odroda": "Petrovský rubín",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 61
+  },
+  {
+    "id": "340",
+    "poradie": 340,
+    "vystavovatel": "Káčerek Stanislav",
+    "adresa": "Petrov 427",
+    "odroda": "RM",
+    "rocnik": "2024",
+    "privlastok": "25",
+    "body": 100
+  },
+  {
+    "id": "341",
+    "poradie": 341,
+    "vystavovatel": "Petrucha František",
+    "adresa": "Hroznová Lhota 442",
+    "odroda": "RM",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 60
+  },
+  {
+    "id": "342",
+    "poradie": 342,
+    "vystavovatel": "Konevalik František",
+    "adresa": "Skalica",
+    "odroda": "Skalický Rubín",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 59
+  },
+  {
+    "id": "343",
+    "poradie": 343,
+    "vystavovatel": "Nekarda Vojtěch",
+    "adresa": "Hroznová Lhota 62",
+    "odroda": "Sv",
+    "rocnik": "2024",
+    "privlastok": "-",
+    "body": 83
+  },
+  {
+    "id": "344",
+    "poradie": 344,
+    "vystavovatel": "Nenička Pavel Ing.",
+    "adresa": "Vlkoš 407",
+    "odroda": "Sv",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 90
+  },
+  {
+    "id": "345",
+    "poradie": 345,
+    "vystavovatel": "Smrž Radek",
+    "adresa": "Dolní Bojanovice 750",
+    "odroda": "Sv",
+    "rocnik": "2025",
+    "privlastok": "-",
+    "body": 69
+  }
+]
