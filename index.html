@@ -9,60 +9,60 @@
 
 <style>
 :root{
---green: rgb(0,137,6);
---gray: rgb(135,135,135);
---light: rgb(206,213,218);
---cyan: rgb(29,155,178);
---olive: rgb(161,200,97);
---white: rgb(255,255,255);
---black: rgb(0,0,0);
---yellow: rgb(255,255,96);
+  --green: rgb(0,137,6);
+  --gray: rgb(135,135,135);
+  --light: rgb(206,213,218);
+  --cyan: rgb(29,155,178);
+  --olive: rgb(161,200,97);
+  --white: rgb(255,255,255);
+  --black: rgb(0,0,0);
+  --yellow: rgb(255,255,96);
 
---bg: var(--white);
---text: var(--black);
---muted: var(--gray);
---border: var(--light);
---focus: var(--cyan);
---primary: var(--green);
---secondary: var(--olive);
+  --bg: var(--white);
+  --text: var(--black);
+  --muted: var(--gray);
+  --border: var(--light);
+  --focus: var(--cyan);
+  --primary: var(--green);
+  --secondary: var(--olive);
 
---radius: 12px;
---radius-sm: 8px;
---shadow-1: 0 2px 10px rgba(0,0,0,.06);
---shadow-2: 0 8px 24px rgba(0,0,0,.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-1: 0 2px 10px rgba(0,0,0,.06);
+  --shadow-2: 0 8px 24px rgba(0,0,0,.08);
 
---space-1: .25rem;
---space-2: .5rem;
---space-3: .75rem;
---space-4: 1rem;
---space-5: 1.5rem;
---space-6: 2rem;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
 }
 
 *{box-sizing: border-box}
 
 html,body{
-margin:0;
-padding:0;
-background: linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
-color: var(--text);
-font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-line-height: 1.5;
+  margin:0;
+  padding:0;
+  background: linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.5;
 }
 body.locked{ overflow:hidden; }
 
 .skip-link{ position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .skip-link:focus{
-position:static; width:auto; height:auto; padding:.5rem 1rem; background: var(--yellow); color: var(--black);
-z-index: 9999; border-radius: var(--radius-sm);
+  position:static; width:auto; height:auto; padding:.5rem 1rem; background: var(--yellow); color: var(--black);
+  z-index: 9999; border-radius: var(--radius-sm);
 }
 
 .header{
-background: radial-gradient(1200px 300px at 20% 0%, rgba(255,255,255,.15) 0%, rgba(255,255,255,0) 60%), linear-gradient(90deg, var(--green), var(--cyan));
-color: var(--white);
-padding: var(--space-5) 0 var(--space-4);
-border-bottom: 1px solid rgba(255,255,255,.2);
-box-shadow: var(--shadow-1);
+  background: radial-gradient(1200px 300px at 20% 0%, rgba(255,255,255,.15) 0%, rgba(255,255,255,0) 60%), linear-gradient(90deg, var(--green), var(--cyan));
+  color: var(--white);
+  padding: var(--space-5) 0 var(--space-4);
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  box-shadow: var(--shadow-1);
 }
 .header__inner{ display:flex; align-items:center; gap:var(--space-4); max-width: 1200px; margin:0 auto; padding: 0 var(--space-4); }
 .logo{ width:64px; height:64px; object-fit:contain; border-radius:10px; background: rgba(255,255,255,.9); padding: 4px; box-shadow: var(--shadow-1); }
@@ -71,8 +71,8 @@ box-shadow: var(--shadow-1);
 
 .header__stats{ display:flex; gap: var(--space-4); max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4); }
 .stat{
-flex:1; min-width: 180px; background: rgba(255,255,255,.12);
-border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: var(--space-4); backdrop-filter: blur(6px);
+  flex:1; min-width: 180px; background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: var(--space-4); backdrop-filter: blur(6px);
 }
 .stat__value{ font-size: 1.6rem; font-weight: 800; }
 .stat__label{ font-size: .95rem; opacity: .95; }
@@ -80,15 +80,15 @@ border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: 
 .container{ max-width: 1200px; margin: var(--space-6) auto var(--space-6); padding: 0 var(--space-4); }
 
 .banner{
-display:none; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
-max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
-background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
+  display:none; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
+  max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
+  background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
 }
 .banner.show{ display:flex; }
 
 .card{
-border:1px solid var(--border); border-radius: var(--radius); background: var(--white);
-margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip;
+  border:1px solid var(--border); border-radius: var(--radius); background: var(--white);
+  margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip;
 }
 .card--accent{ border-left: 6px solid var(--primary); }
 .card__header{ padding: var(--space-4); background: linear-gradient(180deg, rgba(206,213,218,.45), rgba(206,213,218,.2)); border-bottom:1px solid var(--border); }
@@ -105,8 +105,8 @@ label.required::after{ content:" *"; color: var(--green); }
 label.checkbox{ display:flex; gap:.5rem; align-items:center; font-weight:600; }
 
 input[type="text"], input[type="email"], input[type="url"], input[type="search"], input[type="number"], select{
-padding:.7rem .8rem; border:1px solid var(--border); border-radius:10px; min-width:230px; background: var(--white);
-box-shadow: 0 1px 0 rgba(0,0,0,.02) inset; transition: border-color .15s, box-shadow .15s, background-color .15s;
+  padding:.7rem .8rem; border:1px solid var(--border); border-radius:10px; min-width:230px; background: var(--white);
+  box-shadow: 0 1px 0 rgba(0,0,0,.02) inset; transition: border-color .15s, box-shadow .15s, background-color .15s;
 }
 input::placeholder{ color: var(--muted); opacity:.9; }
 input:focus, select:focus, button:focus, summary:focus{ outline: none; border-color: var(--focus); box-shadow: 0 0 0 4px rgba(29,155,178,.2); }
@@ -114,8 +114,8 @@ input:focus, select:focus, button:focus, summary:focus{ outline: none; border-co
 .help-text{ color: var(--muted); font-size: .9rem; }
 
 .btn{
-border:1px solid transparent; border-radius: 999px; padding:.65rem 1rem; cursor:pointer; font-weight:700;
-transition: transform .05s ease, filter .15s ease, background-color .15s ease;
+  border:1px solid transparent; border-radius: 999px; padding:.65rem 1rem; cursor:pointer; font-weight:700;
+  transition: transform .05s ease, filter .15s ease, background-color .15s ease;
 }
 .btn:active{ transform: translateY(1px); }
 .btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,137,6,.25); }
@@ -130,8 +130,8 @@ transition: transform .05s ease, filter .15s ease, background-color .15s ease;
 
 .table-toolbar{ display:flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-3); }
 .chip{
-display:inline-flex; align-items:center; gap:.5rem; padding: .35rem .7rem; border-radius: 999px;
-border:1px solid var(--border); background: rgba(206,213,218,.25); font-weight: 700;
+  display:inline-flex; align-items:center; gap:.5rem; padding: .35rem .7rem; border-radius: 999px;
+  border:1px solid var(--border); background: rgba(206,213,218,.25); font-weight: 700;
 }
 .chip--info{ background: rgba(29,155,178,.12); color: #0b4f5b; }
 .chip--success{ background: rgba(0,137,6,.12); color: #06420a; }
@@ -158,36 +158,36 @@ details summary{ cursor:pointer; padding:.25rem 0; font-weight: 700; }
 details{ border-left: 3px solid rgba(29,155,178,.35); padding-left: .6rem; }
 
 .badge{
-display:inline-block; padding:.25rem .5rem; border-radius: 999px; font-size:.85rem; border:1px solid transparent;
-background: var(--yellow); color: var(--black); font-weight: 800; letter-spacing:.2px;
+  display:inline-block; padding:.25rem .5rem; border-radius: 999px; font-size:.85rem; border:1px solid transparent;
+  background: var(--yellow); color: var(--black); font-weight: 800; letter-spacing:.2px;
 }
 .badge.done{ background: var(--green); color: var(--white); }
 .badge.pending{ background: var(--olive); color: var(--black); }
 .badge.lock{ background: var(--gray); color: var(--white); }
 
 .toast{
-position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
-padding: .75rem 1rem; background: var(--black); color: var(--white); border-radius: 999px;
-box-shadow: var(--shadow-2); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 9999;
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  padding: .75rem 1rem; background: var(--black); color: var(--white); border-radius: 999px;
+  box-shadow: var(--shadow-2); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 9999;
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
 /* Prihlasovacie prekrytie – nepriehľadné, skryje obsah */
 .overlay{
-position: fixed; inset: 0; background: rgb(255,255,255); display: none; align-items: center; justify-content: center; z-index: 10000;
+  position: fixed; inset: 0; background: rgb(255,255,255); display: none; align-items: center; justify-content: center; z-index: 10000;
 }
 .overlay.show{ display:flex; }
 .dialog{
-width: min(560px, 92vw); background: var(--white); border-radius: var(--radius);
-box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--space-5);
+  width: min(560px, 92vw); background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--space-5);
 }
 .dialog h2{ margin-top:0; }
 .note{ color: var(--muted); font-size: .9rem; }
 
 @media (max-width: 920px){ .grid-3{ grid-template-columns: 1fr; } }
 @media (max-width: 720px){
-.grid-2{ grid-template-columns: 1fr; }
-.header__inner{ flex-direction:row; }
+  .grid-2{ grid-template-columns: 1fr; }
+  .header__inner{ flex-direction:row; }
 }
 </style>
 
@@ -199,7 +199,7 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
 <body>
 <a class="skip-link" href="#main">Preskočiť na obsah</a>
 
-<!-- Prihlasovacie prekrytie -->
+<!-- Prihlasovacie prekrytie (len e‑mail alebo admin kód) -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="auth-title-overlay">
   <div class="dialog">
     <h2 id="auth-title-overlay">Prihlásenie</h2>
@@ -212,18 +212,6 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
       <button id="auth-submit" class="btn btn-primary" type="button">Pokračovať</button>
     </div>
     <p id="auth-status" class="status" role="status" aria-live="polite"></p>
-    <details style="margin-top:.5rem">
-      <summary>Nastavenia GitHub (pre admina)</summary>
-      <div class="grid-2">
-        <label>Owner/Org: <input id="gh-owner" placeholder="napr. my-org" /></label>
-        <label>Repo: <input id="gh-repo" placeholder="napr. wine-catalog" /></label>
-        <label>Branch: <input id="gh-branch" placeholder="main" /></label>
-        <label>Cesta katalógu (JSON): <input id="gh-catalog-path" placeholder="data/catalog.json" /></label>
-        <label>Cesta e‑mailov (JSON): <input id="gh-emails-path" placeholder="data/emails.json" /></label>
-        <label>Personal Access Token (repo:contents): <input id="gh-token" placeholder="ghp_xxx" /></label>
-      </div>
-      <p class="note">Token sa ukladá len lokálne do vášho prehliadača. Nikdy ho nevkladajte do kódu.</p>
-    </details>
   </div>
 </div>
 
@@ -284,7 +272,7 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
         </div>
         <div class="inline-row">
           <button id="btn-publish-github" class="btn btn-primary" type="button" title="Publikuje aktuálny katalóg na GitHub (contents API)">Publikovať katalóg na GitHub</button>
-          <span class="help-text">Vyžaduje vyplnené GitHub nastavenia v prihlasovacom dialógu.</span>
+          <span class="help-text">Vyžaduje vyplnené GitHub nastavenia nižšie.</span>
         </div>
       </div>
     </div>
@@ -343,10 +331,28 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
     </div>
   </section>
 
+  <!-- ADMIN: Nastavenia GitHub -->
+  <section id="admin-github-section" aria-labelledby="admin-github-title" class="card card--accent" hidden>
+    <div class="card__header">
+      <h2 id="admin-github-title">3) Nastavenia GitHub (ADMIN)</h2>
+    </div>
+    <div class="card__body">
+      <div class="grid-2">
+        <label>Owner/Org: <input id="gh-owner" placeholder="napr. my-org" /></label>
+        <label>Repo: <input id="gh-repo" placeholder="napr. wine-catalog" /></label>
+        <label>Branch: <input id="gh-branch" placeholder="main" /></label>
+        <label>Cesta katalógu (JSON): <input id="gh-catalog-path" placeholder="data/catalog.json" /></label>
+        <label>Cesta e‑mailov (JSON): <input id="gh-emails-path" placeholder="data/emails.json" /></label>
+        <label>Personal Access Token (repo:contents): <input id="gh-token" placeholder="ghp_xxx" /></label>
+      </div>
+      <p class="note">Čítanie katalógu z verejného repozitára funguje aj bez tokenu. Zápis na GitHub a práca so súborom e‑mailov vyžaduje token. Nastavenia sa ukladajú len lokálne.</p>
+    </div>
+  </section>
+
   <!-- Prihlásenie a identita -->
   <section aria-labelledby="auth-title" class="card">
     <div class="card__header">
-      <h2 id="auth-title">3) Vaša identita</h2>
+      <h2 id="auth-title">4) Vaša identita</h2>
     </div>
     <div class="card__body">
       <p id="identity-text">Prihlásenie prebehne po spustení. Aktuálny používateľ: <strong id="whoami">neprihlásený</strong>.</p>
@@ -361,7 +367,7 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
   <!-- Filtre -->
   <section aria-labelledby="filter-title" class="card">
     <div class="card__header">
-      <h2 id="filter-title">4) Filtrovanie a triedenie</h2>
+      <h2 id="filter-title">5) Filtrovanie a triedenie</h2>
     </div>
     <div class="card__body">
       <div class="filters grid-3">
@@ -397,7 +403,7 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
 
   <!-- Tabuľka -->
   <section aria-labelledby="table-title" class="card">
-    <div class="card__header"><h2 id="table-title">5) Katalóg vín</h2></div>
+    <div class="card__header"><h2 id="table-title">6) Katalóg vín</h2></div>
     <div class="card__body">
       <div class="table-toolbar">
         <div class="chip" id="chip-total" aria-live="polite">Všetky: 0</div>
@@ -428,7 +434,7 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
 
   <!-- Exporty -->
   <section aria-labelledby="export-title" class="card">
-    <div class="card__header"><h2 id="export-title">6) Exporty</h2></div>
+    <div class="card__header"><h2 id="export-title">7) Exporty</h2></div>
     <div class="card__body">
       <div class="grid-3">
         <div class="export-block">
@@ -442,7 +448,7 @@ box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--spa
         </div>
         <div class="export-block" id="admin-emails-block" hidden>
           <h3>Export e‑mailov (ADMIN)</h3>
-          <p>E‑maily z GitHubu (zo súboru nastaveného v dialógu).</p>
+          <p>E‑maily z GitHubu (zo súboru nastaveného v sekcii Nastavenia GitHub).</p>
           <div class="inline-row">
             <button id="btn-download-emails-gh" class="btn btn-primary" type="button">Stiahnuť e‑maily z GitHubu</button>
           </div>
@@ -515,16 +521,11 @@ const el = {
   authInput: $('auth-input'),
   authSubmit: $('auth-submit'),
   authStatus: $('auth-status'),
-  ghOwner: $('gh-owner'),
-  ghRepo: $('gh-repo'),
-  ghBranch: $('gh-branch'),
-  ghCatalog: $('gh-catalog-path'),
-  ghEmails: $('gh-emails-path'),
-  ghToken: $('gh-token'),
 
   // admin sections
   uploadSection: $('upload-section'),
   brandingSection: $('branding-section'),
+  adminGhSection: $('admin-github-section'),
   adminEmailsBlock: $('admin-emails-block'),
 
   // branding controls
@@ -538,6 +539,14 @@ const el = {
   bgFit: $('bg-fit'),
   btnSetBgUrl: $('btn-set-bg-url'),
   btnResetBg: $('btn-reset-bg'),
+
+  // GitHub settings inputs (ADMIN)
+  ghOwner: $('gh-owner'),
+  ghRepo: $('gh-repo'),
+  ghBranch: $('gh-branch'),
+  ghCatalog: $('gh-catalog-path'),
+  ghEmails: $('gh-emails-path'),
+  ghToken: $('gh-token'),
 
   // upload controls
   file: $('file-input'),
@@ -605,7 +614,7 @@ function init(){
   el.authSubmit.addEventListener('click', handleAuthSubmit);
   el.authInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
-  // GH inputs sync (uložiť lokálne pri zmene)
+  // GH inputs sync (ADMIN)
   [el.ghOwner, el.ghRepo, el.ghBranch, el.ghCatalog, el.ghEmails, el.ghToken].forEach(inp=>{
     inp.addEventListener('input', saveGhConfigFromInputs);
   });
@@ -647,7 +656,7 @@ function init(){
 
   // Identity
   el.btnRelogin.addEventListener('click', showAuthOverlay);
-  el.btnLoadCatalogGH.addEventListener('click', loadCatalogFromGitHub);
+  el.btnLoadCatalogGH.addEventListener('click', loadCatalogFromGitHub); // čítanie môže byť bez tokenu (verejný repo)
 
   // Filtre
   const deb = debounce(onFilterChanged, 120);
@@ -689,13 +698,6 @@ function showAuthOverlay(){
   el.authStatus.textContent = '';
   el.authStatus.classList.remove('error');
   el.authInput.value = '';
-  // Prefill GH config inputs
-  el.ghOwner.value = state.gh.owner || '';
-  el.ghRepo.value = state.gh.repo || '';
-  el.ghBranch.value = state.gh.branch || '';
-  el.ghCatalog.value = state.gh.catalogPath || '';
-  el.ghEmails.value = state.gh.emailsPath || '';
-  el.ghToken.value = state.gh.token || '';
   setTimeout(()=> el.authInput.focus(), 50);
 }
 
@@ -727,10 +729,10 @@ function handleAuthSubmit(){
   el.overlay.classList.remove('show');
   document.body.classList.remove('locked');
   updateIdentityUI();
-  // Ulož e‑mail do GitHub databázy (ak nakonfigurované)
-  saveEmailToGitHub(val).catch(err=> console.warn('saveEmailToGitHub error', err));
-  // Automaticky načítať katalóg z GitHubu (ak nakonfigurované)
-  loadCatalogFromGitHub().catch(()=>{ /* ticho */ });
+  // Ulož e‑mail do GitHub databázy (ak nakonfigurované, vyžaduje token a cestu)
+  saveEmailToGitHub(val).catch(()=>{});
+  // Automaticky načítať katalóg z GitHubu (čítanie z verejného repo funguje bez tokenu)
+  loadCatalogFromGitHub().catch(()=>{});
   showToast('Prihlásenie úspešné.');
 }
 
@@ -739,6 +741,7 @@ function updateIdentityUI(){
   // admin prvky
   el.uploadSection.hidden = !state.isAdmin;
   el.brandingSection.hidden = !state.isAdmin;
+  el.adminGhSection.hidden = !state.isAdmin;
   el.adminEmailsBlock.hidden = !state.isAdmin;
 }
 
@@ -836,7 +839,8 @@ function onLoadXLSX(){
 }
 
 async function publishCatalogToGitHub(){
-  if(!ensureGhConfigured(true)) return;
+  // Zápis vyžaduje: owner, repo, branch, token a cesta katalógu
+  if(!ensureGhConfigured('write', true)) return;
   if(!state.isAdmin){ alert('Len admin môže publikovať katalóg.'); return; }
   const payload = JSON.stringify(state.wines, null, 2);
   try{
@@ -849,17 +853,34 @@ async function publishCatalogToGitHub(){
 }
 
 // ======= GitHub integrácia =======
-function ensureGhConfigured(alertUser){
-  const ok = !!(state.gh.owner && state.gh.repo && state.gh.branch && state.gh.token && (state.gh.catalogPath || state.gh.emailsPath));
+function ensureGhConfigured(mode='read', alertUser=false){
+  const needForRead = !!(state.gh.owner && state.gh.repo && (state.gh.branch || 'main'));
+  const hasCatalogPath = !!state.gh.catalogPath;
+  const hasEmailsPath = !!state.gh.emailsPath;
+  const hasToken = !!state.gh.token;
+
+  let ok = false;
+  if(mode==='read'){
+    ok = needForRead && hasCatalogPath;
+  }else if(mode==='write'){
+    ok = needForRead && hasCatalogPath && hasToken;
+  }else if(mode==='emails'){
+    ok = needForRead && hasEmailsPath; // token môže byť potrebný ak repo nie je public
+  }
+
   if(!ok && alertUser){
-    alert('Nastavte GitHub (owner, repo, branch, cesty a token) v prihlasovacom dialógu.');
+    if(mode==='read'){ alert('Nastavte GitHub (owner, repo, branch a cestu katalógu) v sekcii Nastavenia GitHub (ADMIN).'); }
+    if(mode==='write'){ alert('Na publikovanie je nutné vyplniť GitHub (owner, repo, branch, cesta katalógu) a token.'); }
+    if(mode==='emails'){ alert('Na prácu s e‑mailmi nastavte Owner/Repo/Branch a cestu e‑mailov.'); }
   }
   return ok;
 }
 
 async function ghGetFile(path){
-  const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(state.gh.branch)}`;
-  const res = await fetch(url, { headers: { 'Accept':'application/vnd.github+json', 'Authorization': `Bearer ${state.gh.token}` } });
+  const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(state.gh.branch||'main')}`;
+  const headers = { 'Accept':'application/vnd.github+json' };
+  if(state.gh.token){ headers['Authorization'] = `Bearer ${state.gh.token}`; }
+  const res = await fetch(url, { headers });
   if(res.status === 404) return null;
   if(!res.ok) throw new Error('GitHub GET error '+res.status);
   return res.json();
@@ -870,7 +891,7 @@ async function ghUpsertFile(path, contentStr, message){
   const body = {
     message: message || 'update via web',
     content: b64encodeUnicode(contentStr),
-    branch: state.gh.branch
+    branch: state.gh.branch || 'main'
   };
   if(existing && existing.sha){ body.sha = existing.sha; }
   const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}`;
@@ -888,7 +909,8 @@ async function ghUpsertFile(path, contentStr, message){
 }
 
 async function saveEmailToGitHub(email){
-  if(!ensureGhConfigured(false) || !state.gh.emailsPath) return;
+  // voliteľné, ak je nastavená cesta e‑mailov; zápis zvyčajne vyžaduje token (private repo)
+  if(!ensureGhConfigured('emails', false) || !state.gh.emailsPath) return;
   try{
     const existing = await ghGetFile(state.gh.emailsPath);
     let list = [];
@@ -900,25 +922,24 @@ async function saveEmailToGitHub(email){
     }
     if(!list.includes(email)){
       list.push(email);
-      const body = { message: 'add email via web', content: b64encodeUnicode(JSON.stringify(list,null,2)), branch: state.gh.branch };
+      const body = { message: 'add email via web', content: b64encodeUnicode(JSON.stringify(list,null,2)), branch: state.gh.branch||'main' };
       if(sha) body.sha = sha;
       const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(state.gh.emailsPath)}`;
-      const res = await fetch(url, {
-        method: 'PUT',
-        headers: {'Accept':'application/vnd.github+json','Authorization':`Bearer ${state.gh.token}`,'Content-Type':'application/json'},
-        body: JSON.stringify(body)
-      });
+      const headers = { 'Accept':'application/vnd.github+json','Content-Type':'application/json' };
+      if(state.gh.token){ headers['Authorization'] = `Bearer ${state.gh.token}`; } // vyžadované ak repo nie je public
+      const res = await fetch(url, { method:'PUT', headers, body: JSON.stringify(body) });
       if(!res.ok) throw new Error('GitHub PUT emails '+res.status);
       showToast('E‑mail uložený na GitHube.');
     }
   }catch(err){
     console.warn('saveEmailToGitHub failed', err);
-    showToast('Uloženie e‑mailu na GitHub sa nepodarilo.');
+    showToast('Uloženie e‑mailu na GitHub sa nepodarilo (možno chýba token alebo práva).');
   }
 }
 
 async function loadCatalogFromGitHub(){
-  if(!ensureGhConfigured(true) || !state.gh.catalogPath) return;
+  // Čítanie z public repo: nepotrebuje token. Potrebujeme owner/repo/branch a cestu.
+  if(!ensureGhConfigured('read', true)) return;
   try{
     const meta = await ghGetFile(state.gh.catalogPath);
     if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
@@ -929,13 +950,13 @@ async function loadCatalogFromGitHub(){
     renderTable(); updateStats();
     showToast(`Katalóg načítaný z GitHubu (${data.length} položiek).`);
   }catch(err){
-    alert('Načítanie katalógu z GitHubu zlyhalo.');
+    alert('Načítanie katalógu z GitHubu zlyhalo (skontrolujte Owner/Repo/Branch/Cestu).');
     console.error(err);
   }
 }
 
 async function downloadEmailsFromGitHub(){
-  if(!ensureGhConfigured(true) || !state.gh.emailsPath) return;
+  if(!ensureGhConfigured('emails', true) || !state.gh.emailsPath) return;
   try{
     const meta = await ghGetFile(state.gh.emailsPath);
     if(!meta || !meta.content){ alert('Súbor e‑mailov sa nenašiel.'); return; }
@@ -1019,7 +1040,7 @@ function renderTable(){
     const tr = document.createElement('tr');
     const td = document.createElement('td');
     td.colSpan = 9;
-    td.textContent = 'Žiadne dáta. Načítajte katalog z GitHubu alebo (admin) nahrajte XLSX.';
+    td.textContent = 'Žiadne dáta. Načítajte katalóg z GitHubu (ADMIN nastaví Owner/Repo/Cestu).';
     tr.appendChild(td);
     tbody.appendChild(tr);
   }
