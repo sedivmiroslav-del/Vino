@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Opravená diakritika." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -758,7 +758,7 @@ function tryLoadLocal(){
   }catch(e){ console.warn('Local load error', e); }
 }
 
-// ======= Načítanie XLSX (ADMIN) =======
+// ======= Načítanie XLSX (ADMIN) + oprava diakritiky =======
 function onLoadXLSX(){
   if (typeof XLSX === 'undefined'){
     showToast('Knižnica XLSX nie je načítaná – ste offline?');
@@ -778,16 +778,17 @@ function onLoadXLSX(){
       if(!ws){ alert('Nepodarilo sa načítať prvý hárok.'); return; }
       const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true});
       const wines = parseRows(rows);
-      state.wines = wines;
+      // Oprava diakritiky v celom datasete
+      state.wines = wines.map(fixWineFieldsDiacritics);
 
       if(state.persistWines){
-        const ok = safeSetItem(LS_KEYS.wines, JSON.stringify(wines));
+        const ok = safeSetItem(LS_KEYS.wines, JSON.stringify(state.wines));
         if(!ok){ showToast('Dataset je veľký – ponechaný len v pamäti.'); }
       }
 
       renderTable();
-      el.tableStatus.textContent = `Načítaných položiek: ${wines.length}`;
-      showToast(`Načítaných položiek: ${wines.length}`);
+      el.tableStatus.textContent = `Načítaných položiek: ${state.wines.length}`;
+      showToast(`Načítaných položiek: ${state.wines.length}`);
       updateStats();
     }catch(err){
       console.error(err);
@@ -903,8 +904,10 @@ async function loadCatalogFromGitHub(){
     const meta = await ghGetFile(state.gh.catalogPath);
     if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
     const txt = atob(meta.content.replace(/\n/g,''));
-    const data = JSON.parse(txt);
+    let data = JSON.parse(txt);
     if(!Array.isArray(data)){ alert('Katalóg na GitHube má neočakávaný formát.'); return; }
+    // Oprava diakritiky po načítaní z GitHubu
+    data = data.map(fixWineFieldsDiacritics);
     state.wines = data;
     renderTable(); updateStats();
     showToast(`Katalóg načítaný z GitHubu (${data.length} položiek).`);
@@ -1058,7 +1061,7 @@ function exportPDF(){
   doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text(title, 40, 40);
   const rows = state.ratings.filter(r=>r.email===state.email).map(r=>{
     const w = r.wine || {};
-    return [ w.poradie ?? w.id ?? '', w.vystavovatel || '', w.odroda || '', w.rocnik || '', r.points, new Date(r.timestamp).toLocaleString() ];
+    return [ fixDiacriticsIfBroken(w.poradie ?? w.id ?? ''), fixDiacriticsIfBroken(w.vystavovatel || ''), fixDiacriticsIfBroken(w.odroda || ''), fixDiacriticsIfBroken(w.rocnik || ''), r.points, new Date(r.timestamp).toLocaleString() ];
   });
   if(rows.length===0){ doc.setFontSize(12); doc.text('Zatiaľ žiadne hodnotenia.', 40, 70); }
   else{
@@ -1160,7 +1163,7 @@ function applyBrandingToDOM(){
   el.bgUrl.value = state.branding.bgUrl || '';
 }
 
-// ======= Utility, parsovanie, štatistiky =======
+// ======= Utility, parsovanie, ŠTATISTIKY a OPRAVA DIKRITIKY =======
 function clearData(){
   if(!confirm('Naozaj vymazať nahraté dáta (vína)? Hodnotenia ostanú uložené.')) return;
   state.wines = [];
@@ -1273,6 +1276,37 @@ function showToast(text){
 function safeSetItem(key, value){
   try{ localStorage.setItem(key, value); return true; }
   catch(err){ console.warn('localStorage setItem zlyhal pre kľúč', key, err); return false; }
+}
+
+// ======= OPRAVA DIAKRITIKY (mojibake UTF‑8→Latin‑1) =======
+function looksBroken(str){
+  if(!str) return false;
+  // najčastejšie sekvencie pri rozbitej UTF‑8
+  return str.includes('Ã') || str.includes('�');
+}
+function fixDiacriticsIfBroken(str){
+  if(!str || !looksBroken(str)) return str;
+  try{
+    const bytes = Uint8Array.from(Array.from(str, ch => ch.charCodeAt(0) & 0xFF));
+    const dec = new TextDecoder('utf-8', { fatal:false });
+    const decoded = dec.decode(bytes);
+    // Ak je výsledok zjavne lepší (zmizli "Ã" a „�“), použijeme ho
+    if(!decoded.includes('Ã') && !decoded.includes('�')) return decoded;
+    return str;
+  }catch(e){
+    return str;
+  }
+}
+function fixWineFieldsDiacritics(w){
+  if(!w || typeof w!=='object') return w;
+  const out = { ...w };
+  ['vystavovatel','adresa','odroda','rocnik','privlastok'].forEach(k=>{
+    if(k in out){ out[k] = fixDiacriticsIfBroken(String(out[k]??'')); }
+  });
+  // niektoré datasety majú poradie/ID ako string s chybou
+  if('poradie' in out){ out.poradie = toIntSafe(fixDiacriticsIfBroken(String(out.poradie??''))) ?? out.poradie; }
+  if('id' in out){ out.id = fixDiacriticsIfBroken(String(out.id??'')); }
+  return out;
 }
 
 // base64 pre unicode (GitHub API)
