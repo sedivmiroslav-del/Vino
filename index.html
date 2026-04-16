@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Robustné načítanie z GitHubu s opravou kódovania." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Robustné načítanie z GitHubu s opravou kódovania. Auto-detekcia GitHub Pages." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -472,6 +472,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 // ======= STAV A KONŠTANTY =======
 const ADMIN_CODE = 'PetrovSedivy492';
 
+// Predvolená cesta katalógu, ak sa zistí GitHub Pages repo
+const defaultCatalogPath = 'data/catalog.json';
+
 const state = {
   wines: [],
   hasHeader: true,
@@ -545,7 +548,6 @@ const el = {
   whoami: $('whoami'),
   btnRelogin: $('btn-relogin'),
   btnLoadCatalogGH: $('btn-load-catalog-gh'),
-  emailStatus: $('email-status'),
 
   // table and column filters
   fVyst: $('f-vystavovatel'),
@@ -578,6 +580,8 @@ document.addEventListener('DOMContentLoaded', init);
 function init(){
   el.year.textContent = new Date().getFullYear();
   tryLoadLocal();
+  // Auto-detekcia GitHub Pages repo (zásadné pre mobil/čistý prehliadač)
+  inferGhFromLocation();
 
   // Povinné prihlásenie
   showAuthOverlay();
@@ -649,6 +653,35 @@ function init(){
   updateStats();
 }
 
+// ======= Auto-detekcia GitHub Pages (Owner/Repo/Branch/Cesta) =======
+function inferGhFromLocation(){
+  try{
+    const params = new URLSearchParams(location.search);
+    const catalogOverride = params.get('catalog'); // voliteľne ?catalog=custom.json
+    const host = location.hostname;       // napr. sedivmiroslav-del.github.io
+    const path = location.pathname;       // napr. /Vino/ alebo /Vino/index.html
+
+    // Pre GitHub Pages: owner.github.io/repo/...
+    if(/\.github\.io$/i.test(host)){
+      const owner = host.split('.')[0];   // sedivmiroslav-del
+      // z path zober 1. segment ako repo
+      const segs = path.split('/').filter(Boolean);
+      const repo = segs[0] || '';
+      if(owner && repo){
+        // Len ak ešte nie je uložené (alebo je prázdne), nastav automaticky
+        if(!state.gh.owner) state.gh.owner = owner;
+        if(!state.gh.repo) state.gh.repo = repo;
+        if(!state.gh.branch) state.gh.branch = 'main';
+        if(!state.gh.catalogPath) state.gh.catalogPath = catalogOverride || defaultCatalogPath;
+        // E-maily vynecháme (nie sú potrebné pre načítanie katalógu)
+        safeSetItem(LS_KEYS.gh, JSON.stringify(state.gh));
+      }
+    }
+  }catch(e){
+    console.warn('inferGhFromLocation failed', e);
+  }
+}
+
 // ======= Prihlásenie =======
 function showAuthOverlay(){
   el.overlay.classList.add('show');
@@ -706,8 +739,8 @@ function saveGhConfigFromInputs(){
   state.gh.owner = el.ghOwner.value.trim();
   state.gh.repo = el.ghRepo.value.trim();
   state.gh.branch = el.ghBranch.value.trim() || 'main';
-  state.gh.catalogPath = el.ghCatalog.value.trim() || 'data/catalog.json';
-  state.gh.emailsPath = el.ghEmails.value.trim() || 'data/emails.json';
+  state.gh.catalogPath = el.ghCatalog.value.trim() || defaultCatalogPath;
+  state.gh.emailsPath = el.ghEmails.value.trim() || state.gh.emailsPath || '';
   state.gh.token = el.ghToken.value.trim();
   safeSetItem(LS_KEYS.gh, JSON.stringify(state.gh));
 }
@@ -824,7 +857,16 @@ function ensureGhConfigured(mode='read', alertUser=false){
 
 // Smart loader: Pages → Raw → API (všetko s vlastným dekódovaním)
 async function loadCatalogSmart(){
-  if(!ensureGhConfigured('read', true)) return;
+  // Neupozorňuj bežného používateľa (na mobile) – najprv sa pokúsime o autodetekciu
+  if(!ensureGhConfigured('read', false)){
+    // ešte raz skús odvodit z URL (napr. ak sa prihlasovalo pred načítaním)
+    inferGhFromLocation();
+    if(!ensureGhConfigured('read', false)){
+      // ak sa stále nepodarí, jemne oznám používateľovi
+      showToast('Chýbajú GitHub nastavenia – skontrolujte URL alebo kontaktujte admina.');
+      return;
+    }
+  }
 
   const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
   const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
@@ -1320,10 +1362,9 @@ function decodeBytesWithFallback(bytes){
 
 function looksMojibake(str){
   if(!str) return false;
-  // veľa "Ã", "�", "Â" signalizuje rozbité UTF‑8
   const bad = (str.match(/Ã|�|Â/g)||[]).length;
   const letters = (str.match(/[A-Za-zÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽáäčďéíĺľňóôŕšťúýž]/g)||[]).length;
-  return bad>0 && bad >= letters*0.05; // hrubý odhad
+  return bad>0 && bad >= letters*0.05;
 }
 
 function base64ToBytes(b64){
