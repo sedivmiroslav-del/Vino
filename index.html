@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Opravená diakritika." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Filtrovanie v hlavičke tabuľky. Responzívny dizajn pre PC a mobil. Oprava diakritiky a načítanie bez GitHub prihlásenia." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -633,7 +633,7 @@ function init(){
 
   // Identity (admin)
   el.btnRelogin.addEventListener('click', showAuthOverlay);
-  el.btnLoadCatalogGH.addEventListener('click', loadCatalogFromGitHub); // čítanie môže byť bez tokenu (verejný repo)
+  el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart); // preferuje public URL
 
   // Stĺpcové filtre
   const deb = debounce(onColumnFiltersChanged, 120);
@@ -693,21 +693,18 @@ function handleAuthSubmit(){
   updateIdentityUI();
   // Ulož e‑mail do GitHub databázy (ak nakonfigurované)
   saveEmailToGitHub(val).catch(()=>{});
-  // Automaticky načítať katalóg z GitHubu (čítanie z verejného repo funguje bez tokenu)
-  loadCatalogFromGitHub().catch(()=>{});
+  // Automaticky načítať katalóg – preferuj verejnú URL (bez prihlásenia)
+  loadCatalogSmart().catch(()=>{});
   showToast('Prihlásenie úspešné.');
 }
 
 function updateIdentityUI(){
-  // Kto som (zobrazuje sa len v admin sekcii identity)
   if(el.whoami) el.whoami.textContent = state.isAdmin ? 'ADMIN' : (state.email || 'neprihlásený');
-
-  // admin prvky
   el.uploadSection.hidden = !state.isAdmin;
   el.brandingSection.hidden = !state.isAdmin;
   el.adminGhSection.hidden = !state.isAdmin;
   el.adminEmailsBlock.hidden = !state.isAdmin;
-  el.identitySection.hidden = !state.isAdmin; // sekcia "Identita" sa pre bežného používateľa vôbec nezobrazuje
+  el.identitySection.hidden = !state.isAdmin;
 }
 
 function saveGhConfigFromInputs(){
@@ -758,7 +755,7 @@ function tryLoadLocal(){
   }catch(e){ console.warn('Local load error', e); }
 }
 
-// ======= Načítanie XLSX (ADMIN) + oprava diakritiky =======
+// ======= Načítanie XLSX (ADMIN) + OPRAVA DIKRITIKY =======
 function onLoadXLSX(){
   if (typeof XLSX === 'undefined'){
     showToast('Knižnica XLSX nie je načítaná – ste offline?');
@@ -777,18 +774,17 @@ function onLoadXLSX(){
       const ws = wb.Sheets[sheetName];
       if(!ws){ alert('Nepodarilo sa načítať prvý hárok.'); return; }
       const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true});
-      const wines = parseRows(rows);
-      // Oprava diakritiky v celom datasete
-      state.wines = wines.map(fixWineFieldsDiacritics);
+      const wines = parseRows(rows).map(fixWineFieldsDiacritics);
+      state.wines = wines;
 
       if(state.persistWines){
-        const ok = safeSetItem(LS_KEYS.wines, JSON.stringify(state.wines));
+        const ok = safeSetItem(LS_KEYS.wines, JSON.stringify(wines));
         if(!ok){ showToast('Dataset je veľký – ponechaný len v pamäti.'); }
       }
 
       renderTable();
-      el.tableStatus.textContent = `Načítaných položiek: ${state.wines.length}`;
-      showToast(`Načítaných položiek: ${state.wines.length}`);
+      el.tableStatus.textContent = `Načítaných položiek: ${wines.length}`;
+      showToast(`Načítaných položiek: ${wines.length}`);
       updateStats();
     }catch(err){
       console.error(err);
@@ -799,7 +795,6 @@ function onLoadXLSX(){
 }
 
 async function publishCatalogToGitHub(){
-  // Zápis vyžaduje: owner, repo, branch, token a cesta katalógu
   if(!ensureGhConfigured('write', true)) return;
   if(!state.isAdmin){ alert('Len admin môže publikovať katalóg.'); return; }
   const payload = JSON.stringify(state.wines, null, 2);
@@ -812,7 +807,7 @@ async function publishCatalogToGitHub(){
   }
 }
 
-// ======= GitHub integrácia =======
+// ======= GitHub / PUBLIC načítanie =======
 function ensureGhConfigured(mode='read', alertUser=false){
   const needForRead = !!(state.gh.owner && state.gh.repo && (state.gh.branch || 'main'));
   const hasCatalogPath = !!state.gh.catalogPath;
@@ -820,13 +815,9 @@ function ensureGhConfigured(mode='read', alertUser=false){
   const hasToken = !!state.gh.token;
 
   let ok = false;
-  if(mode==='read'){
-    ok = needForRead && hasCatalogPath;
-  }else if(mode==='write'){
-    ok = needForRead && hasCatalogPath && hasToken;
-  }else if(mode==='emails'){
-    ok = needForRead && hasEmailsPath; // token môže byť potrebný ak repo nie je public
-  }
+  if(mode==='read'){ ok = needForRead && hasCatalogPath; }
+  else if(mode==='write'){ ok = needForRead && hasCatalogPath && hasToken; }
+  else if(mode==='emails'){ ok = needForRead && hasEmailsPath; }
 
   if(!ok && alertUser){
     if(mode==='read'){ alert('Nastavte GitHub (owner, repo, branch a cestu katalógu) v sekcii Nastavenia GitHub (ADMIN).'); }
@@ -834,6 +825,61 @@ function ensureGhConfigured(mode='read', alertUser=false){
     if(mode==='emails'){ alert('Na prácu s e‑mailmi nastavte Owner/Repo/Branch a cestu e‑mailov.'); }
   }
   return ok;
+}
+
+// Smart loader: Pages → Raw → API
+async function loadCatalogSmart(){
+  if(!ensureGhConfigured('read', true)) return;
+
+  const pagesUrl = `https://${encodeURIComponent(state.gh.owner)}.github.io/${encodeURIComponent(state.gh.repo)}/${state.gh.catalogPath.replace(/^\//,'')}`;
+  const rawUrl = `https://raw.githubusercontent.com/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/${encodeURIComponent(state.gh.branch||'main')}/${state.gh.catalogPath.replace(/^\//,'')}`;
+
+  // 1) GitHub Pages (ak je zapnuté)
+  try{
+    const data = await fetchPublicJSON(pagesUrl);
+    if(Array.isArray(data)){
+      state.wines = data.map(fixWineFieldsDiacritics);
+      renderTable(); updateStats();
+      showToast(`Katalóg načítaný (Pages) – ${state.wines.length} položiek.`);
+      return;
+    }
+  }catch(e){ /* ignoruj */ }
+
+  // 2) Raw GitHub
+  try{
+    const data = await fetchPublicJSON(rawUrl);
+    if(Array.isArray(data)){
+      state.wines = data.map(fixWineFieldsDiacritics);
+      renderTable(); updateStats();
+      showToast(`Katalóg načítaný (Raw GitHub) – ${state.wines.length} položiek.`);
+      return;
+    }
+  }catch(e){ /* ignoruj */ }
+
+  // 3) Contents API (s tokenom alebo bez)
+  await loadCatalogFromGitHubAPI();
+}
+
+async function fetchPublicJSON(url){
+  const res = await fetch(url, { mode:'cors', headers: { 'Accept':'application/json' } });
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  return res.json();
+}
+
+async function loadCatalogFromGitHubAPI(){
+  try{
+    const meta = await ghGetFile(state.gh.catalogPath);
+    if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
+    const txt = atob(meta.content.replace(/\n/g,''));
+    let data = JSON.parse(txt);
+    if(!Array.isArray(data)){ alert('Katalóg na GitHube má neočakávaný formát.'); return; }
+    state.wines = data.map(fixWineFieldsDiacritics);
+    renderTable(); updateStats();
+    showToast(`Katalóg načítaný (GitHub API) – ${data.length} položiek.`);
+  }catch(err){
+    alert('Načítanie katalógu z GitHubu zlyhalo (skontrolujte Owner/Repo/Branch/Cestu).');
+    console.error(err);
+  }
 }
 
 async function ghGetFile(path){
@@ -869,7 +915,6 @@ async function ghUpsertFile(path, contentStr, message){
 }
 
 async function saveEmailToGitHub(email){
-  // voliteľné, ak je nastavená cesta e‑mailov; zápis zvyčajne vyžaduje token (private repo)
   if(!ensureGhConfigured('emails', false) || !state.gh.emailsPath) return;
   try{
     const existing = await ghGetFile(state.gh.emailsPath);
@@ -886,7 +931,7 @@ async function saveEmailToGitHub(email){
       if(sha) body.sha = sha;
       const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(state.gh.emailsPath)}`;
       const headers = { 'Accept':'application/vnd.github+json','Content-Type':'application/json' };
-      if(state.gh.token){ headers['Authorization'] = `Bearer ${state.gh.token}`; } // vyžadované ak repo nie je public
+      if(state.gh.token){ headers['Authorization'] = `Bearer ${state.gh.token}`; }
       const res = await fetch(url, { method:'PUT', headers, body: JSON.stringify(body) });
       if(!res.ok) throw new Error('GitHub PUT emails '+res.status);
       showToast('E‑mail uložený na GitHube.');
@@ -894,40 +939,6 @@ async function saveEmailToGitHub(email){
   }catch(err){
     console.warn('saveEmailToGitHub failed', err);
     showToast('Uloženie e‑mailu na GitHub sa nepodarilo (možno chýba token alebo práva).');
-  }
-}
-
-async function loadCatalogFromGitHub(){
-  // Čítanie z public repo: nepotrebuje token. Potrebujeme owner/repo/branch a cestu.
-  if(!ensureGhConfigured('read', true)) return;
-  try{
-    const meta = await ghGetFile(state.gh.catalogPath);
-    if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
-    const txt = atob(meta.content.replace(/\n/g,''));
-    let data = JSON.parse(txt);
-    if(!Array.isArray(data)){ alert('Katalóg na GitHube má neočakávaný formát.'); return; }
-    // Oprava diakritiky po načítaní z GitHubu
-    data = data.map(fixWineFieldsDiacritics);
-    state.wines = data;
-    renderTable(); updateStats();
-    showToast(`Katalóg načítaný z GitHubu (${data.length} položiek).`);
-  }catch(err){
-    alert('Načítanie katalógu z GitHubu zlyhalo (skontrolujte Owner/Repo/Branch/Cestu).');
-    console.error(err);
-  }
-}
-
-async function downloadEmailsFromGitHub(){
-  if(!ensureGhConfigured('emails', true) || !state.gh.emailsPath) return;
-  try{
-    const meta = await ghGetFile(state.gh.emailsPath);
-    if(!meta || !meta.content){ alert('Súbor e‑mailov sa nenašiel.'); return; }
-    const txt = atob(meta.content.replace(/\n/g,''));
-    const blob = new Blob([txt], {type:'application/json;charset=utf-8;'});
-    downloadBlob(blob, `emails_github_${tsFile()}.json`);
-  }catch(err){
-    alert('Načítanie e‑mailov z GitHubu zlyhalo.');
-    console.error(err);
   }
 }
 
@@ -948,7 +959,8 @@ function renderTable(){
   tbody.innerHTML = '';
   const list = applyFilters(state.wines.slice());
 
-  for(const w of list){
+  for(const w0 of list){
+    const w = fixWineFieldsDiacritics(w0); // preventívne pri renderi
     const tr = document.createElement('tr');
 
     const tdPor = document.createElement('td'); tdPor.textContent = w.poradie ?? w.id ?? ''; tr.appendChild(tdPor);
@@ -1003,14 +1015,15 @@ function applyFilters(arr){
   const f = state.filters;
 
   return arr.filter(w=>{
+    const z = fixWineFieldsDiacritics(w);
     const test = (val, needle)=> String(val||'').toLowerCase().includes(needle);
-    if(f.vystavovatel && !test(w.vystavovatel, f.vystavovatel)) return false;
-    if(f.adresa && !test(w.adresa, f.adresa)) return false;
-    if(f.odroda && !test(w.odroda, f.odroda)) return false;
-    if(f.rocnik && !String(w.rocnik||'').toLowerCase().includes(f.rocnik)) return false;
-    if(f.privlastok && !test(w.privlastok, f.privlastok)) return false;
+    if(f.vystavovatel && !test(z.vystavovatel, f.vystavovatel)) return false;
+    if(f.adresa && !test(z.adresa, f.adresa)) return false;
+    if(f.odroda && !test(z.odroda, f.odroda)) return false;
+    if(f.rocnik && !String(z.rocnik||'').toLowerCase().includes(f.rocnik)) return false;
+    if(f.privlastok && !test(z.privlastok, f.privlastok)) return false;
 
-    const b = toIntSafe(w.body);
+    const b = toIntSafe(z.body);
     const min = f.bodyMin==='' ? null : parseInt(f.bodyMin,10);
     const max = f.bodyMax==='' ? null : parseInt(f.bodyMax,10);
     if(min!==null && (b===null || b<min)) return false;
@@ -1060,8 +1073,8 @@ function exportPDF(){
   const title = 'Moje hodnotenia – ' + (state.email || 'neprihlásený');
   doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text(title, 40, 40);
   const rows = state.ratings.filter(r=>r.email===state.email).map(r=>{
-    const w = r.wine || {};
-    return [ fixDiacriticsIfBroken(w.poradie ?? w.id ?? ''), fixDiacriticsIfBroken(w.vystavovatel || ''), fixDiacriticsIfBroken(w.odroda || ''), fixDiacriticsIfBroken(w.rocnik || ''), r.points, new Date(r.timestamp).toLocaleString() ];
+    const w = fixWineFieldsDiacritics(r.wine || {});
+    return [ w.poradie ?? w.id ?? '', w.vystavovatel || '', w.odroda || '', w.rocnik || '', r.points, new Date(r.timestamp).toLocaleString() ];
   });
   if(rows.length===0){ doc.setFontSize(12); doc.text('Zatiaľ žiadne hodnotenia.', 40, 70); }
   else{
@@ -1122,7 +1135,6 @@ function applyBgUrlFromInput(){
 function resetBg(){
   state.branding.bgUrl = '';
   safeSetItem(LS_KEYS.branding, JSON.stringify(state.branding));
-  // Reset na pôvodné gradient pozadie
   document.body.style.backgroundImage = '';
   document.body.style.backgroundSize = '';
   document.body.style.backgroundRepeat = '';
@@ -1139,7 +1151,6 @@ function applyBackground(url, fit){
 }
 
 function applyBrandingToDOM(){
-  // Logo
   if(state.branding.logoUrl){
     el.appLogo.src = state.branding.logoUrl;
     el.appLogo.alt = 'Vlastné logo';
@@ -1147,23 +1158,20 @@ function applyBrandingToDOM(){
     el.appLogo.src = 'assets/img/logo.png';
     el.appLogo.alt = 'Logo podujatia (placeholder)';
   }
-  // Pozadie
   el.bgFit.value = state.branding.bgFit || 'cover';
   if(state.branding.bgUrl){
     applyBackground(state.branding.bgUrl, state.branding.bgFit);
   }else{
-    // Späť na default gradient
     document.body.style.backgroundImage = '';
     document.body.style.backgroundSize = '';
     document.body.style.backgroundRepeat = '';
     document.body.style.backgroundPosition = '';
   }
-  // Prefill URL vstupov
   el.logoUrl.value = state.branding.logoUrl || '';
   el.bgUrl.value = state.branding.bgUrl || '';
 }
 
-// ======= Utility, parsovanie, ŠTATISTIKY a OPRAVA DIKRITIKY =======
+// ======= Utility, parsovanie, štatistiky =======
 function clearData(){
   if(!confirm('Naozaj vymazať nahraté dáta (vína)? Hodnotenia ostanú uložené.')) return;
   state.wines = [];
@@ -1233,9 +1241,6 @@ function toIntSafe(v){
   const n = parseInt(String(v).replace(/[^\d-]/g,''),10);
   return Number.isFinite(n) ? n : null;
 }
-
-function csvEscape(v){ if(v===null || v===undefined) return ''; return String(v).replace(/"/g,'""'); }
-function csvWrap(v){ return '"' + v + '"'; }
 function downloadBlob(blob, filename){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href = url; a.download = filename;
@@ -1278,24 +1283,29 @@ function safeSetItem(key, value){
   catch(err){ console.warn('localStorage setItem zlyhal pre kľúč', key, err); return false; }
 }
 
-// ======= OPRAVA DIAKRITIKY (mojibake UTF‑8→Latin‑1) =======
+// ======= OPRAVA DIAKRITIKY =======
+// 1) Rýchla oprava UTF-8→Latin-1 mojibake (Ã©, Ã½, …)
 function looksBroken(str){
   if(!str) return false;
-  // najčastejšie sekvencie pri rozbitej UTF‑8
-  return str.includes('Ã') || str.includes('�');
+  return /Ã|�|Â|Ä|Å/.test(str);
 }
 function fixDiacriticsIfBroken(str){
   if(!str || !looksBroken(str)) return str;
   try{
-    const bytes = Uint8Array.from(Array.from(str, ch => ch.charCodeAt(0) & 0xFF));
-    const dec = new TextDecoder('utf-8', { fatal:false });
-    const decoded = dec.decode(bytes);
-    // Ak je výsledok zjavne lepší (zmizli "Ã" a „�“), použijeme ho
-    if(!decoded.includes('Ã') && !decoded.includes('�')) return decoded;
-    return str;
-  }catch(e){
-    return str;
-  }
+    // Pokus: Latin-1 → UTF-8
+    const fixed = decodeURIComponent(escape(str));
+    if(!looksBroken(fixed)) return fixed;
+  }catch(_){}
+  // Doplňujúca mapa najčastejších párov
+  const map = {
+    'Ã¡':'á','Ã¤':'ä','Ã©':'é','Ã¨':'è','Ã­':'í','Ã³':'ó','Ã´':'ô','Ãº':'ú','Ã½':'ý','Ã¾':'þ',
+    'Ã':'Á','Ã„':'Ä','Ã‰':'É','Ã':'Í','Ã“':'Ó','Ã”':'Ô','Ãš':'Ú','Ã':'Ý',
+    'Å¡':'š','Å¾':'ž','Ä':'č','Ä':'Č','Ä':'ď','Ä':'Ď','Å¥':'ť','Å ĺ':'ĺ','Ä¾':'ľ','Åˆ':'ň',
+    'Å Ľ':'Ľ','Å á':'á','ÅĄ':'Ť','Å ĺ':'ĺ','Å˜':'Ř','Å™':'ř'
+  };
+  let out = str;
+  Object.keys(map).forEach(k=>{ out = out.split(k).join(map[k]); });
+  return out;
 }
 function fixWineFieldsDiacritics(w){
   if(!w || typeof w!=='object') return w;
@@ -1303,7 +1313,6 @@ function fixWineFieldsDiacritics(w){
   ['vystavovatel','adresa','odroda','rocnik','privlastok'].forEach(k=>{
     if(k in out){ out[k] = fixDiacriticsIfBroken(String(out[k]??'')); }
   });
-  // niektoré datasety majú poradie/ID ako string s chybou
   if('poradie' in out){ out.poradie = toIntSafe(fixDiacriticsIfBroken(String(out.poradie??''))) ?? out.poradie; }
   if('id' in out){ out.id = fixDiacriticsIfBroken(String(out.id??'')); }
   return out;
