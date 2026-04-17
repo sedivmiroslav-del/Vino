@@ -63,29 +63,34 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* Header s väčším logom vľavo cez celý modrý pruh */
+/* Header – logo úplne vľavo a na výšku cez celý modrý pruh */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white);
-  padding: var(--space-4) 0 var(--space-4);
+  padding: 0; /* bez ľavého odsadenia, logo na samom okraji */
   border-bottom: 1px solid rgba(255,255,255,.2);
   box-shadow: var(--shadow-1);
 }
 .header__inner{
   display:grid;
   grid-template-columns: auto 1fr;
-  align-items:center;
+  align-items: stretch; /* logo na plnú výšku */
   gap: var(--space-4);
-  max-width: 1200px; margin:0 auto; padding: 0 var(--space-4);
+  max-width: 1200px; margin:0 auto;
+  padding: 0 var(--space-4);
+  min-height: 140px; /* výška modrého pruhu */
 }
 .logo{
-  height: 96px; /* väčšie logo */
+  height: 100%;              /* cez celý pruh */
   width: auto;
   object-fit: contain;
-  background: rgba(255,255,255,.95);
+  background: rgba(255,255,255,.98);
   border-radius: 10px;
-  padding: 6px;
+  padding: 8px;
   box-shadow: var(--shadow-1);
+  align-self: stretch;       /* roztiahnuť na výšku gridu */
+  justify-self: start;
+  margin-left: 0;            /* úplne vľavo */
 }
 .title{ margin:.2rem 0; font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .98; font-weight: 600; }
@@ -183,7 +188,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
-/* Prihlasovacie prekrytie: biele pozadie cez celú obrazovku, obrázok ako nenatienené pozadie */
+/* Prihlasovacie prekrytie: biele pozadie (celé), obrázok ako pozadie bez stmavenia */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
   background: var(--white);
@@ -196,7 +201,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
   background-size: var(--branding-fit);
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 1; /* bez stmavenia, za obrázkom je biele pozadie */
+  opacity: 1;
   z-index: 0;
 }
 .dialog{
@@ -852,9 +857,9 @@ function rebuildFilterOptions(){
   const vystSet = new Set();
   const odrSet = new Set();
   for(const w of state.wines){
-    if(w.poradie!==undefined && w.poradie!==null && w.poradie!=='') poradieSet.add(String(w.poradie));
-    if(w.vystavovatel) vystSet.add(String(w.vystavovatel));
-    if(w.odroda) odrSet.add(String(w.odroda));
+    if(w.poradie!==undefined && w.poradie!==null && w.poradie!=='') poradieSet.add(String(w.poradie).trim());
+    if(w.vystavovatel) vystSet.add(String(w.vystavovatel).trim());
+    if(w.odroda) odrSet.add(String(w.odroda).trim());
   }
   const fillSelect = (sel, values, placeholder)=>{
     if(!sel) return;
@@ -870,6 +875,7 @@ function rebuildFilterOptions(){
     for(const v of arr){
       const opt = document.createElement('option'); opt.value=v; opt.textContent=v; sel.appendChild(opt);
     }
+    // zachovať voľbu, ak existuje
     sel.value = arr.includes(curVal) ? curVal : '';
   };
   fillSelect(el.fPoradie, poradieSet, 'Všetky');
@@ -878,11 +884,18 @@ function rebuildFilterOptions(){
 }
 
 function applyFilters(arr){
-  const f = state.filters;
+  const f = {
+    poradie: (state.filters.poradie||'').trim(),
+    vystavovatel: (state.filters.vystavovatel||'').trim(),
+    odroda: (state.filters.odroda||'').trim()
+  };
   return arr.filter(w=>{
-    if(f.poradie && String(w.poradie)!==String(f.poradie)) return false;
-    if(f.vystavovatel && String(w.vystavovatel)!==String(f.vystavovatel)) return false;
-    if(f.odroda && String(w.odroda)!==String(f.odroda)) return false;
+    const por = (w.poradie!==undefined && w.poradie!==null) ? String(w.poradie).trim() : '';
+    const vy  = (w.vystavovatel||'').toString().trim();
+    const od  = (w.odroda||'').toString().trim();
+    if(f.poradie && por !== f.poradie) return false;
+    if(f.vystavovatel && vy !== f.vystavovatel) return false;
+    if(f.odroda && od !== f.odroda) return false;
     return true;
   });
 }
