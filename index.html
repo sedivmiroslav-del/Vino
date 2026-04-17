@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX (první list, přesné pořadí sloupců), filtry A–B–D, kompozitní buňky (C pod B, E+F pod D a G pod A), ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka bez horizontálního posuvu, úplné vyčištění dat v ADMIN. Opravy: stabilnější načítání z GitHubu, viditelné pozadí na mobilu, správná diakritika v PDF (s TTF) a robustní fallback." />
+<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka, úplné vyčištění dat v ADMIN. Opravy: vrácená modrá barva, korekce diakritiky v PDF (TTF + fallback), opravené chyby null při startu, stabilnější pozadí na mobilu." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -16,7 +16,7 @@
   --black: rgb(0,0,0);
   --lime: rgb(161,200,97);
   --yellow: rgb(255,255,96);
-  --primary: rgb(0,79,152);   /* vráceno vaše modrá */
+  --primary: rgb(0,79,152);   /* vaše modrá */
   --focus: rgb(0,79,152);
   --muted: var(--gray);
   --border: var(--light);
@@ -30,7 +30,7 @@
   --space-4: 1rem;
   --space-5: 1.5rem;
   --space-6: 2rem;
-  --branding-bg: none;     /* runtime se doplní */
+  --branding-bg: none;     /* runtime nastaví URL */
   --branding-fit: cover;
 }
 
@@ -96,13 +96,13 @@ body.locked{ overflow:hidden; }
 .select-pill{
   appearance:none; width:100%; max-width:100%; padding:.7rem 2.1rem .7rem .9rem;
   border:1px solid var(--border);
-  background: var(--white) url('assets/img/select-caret.svg') no-repeat right .7rem center/12px 8px;
+  background: var(--white) url('./assets/img/select-caret.svg') no-repeat right .7rem center/12px 8px;
   border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
 }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabulka – menší písmo ===== */
+/* ===== Tabulka ===== */
 .table-responsive{ overflow-x:hidden; }
 table{
   width:100%;
@@ -119,11 +119,11 @@ th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.1); }
 
-/* Kompozitní buňky – bez odrážky */
+/* Kompozitní buňky */
 .cell-main{ font-weight: 700; }
 .cell-sub{ display:block; color: var(--muted); font-size:.88em; line-height:1.35; margin-top:.15rem; }
 
-/* Vstup hodnocení – barva stavu */
+/* Vstup hodnocení */
 .rating-input{
   width: 100%; max-width: 120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px;
   transition: background-color .2s ease, color .2s ease, border-color .2s ease;
@@ -149,16 +149,17 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* ===== Přihlášení – IMG fallback pro mobil (jen pokud se obrázek načte) ===== */
+/* ===== Přihlášení – pevný gradient + bezpečný IMG fallback ===== */
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; background:#000; color:#fff; }
 .overlay.show{ display:flex; }
-.overlay .bg{ position:absolute; inset:0;
-  background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65)); /* gradient jako tvrdý fallback */
+.overlay .bg{
+  position:absolute; inset:0;
+  background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65));
   background-size: var(--branding-fit), auto;
   background-position:center; background-repeat:no-repeat;
 }
 .overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%;
-  object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none; /* defaultně skryté, ukáže se až po onload */
+  object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none;
 }
 .overlay .shade{ position:absolute; inset:0;
   background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
@@ -194,7 +195,6 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 <!-- ===== Přihlášení (overlay) ===== -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
   <div class="bg" aria-hidden="true"></div>
-  <!-- Fallback obrázek – ukáže se až po úspěšném načtení -->
   <img id="bg-fallback" class="bg-img" alt="" aria-hidden="true" />
   <div class="shade" aria-hidden="true"></div>
 
@@ -267,6 +267,33 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
     </div>
   </section>
 
+  <section id="branding-section" class="card card--nohead" hidden>
+    <div class="card__body">
+      <h3>Branding (pozadí přihlášení)</h3>
+      <div class="input-group" style="margin-bottom:1rem">
+        <label for="bg-file">Nahrát pozadí (PNG/JPG)</label>
+        <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
+      </div>
+      <div class="input-group" style="margin-bottom:1rem">
+        <label for="bg-url">URL pozadí</label>
+        <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
+          <button id="btn-set-bg-url" class="btn btn-ghost" type="button">Použít URL pozadí</button>
+          <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovat pozadí</button>
+          <label style="display:flex;align-items:center;gap:.4rem">Zobrazení
+            <select id="bg-fit" style="padding:.4rem;border:1px solid var(--border);border-radius:8px;margin-left:.3rem">
+              <option value="cover">Vyplnit (cover)</option>
+              <option value="contain">Obsáhnout (contain)</option>
+              <option value="auto">Auto</option>
+            </select>
+          </label>
+          <button id="btn-upload-bg-github" class="btn btn-primary" type="button">Uložit pozadí na GitHub</button>
+          <button id="btn-use-gh-bg" class="btn btn-ghost" type="button">Použít GH pozadí</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== Filtry A,B,D ===== -->
   <section class="card card--nohead" aria-label="Filtrování katalogu">
     <div class="card__body" style="padding: .6rem var(--space-5);">
@@ -335,7 +362,16 @@ const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
-const defaultBrandingPath = 'assets/img/branding.jpg'; /* výchozí fallback – dodejte soubor do assets/img/ */
+
+/* Vypočítat základní cestu pro GH Pages (repo jako subadresář) */
+const __basePath = (()=> {
+  try{
+    const parts = location.pathname.split('/').filter(Boolean);
+    if(/\.github\.io$/i.test(location.hostname) && parts.length){ return `/${parts[0]}`; }
+  }catch(_){}
+  return '';
+})();
+const defaultBrandingPath = `${__basePath}/assets/img/branding.jpg`; /* fallback na reálný soubor ve vašem repu */
 
 /* ===== STAV ===== */
 const state = {
@@ -357,35 +393,32 @@ const LS = {
 
 /* ===== DOM pomocník ===== */
 const $=id=>document.getElementById(id);
+/* Pozn.: některé elementy mohou být null při raném volání – používejme čerstvé getElementById uvnitř funkcí. */
 const el = {
-  overlay: $('auth-overlay'), authInput:$('auth-input'), authSubmit:$('auth-submit'), authStatus:$('auth-status'),
-  wineBody:$('wine-tbody'), theadRow:$('thead-row'), paginator:$('paginator'), tableStatus:$('table-status'),
-  year:$('year'), toast:$('toast'),
-  fA:$('filter-poradie'), fB:$('filter-vystavovatel'), fD:$('filter-odroda'), btnClearFilters:$('btn-clear-filters'),
-  btnExportPDF:$('btn-export-pdf'), btnExportEmails:$('btn-export-emails'), btnExportRatings:$('btn-export-ratings'),
-  uploadSection:$('upload-section'), brandingSection:$('branding-section'), identitySection:$('identity-section'),
-  btnRelogin:$('btn-relogin'), btnLoadCatalogGH:$('btn-load-catalog-gh'), btnSetGhToken:$('btn-set-gh-token'),
-  file:$('file-input'), hasHeader:$('has-header'), persistWines:$('persist-wines'), btnLoad:$('btn-load'), btnClearData:$('btn-clear-data'), btnPublishGH:$('btn-publish-github'),
-  bgFile:$('bg-file'), bgUrl:$('bg-url'), btnSetBgUrl:$('btn-set-bg-url'), btnResetBg:$('btn-reset-bg'), bgFit:$('bg-fit'),
-  btnUploadBgGH:$('btn-upload-bg-github'), btnUseGhBg:$('btn-use-gh-bg'), bgFallback:$('bg-fallback')
+  overlay: ()=>$('auth-overlay'), authInput:()=>$('auth-input'), authSubmit:()=>$('auth-submit'), authStatus:()=>$('auth-status'),
+  wineBody:()=>$('wine-tbody'), theadRow:()=>$('thead-row'), paginator:()=>$('paginator'), tableStatus:()=>$('table-status'),
+  year:()=>$('year'), toast:()=>$('toast'),
+  fA:()=>$('filter-poradie'), fB:()=>$('filter-vystavovatel'), fD:()=>$('filter-odroda'), btnClearFilters:()=>$('btn-clear-filters'),
+  btnExportPDF:()=>$('btn-export-pdf'), btnExportEmails:()=>$('btn-export-emails'), btnExportRatings:()=>$('btn-export-ratings'),
+  uploadSection:()=>$('upload-section'), brandingSection:()=>$('branding-section'), identitySection:()=>$('identity-section'),
+  btnRelogin:()=>$('btn-relogin'), btnLoadCatalogGH:()=>$('btn-load-catalog-gh'), btnSetGhToken:()=>$('btn-set-gh-token'),
+  file:()=>$('file-input'), hasHeader:()=>$('has-header'), persistWines:()=>$('persist-wines'), btnLoad:()=>$('btn-load'), btnClearData:()=>$('btn-clear-data'), btnPublishGH:()=>$('btn-publish-github'),
+  bgFile:()=>$('bg-file'), bgUrl:()=>$('bg-url'), btnSetBgUrl:()=>$('btn-set-bg-url'), btnResetBg:()=>$('btn-reset-bg'), bgFit:()=>$('bg-fit'),
+  btnUploadBgGH:()=>$('btn-upload-bg-github'), btnUseGhBg:()=>$('btn-use-gh-bg'), bgFallback:()=>$('bg-fallback')
 };
 
 /* ===== UTIL ===== */
 const norm = v => String(v ?? '').trim().toLowerCase();
-function showToast(text){ if(!el.toast) return; el.toast.textContent=text; el.toast.hidden=false; el.toast.classList.add('show'); clearTimeout(el.toast._t); el.toast._t=setTimeout(()=>el.toast.classList.remove('show'),2500); }
+function showToast(text){ const t=el.toast(); if(!t) return; t.textContent=text; t.hidden=false; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2500); }
 function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email); }
-function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=parseInt(String(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
 function b64ToUtf8(base64){ const bin = atob(base64.replace(/\n/g,'')); const bytes = new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(bytes); }
 function toBase64FromArrayBuffer(buf){ let bin=''; const bytes=new Uint8Array(buf); for(let i=0;i<bytes.byteLength;i++) bin+=String.fromCharCode(bytes[i]); return btoa(bin); }
 function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
 function downloadText(filename, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000); }
 
-/* ===== Fallback pro core font – převod češtiny na ASCII, pokud se nepodaří načíst TTF ===== */
-const CZ_MAP = {
-  'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z',
-  'Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'
-};
+/* Fallback pro core font: převod češtiny na ASCII, pokud se TTF nenačte */
+const CZ_MAP = {'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z','Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'};
 const asciiSanitize = s => String(s).replace(/[^\x20-\x7E]/g, ch => CZ_MAP[ch] ?? ch);
 
 /* ===== STATISTIKY ===== */
@@ -395,23 +428,26 @@ function updateStats(){
   const my = state.ratings.filter(r=>r.email===state.email);
   const rated = my.length;
   const avg = rated ? (my.reduce((s,r)=>s+(parseInt(r.points,10)||0),0)/rated) : null;
-  $('stat-total').textContent=total;
-  $('stat-filtered').textContent=shown;
-  $('stat-rated').textContent=rated;
-  $('stat-avg').textContent=avg!==null ? avg.toFixed(1) : '–';
+  const t1=$('stat-total'), t2=$('stat-filtered'), t3=$('stat-rated'), t4=$('stat-avg');
+  if(t1) t1.textContent=total;
+  if(t2) t2.textContent=shown;
+  if(t3) t3.textContent=rated;
+  if(t4) t4.textContent=avg!==null ? avg.toFixed(1) : '–';
 }
 
 /* ===== AUTH ===== */
-function showAuthOverlay(){ el.overlay.classList.add('show'); document.body.classList.add('locked'); el.authStatus.textContent=''; el.authStatus.classList.remove('error'); el.authInput.value=''; setTimeout(()=> el.authInput.focus(), 60); }
-function setStatus(msg, err){ el.authStatus.textContent=msg; el.authStatus.classList.toggle('error', !!err); }
-function closeOverlay(){ el.overlay.classList.remove('show'); document.body.classList.remove('locked'); }
+function showAuthOverlay(){ const ov=el.overlay(); if(!ov) return; ov.classList.add('show'); document.body.classList.add('locked'); const s=el.authStatus(); if(s){ s.textContent=''; s.classList.remove('error'); } const i=el.authInput(); if(i){ i.value=''; setTimeout(()=> i.focus(), 60); } }
+function setStatus(msg, err){ const s=el.authStatus(); if(!s) return; s.textContent=msg; s.classList.toggle('error', !!err); }
+function closeOverlay(){ const ov=el.overlay(); if(!ov) return; ov.classList.remove('show'); document.body.classList.remove('locked'); }
 function updateIdentityUI(){
   const who=$('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'nepřihlášen');
-  el.uploadSection.hidden = !state.isAdmin;
-  el.brandingSection.hidden = !state.isAdmin;
-  el.identitySection.hidden = !state.isAdmin;
-  if(el.btnExportEmails) el.btnExportEmails.hidden = !state.isAdmin;
-  if(el.btnExportRatings) el.btnExportRatings.hidden = !state.isAdmin;
+  const up=el.uploadSection(), br=el.brandingSection(), idc=el.identitySection();
+  if(up) up.hidden = !state.isAdmin;
+  if(br) br.hidden = !state.isAdmin;
+  if(idc) idc.hidden = !state.isAdmin;
+  const be=el.btnExportEmails(), brt=el.btnExportRatings();
+  if(be) be.hidden = !state.isAdmin;
+  if(brt) brt.hidden = !state.isAdmin;
 }
 function rememberEmail(email){
   const set = new Set([...(state.emailsSeen||[]), email]);
@@ -420,7 +456,8 @@ function rememberEmail(email){
   ghAppendEmail(email).catch(()=>{});
 }
 function handleAuthSubmit(){
-  const val = el.authInput.value.trim();
+  const input = el.authInput();
+  const val = input ? input.value.trim() : '';
   if(!val){ setStatus('Zadejte e‑mail.', true); return; }
   if(val === ADMIN_CODE){
     state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
@@ -447,9 +484,10 @@ function applyFilters(arr){
   });
 }
 function onFilterChange(){
-  state.filters.A = el.fA ? el.fA.value : '';
-  state.filters.B = el.fB ? (el.fB.value||'') : '';
-  state.filters.D = el.fD ? (el.fD.value||'') : '';
+  const fA=el.fA(), fB=el.fB(), fD=el.fD();
+  state.filters.A = fA ? fA.value : '';
+  state.filters.B = fB ? (fB.value||'') : '';
+  state.filters.D = fD ? (fD.value||'') : '';
   state.pager.page=1; renderTable(); updateStats();
 }
 function rebuildFilterOptions(){
@@ -472,20 +510,20 @@ function rebuildFilterOptions(){
     sel.disabled = arr.length===0;
     const lab = sel.previousElementSibling;
     if(lab && lab.tagName==='LABEL'){
-      if(sel===el.fA && A) lab.textContent = A;
-      if(sel===el.fB && B) lab.textContent = B;
-      if(sel===el.fD && D) lab.textContent = D;
+      if(sel===el.fA() && A) lab.textContent = A;
+      if(sel===el.fB() && B) lab.textContent = B;
+      if(sel===el.fD() && D) lab.textContent = D;
     }
   };
   const isNumericSet = s => s.size>0 && Array.from(s).every(v=>/^\d+$/.test(String(v)));
-  fill(el.fA, setA, 'Vše', isNumericSet(setA)?'num':'text');
-  fill(el.fB, setB, 'Vše');
-  fill(el.fD, setD, 'Vše');
+  fill(el.fA(), setA, 'Vše', isNumericSet(setA)?'num':'text');
+  fill(el.fB(), setB, 'Vše');
+  fill(el.fD(), setD, 'Vše');
 }
 
 /* ===== RENDER ===== */
 function renderHeader(){
-  const theadRow = el.theadRow; if(!theadRow) return;
+  const theadRow = el.theadRow(); if(!theadRow) return;
   theadRow.innerHTML='';
   const cols=state.columns;
   const showCols=[];
@@ -498,7 +536,7 @@ function renderHeader(){
   const thMy=document.createElement('th'); thMy.textContent='Body'; theadRow.appendChild(thMy);
 }
 function renderPagination(total,page,pages){
-  const nav = el.paginator; if(!nav) return;
+  const nav = el.paginator(); if(!nav) return;
   nav.innerHTML='';
   if(pages<=1) return;
   const mk=(lab,to,opts={})=>{
@@ -517,7 +555,7 @@ function renderPagination(total,page,pages){
   nav.appendChild(mk('»',pages,{disabled:page===pages}));
 }
 function renderTable(){
-  const tbody=el.wineBody; if(!tbody) return; tbody.innerHTML='';
+  const tbody=el.wineBody(); if(!tbody) return; tbody.innerHTML='';
   const filtered=applyFilters(state.wines.slice());
   const total=filtered.length;
   const per=state.pager.perPage||30;
@@ -530,21 +568,21 @@ function renderTable(){
   for(const w of slice){
     const tr=document.createElement('tr');
 
-    // A + G pod ním (bez odrážky)
+    // A + G
     const tdA=document.createElement('td');
     const aMain=document.createElement('div'); aMain.className='cell-main'; aMain.textContent=A?String(w[A]??''):'';
     tdA.appendChild(aMain);
     if(G && w[G]!==undefined && w[G]!==null && w[G]!==''){ const aSub=document.createElement('span'); aSub.className='cell-sub'; aSub.textContent=String(w[G]); tdA.appendChild(aSub); }
     tr.appendChild(tdA);
 
-    // B + C pod ním (bez odrážky)
+    // B + C
     const tdB=document.createElement('td');
     const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
     tdB.appendChild(bMain);
     if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
     tr.appendChild(tdB);
 
-    // D + (E,F) pod ním (bez odrážky)
+    // D + (E,F)
     const tdD=document.createElement('td');
     const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
     tdD.appendChild(dMain);
@@ -554,7 +592,7 @@ function renderTable(){
     if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
     tr.appendChild(tdD);
 
-    // Body – barva stavu
+    // Body
     const tdMy=document.createElement('td'); const input=document.createElement('input');
     input.type='number'; input.min='0'; input.max='100'; input.step='1';
     input.placeholder='0–100'; input.className='rating-input';
@@ -575,10 +613,10 @@ function renderTable(){
   }
 
   renderPagination(total,page,pages);
-  el.tableStatus && (el.tableStatus.textContent=`Zobrazeno: ${slice.length} z ${total} (strana ${page})`);
+  const ts = el.tableStatus(); if(ts) ts.textContent=`Zobrazeno: ${slice.length} z ${total} (strana ${page})`;
 }
 
-/* ===== GH INFERRING/FETCH/ZÁPIS ===== */
+/* ===== GitHub I/O, načítání a zápis (beze změn logiky) ===== */
 function inferGhFromLocation(){
   try{
     const params = new URLSearchParams(location.search);
@@ -648,7 +686,7 @@ async function ghPutBinaryFile(path, arrayBuffer, message){
   return true;
 }
 async function ghAppendEmail(email){
-  if(!state.gh.token) return; // zápis na GH jen s tokenem
+  if(!state.gh.token) return;
   try{
     const meta = await ghGetFile(state.gh.emailsPath);
     let text = 'email\n';
@@ -682,7 +720,7 @@ async function ghAppendRating(record){
   }catch(e){ console.warn('GH append rating error', e); }
 }
 
-/* ===== GH LOAD (dataset) ===== */
+/* ===== Načtení katalogu ===== */
 function ensureGhConfigured(){ return !!(state.gh.owner && state.gh.repo); }
 async function loadCatalogFromGitHubAPI(){
   try{
@@ -711,7 +749,6 @@ async function loadCatalogSmart(){
   const catPath = (state.gh.catalogPath || defaultCatalogPath).replace(/^\//,'');
   const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${catPath}`;
   const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${catPath}`;
-
   try{
     const arr=await safeFetchJSON(pagesUrl);
     if(Array.isArray(arr)){
@@ -748,12 +785,13 @@ function applyBranding(){
   document.documentElement.style.setProperty('--branding-bg', `url("${bgUrl}")`);
   document.documentElement.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
 
-  // Bezpečný IMG fallback: zobrazit pouze, pokud se obrázek načte
-  if(el.bgFallback){
-    el.bgFallback.style.display = 'none';
-    el.bgFallback.onload = ()=>{ el.bgFallback.style.display = 'block'; };
-    el.bgFallback.onerror = ()=>{ el.bgFallback.style.display = 'none'; };
-    el.bgFallback.src = bgUrl;
+  // Bezpečný IMG fallback: zobraz pouze pokud se načte
+  const img = el.bgFallback();
+  if(img){
+    img.style.display = 'none';
+    img.onload = ()=>{ img.style.display = 'block'; };
+    img.onerror = ()=>{ img.style.display = 'none'; };
+    img.src = bgUrl;
   }
 }
 function handleBgFile(ev){
@@ -770,7 +808,8 @@ function handleBgFile(ev){
 /* ===== XLSX IMPORT ===== */
 function parseRowsWithHeader(rows){
   if(!rows || !rows.length) return { columns:[], data:[] };
-  const start= (el.hasHeader && el.hasHeader.checked) ? 1 : 0;
+  const chk = el.hasHeader();
+  const start= (chk && chk.checked) ? 1 : 0;
   let header = [];
   if(start===1){
     header = (rows[0]||[]).map(normalizeHeader);
@@ -795,7 +834,7 @@ function parseRowsWithHeader(rows){
 }
 function onLoadXLSX(){
   if(typeof XLSX==='undefined'){ alert('Knihovna XLSX se nenačetla.'); return; }
-  const file = el.file && el.file.files && el.file.files[0]; if(!file){ alert('Vyberte XLSX soubor.'); return; }
+  const file = el.file() && el.file().files && el.file().files[0]; if(!file){ alert('Vyberte XLSX soubor.'); return; }
   const reader = new FileReader();
   reader.onload = e=>{
     try{
@@ -807,7 +846,8 @@ function onLoadXLSX(){
       if(state.columns.length===0){ alert('Hlavička nebyla rozpoznána.'); return; }
       state.idColumn = state.columns[0]; // A
       state.wines = parsed.data;
-      if(el.persistWines && el.persistWines.checked){
+      const persist = el.persistWines();
+      if(persist && persist.checked){
         try{
           localStorage.setItem(LS.wines, JSON.stringify(state.wines));
           localStorage.setItem(LS.columns, JSON.stringify(state.columns));
@@ -829,8 +869,8 @@ function adoptColumnsFromData(arr){
   state.idColumn = state.columns[0] || null;
 }
 
-/* ===== ULOŽENÍ HODNOCENÍ ===== */
-function handleRateSubmit(wineObj, inputEl, rowEl){
+/* ===== Uložení hodnocení ===== */
+function handleRateSubmit(wineObj, inputEl){
   const v = inputEl.value.trim();
   if(v===''){ return; }
   const n = Number(v);
@@ -840,12 +880,9 @@ function handleRateSubmit(wineObj, inputEl, rowEl){
   if(!state.email){ showToast('Pro uložení hodnocení se přihlaste.'); return; }
   const wineId = ensureWineId(wineObj);
   if(!wineId){ showToast('Nelze identifikovat položku.'); return; }
-
-  // už existuje pro tento e‑mail?
   if(state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wineId))){
     inputEl.disabled=true; inputEl.classList.remove('unrated'); inputEl.classList.add('rated'); return;
   }
-
   const rec = { email: state.email, wineId: String(wineId), points: Math.round(n), timestamp: new Date().toISOString() };
   state.ratings.push(rec);
   try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
@@ -853,16 +890,6 @@ function handleRateSubmit(wineObj, inputEl, rowEl){
   updateStats();
   ghAppendRating(rec).catch(()=>{});
   showToast('Hodnocení uloženo.');
-}
-
-/* ===== VYMAZÁNÍ ===== */
-function wipeAllData(){
-  if(!confirm('Smazat úplně vše (katalog, hodnocení, e‑maily, branding, GH nastavení, přihlášení)?')) return;
-  try{ Object.values(LS).forEach(k=>localStorage.removeItem(k)); }catch(_){}
-  state.wines=[]; state.columns=[]; state.idColumn=null; state.ratings=[]; state.email=null; state.isAdmin=false;
-  state.filters={ A:'', B:'', D:'' }; state.gh={ owner:'', repo:'', branch:'', catalogPath:'', emailsPath: defaultEmailsPath, ratingsPath: defaultRatingsPath, brandingPath: defaultBrandingPath, token:'' };
-  state.branding={ bgUrl:'', bgFit:'cover' }; state.pager={ page:1, perPage:30 }; state.emailsSeen=[];
-  applyBranding(); renderHeader(); rebuildFilterOptions(); renderTable(); updateStats(); showToast('Aplikace byla vyčištěna.'); showAuthOverlay();
 }
 
 /* ===== EXPORTY ===== */
@@ -873,10 +900,9 @@ async function exportMyRatingsPDF(){
   const { jsPDF } = window.jspdf || window;
   const doc=new jsPDF({unit:'pt', format:'a4'});
 
-  // Pokus o načtení TTF fontu (kvůli diakritice)
+  // Pokus o načtení TTF (správná diakritika)
   const dejavuLoaded = await tryLoadCustomFont(doc);
 
-  // Nastavení fontu
   if(dejavuLoaded){ doc.setFont('DejaVuSans','normal'); }
   else{ doc.setFont('helvetica','bold'); }
 
@@ -891,11 +917,9 @@ async function exportMyRatingsPDF(){
     return;
   }
 
-  // Přesná hlavička dle Excelu + "Body" + "Čas hodnocení"
   const headRaw = [...state.columns, 'Body', 'Čas hodnocení'];
   const head = dejavuLoaded ? headRaw : headRaw.map(asciiSanitize);
 
-  // map wineId -> row
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
 
@@ -919,20 +943,15 @@ async function exportMyRatingsPDF(){
   });
   doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
 }
-
-// Načtení TTF fontu – zkusi lokální cestu i absolutní GitHub Pages URL
 async function tryLoadCustomFont(doc){
   const urls = [];
-  // lokální cesta
-  urls.push('assets/fonts/DejaVuSans.ttf');
-  // pokud běží na GH Pages, přidej absolutní URL pro jistotu
+  urls.push(`${__basePath}/assets/fonts/DejaVuSans.ttf`);
   try{
     const host = location.hostname, path = location.pathname.split('/').filter(Boolean)[0]||'';
     if(/\.github\.io$/i.test(host) && path){
       urls.push(`https://${host}/${path}/assets/fonts/DejaVuSans.ttf`);
     }
   }catch(_){}
-
   for(const url of urls){
     try{
       const res = await fetch(url, {cache:'no-cache'});
@@ -946,7 +965,6 @@ async function tryLoadCustomFont(doc){
   }
   return false;
 }
-
 function exportEmailsCSV(){
   if(!state.isAdmin){ alert('Pouze pro ADMIN.'); return; }
   const header = 'email\n';
@@ -989,7 +1007,7 @@ function publishCatalogToGitHub(){
 
 /* ===== INIT ===== */
 document.addEventListener('DOMContentLoaded', ()=>{
-  $('year').textContent = new Date().getFullYear();
+  const y=$('year'); if(y) y.textContent = new Date().getFullYear();
 
   try{
     const em=localStorage.getItem(LS.email); if(em) state.email=em;
@@ -1003,51 +1021,49 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(state.email) rememberEmail(state.email);
   }catch(_){}
 
-  // Branding – nastav background + IMG fallback (zobraz IMG jen po načtení)
   applyBranding();
 
-  // AUTH overlay
   showAuthOverlay();
-  el.authSubmit && el.authSubmit.addEventListener('click', handleAuthSubmit);
-  el.authInput && el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
+  const btnAuth=el.authSubmit(), inpAuth=el.authInput();
+  if(btnAuth) btnAuth.addEventListener('click', handleAuthSubmit);
+  if(inpAuth) inpAuth.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
-  // Admin handlers
-  el.btnLoadCatalogGH && el.btnLoadCatalogGH.addEventListener('click', ()=>{ if(typeof loadCatalogSmart==='function'){ loadCatalogSmart(); } });
-  el.btnSetGhToken && el.btnSetGhToken.addEventListener('click', async ()=>{ const ok=await ensureGhWriteConfig(); if(ok) showToast('GH token nastaven.'); });
-  el.btnRelogin && el.btnRelogin.addEventListener('click', showAuthOverlay);
-  el.btnLoad && el.btnLoad.addEventListener('click', onLoadXLSX);
-  el.btnClearData && el.btnClearData.addEventListener('click', wipeAllData);
-  el.btnPublishGH && el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
+  const bLoad=el.btnLoadCatalogGH(), bTok=el.btnSetGhToken(), bRel=el.btnRelogin(), bLoadX=el.btnLoad(), bClr=el.btnClearData(), bPub=el.btnPublishGH();
+  if(bLoad) bLoad.addEventListener('click', ()=>{ if(typeof loadCatalogSmart==='function'){ loadCatalogSmart(); } });
+  if(bTok) bTok.addEventListener('click', async ()=>{ const ok=await ensureGhWriteConfig(); if(ok) showToast('GH token nastaven.'); });
+  if(bRel) bRel.addEventListener('click', showAuthOverlay);
+  if(bLoadX) bLoadX.addEventListener('click', onLoadXLSX);
+  if(bClr) bClr.addEventListener('click', wipeAllData);
+  if(bPub) bPub.addEventListener('click', publishCatalogToGitHub);
 
-  // Branding buttons
-  el.bgFile && el.bgFile.addEventListener('change', handleBgFile);
-  el.btnSetBgUrl && el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadí nastaveno z URL.'); });
-  el.btnResetBg && el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadí resetováno.'); });
-  el.bgFit && el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
-  el.btnUploadBgGH && el.btnUploadBgGH.addEventListener('click', async ()=>{
-    const f = el.bgFile && el.bgFile.files && el.bgFile.files[0]; if(!f){ alert('Vyberte obrázek.'); return; }
+  const fA=el.fA(), fB=el.fB(), fD=el.fD(), bCF=el.btnClearFilters();
+  if(fA) fA.addEventListener('change', onFilterChange);
+  if(fB) fB.addEventListener('change', onFilterChange);
+  if(fD) fD.addEventListener('change', onFilterChange);
+  if(bCF) bCF.addEventListener('click', ()=>{ const sA=el.fA(), sB=el.fB(), sD=el.fD(); if(sA) sA.value=''; if(sB) sB.value=''; if(sD) sD.value=''; onFilterChange(); });
+
+  const bPdf=el.btnExportPDF(), bE=el.btnExportEmails(), bR=el.btnExportRatings();
+  if(bPdf) bPdf.addEventListener('click', exportMyRatingsPDF);
+  if(bE) bE.addEventListener('click', exportEmailsCSV);
+  if(bR) bR.addEventListener('click', exportAllRatingsCSV);
+
+  const bgFile=el.bgFile(), setBg=el.btnSetBgUrl(), rstBg=el.btnResetBg(), fitSel=el.bgFit(), upBg=el.btnUploadBgGH(), useGh=el.btnUseGhBg();
+  if(bgFile) bgFile.addEventListener('change', handleBgFile);
+  if(setBg) setBg.addEventListener('click', ()=>{ const i=el.bgUrl(); state.branding.bgUrl = (i && i.value || '').trim(); persistBranding(); applyBranding(); showToast('Pozadí nastaveno z URL.'); });
+  if(rstBg) rstBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadí resetováno.'); });
+  if(fitSel) fitSel.addEventListener('change', ()=>{ state.branding.bgFit = fitSel.value||'cover'; persistBranding(); applyBranding(); });
+  if(upBg) upBg.addEventListener('click', async ()=>{
+    const f = el.bgFile() && el.bgFile().files && el.bgFile().files[0]; if(!f){ alert('Vyberte obrázek.'); return; }
     const buf = await f.arrayBuffer(); const ok=await ghPutBinaryFile(state.gh.brandingPath || defaultBrandingPath, buf, 'upload branding');
     if(ok){ const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
       state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Pozadí uloženo na GitHub.'); }
   });
-  el.btnUseGhBg && el.btnUseGhBg.addEventListener('click', ()=>{
+  if(useGh) useGh.addEventListener('click', ()=>{
     if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
     const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
     state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použito GH pozadí.');
   });
 
-  // Filtry
-  el.fA && el.fA.addEventListener('change', onFilterChange);
-  el.fB && el.fB.addEventListener('change', onFilterChange);
-  el.fD && el.fD.addEventListener('change', onFilterChange);
-  el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{ el.fA&&(el.fA.value=''); el.fB&&(el.fB.value=''); el.fD&&(el.fD.value=''); onFilterChange(); });
-
-  // Exporty
-  el.btnExportPDF && el.btnExportPDF.addEventListener('click', exportMyRatingsPDF);
-  el.btnExportEmails && el.btnExportEmails.addEventListener('click', exportEmailsCSV);
-  el.btnExportRatings && el.btnExportRatings.addEventListener('click', exportAllRatingsCSV);
-
-  // První vykreslení
   renderAll();
 });
 
