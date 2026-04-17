@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín (zachovanie poradia stĺpcov ako v Exceli), filtre A–B–D, ukladanie e‑mailov a hodnotení na GitHub, admin publikácia katalógu aj pozadia na GitHub, responzívna tabuľka so sticky hlavičkou a kompozitnými bunkami (C pod B, E a F pod D)." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín (zachovanie poradia stĺpcov ako v Exceli), filtre A–B–D, ukladanie e‑mailov a hodnotení na GitHub, admin publikácia katalógu aj pozadia na GitHub, responzívna tabuľka so sticky hlavičkou a kompozitnými bunkami (C pod B, E a F pod D). Stav sa zobrazuje farbou políčka ‚Moje body‘." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -139,17 +139,30 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 .cell-main{ font-weight: 700; }
 .cell-sub{ display:block; color: var(--muted); font-size:.88em; line-height:1.35; margin-top:.15rem; }
 
-/* Vstup hodnotenia */
+/* Vstup hodnotenia + stav farbou */
 .rating-input{
   width: 100%; max-width: 120px; font-size:1rem; padding:.5rem .5rem; border:1px solid var(--border); border-radius:10px;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
+.rating-input.unrated{
+  background: rgba(161,200,97,.8); /* zelené podfarbenie – nehodnotené */
+  color: var(--black);
+}
+.rating-input.rated{
+  background: var(--primary); /* hodnotené – modrá */
+  color: var(--white);
+  border-color: var(--primary);
+}
+.rating-input.locked{
+  background: #eee; color:#666;
+}
+.rating-input::placeholder{ color: rgba(0,0,0,.5); }
+.rating-input.rated::placeholder{ color: rgba(255,255,255,.85); }
 
-/* Badges & buttons */
+/* Badges (už sa nepoužívajú, ale ponechané pre kompatibilitu) */
 .badge{ display:inline-block; padding:.25rem .6rem; border-radius:999px; font-size:.85rem; border:1px solid transparent; background: var(--yellow); color: var(--black); font-weight:800; letter-spacing:.2px; white-space: nowrap; }
-.badge.done{ background: var(--primary); color: var(--white); }
-.badge.pending{ background: var(--lime); color: var(--black); }
-.badge.lock{ background: var(--gray); color: var(--white); }
 
+/* Buttons */
 .btn{ border:1px solid transparent; border-radius:999px; padding:.8rem 1.1rem; cursor:pointer; font-weight:700; transition: transform .05s ease, filter .15s ease, background-color .15s ease; }
 .btn:active{ transform: translateY(1px); }
 .btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,79,152,.25); }
@@ -385,7 +398,7 @@ const defaultBrandingPath = 'assets/img/branding.jpg';
 const state = {
   wines: [],
   columns: [],       // všetky XLSX hlavičky v poradí
-  idColumn: null,    // použijeme A (index 0) ako identifikátor
+  idColumn: null,    // A (index 0) ako identifikátor
   ratings: [],
   email: null,
   isAdmin: false,
@@ -533,7 +546,7 @@ function renderHeader(){
   if(state.columns[0]) showCols.push(state.columns[0]);
   if(state.columns[1]) showCols.push(state.columns[1]); // B
   if(state.columns[3]) showCols.push(state.columns[3]); // D
-  // nájdeme potenciálny "Body" stĺpec – G (index 6) alebo posledný
+  // stĺpec s bodmi (napr. G)
   let bodyHeader = state.columns[6] || state.columns.find(h=>/body/i.test(String(h))) || state.columns[state.columns.length-1];
   if(bodyHeader) showCols.push(bodyHeader);
 
@@ -541,7 +554,6 @@ function renderHeader(){
     const th=document.createElement('th'); th.textContent=h; theadRow.appendChild(th);
   }
   const thMy=document.createElement('th'); thMy.textContent='Moje body (0–100)'; theadRow.appendChild(thMy);
-  const thState=document.createElement('th'); thState.textContent='Stav'; theadRow.appendChild(thState);
 }
 
 function renderPagination(total,page,pages){
@@ -587,7 +599,7 @@ function renderTable(){
     if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
     tr.appendChild(tdB);
 
-    // D + (pod ním E a F menším) – "E – F" ak sú
+    // D + (pod ním E a F menším)
     const tdD=document.createElement('td');
     const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent= D ? String(w[D]??'') : '';
     tdD.appendChild(dMain);
@@ -600,25 +612,28 @@ function renderTable(){
     // Body (G alebo odhad)
     const tdBody=document.createElement('td'); tdBody.textContent = bodyHeader ? (w[bodyHeader]??'') : ''; tr.appendChild(tdBody);
 
-    // Moje body
+    // Moje body – farbou vyjadrujeme stav
     const tdMy=document.createElement('td'); const input=document.createElement('input');
     input.type='number'; input.min='0'; input.max='100'; input.step='1';
     input.placeholder='0–100'; input.className='rating-input';
     const wid = ensureWineId(w);
     input.setAttribute('aria-label','Moje body pre položku '+(wid||''));
     const ex = state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid)) : null;
-    if(ex){ input.value=ex.points; input.disabled=true; }
-    else if(!state.email){ input.disabled=true; input.title='Pre hodnotenie sa prihláste.'; }
+
+    if(ex){
+      input.value=ex.points;
+      input.disabled=true;
+      input.classList.add('rated');
+    } else if(!state.email){
+      input.disabled=true; input.title='Pre hodnotenie sa prihláste.';
+      input.classList.add('locked');
+    } else {
+      input.classList.add('unrated'); // nehodnotené
+    }
+
     input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input, tr); }});
     input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input, tr); }});
     tdMy.appendChild(input); tr.appendChild(tdMy);
-
-    // Stav
-    const tdState=document.createElement('td'); const badge=document.createElement('span'); badge.className='badge';
-    if(ex){ badge.classList.add('done'); badge.textContent='Hodnotené'; }
-    else if(state.email){ badge.classList.add('pending'); badge.textContent='Čaká na hodnotenie'; }
-    else{ badge.classList.add('lock'); badge.textContent='Uzamknuté'; }
-    tdState.appendChild(badge); tr.appendChild(tdState);
 
     tbody.appendChild(tr);
   }
@@ -637,7 +652,7 @@ function handleRateSubmit(wineObj,inputEl,rowEl){
   const exists=state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid));
   if(exists){
     inputEl.disabled=true; inputEl.value=exists.points;
-    const badge = rowEl.querySelector('.badge'); if(badge){ badge.classList.remove('pending','lock'); badge.classList.add('done'); badge.textContent='Hodnotené'; }
+    inputEl.classList.remove('unrated','locked'); inputEl.classList.add('rated');
     return;
   }
   const record = { email:state.email, wineId:String(wid), points:value, timestamp:new Date().toISOString() };
@@ -645,7 +660,7 @@ function handleRateSubmit(wineObj,inputEl,rowEl){
   try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
   ghAppendRating(record).catch(()=>{});
   inputEl.disabled=true;
-  const badge = rowEl.querySelector('.badge'); if(badge){ badge.classList.remove('pending','lock'); badge.classList.add('done'); badge.textContent='Hodnotené'; }
+  inputEl.classList.remove('unrated','locked'); inputEl.classList.add('rated');
   updateStats();
 }
 
@@ -776,7 +791,7 @@ function useGitHubBranding(){
   state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použité GH pozadie.');
 }
 
-/* ===== GH LOAD (dataset) – opravené pády a robustné parsovanie ===== */
+/* ===== GH LOAD (dataset) – robustné parsovanie ===== */
 async function loadCatalogFromGitHubAPI(){
   try{
     const path = state.gh.catalogPath || defaultCatalogPath;
@@ -801,9 +816,8 @@ async function loadCatalogSmart(){
   const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${catPath}`;
   const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${catPath}`;
 
-  // 1) GitHub Pages
   try{
-    const r1=await fetch(pagesUrl,{cache:'no-cache'}); 
+    const r1=await fetch(pagesUrl,{cache:'no-cache'});
     if(r1.ok){
       const txt=await r1.text();
       const arr=JSON.parse(txt);
@@ -815,12 +829,10 @@ async function loadCatalogSmart(){
       }
     }
   }catch(e){ console.warn('Pages fetch fail', e); }
-  // 2) Raw
   try{
     const r2=await fetch(rawUrl,{cache:'no-cache'});
     if(r2.ok){
-      const txt=await r2.text();
-      const arr=JSON.parse(txt);
+      const txt=await r2.text(); const arr=JSON.parse(txt);
       if(Array.isArray(arr)){
         adoptColumnsFromData(arr);
         state.wines=arr;
@@ -829,7 +841,6 @@ async function loadCatalogSmart(){
       }
     }
   }catch(e){ console.warn('Raw fetch fail', e); }
-  // 3) API
   await loadCatalogFromGitHubAPI();
 }
 
