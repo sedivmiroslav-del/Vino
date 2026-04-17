@@ -16,7 +16,6 @@
   --olive: rgb(161,200,97);
   --white: rgb(255,255,255);
   --black: rgb(0,0,0);
-  --yellow: rgb(255,255,96);
 
   /* Moravská modrá – hlavná farba */
   --primary: rgb(0,79,152);
@@ -26,7 +25,6 @@
   --text: var(--black);
   --muted: var(--gray);
   --border: var(--light);
-  --secondary: var(--olive);
 
   --radius: 12px;
   --radius-sm: 8px;
@@ -59,7 +57,7 @@ body.locked{ overflow:hidden; }
 
 .skip-link{ position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .skip-link:focus{
-  position:static; width:auto; height:auto; padding:.5rem 1rem; background: var(--yellow); color: var(--black);
+  position:static; width:auto; height:auto; padding:.5rem 1rem; background: var(--white); color: var(--black);
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
@@ -80,7 +78,7 @@ body.locked{ overflow:hidden; }
   margin: 0 auto;
 }
 .title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
-/* Žltý text -> biely */
+/* Podtitul biely */
 .subtitle{ margin:.2rem 0; color: var(--white); opacity: .98; font-weight: 600; }
 
 /* Štatistiky pod hlavičkou */
@@ -107,7 +105,6 @@ body.locked{ overflow:hidden; }
   border:1px solid var(--border); border-radius: var(--radius); background: var(--white);
   margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip;
 }
-.card--accent{ border-left: 6px solid var(--primary); }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
 
@@ -151,10 +148,22 @@ body.locked{ overflow:hidden; }
 }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabuľka (desktop správanie aj na mobile) ===== */
-.table-responsive{ overflow-x: auto; }
-table{ width:100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
-thead th{ position: sticky; top:0; background: linear-gradient(180deg, rgba(206,213,218,.7), rgba(206,213,218,.45)); z-index:2; }
+/* ===== Tabuľka (desktop vzhľad aj na mobile) ===== */
+.table-responsive{
+  overflow-x: auto;
+}
+table{
+  width:100%;
+  min-width: 960px;            /* aby sa na mobile nekrvilo – horizontálny posuvník */
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+thead th{
+  position: sticky; top:0;
+  background: linear-gradient(180deg, rgba(206,213,218,.7), rgba(206,213,218,.45));
+  z-index:2;
+}
 th, td{ border-bottom:1px solid var(--border); padding:.6rem .55rem; text-align:left; vertical-align: top; word-wrap: break-word; }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.08); }
@@ -186,15 +195,12 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 
 .footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
 
-details summary{ cursor:pointer; padding:.25rem 0; font-weight: 700; }
-details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
-
 .badge{
   display:inline-block; padding:.25rem .5rem; border-radius: 999px; font-size:.85rem; border:1px solid transparent;
-  background: var(--yellow); color: var(--black); font-weight: 800; letter-spacing:.2px;
+  background: rgb(255,255,96); color: var(--black); font-weight: 800; letter-spacing:.2px;
 }
 .badge.done{ background: var(--primary); color: var(--white); }
-.badge.pending{ background: var(--olive); color: var(--black); }
+.badge.pending{ background: rgb(161,200,97); color: var(--black); }
 .badge.lock{ background: var(--gray); color: var(--white); }
 
 .btn{
@@ -214,16 +220,22 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
-/* ===== HERO prihlasovanie – pozadie funguje aj na mobile ===== */
+/* ===== HERO prihlasovanie – pozadie 100% aj na mobile, nepresvitá katalóg ===== */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
+  background: var(--black);                      /* fallback, aby nepresvital katalóg */
+  color: var(--white);
+}
+.overlay.show{ display:flex; }
+.overlay::before{
+  content:"";
+  position:absolute; inset:0;
   background-image: var(--branding-bg);
   background-size: var(--branding-fit);
   background-position: center center;
   background-repeat: no-repeat;
-  color: var(--white);
+  z-index: 0;
 }
-.overlay.show{ display:flex; }
 .overlay::after{
   content:"";
   position:absolute; inset:0;
@@ -241,7 +253,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 .hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight: 900; text-shadow: 0 6px 22px rgba(0,0,0,.45); }
 .hero-text{ max-width: 980px; margin: 0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height: 1.65; color: rgba(255,255,255,.96); text-shadow: 0 2px 12px rgba(0,0,0,.45); }
 
-/* Mobil – nechávame desktop layout tabuľky */
+/* Mobil – desktop tabuľka sa zachová, len sa posúva do šírky */
 @media (max-width: 820px){
   .filter-bar{ border-radius: 14px; padding: .6rem; }
   .filter-bar .group{ flex: 1 1 100%; min-width: 0; }
@@ -303,7 +315,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 <main id="main" class="container" role="main">
 
   <!-- ADMIN: nahratie a publikovanie katalógu -->
-  <section id="upload-section" aria-labelledby="upload-title" class="card card--accent card--nohead" hidden>
+  <section id="upload-section" aria-labelledby="upload-title" class="card card--nohead" hidden>
     <div class="card__header"></div>
     <div class="card__body">
       <p>Očakávané stĺpce v poradí: A: Poradové číslo, B: Vystavovateľ, C: Adresa, D: Odroda, E: Ročník, F: Prívlastok, G: Body (oficiálne).</p>
@@ -320,58 +332,35 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
         <div class="input-inline">
           <label class="checkbox"><input id="has-header" type="checkbox" checked /> Súbor obsahuje hlavičku</label>
           <label class="checkbox" title="Pozor: veľké súbory nemusia ísť uložiť."><input id="persist-wines" type="checkbox" /> Ukladať katalóg do prehliadača</label>
-          <details>
-            <summary>Mapovanie stĺpcov (voliteľné)</summary>
-            <div class="grid-2">
-              <label>Poradové číslo (A): <input id="map-A" inputmode="text" placeholder="A" /></label>
-              <label>Vystavovateľ (B): <input id="map-B" inputmode="text" placeholder="B" /></label>
-              <label>Adresa (C): <input id="map-C" inputmode="text" placeholder="C" /></label>
-              <label>Odroda (D): <input id="map-D" inputmode="text" placeholder="D" /></label>
-              <label>Ročník (E): <input id="map-E" inputmode="text" placeholder="E" /></label>
-              <label>Prívlastok (F): <input id="map-F" inputmode="text" placeholder="F" /></label>
-              <label>Body (G): <input id="map-G" inputmode="text" placeholder="G" /></label>
-            </div>
-          </details>
-        </div>
-        <div class="inline-row">
-          <button id="btn-publish-github" class="btn btn-primary" type="button" title="Publikovať katalóg na GitHub (contents API)">Publikovať katalóg na GitHub</button>
-          <span class="help-text">Vyžaduje vyplnené GitHub nastavenia (nižšie).</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ADMIN: Branding (len pozadie) -->
-  <section id="branding-section" aria-labelledby="branding-title" class="card card--accent card--nohead" hidden>
+  <!-- Branding (len pozadie) -->
+  <section id="branding-section" aria-labelledby="branding-title" class="card card--nohead" hidden>
     <div class="card__header"></div>
     <div class="card__body">
-      <div class="grid-2">
-        <div>
-          <h3>Pozadie stránky a prihlásenia</h3>
-          <div class="input-group">
-            <label for="bg-file">Nahrať pozadie (PNG/JPG)</label>
-            <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
-            <div class="help-text">Nahrané pozadie sa použije dočasne (platí len do obnovenia stránky). Zobrazuje sa aj na prihlasovacej obrazovke.</div>
-          </div>
-          <div class="input-group">
-            <label for="bg-url">URL pozadia</label>
-            <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
-            <div class="inline-row">
-              <button id="btn-set-bg-url" class="btn btn-primary" type="button">Použiť URL pozadia</button>
-              <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovať pozadie</button>
-            </div>
-          </div>
-          <div class="input-group">
-            <label for="bg-fit">Zobrazenie</label>
-            <select id="bg-fit">
-              <option value="cover">Vyplniť (cover)</option>
-              <option value="contain">Obsiahnuť (contain)</option>
-              <option value="auto">Auto</option>
-            </select>
-          </div>
+      <div class="input-group">
+        <label for="bg-file">Nahrať pozadie (PNG/JPG)</label>
+        <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
+      </div>
+      <div class="input-group">
+        <label for="bg-url">URL pozadia</label>
+        <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
+        <div class="inline-row">
+          <button id="btn-set-bg-url" class="btn btn-primary" type="button">Použiť URL pozadia</button>
+          <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovať pozadie</button>
         </div>
       </div>
-      <p class="note">Tip: ak chcete trvalé pozadie, použite URL (repo/CDN). Lokálne nahrané súbory sa po obnovení stránky stratia.</p>
+      <div class="input-group">
+        <label for="bg-fit">Zobrazenie</label>
+        <select id="bg-fit">
+          <option value="cover">Vyplniť (cover)</option>
+          <option value="contain">Obsiahnuť (contain)</option>
+          <option value="auto">Auto</option>
+        </select>
+      </div>
     </div>
   </section>
 
@@ -449,7 +438,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 
-/* ===== GLOBÁLNY STAV ===== */
+/* ===== GLOBÁLNY STAV & LS KĽÚČE ===== */
 const state = {
   wines: [],
   hasHeader: true,
@@ -463,8 +452,6 @@ const state = {
   branding: { bgUrl:'', bgFit:'cover' },
   pager: { page: 1, perPage: 30 }
 };
-
-/* ===== LOCAL STORAGE KĽÚČE ===== */
 const LS_KEYS = {
   email: 'winecat_email',
   ratings: 'winecat_ratings',
@@ -476,7 +463,7 @@ const LS_KEYS = {
   branding: 'winecat_branding'
 };
 
-/* ===== POMOCNÍCI NA DOM ===== */
+/* ===== DOM ===== */
 const $ = id => document.getElementById(id);
 const el = {
   overlay: $('auth-overlay'),
@@ -486,7 +473,6 @@ const el = {
 
   uploadSection: $('upload-section'),
   brandingSection: $('branding-section'),
-  adminGhSection: $('admin-github-section'),
 
   ghOwner: $('gh-owner'), ghRepo: $('gh-repo'), ghBranch: $('gh-branch'),
   ghCatalog: $('gh-catalog-path'), ghEmails: $('gh-emails-path'), ghToken: $('gh-token'),
@@ -521,7 +507,7 @@ const el = {
   toast: $('toast')
 };
 
-/* ===== UTIL FUNKCIE ===== */
+/* ===== POMOCNÉ ===== */
 function showToast(text){
   if(!el.toast) return;
   el.toast.textContent = text;
@@ -535,14 +521,13 @@ function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=
 function tsFile(){ const d=new Date(),p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`; }
 function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email); }
 
-/* ===== GH KONFIG, LOAD/STORE ===== */
+/* ===== GH INFERRING (definované SKÔR, aby login nespadol) ===== */
 function inferGhFromLocation(){
   try{
     const params = new URLSearchParams(location.search);
     const catalogOverride = params.get('catalog');
     const host = location.hostname;
     const path = location.pathname;
-
     if(/\.github\.io$/i.test(host)){
       const owner = host.split('.')[0];
       const repo = (path.split('/').filter(Boolean)[0] || '');
@@ -557,8 +542,9 @@ function inferGhFromLocation(){
   }catch(e){ console.warn('inferGhFromLocation error', e); }
 }
 
+/* ===== GH KONFIG ===== */
 function saveGhConfigFromInputs(){
-  if(!el.ghOwner) return; // ak je admin sekcia skrytá
+  if(!el.ghOwner) return;
   state.gh.owner = el.ghOwner.value.trim();
   state.gh.repo = el.ghRepo.value.trim();
   state.gh.branch = el.ghBranch.value.trim() || 'main';
@@ -567,7 +553,6 @@ function saveGhConfigFromInputs(){
   state.gh.token = el.ghToken.value.trim();
   localStorage.setItem(LS_KEYS.gh, JSON.stringify(state.gh));
 }
-
 async function fetchPublicJSON(url){
   const res = await fetch(url,{mode:'cors',cache:'no-cache',headers:{'Accept':'application/json'}});
   if(!res.ok) throw new Error('HTTP '+res.status);
@@ -605,14 +590,8 @@ async function loadCatalogSmart(){
   }
   const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
   const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
-  try{
-    const d1 = await fetchPublicJSON(pagesUrl);
-    if(Array.isArray(d1)){ state.wines=d1; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (Pages): ${d1.length}`); return; }
-  }catch(_){}
-  try{
-    const d2 = await fetchPublicJSON(rawUrl);
-    if(Array.isArray(d2)){ state.wines=d2; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (Raw): ${d2.length}`); return; }
-  }catch(_){}
+  try{ const d1 = await fetchPublicJSON(pagesUrl); if(Array.isArray(d1)){ state.wines=d1; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (Pages): ${d1.length}`); return; } }catch(_){}
+  try{ const d2 = await fetchPublicJSON(rawUrl); if(Array.isArray(d2)){ state.wines=d2; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (Raw): ${d2.length}`); return; } }catch(_){}
   await loadCatalogFromGitHubAPI();
 }
 
@@ -648,17 +627,11 @@ function updateIdentityUI(){
   const who = $('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'neprihlásený');
   if(el.uploadSection) el.uploadSection.hidden = !state.isAdmin;
   if(el.brandingSection) el.brandingSection.hidden = !state.isAdmin;
-  if(el.adminGhSection) el.adminGhSection.hidden = !state.isAdmin;
 }
 function handleAuthSubmit(){
   const val = el.authInput.value.trim();
   if(!val){ setStatus('Zadajte e‑mail.', true); return; }
-  if(val === ADMIN_CODE){
-    state.isAdmin = true; state.email='admin@local';
-    localStorage.setItem(LS_KEYS.email, state.email);
-    closeOverlay(); updateIdentityUI(); showToast('Admin mód aktivovaný.');
-    return;
-  }
+  if(val === ADMIN_CODE){ state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS_KEYS.email, state.email); closeOverlay(); updateIdentityUI(); showToast('Admin mód aktivovaný.'); return; }
   if(!validateEmail(val)){ setStatus('Neplatný e‑mail. Skúste znova.', true); return; }
   state.isAdmin=false; state.email=val; localStorage.setItem(LS_KEYS.email, state.email);
   closeOverlay(); updateIdentityUI(); loadCatalogSmart().catch(()=>{});
@@ -751,7 +724,7 @@ function rebuildFilterOptions(){
     if(!sel) return;
     const curVal = sel.value;
     sel.innerHTML = '';
-    const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent=placeholder; sel.appendChild(opt0);
+    const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent='Všetky'; sel.appendChild(opt0);
     const arr = Array.from(values);
     if(sel.id==='filter-poradie'){
       arr.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
@@ -834,30 +807,27 @@ function renderTable(){
   el.tableStatus.textContent = `Zobrazené: ${list.length} z ${total}`;
 }
 
-/* ===== EVENTS & INIT ===== */
+/* ===== INITIALIZÁCIA ===== */
 document.addEventListener('DOMContentLoaded', init);
 function init(){
-  el.year.textContent = new Date().getFullYear();
+  el.year && (el.year.textContent = new Date().getFullYear());
   tryLoadLocal();
-  inferGhFromLocation(); // definované vyššie – aby login nepadal
+  inferGhFromLocation();
   applyBranding();
 
   showAuthOverlay();
 
-  el.authSubmit.addEventListener('click', handleAuthSubmit);
-  el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
+  el.authSubmit && el.authSubmit.addEventListener('click', handleAuthSubmit);
+  el.authInput && el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
   [el.ghOwner, el.ghRepo, el.ghBranch, el.ghCatalog, el.ghEmails, el.ghToken].forEach(inp=>{
-    if(!inp) return;
-    inp.addEventListener('input', saveGhConfigFromInputs);
+    if(!inp) return; inp.addEventListener('input', saveGhConfigFromInputs);
   });
 
-  if(el.btnLoad){ el.btnLoad.addEventListener('click', onLoadXLSX); }
-  if(el.btnClearData){ el.btnClearData.addEventListener('click', ()=>{ if(!confirm('Naozaj vymazať nahraté dáta?')) return; state.wines=[]; localStorage.removeItem(LS_KEYS.wines); renderTable(); updateStats(); showToast('Dáta katalógu vymazané.'); }); }
-  if(el.btnPublishGH){ el.btnPublishGH.addEventListener('click', publishCatalogToGitHub); }
+  el.btnLoad && el.btnLoad.addEventListener('click', onLoadXLSX);
+  el.btnClearData && el.btnClearData.addEventListener('click', ()=>{ if(!confirm('Naozaj vymazať nahraté dáta?')) return; state.wines=[]; localStorage.removeItem(LS_KEYS.wines); renderTable(); updateStats(); showToast('Dáta katalógu vymazané.'); });
 
-  if(el.btnRelogin){ el.btnRelogin.addEventListener('click', showAuthOverlay); }
-  if(el.btnLoadCatalogGH){ el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart); }
+  el.btnPublishGH && el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
 
   const onFilterChange = ()=>{
     state.filters.poradie = el.fPoradie ? el.fPoradie.value : '';
@@ -865,40 +835,24 @@ function init(){
     state.filters.odroda = el.fOdr ? el.fOdr.value : '';
     renderTable(); updateStats();
   };
-  if(el.fPoradie) el.fPoradie.addEventListener('change', onFilterChange);
-  if(el.fVyst) el.fVyst.addEventListener('change', onFilterChange);
-  if(el.fOdr) el.fOdr.addEventListener('change', onFilterChange);
-
-  if(el.btnClearFilters) el.btnClearFilters.addEventListener('click', ()=>{
-    if(el.fPoradie) el.fPoradie.value='';
-    if(el.fVyst) el.fVyst.value='';
-    if(el.fOdr) el.fOdr.value='';
+  el.fPoradie && el.fPoradie.addEventListener('change', onFilterChange);
+  el.fVyst && el.fVyst.addEventListener('change', onFilterChange);
+  el.fOdr && el.fOdr.addEventListener('change', onFilterChange);
+  el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{
+    el.fPoradie && (el.fPoradie.value='');
+    el.fVyst && (el.fVyst.value='');
+    el.fOdr && (el.fOdr.value='');
     onFilterChange();
   });
 
-  if(el.bgFile) el.bgFile.addEventListener('change', handleBgFile);
-  if(el.btnSetBgUrl) el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
-  if(el.btnResetBg) el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
-  if(el.bgFit) el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
+  el.bgFile && el.bgFile.addEventListener('change', handleBgFile);
+  el.btnSetBgUrl && el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
+  el.btnResetBg && el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
+  el.bgFit && el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
 
   renderTable();
   updateStats();
   updateIdentityUI();
-}
-
-/* ===== ŠTATISTIKY ===== */
-function updateStats(){
-  const total=state.wines.length;
-  const shown=applyFilters(state.wines.slice()).length;
-  const my = state.ratings.filter(r=>r.email===state.email);
-  const rated = my.length;
-  const avg = rated ? (my.reduce((s,r)=>s+(parseInt(r.points,10)||0),0)/rated) : null;
-
-  const t1=$('stat-total'), t2=$('stat-filtered'), t3=$('stat-rated'), t4=$('stat-avg');
-  if(t1) t1.textContent=total;
-  if(t2) t2.textContent=shown;
-  if(t3) t3.textContent=rated;
-  if(t4) t4.textContent = (avg!==null) ? avg.toFixed(1) : '–';
 }
 </script>
 </body>
