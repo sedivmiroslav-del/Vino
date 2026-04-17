@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinnné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -64,7 +64,7 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* ===== HEADER: sticky, logo s rovnakými odstupmi, výška prispôsobená textu ===== */
+/* ===== HEADER: sticky, bez loga; výška prispôsobená textu ===== */
 .header{
   position: sticky; top: 0; z-index: 300; /* ukotviť modrú časť nad filtrami */
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
@@ -74,36 +74,18 @@ body.locked{ overflow:hidden; }
 }
 .header__inner{
   position: relative;
-  display:grid;
-  grid-template-columns: auto 1fr;
-  align-items: stretch;                /* aby logo vedelo mať rovnaké odtupy hore/dole */
-  gap: var(--space-4);
+  display:block;
   width: 100%;
-  max-width: none;
-  padding: 1rem var(--space-4);        /* výška pruhu reaguje na text/padding */
-}
-.logo{
-  align-self: stretch;
-  margin: 1rem 0 1rem 1cm;             /* rovnaký odstup hore/dole a 1cm zľava */
-  height: calc(100% - 2rem);           /* rešpektuje horný/spodný odstup */
-  max-height: clamp(72px, 18vw, 180px);
-  width: auto;
-  object-fit: contain;
-  background: rgba(255,255,255,.98);
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: var(--shadow-1);
+  padding: 1.2rem var(--space-4);     /* výška pruhu reaguje na text/padding */
 }
 .header__text{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);     /* presné vystredenie v modrom páse */
   text-align: center;
-  max-width: min(80ch, 80vw);
+  max-width: min(80ch, 92vw);
+  margin: 0 auto;
 }
 .title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
-.subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .98; font-weight: 600; }
+/* Žltý text -> biely podľa požiadavky */
+.subtitle{ margin:.2rem 0; color: var(--white); opacity: .98; font-weight: 600; }
 
 /* Štatistiky pod hlavičkou (nie sticky) */
 .header__stats{
@@ -124,7 +106,7 @@ body.locked{ overflow:hidden; }
 }
 .banner.show{ display:flex; }
 
-/* Karty bez hlavičiek (ako na screenshote) */
+/* Karty bez hlavičiek */
 .card{
   border:1px solid var(--border); border-radius: var(--radius); background: var(--white);
   margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip;
@@ -211,7 +193,6 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   padding: .85rem .7rem;
 }
 
-/* ===== Toast, detaily, badgy, tlačidlá ===== */
 .status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
 .error{ color: #b00020; font-weight:700; }
 
@@ -248,7 +229,6 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 /* ===== HERO prihlasovanie – mobilný fix pozadia ===== */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
-  /* Fallback: priamo na .overlay aplikujeme obrázok, aby sa ukázal aj na mobiloch s obmedzeným renderom pseudo-elementov */
   background-image: var(--branding-bg);
   background-size: var(--branding-fit);
   background-position: center center;
@@ -256,7 +236,6 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
   color: var(--white);
 }
 .overlay.show{ display:flex; }
-/* stmavenie */
 .overlay::after{
   content:"";
   position:absolute; inset:0;
@@ -274,7 +253,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 .hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight: 900; text-shadow: 0 6px 22px rgba(0,0,0,.45); }
 .hero-text{ max-width: 980px; margin: 0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height: 1.65; color: rgba(255,255,255,.96); text-shadow: 0 2px 12px rgba(0,0,0,.45); }
 
-/* Mobil – tabuľka bez horizontálneho posuvu, len vertikálne; filtre v plnej šírke, nepresahujú */
+/* Mobil – tabuľka bez horizontálneho posuvu, len vertikálne; filtre v plnej šírke */
 @media (max-width: 820px){
   thead{ display:none; }
   table, tbody, tr, td{ display:block; width:100%; }
@@ -284,7 +263,6 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
   td::before{ content: attr(data-label); display:block; font-weight:700; color: var(--muted); margin-bottom:.25rem; }
   .rating-input{ width: 100%; min-width: 0; }
 
-  /* Filtre – každý riadok plná šírka, rovnaké */
   .filter-bar{ border-radius: 14px; padding: .6rem; }
   .filter-bar .group{ flex: 1 1 100%; min-width: 0; }
   .select-pill{ width: 100%; }
@@ -324,7 +302,6 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 
 <header class="header" role="banner" aria-label="Hlavný banner" id="app-header">
   <div class="header__inner">
-    <img id="app-logo" src="assets/img/logo.png" alt="Logo podujatia (placeholder)" class="logo" />
     <div class="header__text">
       <h1 class="title">Katalóg vín – hodnotenia</h1>
       <p class="subtitle">Prihlásenie je povinné. Katalóg sa načíta automaticky.</p>
@@ -377,35 +354,18 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
           </details>
         </div>
         <div class="inline-row">
-          <button id="btn-publish-github" class="btn btn-primary" type="button" title="Publikuje aktuálny katalóg na GitHub (contents API)">Publikovať katalóg na GitHub</button>
+          <button id="btn-publish-github" class="btn btn-primary" type="button" title="Publikovať katalóg na GitHub (contents API)">Publikovať katalóg na GitHub</button>
           <span class="help-text">Vyžaduje vyplnené GitHub nastavenia (nižšie).</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ADMIN: Branding (logo a pozadie) -->
+  <!-- ADMIN: Branding (len pozadie) -->
   <section id="branding-section" aria-labelledby="branding-title" class="card card--accent card--nohead" hidden>
     <div class="card__header"></div>
     <div class="card__body">
       <div class="grid-2">
-        <div>
-          <h3>Logo</h3>
-          <div class="input-group">
-            <label for="logo-file">Nahrať logo (PNG/JPG/SVG)</label>
-            <input id="logo-file" type="file" accept=".png,.jpg,.jpeg,.svg" />
-            <div class="help-text">Nahraté logo sa použije dočasne (platí len do obnovenia stránky).</div>
-          </div>
-          <div class="input-group">
-            <label for="logo-url">URL loga</label>
-            <input id="logo-url" type="url" placeholder="https://example.com/logo.png" />
-            <div class="inline-row">
-              <button id="btn-set-logo-url" class="btn btn-primary" type="button">Použiť URL loga</button>
-              <button id="btn-reset-logo" class="btn btn-ghost" type="button">Resetovať logo</button>
-            </div>
-            <div class="help-text">URL sa uloží do prehliadača pre trvalé použitie.</div>
-          </div>
-        </div>
         <div>
           <h3>Pozadie stránky a prihlásenia</h3>
           <div class="input-group">
@@ -431,7 +391,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
           </div>
         </div>
       </div>
-      <p class="note">Tip: Ak chcete trvalé logo/pozadie, použite URL (napr. súbor hostovaný v repozitári alebo CDN). Lokálne nahrané súbory sa po obnovení stránky stratia.</p>
+      <p class="note">Tip: Ak chcete trvalé pozadie, použite URL (napr. súbor hostovaný v repozitári alebo CDN). Lokálne nahrané súbory sa po obnovení stránky stratia.</p>
     </div>
   </section>
 
@@ -546,8 +506,6 @@ const el = {
   adminGhSection: $('admin-github-section'),
   identitySection: $('identity-section'),
 
-  appLogo: $('app-logo'),
-
   ghOwner: $('gh-owner'), ghRepo: $('gh-repo'), ghBranch: $('gh-branch'),
   ghCatalog: $('gh-catalog-path'), ghEmails: $('gh-emails-path'), ghToken: $('gh-token'),
 
@@ -572,11 +530,6 @@ const el = {
   tableStatus: $('table-status'),
 
   btnExportPDF: $('btn-export-pdf'),
-
-  logoFile: $('logo-file'),
-  logoUrl: $('logo-url'),
-  btnSetLogoUrl: $('btn-set-logo-url'),
-  btnResetLogo: $('btn-reset-logo'),
 
   bgFile: $('bg-file'),
   bgUrl: $('bg-url'),
@@ -643,12 +596,6 @@ function init(){
     onFilterChange();
   });
 
-  if(el.logoFile) el.logoFile.addEventListener('change', handleLogoFile);
-  if(el.btnSetLogoUrl) el.btnSetLogoUrl.addEventListener('click', ()=>{
-    state.branding.logoUrl = (el.logoUrl.value||'').trim();
-    persistBranding(); applyBranding(); showToast('Logo nastavené z URL.');
-  });
-  if(el.btnResetLogo) el.btnResetLogo.addEventListener('click', ()=>{ state.branding.logoUrl=''; persistBranding(); applyBranding(); showToast('Logo resetované.'); });
   if(el.bgFile) el.bgFile.addEventListener('change', handleBgFile);
   if(el.btnSetBgUrl) el.btnSetBgUrl.addEventListener('click', ()=>{
     state.branding.bgUrl = (el.bgUrl.value||'').trim();
@@ -675,28 +622,6 @@ function saveGhConfigFromInputs(){
   try{ localStorage.setItem(LS_KEYS.gh, JSON.stringify(state.gh)); }catch(_){}
 }
 
-/* Infer GH z URL */
-function inferGhFromLocation(){
-  try{
-    const params = new URLSearchParams(location.search);
-    const catalogOverride = params.get('catalog');
-    const host = location.hostname;
-    const path = location.pathname;
-
-    if(/\.github\.io$/i.test(host)){
-      const owner = host.split('.')[0];
-      const repo = (path.split('/').filter(Boolean)[0] || '');
-      if(owner && repo){
-        state.gh.owner ||= owner;
-        state.gh.repo ||= repo;
-        state.gh.branch ||= 'main';
-        state.gh.catalogPath ||= (catalogOverride || defaultCatalogPath);
-        localStorage.setItem(LS_KEYS.gh, JSON.stringify(state.gh));
-      }
-    }
-  }catch(e){ console.warn('inferGhFromLocation error', e); }
-}
-
 /* ===== AUTH ===== */
 function showAuthOverlay(){
   el.overlay.classList.add('show'); document.body.classList.add('locked');
@@ -712,6 +637,13 @@ function handleAuthSubmit(){
 }
 function setStatus(msg, err){ el.authStatus.textContent=msg; el.authStatus.classList.toggle('error', !!err); }
 function closeOverlay(){ el.overlay.classList.remove('show'); document.body.classList.remove('locked'); }
+function updateIdentityUI(){
+  const who=$('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'neprihlásený');
+  if(el.uploadSection) el.uploadSection.hidden = !state.isAdmin;
+  if(el.brandingSection) el.brandingSection.hidden = !state.isAdmin;
+  if(el.adminGhSection) el.adminGhSection.hidden = !state.isAdmin;
+  if(el.identitySection) el.identitySection.hidden = !state.isAdmin;
+}
 
 /* ===== LocalStorage ===== */
 function tryLoadLocal(){
@@ -721,7 +653,6 @@ function tryLoadLocal(){
     const wines = JSON.parse(localStorage.getItem(LS_KEYS.wines) || '[]'); if(Array.isArray(wines)&&wines.length) state.wines=normalizeWines(wines);
     const hh = localStorage.getItem(LS_KEYS.hasHeader); if(hh!==null) state.hasHeader=JSON.parse(hh);
     const pp = localStorage.getItem(LS_KEYS.persist); if(pp!==null) state.persistWines=JSON.parse(pp);
-    const map = localStorage.getItem(LS_KEYS.map); if(map) state.columnMap=JSON.parse(map);
     const gh = localStorage.getItem(LS_KEYS.gh); if(gh){ try{ state.gh=JSON.parse(gh)||state.gh; }catch{} }
     const branding = localStorage.getItem(LS_KEYS.branding); if(branding){ try{ state.branding={...state.branding, ...(JSON.parse(branding)||{})}; }catch{} }
   }catch(e){ console.warn('Local load error', e); }
@@ -741,7 +672,7 @@ function onLoadXLSX(){
       if(state.persistWines){ try{ localStorage.setItem(LS_KEYS.wines, JSON.stringify(state.wines)); }catch(_){ showToast('Dataset je veľký – ponechaný len v pamäti.'); } }
       rebuildFilterOptions();
       renderTable(); updateStats();
-      document.getElementById('table-status').textContent=`Načítaných položiek: ${state.wines.length}`;
+      el.tableStatus.textContent=`Načítaných položiek: ${state.wines.length}`;
       showToast(`Načítaných položiek: ${state.wines.length}`);
     }catch(err){ console.error(err); alert('Chyba pri čítaní XLSX.'); }
   };
@@ -790,9 +721,6 @@ async function publishCatalogToGitHub(){
 /* ===== Branding ===== */
 function persistBranding(){ try{ localStorage.setItem(LS_KEYS.branding, JSON.stringify(state.branding)); }catch(_){} }
 function applyBranding(){
-  // logo
-  if(state.branding.logoUrl){ el.appLogo.src = state.branding.logoUrl; }
-  else { el.appLogo.src = 'assets/img/logo.png'; }
   // pozadie pre overlay – fallback + fit
   const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
   document.documentElement.style.setProperty('--branding-bg', bg);
@@ -800,7 +728,6 @@ function applyBranding(){
   document.documentElement.style.setProperty('--branding-fit', fit==='auto'?'auto':fit);
   // naplniť vstupy (ak existujú)
   if(el.bgFit) el.bgFit.value = state.branding.bgFit || 'cover';
-  if(el.logoUrl) el.logoUrl.value = state.branding.logoUrl || '';
   if(el.bgUrl) el.bgUrl.value = state.branding.bgUrl || '';
 }
 
