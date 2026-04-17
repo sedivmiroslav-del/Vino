@@ -4,12 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin exporty (e‑maily a hodnotenia), ukladanie e‑mailov a hodnotení na GitHub, kompaktná responzívna tabuľka, export do PDF." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín (zachovanie poradia stĺpcov ako v Exceli), pevné filtre A–B–D, ukladanie e‑mailov a hodnotení na GitHub, admin publikácia katalógu aj pozadia na GitHub, responzívna tabuľka so sticky hlavičkou." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
 :root{
-  /* Paleta */
+  /* Paleta (požadované farby) */
   --green: rgb(0,137,6);
   --gray: rgb(135,135,135);
   --light: rgb(206,213,218);
@@ -95,7 +95,7 @@ body.locked{ overflow:hidden; }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
 
-/* ===== Filtre – pevné 3 ===== */
+/* ===== Filtre – pevné (A,B,D) ===== */
 .filter-bar{
   display:flex; align-items:center; flex-wrap:wrap;
   gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
@@ -113,12 +113,13 @@ body.locked{ overflow:hidden; }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabuľka – kompaktné stĺpce, bez horizontálneho posuvu ===== */
-.table-wrap{ width:100%; overflow:hidden; }
+/* ===== Tabuľka – verná Excelu, sticky hlavička, horizontálny posuv na mobile ===== */
+.table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
 table{
   width:100%;
   border-collapse:separate; border-spacing:0;
   table-layout:auto; /* šírky prispôsobené obsahu */
+  min-width: 760px; /* zabezpečí scrollbar na úzkych obrazovkách, nie orezanie */
   font-size: 0.95rem;
 }
 thead th{
@@ -130,15 +131,11 @@ th,td{
   border-bottom:1px solid var(--border);
   padding:.55rem .5rem; text-align:left; vertical-align:top;
   white-space: normal;
-  word-break: normal;          /* NEštiep slová po písmenách */
-  overflow-wrap: break-word;   /* lámaj na medzerách/dlhých slovách */
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.08); }
-
-/* Kompozitné bunky */
-.cell-main{ font-weight: 700; }
-.cell-sub{ display:block; color: var(--muted); font-size:.9em; line-height:1.35; margin-top:.15rem; }
 
 /* Vstup hodnotenia */
 .rating-input{
@@ -162,7 +159,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 .status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
 .error{ color:#b00020; font-weight:700; }
 .footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
-.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color:var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
+.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
 /* ===== HERO prihlasovanie – oprava zobrazenia pozadia na mobile ===== */
@@ -177,7 +174,6 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   background-size: var(--branding-fit);
   background-position:center center;
   background-repeat:no-repeat;
-  filter: none;
 }
 .overlay .shade{
   position:absolute; inset:0;
@@ -194,12 +190,13 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   .filter-bar{ padding:.6rem; }
   .filter-bar .group{ flex:1 1 100%; min-width:0; }
   .select-pill{ width:100%; }
-  table{ font-size: .92rem; }
+  /* tabuľka – menšie písmo, zachováme horizontálny posuv (žiadne orezanie) */
+  table{ font-size: .92rem; min-width: 680px; }
   th, td{ padding: .45rem .4rem; }
   .rating-input{ max-width: 96px; font-size:.9rem; padding:.42rem .4rem; }
 }
 @media (max-width: 480px){
-  table{ font-size: .88rem; }
+  table{ font-size: .88rem; min-width: 640px; }
   th, td{ padding: .36rem .32rem; }
   .rating-input{ max-width: 88px; font-size:.86rem; }
 }
@@ -241,7 +238,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   <div class="header__inner">
     <div class="header__text">
       <h1 class="title">Katalóg vín – hodnotenia</h1>
-      <p class="subtitle">Prihlásenie je povinné. Hlavička sa prispôsobí XLSX. Filtre sú pevné (poradie, vystavovateľ, odroda). Kompaktné stĺpce.</p>
+      <p class="subtitle">Tabuľka a hlavička sa preberú presne z Excelu (prvý hárok). Filtre: A – B – D. Hlavička je ukotvená.</p>
     </div>
   </div>
   <div class="header__stats" role="region" aria-label="Štatistiky">
@@ -260,17 +257,16 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
       <p>Aktuálny používateľ: <strong id="whoami">neprihlásený</strong>.</p>
       <div class="inline-row" style="display:flex;gap:.5rem;flex-wrap:wrap">
         <button id="btn-relogin" class="btn btn-ghost" type="button">Zmeniť používateľa</button>
-        <button id="btn-load-catalog-gh" class="btn btn-primary" type="button">Načítať katalóg z GitHubu</button>
+        <button id="btn-load-catalog-gh" class="btn btn-ghost" type="button">Načítať katalóg z GitHubu</button>
         <button id="btn-set-gh-token" class="btn btn-ghost" type="button">Nastaviť GitHub token</button>
       </div>
-      <p style="margin:.4rem 0 0;font-size:.9rem;color:#444">GitHub zapis: repo sa odvodí z GitHub Pages. Súbory: data/emails.csv, data/ratings.csv.</p>
     </div>
   </section>
 
   <section id="upload-section" class="card card--nohead" hidden>
     <div class="card__body">
       <h3>Nahratie XLSX katalógu (ADMIN)</h3>
-      <p>Použije sa prvý hárok. Prvý riadok definuje hlavičky stĺpcov. Identifikátor vyhodnotíme z poradia/čísla/#/ID, inak prvý stĺpec.</p>
+      <p>Použije sa prvý hárok. Prvý riadok definuje hlavičky stĺpcov, ktoré sa zobrazia presne tak, ako v Exceli.</p>
       <div class="input-group" style="margin-bottom:1rem">
         <label for="file-input" class="required">Súbor XLSX</label>
         <div style="display:flex;gap:.5rem;flex-wrap:wrap">
@@ -281,28 +277,58 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
           <label style="display:flex;align-items:center;gap:.4rem" title="Pozor na veľké súbory."><input id="persist-wines" type="checkbox" /> Ukladať katalóg do prehliadača</label>
         </div>
       </div>
+      <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button id="btn-publish-github" class="btn btn-primary" type="button">Uložiť katalóg na GitHub</button>
+      </div>
     </div>
   </section>
 
-  <!-- Filtre – pevné 3 -->
+  <section id="branding-section" class="card card--nohead" hidden>
+    <div class="card__body">
+      <h3>Branding (pozadie prihlasovania)</h3>
+      <div class="input-group" style="margin-bottom:1rem">
+        <label for="bg-file">Nahrať pozadie (PNG/JPG)</label>
+        <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
+      </div>
+      <div class="input-group" style="margin-bottom:1rem">
+        <label for="bg-url">URL pozadia</label>
+        <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
+          <button id="btn-set-bg-url" class="btn btn-ghost" type="button">Použiť URL pozadia</button>
+          <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovať pozadie</button>
+          <label style="display:flex;align-items:center;gap:.4rem">Zobrazenie
+            <select id="bg-fit" style="padding:.4rem;border:1px solid var(--border);border-radius:8px;margin-left:.3rem">
+              <option value="cover">Vyplniť (cover)</option>
+              <option value="contain">Obsiahnuť (contain)</option>
+              <option value="auto">Auto</option>
+            </select>
+          </label>
+          <button id="btn-upload-bg-github" class="btn btn-primary" type="button">Uložiť pozadie na GitHub</button>
+          <button id="btn-use-gh-bg" class="btn btn-ghost" type="button">Použiť GH pozadie</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filtre – pevné A (1. stĺpec), B (2.), D (4.) -->
   <section class="card card--nohead" aria-label="Filtrovanie katalógu">
     <div class="card__body" style="padding: .6rem var(--space-5);">
       <div class="filter-bar" role="region" aria-label="Roletkové filtre">
         <div class="group">
-          <label for="filter-poradie">Číslo vzorku</label>
-          <select id="filter-poradie" class="select-pill" aria-label="Filter Poradové číslo">
+          <label for="filter-poradie">Stĺpec A</label>
+          <select id="filter-poradie" class="select-pill" aria-label="Filter – Stĺpec A">
             <option value="">Všetky</option>
           </select>
         </div>
         <div class="group">
-          <label for="filter-vystavovatel">Vystavovateľ</label>
-          <select id="filter-vystavovatel" class="select-pill" aria-label="Filter Vystavovateľ">
-            <option value="">Všetci</option>
+          <label for="filter-vystavovatel">Stĺpec B</label>
+          <select id="filter-vystavovatel" class="select-pill" aria-label="Filter – Stĺpec B">
+            <option value="">Všetky</option>
           </select>
         </div>
         <div class="group">
-          <label for="filter-odroda">Odroda</label>
-          <select id="filter-odroda" class="select-pill" aria-label="Filter Odroda">
+          <label for="filter-odroda">Stĺpec D</label>
+          <select id="filter-odroda" class="select-pill" aria-label="Filter – Stĺpec D">
             <option value="">Všetky</option>
           </select>
         </div>
@@ -311,14 +337,14 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
     </div>
   </section>
 
-  <!-- Tabuľka katalógu -->
+  <!-- Tabuľka katalógu (presne podľa Excelu) -->
   <section class="card card--nohead" aria-label="Katalóg vín">
     <div class="card__body">
-      <div class="table-wrap" role="region" aria-label="Tabuľka katalógu vín">
+      <div class="table-responsive" role="region" aria-label="Tabuľka katalógu vín">
         <table id="wine-table">
           <thead id="wine-thead">
             <tr id="thead-row">
-              <!-- dynamické: kompaktné stĺpce -->
+              <!-- Dynamické hlavičky z Excelu -->
             </tr>
           </thead>
           <tbody id="wine-tbody"></tbody>
@@ -352,17 +378,19 @@ const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
+const defaultBrandingPath = 'assets/img/branding.jpg';
 
 /* ===== STAV ===== */
 const state = {
   wines: [],
   columns: [],
-  idColumn: null,
+  idColumn: null, // použitý pre párovanie hodnotení
   ratings: [],
   email: null,
   isAdmin: false,
-  filters: { poradie:'', vystavovatel:'', odroda:'' }, // pevné 3 filtre
-  gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath: defaultEmailsPath, ratingsPath: defaultRatingsPath, token:'' },
+  // pevné filtre: A (index 0), B (index 1), D (index 3)
+  filters: { A:'', B:'', D:'' },
+  gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath: defaultEmailsPath, ratingsPath: defaultRatingsPath, brandingPath: defaultBrandingPath, token:'' },
   branding: { bgUrl:'', bgFit:'cover' },
   pager: { page: 1, perPage: 30 },
   emailsSeen: []
@@ -377,12 +405,13 @@ const el = {
   overlay: $('auth-overlay'), authInput:$('auth-input'), authSubmit:$('auth-submit'), authStatus:$('auth-status'),
   wineBody:$('wine-tbody'), wineThead:$('wine-thead'), theadRow:$('thead-row'), paginator:$('paginator'), tableStatus:$('table-status'),
   year:$('year'), toast:$('toast'),
-  fPoradie:$('filter-poradie'), fVyst:$('filter-vystavovatel'), fOdr:$('filter-odroda'), btnClearFilters:$('btn-clear-filters'),
+  fA:$('filter-poradie'), fB:$('filter-vystavovatel'), fD:$('filter-odroda'), btnClearFilters:$('btn-clear-filters'),
   btnExportPDF:$('btn-export-pdf'), btnExportEmails:$('btn-export-emails'), btnExportRatings:$('btn-export-ratings'),
   uploadSection:$('upload-section'), brandingSection:$('branding-section'), identitySection:$('identity-section'),
   btnRelogin:$('btn-relogin'), btnLoadCatalogGH:$('btn-load-catalog-gh'), btnSetGhToken:$('btn-set-gh-token'),
-  file:$('file-input'), hasHeader:$('has-header'), persistWines:$('persist-wines'), btnLoad:$('btn-load'), btnClearData:$('btn-clear-data'),
-  bgFile:$('bg-file'), bgUrl:$('bg-url'), btnSetBgUrl:$('btn-set-bg-url'), btnResetBg:$('btn-reset-bg'), bgFit:$('bg-fit')
+  file:$('file-input'), hasHeader:$('has-header'), persistWines:$('persist-wines'), btnLoad:$('btn-load'), btnClearData:$('btn-clear-data'), btnPublishGH:$('btn-publish-github'),
+  bgFile:$('bg-file'), bgUrl:$('bg-url'), btnSetBgUrl:$('btn-set-bg-url'), btnResetBg:$('btn-reset-bg'), bgFit:$('bg-fit'),
+  btnUploadBgGH:$('btn-upload-bg-github'), btnUseGhBg:$('btn-use-gh-bg')
 };
 
 /* ===== UTIL ===== */
@@ -390,29 +419,18 @@ function showToast(text){ if(!el.toast) return; el.toast.textContent=text; el.to
 function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email); }
 function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=parseInt(String(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
 function b64ToUtf8(base64){ const bin = atob(base64.replace(/\n/g,'')); const bytes = new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(bytes); }
+function toBase64FromArrayBuffer(buf){ let bin=''; const bytes=new Uint8Array(buf); for(let i=0;i<bytes.byteLength;i++) bin+=String.fromCharCode(bytes[i]); return btoa(bin); }
 function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function guessIdColumn(columns){
-  const lower = columns.map(c=>c.toLowerCase());
-  const candidates = ['poradové číslo','poradove cislo','poradie','číslo','cislo','#','id'];
-  for(const c of candidates){ const idx = lower.findIndex(x=>x===c); if(idx>=0) return columns[idx]; }
+  // preferuj prvý stĺpec (A) – v katalógoch býva číslo
   return columns[0] || null;
 }
 function ensureWineId(w){
   const idCol = state.idColumn;
   if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim();
-  if(w.id!=null) return String(w.id);
-  if(w.poradie!=null) return String(w.poradie);
-  const alt = findColumnAlias(['Číslo','#','ID','id','Poradové číslo','Poradie']); if(alt && w[alt]!=null) return String(w[alt]);
+  // záloha – ak nie je
+  const firstCol = state.columns[0]; if(firstCol && w[firstCol]!=null) return String(w[firstCol]);
   return '';
-}
-function findColumnAlias(names){
-  if(!state.columns || !state.columns.length) return null;
-  const lower=state.columns.map(c=>c.toLowerCase().trim());
-  for(const n of names){
-    const i=lower.indexOf(String(n).toLowerCase().trim());
-    if(i>=0) return state.columns[i];
-  }
-  return null;
 }
 function downloadText(filename, text){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
@@ -441,7 +459,6 @@ function updateIdentityUI(){
   if(el.uploadSection) el.uploadSection.hidden = !state.isAdmin;
   if(el.brandingSection) el.brandingSection.hidden = !state.isAdmin;
   if(el.identitySection) el.identitySection.hidden = !state.isAdmin;
-  // admin exporty
   if(el.btnExportEmails) el.btnExportEmails.hidden = !state.isAdmin;
   if(el.btnExportRatings) el.btnExportRatings.hidden = !state.isAdmin;
 }
@@ -449,7 +466,6 @@ function rememberEmail(email){
   const set = new Set([...(state.emailsSeen||[]), email]);
   state.emailsSeen = Array.from(set);
   try{ localStorage.setItem(LS.emails, JSON.stringify(state.emailsSeen)); }catch(_){}
-  // pokus o zápis na GitHub (ak je nakonfigurovaný)
   ghAppendEmail(email).catch(()=>{});
 }
 function handleAuthSubmit(){
@@ -466,59 +482,63 @@ function handleAuthSubmit(){
   renderAll(); showToast('Prihlásenie úspešné.');
 }
 
-/* ===== FILTRE (pevné) ===== */
+/* ===== FILTRE (A, B, D) ===== */
 function applyFilters(arr){
   const f=state.filters;
-  const colPoradie = findColumnAlias(['Poradové číslo','Poradie','Číslo','#','ID','id','cislo','číslo vzorku']);
-  const colVyst = findColumnAlias(['Vystavovateľ','Vystavovatel']);
-  const colOdr = findColumnAlias(['Odroda']);
+  const A = state.columns[0], B = state.columns[1], D = state.columns[3];
   return arr.filter(w=>{
-    if(f.poradie && colPoradie && String((w[colPoradie]??'')).trim()!==f.poradie) return false;
-    if(f.vystavovatel && colVyst && String((w[colVyst]??'')).toLowerCase()!==f.vystavovatel) return false;
-    if(f.odroda && colOdr && String((w[colOdr]??'')).toLowerCase()!==f.odroda) return false;
+    if(f.A && A && String(w[A]??'').trim() !== f.A) return false;
+    if(f.B && B && String(w[B]??'').toLowerCase() !== String(f.B).toLowerCase()) return false;
+    if(f.D && D && String(w[D]??'').toLowerCase() !== String(f.D).toLowerCase()) return false;
     return true;
   });
 }
 function onFilterChange(){
-  state.filters.poradie = el.fPoradie ? el.fPoradie.value : '';
-  state.filters.vystavovatel = el.fVyst ? (el.fVyst.value||'').toLowerCase() : '';
-  state.filters.odroda = el.fOdr ? (el.fOdr.value||'').toLowerCase() : '';
+  state.filters.A = el.fA ? el.fA.value : '';
+  state.filters.B = el.fB ? (el.fB.value||'') : '';
+  state.filters.D = el.fD ? (el.fD.value||'') : '';
   state.pager.page=1; renderTable(); updateStats();
 }
 function rebuildFilterOptions(){
-  const poradieCol = findColumnAlias(['Poradové číslo','Poradie','Číslo','#','ID','id','cislo','číslo vzorku']);
-  const vystCol = findColumnAlias(['Vystavovateľ','Vystavovatel']);
-  const odrCol = findColumnAlias(['Odroda']);
-
-  const porSet=new Set(), vystSet=new Set(), odrSet=new Set();
+  const A = state.columns[0], B = state.columns[1], D = state.columns[3];
+  const setA=new Set(), setB=new Set(), setD=new Set();
   for(const w of state.wines){
-    if(poradieCol){ const v=w[poradieCol]; if(v!==undefined && v!==null && v!=='') porSet.add(String(v).trim()); }
-    if(vystCol){ const v=w[vystCol]; if(v) vystSet.add(String(v).trim()); }
-    if(odrCol){ const v=w[odrCol]; if(v) odrSet.add(String(v).trim()); }
+    if(A){ const v=w[A]; if(v!==undefined&&v!==null&&v!=='') setA.add(String(v).trim()); }
+    if(B){ const v=w[B]; if(v) setB.add(String(v).trim()); }
+    if(D){ const v=w[D]; if(v) setD.add(String(v).trim()); }
   }
-
   const fill=(sel,values,ph,sortType='text')=>{
     if(!sel) return;
     const cur=sel.value; sel.innerHTML=''; const opt0=document.createElement('option'); opt0.value=''; opt0.textContent=ph; sel.appendChild(opt0);
     const arr=Array.from(values);
     if(sortType==='num') arr.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
-    else arr.sort((a,b)=>a.localeCompare(b,'sk',{sensitivity:'base'}));
+    else arr.sort((a,b)=>String(a).localeCompare(String(b),'sk',{sensitivity:'base'}));
     for(const v of arr){ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); }
     sel.value = arr.includes(cur) ? cur : '';
     sel.disabled = arr.length===0;
+    // label podľa skutočnej hlavičky
+    const lab = sel.previousElementSibling;
+    if(lab && lab.tagName==='LABEL'){
+      if(sel===el.fA && A) lab.textContent = A;
+      if(sel===el.fB && B) lab.textContent = B;
+      if(sel===el.fD && D) lab.textContent = D;
+    }
   };
-
-  fill(el.fPoradie, porSet, 'Všetky', 'num');
-  fill(el.fVyst, vystSet, 'Všetci');
-  fill(el.fOdr, odrSet, 'Všetky');
+  const isNumericSet = s => Array.from(s).every(v=>/^\d+$/.test(String(v)));
+  fill(el.fA, setA, 'Všetky', isNumericSet(setA)?'num':'text');
+  fill(el.fB, setB, 'Všetky');
+  fill(el.fD, setD, 'Všetky');
 }
 
-/* ===== RENDER HLAVIČKY a TABUĽKY (kompaktné stĺpce) ===== */
+/* ===== RENDER HLAVIČKY a TABUĽKY (verná Excelu) ===== */
 function renderHeader(){
   const theadRow = el.theadRow; if(!theadRow) return;
   theadRow.innerHTML='';
-  const headers = ['#','Vystavovateľ','Odroda','Body (oficiálne)','Moje body (0–100)','Stav'];
-  for(const h of headers){ const th=document.createElement('th'); th.textContent=h; theadRow.appendChild(th); }
+  for(const col of state.columns){
+    const th=document.createElement('th'); th.textContent=col; theadRow.appendChild(th);
+  }
+  const thMy=document.createElement('th'); thMy.textContent='Moje body (0–100)'; theadRow.appendChild(thMy);
+  const thState=document.createElement('th'); thState.textContent='Stav'; theadRow.appendChild(thState);
 }
 
 function renderPagination(total,page,pages){
@@ -536,7 +556,7 @@ function renderPagination(total,page,pages){
   const win=2; let s=Math.max(1,page-win), e=Math.min(pages,page+win);
   if(s>1){ nav.appendChild(mk('1',1,{active:page===1})); if(s>2){ const span=document.createElement('span'); span.textContent='…'; nav.appendChild(span);} }
   for(let p=s;p<=e;p++) nav.appendChild(mk(String(p),p,{active:p===page}));
-  if(e<pages){ if(e<pages-1){ const span=document.createElement('span'); span.textContent='…'; nav.appendChild(span);} nav.appendChild(mk(String(pages),pages,{active:page===pages})); }
+  if(e<pages){ if(e<pages-1){ const span=document.createElement('span'); span.textContent='…'; nav.appendChild(span);} nav.appendChild(mk(String(pages),pages,{active:p===pages})); }
   nav.appendChild(mk('›',Math.min(pages,page+1),{disabled:page===pages}));
   nav.appendChild(mk('»',pages,{disabled:page===pages}));
 }
@@ -548,51 +568,20 @@ function renderTable(){
   const page=Math.min(Math.max(1,state.pager.page||1),pages); state.pager.page=page;
   const slice=filtered.slice((page-1)*per,(page-1)*per+per);
 
-  const colPoradie = findColumnAlias(['Poradové číslo','Poradie','Číslo','#','ID','id','cislo','číslo vzorku']);
-  const colVyst = findColumnAlias(['Vystavovateľ','Vystavovatel']);
-  const colAdr  = findColumnAlias(['Adresa']);
-  const colOdr  = findColumnAlias(['Odroda']);
-  const colRok  = findColumnAlias(['Ročník','Rocnik']);
-  const colPrv  = findColumnAlias(['Prívlastok','Privlastok']);
-  const colBody = findColumnAlias(['Body','Body (oficiálne)','Body (oficialne)','Body (oficiálne )']);
-
   for(const w of slice){
     const tr=document.createElement('tr');
-
-    // # (poradie)
-    const tdIdx=document.createElement('td');
-    tdIdx.textContent = colPoradie ? (w[colPoradie]??'') : (w.id??'');
-    tr.appendChild(tdIdx);
-
-    // Vystavovateľ (meno + pod tým adresa s odrážkou)
-    const tdVyst=document.createElement('td');
-    const name = colVyst ? (w[colVyst]??'') : '';
-    const adr = colAdr ? (w[colAdr]??'') : '';
-    const main = document.createElement('div'); main.className='cell-main'; main.textContent=String(name);
-    tdVyst.appendChild(main);
-    if(adr){ const sub=document.createElement('span'); sub.className='cell-sub'; sub.textContent='• '+String(adr); tdVyst.appendChild(sub); }
-    tr.appendChild(tdVyst);
-
-    // Odroda (odroda + pod tým „• ročník – prívlastok“)
-    const tdOdr=document.createElement('td');
-    const od = colOdr ? (w[colOdr]??'') : '';
-    const rok = colRok ? (w[colRok]??'') : '';
-    const prv = colPrv ? (w[colPrv]??'') : '';
-    const mO=document.createElement('div'); mO.className='cell-main'; mO.textContent=String(od); tdOdr.appendChild(mO);
-    const extra=[];
-    if(rok!=='' && rok!=null) extra.push(String(rok));
-    if(prv) extra.push(String(prv));
-    if(extra.length){ const sub=document.createElement('span'); sub.className='cell-sub'; sub.textContent='• '+extra.join(' – '); tdOdr.appendChild(sub); }
-    tr.appendChild(tdOdr);
-
-    // Body (oficiálne) – ak existujú
-    const tdBody=document.createElement('td');
-    tdBody.textContent = colBody ? (w[colBody]??'') : '';
-    tr.appendChild(tdBody);
+    // bunky podľa Excel stĺpcov
+    for(const col of state.columns){
+      const td=document.createElement('td');
+      let v = w[col]; if(v===undefined || v===null) v='';
+      td.textContent = String(v);
+      td.title = String(v);
+      tr.appendChild(td);
+    }
 
     // Moje body
-    const tdMy=document.createElement('td'); tdMy.setAttribute('data-label','Moje body (0–100)');
-    const input=document.createElement('input'); input.type='number'; input.min='0'; input.max='100'; input.step='1';
+    const tdMy=document.createElement('td'); const input=document.createElement('input');
+    input.type='number'; input.min='0'; input.max='100'; input.step='1';
     input.placeholder='0–100'; input.className='rating-input';
     const wid = ensureWineId(w);
     input.setAttribute('aria-label','Moje body pre položku '+(wid||''));
@@ -604,13 +593,11 @@ function renderTable(){
     tdMy.appendChild(input); tr.appendChild(tdMy);
 
     // Stav
-    const tdState=document.createElement('td'); tdState.setAttribute('data-label','Stav');
-    const badge=document.createElement('span'); badge.className='badge';
+    const tdState=document.createElement('td'); const badge=document.createElement('span'); badge.className='badge';
     if(ex){ badge.classList.add('done'); badge.textContent='Hodnotené'; }
     else if(state.email){ badge.classList.add('pending'); badge.textContent='Čaká na hodnotenie'; }
     else{ badge.classList.add('lock'); badge.textContent='Uzamknuté'; }
-    tdState.appendChild(badge);
-    tr.appendChild(tdState);
+    tdState.appendChild(badge); tr.appendChild(tdState);
 
     tbody.appendChild(tr);
   }
@@ -635,9 +622,7 @@ function handleRateSubmit(wineObj,inputEl,rowEl){
   const record = { email:state.email, wineId:String(wid), points:value, timestamp:new Date().toISOString() };
   state.ratings.push(record);
   try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
-  // zápis na GitHub (ak je nakonfigurovaný)
   ghAppendRating(record).catch(()=>{});
-  // UI
   inputEl.disabled=true;
   const badge = rowEl.querySelector('.badge'); if(badge){ badge.classList.remove('pending','lock'); badge.classList.add('done'); badge.textContent='Hodnotené'; }
   updateStats();
@@ -660,6 +645,7 @@ function inferGhFromLocation(){
         state.gh.catalogPath ||= (catalogOverride || defaultCatalogPath);
         state.gh.emailsPath ||= defaultEmailsPath;
         state.gh.ratingsPath ||= defaultRatingsPath;
+        state.gh.brandingPath ||= defaultBrandingPath;
         localStorage.setItem(LS.gh, JSON.stringify(state.gh));
       }
     }
@@ -675,7 +661,17 @@ async function ghGetFile(path){
   const headers={ 'Accept':'application/vnd.github+json' }; if(state.gh.token) headers['Authorization']=`Bearer ${state.gh.token}`;
   const res=await fetch(url,{headers}); if(res.status===404) return null; if(!res.ok) throw new Error('GitHub GET error '+res.status); return res.json();
 }
-/* zápis textového obsahu na GitHub (create/replace) */
+async function ensureGhWriteConfig(){
+  if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+  if(!state.gh.owner || !state.gh.repo){ showToast('GH: chýba owner/repo'); return false; }
+  if(!state.gh.token){
+    const t = prompt('Zadajte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
+    if(!t){ showToast('GH token nebol zadaný.'); return false; }
+    state.gh.token=t.trim();
+    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
+  }
+  return true;
+}
 async function ghPutFile(path, contentText, message){
   if(!(await ensureGhWriteConfig())) return false;
   const existing = await ghGetFile(path);
@@ -686,51 +682,45 @@ async function ghPutFile(path, contentText, message){
   if(!res.ok){ console.warn('GH PUT fail', await res.text()); return false; }
   return true;
 }
-/* zabezpečenie GH write konfigurácie (len ADMIN) */
-async function ensureGhWriteConfig(){
-  if(!state.isAdmin){ return false; } // z bezpečnostných dôvodov zapisujeme len pri admin s tokenom
-  if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-  if(!state.gh.owner || !state.gh.repo) { showToast('GH: chýba owner/repo'); return false; }
-  if(!state.gh.token){
-    const t = prompt('Zadajte GitHub Personal Access Token (repo – Content). Token sa uloží lokálne do prehliadača:', state.gh.token||'');
-    if(!t){ showToast('GH token nebol zadaný.'); return false; }
-    state.gh.token=t.trim();
-    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
-  }
+async function ghPutBinaryFile(path, arrayBuffer, message){
+  if(!(await ensureGhWriteConfig())) return false;
+  const existing = await ghGetFile(path);
+  const body = { message: message || 'upload binary', content: toBase64FromArrayBuffer(arrayBuffer), branch: state.gh.branch||'main' };
+  if(existing && existing.sha) body.sha = existing.sha;
+  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}`;
+  const res=await fetch(url,{method:'PUT',headers:{'Accept':'application/vnd.github+json','Authorization':`Bearer ${state.gh.token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){ console.warn('GH PUT binary fail', await res.text()); return false; }
   return true;
 }
-/* Pridaj e‑mail do CSV (head: email) – bez duplicít (server-side nie je, tak len best effort) */
+
+/* Append email do CSV */
 async function ghAppendEmail(email){
-  if(!state.isAdmin) return; // zapisujeme len v admin móde
+  // Zapisujeme, len keď je k dispozícii GH token (zadá admin raz – uloží sa do LS)
+  if(!state.gh.token) return;
   try{
     const meta = await ghGetFile(state.gh.emailsPath);
     let text = 'email\n';
     if(meta && meta.content){ text = b64ToUtf8(meta.content); }
-    // ak e‑mail už je, nič
     if(new RegExp('^"?' + email.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '"?\\s*$', 'm').test(text)) return;
     if(!/[\r\n]$/.test(text)) text += '\n';
     text += `"${email.replace(/"/g,'""')}"\n`;
     await ghPutFile(state.gh.emailsPath, text, 'append email');
   }catch(e){ console.warn('GH append email error', e); }
 }
-/* Pridaj hodnotenie do CSV: katalógové stĺpce + email + points + timestamp */
+/* Append rating do CSV */
 async function ghAppendRating(record){
-  if(!state.isAdmin) return; // zapisujeme len v admin móde
+  if(!state.gh.token) return;
   try{
-    // priprav hlavičku podľa aktuálnych columns
     const head = [...state.columns, 'email','points','timestamp'];
-    const map = new Map();
-    for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
+    const map = new Map(); for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
     const rowObj = map.get(String(record.wineId)) || {};
-    const row = [];
-    for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
+    const row = []; for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
     row.push(record.email, String(record.points), record.timestamp);
     const encode = arr => arr.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',');
     const meta = await ghGetFile(state.gh.ratingsPath);
     let text = encode(head) + '\n';
     if(meta && meta.content){
       text = b64ToUtf8(meta.content);
-      // ak chýba hlavička (bez 'email'), prepíšme ju
       if(!/^.*email,points,timestamp\s*$/m.test(text.split('\n',1)[0])){
         text = encode(head) + '\n' + text.split('\n').slice(1).join('\n');
       }
@@ -741,10 +731,35 @@ async function ghAppendRating(record){
   }catch(e){ console.warn('GH append rating error', e); }
 }
 
+/* Publikuj aktuálny katalóg na GH ako JSON (presne stĺpce+poradie) */
+async function publishCatalogToGitHub(){
+  if(!state.wines.length){ alert('Žiadne dáta na publikovanie.'); return; }
+  const payload = JSON.stringify(state.wines, null, 2);
+  const ok = await ghPutFile(state.gh.catalogPath || defaultCatalogPath, payload, 'publish catalog');
+  if(ok) showToast('Katalóg bol uložený na GitHub.');
+}
+
+/* Ulož branding obrázok na GH a nastav ho */
+async function uploadBrandingToGitHub(){
+  const f = el.bgFile && el.bgFile.files && el.bgFile.files[0]; if(!f){ alert('Vyberte obrázok.'); return; }
+  const buf = await f.arrayBuffer();
+  const ok = await ghPutBinaryFile(state.gh.brandingPath || defaultBrandingPath, buf, 'upload branding');
+  if(ok){
+    const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
+    state.branding.bgUrl = raw; persistBranding(); applyBranding();
+    showToast('Pozadie uložené na GitHub a použité.');
+  }
+}
+function useGitHubBranding(){
+  if(!state.gh.owner || !state.gh.repo){ inferGhFromLocation(); }
+  const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
+  state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použité GH pozadie.');
+}
+
 /* ===== GH LOAD (dataset) ===== */
 async function loadCatalogFromGitHubAPI(){
   try{
-    const meta=await ghGetFile(state.gh.catalogPath);
+    const meta=await ghGetFile(state.gh.catalogPath || defaultCatalogPath);
     if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
     const json=b64ToUtf8(meta.content);
     const arr=JSON.parse(json);
@@ -755,14 +770,14 @@ async function loadCatalogFromGitHubAPI(){
     showToast(`Katalóg (API): ${arr.length}`);
   }catch(e){ console.error(e); alert('Načítanie katalógu zlyhalo.'); }
 }
-function ensureGhConfigured(){ return !!(state.gh.owner && state.gh.repo && (state.gh.branch||'main') && state.gh.catalogPath); }
+function ensureGhConfigured(){ return !!(state.gh.owner && state.gh.repo); }
 async function loadCatalogSmart(){
   if(!ensureGhConfigured()){
     inferGhFromLocation();
     if(!ensureGhConfigured()){ showToast('Chýbajú GitHub nastavenia.'); return; }
   }
-  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
-  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
+  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${(state.gh.catalogPath||defaultCatalogPath).replace(/^\//,'')}`;
+  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.catalogPath||defaultCatalogPath).replace(/^\//,'')}`;
 
   try{
     const d1=await fetchPublicJSON(pagesUrl);
@@ -806,12 +821,12 @@ function handleBgFile(ev){
   reader.onload = e => {
     state.branding.bgUrl = e.target.result;
     persistBranding(); applyBranding();
-    showToast('Pozadie bolo nahraté a uložené.');
+    showToast('Pozadie bolo nahraté a uložené (lokálne).');
   };
   reader.readAsDataURL(f);
 }
 
-/* ===== XLSX IMPORT (admin) ===== */
+/* ===== XLSX IMPORT (presne podľa Excelu) ===== */
 function parseRowsWithHeader(rows){
   if(!rows || !rows.length) return { columns:[], data:[] };
   const start= (el.hasHeader && el.hasHeader.checked) ? 1 : 0;
@@ -868,9 +883,8 @@ function onLoadXLSX(){
 
 /* ===== JSON dáta (GitHub) -> columns ===== */
 function adoptColumnsFromData(arr){
-  // nezobrazuj „id“ stĺpec (ak existuje v JSON)
   const first = arr[0] || {};
-  const cols = Object.keys(first).filter(k=>k.toLowerCase()!=='id');
+  const cols = Object.keys(first);
   state.columns = cols;
   state.idColumn = guessIdColumn(cols);
 }
@@ -966,28 +980,31 @@ document.addEventListener('DOMContentLoaded', ()=>{
   el.authInput && el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
   // Admin handlers
-  if($('btn-load-catalog-gh')) $('btn-load-catalog-gh').addEventListener('click', loadCatalogSmart);
-  if(el.btnSetGhToken) el.btnSetGhToken.addEventListener('click', async ()=>{ if(!state.isAdmin){ alert('Len admin.'); return; } await ensureGhWriteConfig(); showToast('GH token nastavený.'); });
+  if(el.btnLoadCatalogGH) el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart);
+  if(el.btnSetGhToken) el.btnSetGhToken.addEventListener('click', async ()=>{ const ok=await ensureGhWriteConfig(); if(ok) showToast('GH token nastavený.'); });
   if(el.btnRelogin) el.btnRelogin.addEventListener('click', showAuthOverlay);
   if(el.btnLoad) el.btnLoad.addEventListener('click', onLoadXLSX);
   if(el.btnClearData) el.btnClearData.addEventListener('click', ()=>{
     if(!confirm('Naozaj vymazať nahraté dáta (vína)?')) return;
-    state.wines=[]; state.columns=[]; state.idColumn=null; state.filters={ poradie:'', vystavovatel:'', odroda:'' };
+    state.wines=[]; state.columns=[]; state.idColumn=null; state.filters={ A:'', B:'', D:'' };
     localStorage.removeItem(LS.wines); localStorage.removeItem(LS.columns); localStorage.removeItem(LS.idcol);
     renderHeader(); rebuildFilterOptions(); renderTable(); updateStats(); showToast('Dáta katalógu vymazané.');
   });
+  if(el.btnPublishGH) el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
 
   // Branding
   if(el.bgFile) el.bgFile.addEventListener('change', handleBgFile);
-  if($('btn-set-bg-url')) $('btn-set-bg-url').addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
-  if($('btn-reset-bg')) $('btn-reset-bg').addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
+  if(el.btnSetBgUrl) el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
+  if(el.btnResetBg) el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
   if(el.bgFit) el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
+  if(el.btnUploadBgGH) el.btnUploadBgGH.addEventListener('click', uploadBrandingToGitHub);
+  if(el.btnUseGhBg) el.btnUseGhBg.addEventListener('click', useGitHubBranding);
 
   // Filtre
-  el.fPoradie && el.fPoradie.addEventListener('change', onFilterChange);
-  el.fVyst && el.fVyst.addEventListener('change', onFilterChange);
-  el.fOdr && el.fOdr.addEventListener('change', onFilterChange);
-  el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{ el.fPoradie&&(el.fPoradie.value=''); el.fVyst&&(el.fVyst.value=''); el.fOdr&&(el.fOdr.value=''); onFilterChange(); });
+  el.fA && el.fA.addEventListener('change', onFilterChange);
+  el.fB && el.fB.addEventListener('change', onFilterChange);
+  el.fD && el.fD.addEventListener('change', onFilterChange);
+  el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{ el.fA&&(el.fA.value=''); el.fB&&(el.fB.value=''); el.fD&&(el.fD.value=''); onFilterChange(); });
 
   // Exporty
   el.btnExportPDF && el.btnExportPDF.addEventListener('click', exportMyRatingsPDF);
@@ -1011,8 +1028,8 @@ async function loadCatalogSmart(){
   if(state.wines.length){ renderAll(); }
   if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
   if(!ensureGhConfigured()){ showToast('Chýbajú GitHub nastavenia.'); return; }
-  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
-  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
+  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${(state.gh.catalogPath||defaultCatalogPath).replace(/^\//,'')}`;
+  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.catalogPath||defaultCatalogPath).replace(/^\//,'')}`;
   try{
     const d1=await fetch(pagesUrl,{cache:'no-cache'}); if(d1.ok){
       const txt=await d1.text(); const arr=JSON.parse(txt);
