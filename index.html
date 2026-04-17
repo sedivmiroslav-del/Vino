@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin exporty (e‑maily a hodnotenia), responzívna tabuľka s kompaktnými stĺpcami (adresa pod vystavovateľom, ročník a prívlastok pod odrodou), export do PDF." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin exporty (e‑maily a hodnotenia), ukladanie e‑mailov a hodnotení na GitHub, kompaktná responzívna tabuľka, export do PDF." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -37,7 +37,7 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
 
-  --branding-bg: none;
+  --branding-bg: none;     /* url() sa doplní runtime */
   --branding-fit: cover;
 }
 
@@ -130,7 +130,8 @@ th,td{
   border-bottom:1px solid var(--border);
   padding:.55rem .5rem; text-align:left; vertical-align:top;
   white-space: normal;
-  word-break: break-word;
+  word-break: normal;          /* NEštiep slová po písmenách */
+  overflow-wrap: break-word;   /* lámaj na medzerách/dlhých slovách */
 }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.08); }
@@ -161,30 +162,26 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 .status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
 .error{ color:#b00020; font-weight:700; }
 .footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
-.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
+.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color:var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* ===== HERO prihlasovanie ===== */
+/* ===== HERO prihlasovanie – oprava zobrazenia pozadia na mobile ===== */
 .overlay{
   position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000;
-  background: var(--black);
-  color: var(--white);
+  background:#000; color:#fff;
+}
+.overlay.show{ display:flex; }
+.overlay .bg{
+  position:absolute; inset:0;
   background-image: var(--branding-bg);
   background-size: var(--branding-fit);
   background-position:center center;
   background-repeat:no-repeat;
+  filter: none;
 }
-.overlay.show{ display:flex; }
-.overlay::before{
-  content:""; position:absolute; inset:0;
-  background-image: var(--branding-bg);
-  background-size: var(--branding-fit);
-  background-position:center center; background-repeat:no-repeat; z-index:0;
-}
-.overlay::after{
-  content:""; position:absolute; inset:0;
-  background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.55) 100%);
-  z-index:0;
+.overlay .shade{
+  position:absolute; inset:0;
+  background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
 }
 .hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
 .hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
@@ -197,12 +194,12 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   .filter-bar{ padding:.6rem; }
   .filter-bar .group{ flex:1 1 100%; min-width:0; }
   .select-pill{ width:100%; }
-  table{ font-size: .9rem; }
+  table{ font-size: .92rem; }
   th, td{ padding: .45rem .4rem; }
   .rating-input{ max-width: 96px; font-size:.9rem; padding:.42rem .4rem; }
 }
 @media (max-width: 480px){
-  table{ font-size: .86rem; }
+  table{ font-size: .88rem; }
   th, td{ padding: .36rem .32rem; }
   .rating-input{ max-width: 88px; font-size:.86rem; }
 }
@@ -218,6 +215,8 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 
 <!-- Prihlasovanie (overlay) -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="shade" aria-hidden="true"></div>
   <div class="hero-wrap" role="document" aria-describedby="overlay-intro">
     <h1 id="hero-title" class="hero-title">
       <span class="small">Přehlídka vín</span>
@@ -262,7 +261,9 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
       <div class="inline-row" style="display:flex;gap:.5rem;flex-wrap:wrap">
         <button id="btn-relogin" class="btn btn-ghost" type="button">Zmeniť používateľa</button>
         <button id="btn-load-catalog-gh" class="btn btn-primary" type="button">Načítať katalóg z GitHubu</button>
+        <button id="btn-set-gh-token" class="btn btn-ghost" type="button">Nastaviť GitHub token</button>
       </div>
+      <p style="margin:.4rem 0 0;font-size:.9rem;color:#444">GitHub zapis: repo sa odvodí z GitHub Pages. Súbory: data/emails.csv, data/ratings.csv.</p>
     </div>
   </section>
 
@@ -349,6 +350,8 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 /* ===== KONŠTANTY ===== */
 const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
+const defaultEmailsPath = 'data/emails.csv';
+const defaultRatingsPath = 'data/ratings.csv';
 
 /* ===== STAV ===== */
 const state = {
@@ -359,7 +362,7 @@ const state = {
   email: null,
   isAdmin: false,
   filters: { poradie:'', vystavovatel:'', odroda:'' }, // pevné 3 filtre
-  gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath:'', token:'' },
+  gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath: defaultEmailsPath, ratingsPath: defaultRatingsPath, token:'' },
   branding: { bgUrl:'', bgFit:'cover' },
   pager: { page: 1, perPage: 30 },
   emailsSeen: []
@@ -377,13 +380,13 @@ const el = {
   fPoradie:$('filter-poradie'), fVyst:$('filter-vystavovatel'), fOdr:$('filter-odroda'), btnClearFilters:$('btn-clear-filters'),
   btnExportPDF:$('btn-export-pdf'), btnExportEmails:$('btn-export-emails'), btnExportRatings:$('btn-export-ratings'),
   uploadSection:$('upload-section'), brandingSection:$('branding-section'), identitySection:$('identity-section'),
-  btnRelogin:$('btn-relogin'), btnLoadCatalogGH:$('btn-load-catalog-gh'),
+  btnRelogin:$('btn-relogin'), btnLoadCatalogGH:$('btn-load-catalog-gh'), btnSetGhToken:$('btn-set-gh-token'),
   file:$('file-input'), hasHeader:$('has-header'), persistWines:$('persist-wines'), btnLoad:$('btn-load'), btnClearData:$('btn-clear-data'),
   bgFile:$('bg-file'), bgUrl:$('bg-url'), btnSetBgUrl:$('btn-set-bg-url'), btnResetBg:$('btn-reset-bg'), bgFit:$('bg-fit')
 };
 
 /* ===== UTIL ===== */
-function showToast(text){ if(!el.toast) return; el.toast.textContent=text; el.toast.hidden=false; el.toast.classList.add('show'); clearTimeout(el.toast._t); el.toast._t=setTimeout(()=>el.toast.classList.remove('show'),2200); }
+function showToast(text){ if(!el.toast) return; el.toast.textContent=text; el.toast.hidden=false; el.toast.classList.add('show'); clearTimeout(el.toast._t); el.toast._t=setTimeout(()=>el.toast.classList.remove('show'),2500); }
 function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email); }
 function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=parseInt(String(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
 function b64ToUtf8(base64){ const bin = atob(base64.replace(/\n/g,'')); const bytes = new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(bytes); }
@@ -446,6 +449,8 @@ function rememberEmail(email){
   const set = new Set([...(state.emailsSeen||[]), email]);
   state.emailsSeen = Array.from(set);
   try{ localStorage.setItem(LS.emails, JSON.stringify(state.emailsSeen)); }catch(_){}
+  // pokus o zápis na GitHub (ak je nakonfigurovaný)
+  ghAppendEmail(email).catch(()=>{});
 }
 function handleAuthSubmit(){
   const val = el.authInput.value.trim();
@@ -627,14 +632,18 @@ function handleRateSubmit(wineObj,inputEl,rowEl){
     const badge = rowEl.querySelector('.badge'); if(badge){ badge.classList.remove('pending','lock'); badge.classList.add('done'); badge.textContent='Hodnotené'; }
     return;
   }
-  state.ratings.push({ email:state.email, wineId:String(wid), points:value, timestamp:new Date().toISOString() });
+  const record = { email:state.email, wineId:String(wid), points:value, timestamp:new Date().toISOString() };
+  state.ratings.push(record);
   try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
+  // zápis na GitHub (ak je nakonfigurovaný)
+  ghAppendRating(record).catch(()=>{});
+  // UI
   inputEl.disabled=true;
   const badge = rowEl.querySelector('.badge'); if(badge){ badge.classList.remove('pending','lock'); badge.classList.add('done'); badge.textContent='Hodnotené'; }
   updateStats();
 }
 
-/* ===== GH INFERRING/FETCH (zachované) ===== */
+/* ===== GH INFERRING/FETCH/ZÁPIS ===== */
 function inferGhFromLocation(){
   try{
     const params = new URLSearchParams(location.search);
@@ -649,12 +658,13 @@ function inferGhFromLocation(){
         state.gh.repo ||= repo;
         state.gh.branch ||= 'main';
         state.gh.catalogPath ||= (catalogOverride || defaultCatalogPath);
+        state.gh.emailsPath ||= defaultEmailsPath;
+        state.gh.ratingsPath ||= defaultRatingsPath;
         localStorage.setItem(LS.gh, JSON.stringify(state.gh));
       }
     }
   }catch(e){ console.warn('inferGhFromLocation error', e); }
 }
-
 async function fetchPublicJSON(url){
   const res=await fetch(url,{mode:'cors',cache:'no-cache'});
   if(!res.ok) throw new Error('HTTP '+res.status);
@@ -665,6 +675,73 @@ async function ghGetFile(path){
   const headers={ 'Accept':'application/vnd.github+json' }; if(state.gh.token) headers['Authorization']=`Bearer ${state.gh.token}`;
   const res=await fetch(url,{headers}); if(res.status===404) return null; if(!res.ok) throw new Error('GitHub GET error '+res.status); return res.json();
 }
+/* zápis textového obsahu na GitHub (create/replace) */
+async function ghPutFile(path, contentText, message){
+  if(!(await ensureGhWriteConfig())) return false;
+  const existing = await ghGetFile(path);
+  const body = { message: message || 'update via app', content: btoa(unescape(encodeURIComponent(contentText))), branch: state.gh.branch||'main' };
+  if(existing && existing.sha) body.sha = existing.sha;
+  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}`;
+  const res=await fetch(url,{method:'PUT',headers:{'Accept':'application/vnd.github+json','Authorization':`Bearer ${state.gh.token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){ console.warn('GH PUT fail', await res.text()); return false; }
+  return true;
+}
+/* zabezpečenie GH write konfigurácie (len ADMIN) */
+async function ensureGhWriteConfig(){
+  if(!state.isAdmin){ return false; } // z bezpečnostných dôvodov zapisujeme len pri admin s tokenom
+  if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+  if(!state.gh.owner || !state.gh.repo) { showToast('GH: chýba owner/repo'); return false; }
+  if(!state.gh.token){
+    const t = prompt('Zadajte GitHub Personal Access Token (repo – Content). Token sa uloží lokálne do prehliadača:', state.gh.token||'');
+    if(!t){ showToast('GH token nebol zadaný.'); return false; }
+    state.gh.token=t.trim();
+    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
+  }
+  return true;
+}
+/* Pridaj e‑mail do CSV (head: email) – bez duplicít (server-side nie je, tak len best effort) */
+async function ghAppendEmail(email){
+  if(!state.isAdmin) return; // zapisujeme len v admin móde
+  try{
+    const meta = await ghGetFile(state.gh.emailsPath);
+    let text = 'email\n';
+    if(meta && meta.content){ text = b64ToUtf8(meta.content); }
+    // ak e‑mail už je, nič
+    if(new RegExp('^"?' + email.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '"?\\s*$', 'm').test(text)) return;
+    if(!/[\r\n]$/.test(text)) text += '\n';
+    text += `"${email.replace(/"/g,'""')}"\n`;
+    await ghPutFile(state.gh.emailsPath, text, 'append email');
+  }catch(e){ console.warn('GH append email error', e); }
+}
+/* Pridaj hodnotenie do CSV: katalógové stĺpce + email + points + timestamp */
+async function ghAppendRating(record){
+  if(!state.isAdmin) return; // zapisujeme len v admin móde
+  try{
+    // priprav hlavičku podľa aktuálnych columns
+    const head = [...state.columns, 'email','points','timestamp'];
+    const map = new Map();
+    for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
+    const rowObj = map.get(String(record.wineId)) || {};
+    const row = [];
+    for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
+    row.push(record.email, String(record.points), record.timestamp);
+    const encode = arr => arr.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',');
+    const meta = await ghGetFile(state.gh.ratingsPath);
+    let text = encode(head) + '\n';
+    if(meta && meta.content){
+      text = b64ToUtf8(meta.content);
+      // ak chýba hlavička (bez 'email'), prepíšme ju
+      if(!/^.*email,points,timestamp\s*$/m.test(text.split('\n',1)[0])){
+        text = encode(head) + '\n' + text.split('\n').slice(1).join('\n');
+      }
+    }
+    if(!/[\r\n]$/.test(text)) text += '\n';
+    text += encode(row) + '\n';
+    await ghPutFile(state.gh.ratingsPath, text, 'append rating');
+  }catch(e){ console.warn('GH append rating error', e); }
+}
+
+/* ===== GH LOAD (dataset) ===== */
 async function loadCatalogFromGitHubAPI(){
   try{
     const meta=await ghGetFile(state.gh.catalogPath);
@@ -791,8 +868,9 @@ function onLoadXLSX(){
 
 /* ===== JSON dáta (GitHub) -> columns ===== */
 function adoptColumnsFromData(arr){
+  // nezobrazuj „id“ stĺpec (ak existuje v JSON)
   const first = arr[0] || {};
-  const cols = Object.keys(first).filter(k=>k.toLowerCase()!=='id'); // "id" nezobrazujeme
+  const cols = Object.keys(first).filter(k=>k.toLowerCase()!=='id');
   state.columns = cols;
   state.idColumn = guessIdColumn(cols);
 }
@@ -805,7 +883,7 @@ function afterDataChanged(){
   renderTable(); updateStats();
 }
 
-/* ===== EXPORT PDF: všetky katalógové stĺpce + Moje body + Čas hodnotenia ===== */
+/* ===== EXPORT PDF ===== */
 function exportMyRatingsPDF(){
   if(typeof window.jspdf==='undefined' && typeof window.jsPDF==='undefined'){ alert('Knižnica jsPDF sa nenačítala.'); return; }
   if(!state.email){ alert('Prihláste sa, aby ste mohli exportovať svoje hodnotenia.'); return; }
@@ -820,7 +898,6 @@ function exportMyRatingsPDF(){
     return;
   }
 
-  const idCol = state.idColumn;
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
 
@@ -839,7 +916,7 @@ function exportMyRatingsPDF(){
   doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
-/* ===== ADMIN EXPORTY: e‑maily a všetky hodnotenia do CSV ===== */
+/* ===== ADMIN EXPORTY: e‑maily a hodnotenia do CSV ===== */
 function exportEmailsCSV(){
   const emails = new Set([...(state.emailsSeen||[]), ...state.ratings.map(r=>r.email)]);
   const rows = [['email']].concat(Array.from(emails).map(e=>[e]));
@@ -890,6 +967,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // Admin handlers
   if($('btn-load-catalog-gh')) $('btn-load-catalog-gh').addEventListener('click', loadCatalogSmart);
+  if(el.btnSetGhToken) el.btnSetGhToken.addEventListener('click', async ()=>{ if(!state.isAdmin){ alert('Len admin.'); return; } await ensureGhWriteConfig(); showToast('GH token nastavený.'); });
   if(el.btnRelogin) el.btnRelogin.addEventListener('click', showAuthOverlay);
   if(el.btnLoad) el.btnLoad.addEventListener('click', onLoadXLSX);
   if(el.btnClearData) el.btnClearData.addEventListener('click', ()=>{
