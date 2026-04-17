@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX (první list, přesné pořadí sloupců), filtry A–B–D, kompozitní buňky (C pod B, E+F pod D a G pod A), ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka bez horizontálního posuvu, úplné vyčištění dat v ADMIN. Opravy: stabilnější načítání z GitHubu, viditelné pozadí na mobilu, doplněný export CSV a uložení hodnocení." />
+<meta name="description" content="HTML aplikace: import XLSX (první list, přesné pořadí sloupců), filtry A–B–D, kompozitní buňky (C pod B, E+F pod D a G pod A), ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka bez horizontálního posuvu, úplné vyčištění dat v ADMIN. Opravy: stabilnější načítání z GitHubu, viditelné pozadí na mobilu, správná diakritika v PDF (s TTF) a robustní fallback." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -16,8 +16,8 @@
   --black: rgb(0,0,0);
   --lime: rgb(161,200,97);
   --yellow: rgb(255,255,96);
-  --primary: rgb(29,155,178);
-  --focus: rgb(29,155,178);
+  --primary: rgb(0,79,152);   /* vráceno vaše modrá */
+  --focus: rgb(0,79,152);
   --muted: var(--gray);
   --border: var(--light);
   --radius: 12px;
@@ -52,7 +52,7 @@ body.locked{ overflow:hidden; }
 
 /* ===== HEADER ===== */
 .header{
-  background: linear-gradient(90deg, rgba(29,155,178,1) 0%, rgba(29,155,178,.92) 60%, rgba(29,155,178,.86) 100%);
+  background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white); border-bottom: 1px solid rgba(255,255,255,.2); box-shadow: var(--shadow-1);
 }
 .header__inner{ width:100%; padding: 1.2rem var(--space-4); }
@@ -117,7 +117,7 @@ col.col-my{ width: 16%; } /* Body */
 thead th{ position:sticky; top:0; background:linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7)); z-index:2; }
 th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; word-break: normal; overflow-wrap: break-word; }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
-tbody tr:hover{ background: rgba(29,155,178,.1); }
+tbody tr:hover{ background: rgba(0,79,152,.1); }
 
 /* Kompozitní buňky – bez odrážky */
 .cell-main{ font-weight: 700; }
@@ -137,7 +137,7 @@ tbody tr:hover{ background: rgba(29,155,178,.1); }
 /* Buttons */
 .btn{ border:1px solid transparent; border-radius:999px; padding:.8rem 1.1rem; cursor:pointer; font-weight:700; transition: transform .05s, filter .15s, background-color .15s; }
 .btn:active{ transform: translateY(1px); }
-.btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(29,155,178,.25); }
+.btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,79,152,.25); }
 .btn-primary:hover{ filter:brightness(0.96); }
 .btn-ghost{ background: var(--white); color: var(--black); border-color: var(--border); }
 .btn-ghost:hover{ background: rgba(206,213,218,.25); }
@@ -149,16 +149,16 @@ tbody tr:hover{ background: rgba(29,155,178,.1); }
 .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* ===== Přihlášení – IMG fallback pro mobil ===== */
+/* ===== Přihlášení – IMG fallback pro mobil (jen pokud se obrázek načte) ===== */
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; background:#000; color:#fff; }
 .overlay.show{ display:flex; }
 .overlay .bg{ position:absolute; inset:0;
-  background-image: var(--branding-bg);
-  background-size: var(--branding-fit);
+  background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65)); /* gradient jako tvrdý fallback */
+  background-size: var(--branding-fit), auto;
   background-position:center; background-repeat:no-repeat;
 }
 .overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%;
-  object-fit: var(--branding-fit); object-position:center; z-index:0; display:block; pointer-events:none;
+  object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none; /* defaultně skryté, ukáže se až po onload */
 }
 .overlay .shade{ position:absolute; inset:0;
   background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
@@ -194,8 +194,8 @@ tbody tr:hover{ background: rgba(29,155,178,.1); }
 <!-- ===== Přihlášení (overlay) ===== -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
   <div class="bg" aria-hidden="true"></div>
-  <!-- Fallback obrázek – pokud background-image na mobilu nezabere -->
-  <img id="bg-fallback" class="bg-img" alt="Pozadí přihlášení" aria-hidden="true" />
+  <!-- Fallback obrázek – ukáže se až po úspěšném načtení -->
+  <img id="bg-fallback" class="bg-img" alt="" aria-hidden="true" />
   <div class="shade" aria-hidden="true"></div>
 
   <div class="hero-wrap" role="document" aria-describedby="overlay-intro">
@@ -263,33 +263,6 @@ tbody tr:hover{ background: rgba(29,155,178,.1); }
       </div>
       <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap">
         <button id="btn-publish-github" class="btn btn-primary" type="button">Uložit katalog na GitHub</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="branding-section" class="card card--nohead" hidden>
-    <div class="card__body">
-      <h3>Branding (pozadí přihlášení)</h3>
-      <div class="input-group" style="margin-bottom:1rem">
-        <label for="bg-file">Nahrát pozadí (PNG/JPG)</label>
-        <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
-      </div>
-      <div class="input-group" style="margin-bottom:1rem">
-        <label for="bg-url">URL pozadí</label>
-        <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
-          <button id="btn-set-bg-url" class="btn btn-ghost" type="button">Použít URL pozadí</button>
-          <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovat pozadí</button>
-          <label style="display:flex;align-items:center;gap:.4rem">Zobrazení
-            <select id="bg-fit" style="padding:.4rem;border:1px solid var(--border);border-radius:8px;margin-left:.3rem">
-              <option value="cover">Vyplnit (cover)</option>
-              <option value="contain">Obsáhnout (contain)</option>
-              <option value="auto">Auto</option>
-            </select>
-          </label>
-          <button id="btn-upload-bg-github" class="btn btn-primary" type="button">Uložit pozadí na GitHub</button>
-          <button id="btn-use-gh-bg" class="btn btn-ghost" type="button">Použít GH pozadí</button>
-        </div>
       </div>
     </div>
   </section>
@@ -362,7 +335,7 @@ const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
-const defaultBrandingPath = 'assets/img/branding.jpg'; /* výchozí fallback */
+const defaultBrandingPath = 'assets/img/branding.jpg'; /* výchozí fallback – dodejte soubor do assets/img/ */
 
 /* ===== STAV ===== */
 const state = {
@@ -407,6 +380,13 @@ function toBase64FromArrayBuffer(buf){ let bin=''; const bytes=new Uint8Array(bu
 function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
 function downloadText(filename, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000); }
+
+/* ===== Fallback pro core font – převod češtiny na ASCII, pokud se nepodaří načíst TTF ===== */
+const CZ_MAP = {
+  'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z',
+  'Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'
+};
+const asciiSanitize = s => String(s).replace(/[^\x20-\x7E]/g, ch => CZ_MAP[ch] ?? ch);
 
 /* ===== STATISTIKY ===== */
 function updateStats(){
@@ -767,8 +747,14 @@ function applyBranding(){
   const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : defaultBrandingPath;
   document.documentElement.style.setProperty('--branding-bg', `url("${bgUrl}")`);
   document.documentElement.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
-  // IMG fallback – vždy nastavíme alespoň výchozí obrázek
-  if(el.bgFallback){ el.bgFallback.src = bgUrl; el.bgFallback.style.display = 'block'; }
+
+  // Bezpečný IMG fallback: zobrazit pouze, pokud se obrázek načte
+  if(el.bgFallback){
+    el.bgFallback.style.display = 'none';
+    el.bgFallback.onload = ()=>{ el.bgFallback.style.display = 'block'; };
+    el.bgFallback.onerror = ()=>{ el.bgFallback.style.display = 'none'; };
+    el.bgFallback.src = bgUrl;
+  }
 }
 function handleBgFile(ev){
   const f = ev.target.files && ev.target.files[0]; if(!f) return;
@@ -887,33 +873,27 @@ async function exportMyRatingsPDF(){
   const { jsPDF } = window.jspdf || window;
   const doc=new jsPDF({unit:'pt', format:'a4'});
 
-  // pokus o načtení TTF fontu z assets (kvůli diakritice)
-  await tryLoadCustomFont(doc, 'assets/fonts/DejaVuSans.ttf', 'DejaVuSans');
+  // Pokus o načtení TTF fontu (kvůli diakritice)
+  const dejavuLoaded = await tryLoadCustomFont(doc);
 
-  // zjištění, zda je font registrován
-  let hasDejavu = false;
-  try{
-    if(doc.getFontList && typeof doc.getFontList === 'function'){
-      const fl = doc.getFontList();
-      const keys = Array.isArray(fl) ? fl : Object.keys(fl||{});
-      hasDejavu = keys.some(k=>String(k).toLowerCase()==='dejavusans');
-    }
-  }catch(_){}
-
-  if(hasDejavu){ doc.setFont('DejaVuSans','normal'); }
+  // Nastavení fontu
+  if(dejavuLoaded){ doc.setFont('DejaVuSans','normal'); }
   else{ doc.setFont('helvetica','bold'); }
+
   doc.setFontSize(15);
-  doc.text('Moje hodnocení – '+(state.email||'nepřihlášen'),40,40);
+  const title = dejavuLoaded ? ('Moje hodnocení – '+(state.email||'nepřihlášen')) : asciiSanitize('Moje hodnocení – '+(state.email||'nepřihlášen'));
+  doc.text(title,40,40);
 
   if(my.length===0){
     doc.setFontSize(12);
-    doc.text('Zatím žádná hodnocení.',40,70);
+    doc.text(dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanitize('Zatím žádná hodnocení.'),40,70);
     doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
     return;
   }
 
   // Přesná hlavička dle Excelu + "Body" + "Čas hodnocení"
-  const head = [...state.columns, 'Body', 'Čas hodnocení'];
+  const headRaw = [...state.columns, 'Body', 'Čas hodnocení'];
+  const head = dejavuLoaded ? headRaw : headRaw.map(asciiSanitize);
 
   // map wineId -> row
   const map = new Map();
@@ -926,30 +906,45 @@ async function exportMyRatingsPDF(){
     for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
     row.push(String(r.points));
     row.push(new Date(r.timestamp).toLocaleString());
-    body.push(row);
+    body.push(dejavuLoaded ? row : row.map(asciiSanitize));
   }
 
   doc.autoTable({
     startY:60,
     head:[head],
     body,
-    styles:{font: hasDejavu ? 'DejaVuSans' : 'helvetica', fontSize:9, cellPadding:3},
-    headStyles:{ fillColor:[29,155,178], textColor:[255,255,255] },
+    styles:{font: dejavuLoaded ? 'DejaVuSans' : 'helvetica', fontSize:9, cellPadding:3},
+    headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] },
     bodyStyles:{ valign:'top' }
   });
   doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
-// pokus o načtení TTF fontu a vložení do jsPDF (pokud je soubor přítomen v assets/)
-async function tryLoadCustomFont(doc, url, fontName){
+// Načtení TTF fontu – zkusi lokální cestu i absolutní GitHub Pages URL
+async function tryLoadCustomFont(doc){
+  const urls = [];
+  // lokální cesta
+  urls.push('assets/fonts/DejaVuSans.ttf');
+  // pokud běží na GH Pages, přidej absolutní URL pro jistotu
   try{
-    const res = await fetch(url, {cache:'no-cache'});
-    if(!res.ok) return;
-    const buf = await res.arrayBuffer();
-    const b64 = toBase64FromArrayBuffer(buf);
-    doc.addFileToVFS(`${fontName}.ttf`, b64);
-    doc.addFont(`${fontName}.ttf`, fontName, 'normal');
-  }catch(_){ /* ignoruj – použije se core font */ }
+    const host = location.hostname, path = location.pathname.split('/').filter(Boolean)[0]||'';
+    if(/\.github\.io$/i.test(host) && path){
+      urls.push(`https://${host}/${path}/assets/fonts/DejaVuSans.ttf`);
+    }
+  }catch(_){}
+
+  for(const url of urls){
+    try{
+      const res = await fetch(url, {cache:'no-cache'});
+      if(!res.ok) continue;
+      const buf = await res.arrayBuffer();
+      const b64 = toBase64FromArrayBuffer(buf);
+      doc.addFileToVFS('DejaVuSans.ttf', b64);
+      doc.addFont('DejaVuSans.ttf', 'DejaVuSans', 'normal');
+      return true;
+    }catch(_){}
+  }
+  return false;
 }
 
 function exportEmailsCSV(){
@@ -1008,7 +1003,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(state.email) rememberEmail(state.email);
   }catch(_){}
 
-  // Branding – nastav background + IMG fallback (i když není v LS, použijeme default)
+  // Branding – nastav background + IMG fallback (zobraz IMG jen po načtení)
   applyBranding();
 
   // AUTH overlay
