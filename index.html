@@ -18,7 +18,7 @@
   --black: rgb(0,0,0);
   --yellow: rgb(255,255,96);
 
-  /* Moravská modrá – hlavná farba podľa požiadavky */
+  /* Moravská modrá – hlavná farba */
   --primary: rgb(0,79,152);
   --focus: rgb(0,79,152);
 
@@ -63,37 +63,35 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* Header – logo úplne vľavo a na výšku cez celý modrý pruh */
+/* Header – logo 1 cm od ľavého okraja, vertikálne vystredené; modrý pruh cez šírku */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white);
-  padding: 0; /* logo na samom okraji */
+  padding: 0;
   border-bottom: 1px solid rgba(255,255,255,.2);
   box-shadow: var(--shadow-1);
 }
 .header__inner{
   display:grid;
   grid-template-columns: auto 1fr;
-  align-items: stretch; /* logo na plnú výšku */
+  align-items: center;         /* vertikálne vystrediť logo aj text */
   gap: var(--space-4);
-  width: 100%;            /* natiahnuť cez celú šírku */
-  max-width: none;        /* zrušiť centrálne obmedzenie */
-  padding-left: 0;        /* bez ľavého odsadenia */
+  width: 100%;
+  max-width: none;
+  padding-left: 0;             /* bez vnútorného odsadenia zľava */
   padding-right: var(--space-4);
-  min-height: 140px;      /* výška modrého pruhu */
-  margin: 0;              /* žiadne centrovanie */
+  min-height: 140px;           /* výška modrého pruhu */
+  margin: 0;
 }
 .logo{
-  height: 100%;              /* cez celý pruh na výšku */
+  height: 120px;               /* veľké logo, ale nie cez celú výšku */
   width: auto;
   object-fit: contain;
   background: rgba(255,255,255,.98);
   border-radius: 10px;
   padding: 8px;
   box-shadow: var(--shadow-1);
-  align-self: stretch;       /* roztiahnuť na výšku gridu */
-  justify-self: start;
-  margin-left: 0;            /* úplne vľavo */
+  margin-left: 1cm;            /* 1 cm od ľavého okraja */
 }
 .title{ margin:.2rem 0; font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .98; font-weight: 600; }
@@ -191,7 +189,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
-/* Prihlasovacie prekrytie: biele pozadie (celé), obrázok ako pozadie bez stmavenia */
+/* Prihlasovacie prekrytie: biele pozadie s obrázkom bez stmavenia */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
   background: var(--white);
@@ -678,6 +676,11 @@ function init(){
   if(el.fPoradie) el.fPoradie.addEventListener('change', onFilterChange);
   if(el.fVyst) el.fVyst.addEventListener('change', onFilterChange);
   if(el.fOdr) el.fOdr.addEventListener('change', onFilterChange);
+  // Pre istotu aj na 'input' (niektoré prehliadače posielajú iný event)
+  if(el.fPoradie) el.fPoradie.addEventListener('input', onFilterChange);
+  if(el.fVyst) el.fVyst.addEventListener('input', onFilterChange);
+  if(el.fOdr) el.fOdr.addEventListener('input', onFilterChange);
+
   if(el.btnClearFilters) el.btnClearFilters.addEventListener('click', ()=>{
     if(el.fPoradie) el.fPoradie.value='';
     if(el.fVyst) el.fVyst.value='';
@@ -853,28 +856,35 @@ function handleBgFile(ev){
   reader.readAsDataURL(f);
 }
 
+/* ===== Pomocné – normalizácia reťazcov pre presnú zhodu ===== */
+function normStr(s){
+  return (s||'')
+    .toString()
+    .replace(/\u00A0/g,' ')  // NBSP -> space
+    .replace(/\s+/g,' ')
+    .trim()
+    .toLocaleLowerCase('sk');
+}
+
 /* ===== Normalizácia dát ===== */
 function normalizeWines(list){
-  // Uistíme sa, že polia existujú a sú trimnuté pre presnú zhodu filtrov
   return (list||[]).map((w,i)=>{
     const por = w.poradie ?? w.Poradie ?? w.id ?? w.ID ?? null;
-    const norm = {
+    return {
       id: String(w.id ?? w.ID ?? por ?? (i+1)),
       poradie: (por!==null && por!==undefined) ? parseInt(String(por).replace(/[^\d-]/g,''),10) : (i+1),
-      vystavovatel: (w.vystavovatel ?? w.Vystavovateľ ?? w.Vystavovatel ?? '').toString().trim(),
-      adresa: (w.adresa ?? w.Adresa ?? '').toString().trim(),
-      odroda: (w.odroda ?? w.Odroda ?? '').toString().trim(),
-      rocnik: (w.rocnik ?? w.Ročník ?? w.Rocnik ?? '').toString().trim(),
-      privlastok: (w.privlastok ?? w.Prívlastok ?? w.Privlastok ?? '').toString().trim(),
+      vystavovatel: (w.vystavovatel ?? w.Vystavovateľ ?? w.Vystavovatel ?? '').toString().replace(/\u00A0/g,' ').trim(),
+      adresa: (w.adresa ?? w.Adresa ?? '').toString().replace(/\u00A0/g,' ').trim(),
+      odroda: (w.odroda ?? w.Odroda ?? '').toString().replace(/\u00A0/g,' ').trim(),
+      rocnik: (w.rocnik ?? w.Ročník ?? w.Rocnik ?? '').toString().replace(/\u00A0/g,' ').trim(),
+      privlastok: (w.privlastok ?? w.Prívlastok ?? w.Privlastok ?? '').toString().replace(/\u00A0/g,' ').trim(),
       body: (w.body ?? w.Body ?? w.OficialneBody ?? w['Body (oficiálne)'] ?? '')
     };
-    return norm;
   });
 }
 
 /* ===== Filtre + stránkovanie + render ===== */
 function rebuildFilterOptions(){
-  // Sady unikátnych hodnôt (trimnuté)
   const poradieSet = new Set();
   const vystSet = new Set();
   const odrSet = new Set();
@@ -907,14 +917,15 @@ function rebuildFilterOptions(){
 function applyFilters(arr){
   const f = {
     poradie: (state.filters.poradie||'').trim(),
-    vystavovatel: (state.filters.vystavovatel||'').trim(),
-    odroda: (state.filters.odroda||'').trim()
+    vystavovatel: normStr(state.filters.vystavovatel),
+    odroda: normStr(state.filters.odroda)
   };
   return arr.filter(w=>{
     const por = (w.poradie!==undefined && w.poradie!==null) ? String(w.poradie).trim() : '';
-    const vy  = (w.vystavovatel||'').toString().trim();
-    const od  = (w.odroda||'').toString().trim();
     if(f.poradie && por !== f.poradie) return false;
+
+    const vy = normStr(w.vystavovatel);
+    const od = normStr(w.odroda);
     if(f.vystavovatel && vy !== f.vystavovatel) return false;
     if(f.odroda && od !== f.odroda) return false;
     return true;
