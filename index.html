@@ -30,7 +30,7 @@
   --space-4: 1rem;
   --space-5: 1.5rem;
   --space-6: 2rem;
-  --branding-bg: none;
+  --branding-bg: none;     /* runtime sa doplní */
   --branding-fit: cover;
 }
 
@@ -50,7 +50,7 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white); border-bottom: 1px solid rgba(255,255,255,.2); box-shadow: var(--shadow-1);
@@ -60,21 +60,22 @@ body.locked{ overflow:hidden; }
 .title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--white); opacity: .98; font-weight: 600; }
 
+/* Štatistiky */
 .header__stats{
   display:flex; gap: var(--space-4);
   max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4);
   flex-wrap: wrap;
 }
-.stat{ flex:1; min-width: 220px; background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: var(--space-4); backdrop-filter: blur(6px); }
+.stat{ flex:1; min-width: 220px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: var(--space-4); backdrop-filter: blur(6px); }
 .stat__value{ font-size: 1.6rem; font-weight: 800; }
 .stat__label{ font-size: .95rem; opacity: .95; }
 
 .container{ max-width: 1200px; margin: var(--space-6) auto var(--space-6); padding: 0 var(--space-4); }
 
-.banner{ display:none; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
-  max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020; background: #fff3f3; color:#6a0a0a;
-  border-radius: var(--radius); box-shadow: var(--shadow-1);
+.banner{
+  display:none; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
+  max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
+  background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
 }
 .banner.show{ display:flex; }
 
@@ -83,10 +84,12 @@ body.locked{ overflow:hidden; }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
 
-/* Filtre A-B-D */
+/* ===== Filtre – A, B, D ===== */
 .filter-bar{
-  display:flex; align-items:center; flex-wrap:wrap; gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
-  background: rgba(206,213,218,.25); border:1px solid var(--border); border-radius: 14px;
+  display:flex; align-items:center; flex-wrap:wrap;
+  gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
+  background: rgba(206,213,218,.25);
+  border:1px solid var(--border); border-radius: 14px;
 }
 .filter-bar .group{ display:flex; align-items:center; gap:.5rem; flex:1 1 260px; min-width:220px; max-width:100%; }
 .filter-bar label{ margin:0; font-weight:700; color: var(--black); }
@@ -99,10 +102,11 @@ body.locked{ overflow:hidden; }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* Tabuľka – písmo zmenšené o ~15 % */
+/* ===== Tabuľka – písmo o ~15% menšie ===== */
 .table-responsive{ overflow-x:hidden; }
 table{
-  width:100%; border-collapse:separate; border-spacing:0; table-layout: fixed;
+  width:100%;
+  border-collapse:separate; border-spacing:0; table-layout: fixed;
   font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
 }
 col.col-a{ width: 20%; } /* A + G */
@@ -115,13 +119,15 @@ th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.08); }
 
-/* Kompozitné bunky */
+/* Kompozitné bunky – bez odrážky (•) pod riadkami */
 .cell-main{ font-weight: 700; }
 .cell-sub{ display:block; color: var(--muted); font-size:.88em; line-height:1.35; margin-top:.15rem; }
 
-/* Vstup hodnotenia + farba stavu */
-.rating-input{ width: 100%; max-width: 120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px;
-  transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+/* Vstup hodnotenia – farba stavu */
+.rating-input{
+  width: 100%; max-width: 120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
 .rating-input.unrated{ background: rgba(161,200,97,.8); color: var(--black); }
 .rating-input.rated{ background: var(--primary); color: var(--white); border-color: var(--primary); }
 .rating-input.locked{ background: #eee; color:#666; }
@@ -143,12 +149,20 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* Prihlasovanie – IMG fallback na mobile (zvýšená priorita nad backgroundom) */
+/* ===== Prihlasovanie – IMG fallback pre mobil ===== */
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; background:#000; color:#fff; }
 .overlay.show{ display:flex; }
-.overlay .bg{ position:absolute; inset:0; background-image: var(--branding-bg); background-size: var(--branding-fit); background-position:center; background-repeat:no-repeat; }
-.overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%; object-fit: var(--branding-fit); object-position:center; z-index:0; display:block; }
-.overlay .shade{ position:absolute; inset:0; background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%); }
+.overlay .bg{ position:absolute; inset:0;
+  background-image: var(--branding-bg);
+  background-size: var(--branding-fit);
+  background-position:center; background-repeat:no-repeat;
+}
+.overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%;
+  object-fit: var(--branding-fit); object-position:center; z-index:0; display:block; pointer-events:none;
+}
+.overlay .shade{ position:absolute; inset:0;
+  background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
+}
 .hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
 .hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
 .hero-title .small{ display:block; font-size:.5em; line-height:1.1; letter-spacing:.06em; }
@@ -177,11 +191,13 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 <body>
 <a class="skip-link" href="#main">Preskočiť na obsah</a>
 
-<!-- Prihlasovanie (overlay) -->
+<!-- ===== Prihlasovanie (overlay) ===== -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
   <div class="bg" aria-hidden="true"></div>
-  <img id="bg-fallback" class="bg-img" alt="" aria-hidden="true" />
+  <!-- Fallback obrázok – ak background-image na mobile nezaberie -->
+  <img id="bg-fallback" class="bg-img" alt="Pozadie prihlasovania" aria-hidden="true" />
   <div class="shade" aria-hidden="true"></div>
+
   <div class="hero-wrap" role="document" aria-describedby="overlay-intro">
     <h1 id="hero-title" class="hero-title">
       <span class="small">Místní výstava vín</span>
@@ -219,7 +235,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 
 <main id="main" class="container" role="main">
 
-  <!-- ADMIN sekcie -->
+  <!-- ADMIN (zostaňte s aktuálnymi textami) -->
   <section id="identity-section" class="card card--nohead" hidden>
     <div class="card__body">
       <p>Aktuálny používateľ: <strong id="whoami">neprihlásený</strong>.</p>
@@ -278,7 +294,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
     </div>
   </section>
 
-  <!-- Filtre A,B,D -->
+  <!-- ===== Filtre A,B,D ===== -->
   <section class="card card--nohead" aria-label="Filtrovanie katalógu">
     <div class="card__body" style="padding: .6rem var(--space-5);">
       <div class="filter-bar" role="region" aria-label="Roletkové filtre">
@@ -305,7 +321,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
     </div>
   </section>
 
-  <!-- Tabuľka -->
+  <!-- ===== Tabuľka ===== -->
   <section class="card card--nohead" aria-label="Katalóg vín">
     <div class="card__body">
       <div class="table-responsive" role="region" aria-label="Tabuľka katalógu vín">
@@ -324,7 +340,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
     </div>
   </section>
 
-  <!-- Export -->
+  <!-- ===== Export ===== -->
   <section class="card card--nohead" aria-label="Exporty">
     <div class="card__body" style="display:flex;gap:.6rem;flex-wrap:wrap">
       <button id="btn-export-pdf" class="btn btn-primary" type="button">Moje hodnotenia do PDF</button>
@@ -337,7 +353,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
 
 <footer class="footer" role="contentinfo">
-  <p>&copy; <span id="year"></span> Katalóg vín. Moravská modrá téma.</p>
+  <p>&copy; <span id="year"></span> Katalóg vín. Vinaři Petrov.</p>
 </footer>
 
 <script>
@@ -346,7 +362,7 @@ const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
-const defaultBrandingPath = 'assets/img/branding.jpg';
+const defaultBrandingPath = 'assets/img/branding.jpg'; /* predvolený fallback */
 
 /* ===== STAV ===== */
 const state = {
@@ -366,7 +382,7 @@ const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', emails:'winecat_emails_seen'
 };
 
-/* ===== DOM ===== */
+/* ===== DOM pomocník ===== */
 const $=id=>document.getElementById(id);
 const el = {
   overlay: $('auth-overlay'), authInput:$('auth-input'), authSubmit:$('auth-submit'), authStatus:$('auth-status'),
@@ -466,8 +482,7 @@ function rebuildFilterOptions(){
   }
   const fill=(sel,values,ph,sortType='text')=>{
     if(!sel) return;
-    const cur=sel.value;
-    sel.innerHTML='';
+    const cur=sel.value; sel.innerHTML='';
     const opt0=document.createElement('option'); opt0.value=''; opt0.textContent=ph; sel.appendChild(opt0);
     const arr=Array.from(values);
     if(sortType==='num') arr.sort((aa,bb)=>parseInt(aa,10)-parseInt(bb,10));
@@ -535,21 +550,21 @@ function renderTable(){
   for(const w of slice){
     const tr=document.createElement('tr');
 
-    // Stĺpec A + G pod ním (bez odrážky)
+    // A + G pod ním (bez odrážky)
     const tdA=document.createElement('td');
     const aMain=document.createElement('div'); aMain.className='cell-main'; aMain.textContent=A?String(w[A]??''):'';
     tdA.appendChild(aMain);
     if(G && w[G]!==undefined && w[G]!==null && w[G]!==''){ const aSub=document.createElement('span'); aSub.className='cell-sub'; aSub.textContent=String(w[G]); tdA.appendChild(aSub); }
     tr.appendChild(tdA);
 
-    // Stĺpec B + C pod ním (bez odrážky)
+    // B + C pod ním (bez odrážky)
     const tdB=document.createElement('td');
     const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
     tdB.appendChild(bMain);
     if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
     tr.appendChild(tdB);
 
-    // Stĺpec D + (E,F) pod ním (bez odrážky)
+    // D + (E,F) pod ním (bez odrážky)
     const tdD=document.createElement('td');
     const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
     tdD.appendChild(dMain);
@@ -561,37 +576,26 @@ function renderTable(){
 
     // Body – farba stavu
     const tdMy=document.createElement('td'); const input=document.createElement('input');
-    input.type='number'; input.min='0'; input.max='100'; input.step='1'; input.placeholder='0–100'; input.className='rating-input';
+    input.type='number'; input.min='0'; input.max='100'; input.step='1';
+    input.placeholder='0–100'; input.className='rating-input';
     const wid = ensureWineId(w);
     input.setAttribute('aria-label','Body pre položku '+(wid||''));
     const ex = state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid)) : null;
+
     if(ex){ input.value=ex.points; input.disabled=true; input.classList.add('rated'); }
     else if(!state.email){ input.disabled=true; input.title='Pre hodnotenie sa prihláste.'; input.classList.add('locked'); }
-    else { input.classList.add('unrated'); }
+    else{ input.classList.add('unrated'); }
+
     input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input, tr); }});
     input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input, tr); }});
+
     tdMy.appendChild(input); tr.appendChild(tdMy);
 
     tbody.appendChild(tr);
   }
+
   renderPagination(total,page,pages);
   el.tableStatus && (el.tableStatus.textContent=`Zobrazené: ${slice.length} z ${total} (strana ${page})`);
-}
-
-/* ===== HODNOTENIA ===== */
-function handleRateSubmit(wineObj,inputEl,rowEl){
-  if(!state.email){ alert('Na hodnotenie je potrebné prihlásenie.'); return; }
-  const value=toIntSafe(inputEl.value);
-  if(value===null||value<0||value>100){ showToast('Zadajte celé číslo 0–100.'); return; }
-  const wid = ensureWineId(wineObj); if(!wid){ showToast('Nie je dostupný identifikátor položky.'); return; }
-  const exists=state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid));
-  if(exists){ inputEl.disabled=true; inputEl.value=exists.points; inputEl.classList.remove('unrated','locked'); inputEl.classList.add('rated'); return; }
-  const record = { email:state.email, wineId:String(wid), points:value, timestamp:new Date().toISOString() };
-  state.ratings.push(record);
-  try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
-  ghAppendRating(record).catch(()=>{});
-  inputEl.disabled=true; inputEl.classList.remove('unrated','locked'); inputEl.classList.add('rated');
-  updateStats();
 }
 
 /* ===== GH INFERRING/FETCH/ZÁPIS ===== */
@@ -664,7 +668,7 @@ async function ghPutBinaryFile(path, arrayBuffer, message){
   return true;
 }
 async function ghAppendEmail(email){
-  if(!state.gh.token) return;
+  if(!state.gh.token) return; // zápis na GH len s tokenom
   try{
     const meta = await ghGetFile(state.gh.emailsPath);
     let text = 'email\n';
@@ -760,19 +764,20 @@ window.loadCatalogSmart = loadCatalogSmart;
 function persistBranding(){ try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){} }
 function applyBranding(){
   try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved}; }catch(_){}
-  const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
-  document.documentElement.style.setProperty('--branding-bg', bg);
+  const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : defaultBrandingPath;
+  document.documentElement.style.setProperty('--branding-bg', `url("${bgUrl}")`);
   document.documentElement.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
-  // Fallback IMG – pre niektoré mobilné prehliadače
-  if(el.bgFallback){
-    el.bgFallback.src = state.branding.bgUrl || '';
-    el.bgFallback.style.display = state.branding.bgUrl ? 'block' : 'none';
-  }
+  // IMG fallback – vždy nastavíme aspoň predvolený obrázok
+  if(el.bgFallback){ el.bgFallback.src = bgUrl; el.bgFallback.style.display = 'block'; }
 }
 function handleBgFile(ev){
   const f = ev.target.files && ev.target.files[0]; if(!f) return;
   const reader = new FileReader();
-  reader.onload = e => { state.branding.bgUrl = e.target.result; persistBranding(); applyBranding(); showToast('Pozadie bolo nahraté.'); };
+  reader.onload = e => {
+    state.branding.bgUrl = e.target.result;
+    persistBranding(); applyBranding();
+    showToast('Pozadie bolo nahraté.');
+  };
   reader.readAsDataURL(f);
 }
 
@@ -781,8 +786,11 @@ function parseRowsWithHeader(rows){
   if(!rows || !rows.length) return { columns:[], data:[] };
   const start= (el.hasHeader && el.hasHeader.checked) ? 1 : 0;
   let header = [];
-  if(start===1) header = (rows[0]||[]).map(normalizeHeader);
-  else { const maxLen = Math.max(...rows.map(r=>r.length)); for(let i=0;i<maxLen;i++) header.push('Stĺpec '+(i+1)); }
+  if(start===1){
+    header = (rows[0]||[]).map(normalizeHeader);
+  }else{
+    const maxLen = Math.max(...rows.map(r=>r.length)); for(let i=0;i<maxLen;i++) header.push('Stĺpec '+(i+1));
+  }
   const data=[];
   for(let r=start; r<rows.length; r++){
     const row = rows[r]||[];
@@ -811,7 +819,7 @@ function onLoadXLSX(){
       const parsed = parseRowsWithHeader(rows);
       state.columns = parsed.columns.filter(c=>c && String(c).trim()!=='').map(String);
       if(state.columns.length===0){ alert('Hlavička nebola rozpoznaná.'); return; }
-      state.idColumn = state.columns[0]; // A ako identifikátor
+      state.idColumn = state.columns[0]; // A
       state.wines = parsed.data;
       if(el.persistWines && el.persistWines.checked){
         try{
@@ -845,28 +853,35 @@ function wipeAllData(){
   applyBranding(); renderHeader(); rebuildFilterOptions(); renderTable(); updateStats(); showToast('Aplikácia bola vyčistená.'); showAuthOverlay();
 }
 
-/* ===== EXPORT PDF ===== */
-function exportMyRatingsPDF(){
+/* ===== EXPORT PDF (hlavička presne podľa Excelu + diakritika) ===== */
+async function exportMyRatingsPDF(){
   if(typeof window.jspdf==='undefined' && typeof window.jsPDF==='undefined'){ alert('Knižnica jsPDF sa nenačítala.'); return; }
   if(!state.email){ alert('Prihláste sa, aby ste mohli exportovať svoje hodnotenia.'); return; }
   const my = state.ratings.filter(r=>r.email===state.email);
   const { jsPDF } = window.jspdf || window;
-  // použi Courier – má lepšie mapovanie stredoeurópskych znakov v štandardnej sade
   const doc=new jsPDF({unit:'pt', format:'a4'});
-  doc.setFont('courier','bold'); doc.setFontSize(15);
+
+  // pokus o načítanie TTF fontu z assets (kvôli diakritike)
+  await tryLoadCustomFont(doc, 'assets/fonts/DejaVuSans.ttf', 'DejaVuSans');
+
+  doc.setFont(doc.getFontList().includes('DejaVuSans') ? 'DejaVuSans' : 'helvetica','bold');
+  doc.setFontSize(15);
   doc.text('Moje hodnotenia – '+(state.email||'neprihlásený'),40,40);
 
   if(my.length===0){
-    doc.setFont('courier','normal'); doc.setFontSize(12);
+    doc.setFontSize(12);
     doc.text('Zatiaľ žiadne hodnotenia.',40,70);
     doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
     return;
   }
 
+  // Presná hlavička podľa Excelu + "Body" + "Čas hodnotenia"
+  const head = [...state.columns, 'Body', 'Čas hodnotenia'];
+
+  // map wineId -> row
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
 
-  const head = [...state.columns, 'Body', 'Čas hodnotenia'];
   const body = [];
   for(const r of my){
     const rowObj = map.get(String(r.wineId)) || {};
@@ -881,11 +896,23 @@ function exportMyRatingsPDF(){
     startY:60,
     head:[head],
     body,
-    styles:{font:'courier', fontSize:9, cellPadding:3},
+    styles:{font: doc.getFontList().includes('DejaVuSans') ? 'DejaVuSans' : 'helvetica', fontSize:9, cellPadding:3},
     headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] },
     bodyStyles:{ valign:'top' }
   });
   doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
+}
+
+// pokus o načítanie TTF fontu a vloženie do jsPDF (ak je súbor prítomný v assets/)
+async function tryLoadCustomFont(doc, url, fontName){
+  try{
+    const res = await fetch(url, {cache:'no-cache'});
+    if(!res.ok) return;
+    const buf = await res.arrayBuffer();
+    const b64 = toBase64FromArrayBuffer(buf);
+    doc.addFileToVFS(`${fontName}.ttf`, b64);
+    doc.addFont(`${fontName}.ttf`, fontName, 'normal');
+  }catch(_){ /* ignoruj – použije sa core font */ }
 }
 
 /* ===== Po zmene datasetu – obnov UI ===== */
@@ -921,6 +948,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(state.email) rememberEmail(state.email);
   }catch(_){}
 
+  // Branding – nastav background + IMG fallback (aj keď nie je v LS, použijeme default)
   applyBranding();
 
   // AUTH overlay
@@ -936,7 +964,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   el.btnClearData && el.btnClearData.addEventListener('click', wipeAllData);
   el.btnPublishGH && el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
 
-  // Branding
+  // Branding buttons
   el.bgFile && el.bgFile.addEventListener('change', handleBgFile);
   el.btnSetBgUrl && el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
   el.btnResetBg && el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
@@ -964,6 +992,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   el.btnExportEmails && el.btnExportEmails.addEventListener('click', exportEmailsCSV);
   el.btnExportRatings && el.btnExportRatings.addEventListener('click', exportAllRatingsCSV);
 
+  // Prvé vykreslenie
   renderAll();
 });
 
