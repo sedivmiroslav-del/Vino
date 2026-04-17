@@ -63,7 +63,7 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* Header – logo 1 cm od ľavého okraja, vertikálne vystredené; modrý pruh cez šírku */
+/* Header – logo 1 cm od ľavého okraja, vertikálne vystredené */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white);
@@ -84,7 +84,7 @@ body.locked{ overflow:hidden; }
   margin: 0;
 }
 .logo{
-  height: 120px;               /* veľké logo, ale nie cez celú výšku */
+  height: 120px;
   width: auto;
   object-fit: contain;
   background: rgba(255,255,255,.98);
@@ -673,13 +673,9 @@ function init(){
     renderTable();
     updateStats();
   };
-  if(el.fPoradie) el.fPoradie.addEventListener('change', onFilterChange);
-  if(el.fVyst) el.fVyst.addEventListener('change', onFilterChange);
-  if(el.fOdr) el.fOdr.addEventListener('change', onFilterChange);
-  // Pre istotu aj na 'input' (niektoré prehliadače posielajú iný event)
-  if(el.fPoradie) el.fPoradie.addEventListener('input', onFilterChange);
-  if(el.fVyst) el.fVyst.addEventListener('input', onFilterChange);
-  if(el.fOdr) el.fOdr.addEventListener('input', onFilterChange);
+  if(el.fPoradie) { el.fPoradie.addEventListener('change', onFilterChange); el.fPoradie.addEventListener('input', onFilterChange); }
+  if(el.fVyst)    { el.fVyst.addEventListener('change', onFilterChange);    el.fVyst.addEventListener('input', onFilterChange); }
+  if(el.fOdr)     { el.fOdr.addEventListener('change', onFilterChange);     el.fOdr.addEventListener('input', onFilterChange); }
 
   if(el.btnClearFilters) el.btnClearFilters.addEventListener('click', ()=>{
     if(el.fPoradie) el.fPoradie.value='';
@@ -697,11 +693,20 @@ function init(){
   if(el.btnResetBg) el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
   if(el.bgFit) el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
 
-  if(el.btnExportPDF){ el.btnExportPDF.addEventListener('click', exportPDF); }
-
   renderTable();
   updateStats();
   updateIdentityUI();
+}
+
+/* FIX: chýbajúca funkcia z konzoly – ukladá GitHub konfiguráciu */
+function saveGhConfigFromInputs(){
+  state.gh.owner = (el.ghOwner?.value || '').trim();
+  state.gh.repo = (el.ghRepo?.value || '').trim();
+  state.gh.branch = (el.ghBranch?.value || 'main').trim();
+  state.gh.catalogPath = (el.ghCatalog?.value || defaultCatalogPath).trim();
+  state.gh.emailsPath = (el.ghEmails?.value || '').trim();
+  state.gh.token = (el.ghToken?.value || '').trim();
+  try{ localStorage.setItem(LS_KEYS.gh, JSON.stringify(state.gh)); }catch(_){}
 }
 
 function inferGhFromLocation(){
