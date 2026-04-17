@@ -96,7 +96,7 @@ body.locked{ overflow:hidden; }
 .select-pill{
   appearance:auto; width:100%; max-width:100%; padding:.7rem .9rem;
   border:1px solid var(--border);
-  background: var(--white);   /* zrušená externá šipka => žiadny 404 */
+  background: var(--white);   /* žiadny externý asset => žiadny 404 */
   border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
 }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
@@ -149,21 +149,34 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* ===== Přihlášení – gradient + bezpečný IMG fallback ===== */
+/* ===== Přihlášení – gradient + IMG fallback (vždy vyplní obrazovku) ===== */
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; color:#fff; }
 .overlay.show{ display:flex; }
+
+/* 1) CSS pozadí – slouží jako záloha, když IMG ještě není načteno */
 .overlay .bg{
   position:absolute; inset:0; background:#000;
   background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65));
-  background-size: var(--branding-fit), auto;
+  background-size: cover, auto;           /* VŽDY cover */
   background-position:center; background-repeat:no-repeat;
 }
-.overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%;
-  object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none;
+
+/* 2) IMG fallback – preferovaný render (lepší na mobilech), VŽDY vyplní obrazovku */
+.overlay .bg-img{
+  position:absolute; inset:0;
+  width:100vw; height:100vh;
+  max-width:100vw; max-height:100vh;
+  object-fit: cover;                      /* VŽDY cover */
+  object-position:center;
+  z-index:0; display:none; pointer-events:none;
+  image-rendering:auto; -webkit-user-drag:none; -webkit-touch-callout:none;
 }
+
+/* Stínování nad pozadím */
 .overlay .shade{ position:absolute; inset:0;
   background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
 }
+
 .hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
 .hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
 .hero-title .small{ display:block; font-size:.5em; line-height:1.1; letter-spacing:.06em; }
@@ -391,7 +404,7 @@ const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', emails:'winecat_emails_seen'
 };
 
-/* ===== DOM helper (čerstvé dotazy – žiadne null pri init) ===== */
+/* ===== DOM helper ===== */
 const $=id=>document.getElementById(id);
 const el = {
   overlay: ()=>$('auth-overlay'), authInput:()=>$('auth-input'), authSubmit:()=>$('auth-submit'), authStatus:()=>$('auth-status'),
@@ -782,24 +795,28 @@ function applyBranding(){
   try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved}; }catch(_){}
   const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : '';
   const root = document.documentElement;
-  if(bgUrl){
-    root.style.setProperty('--branding-bg', `url("${bgUrl}")`);
-  }else{
-    root.style.setProperty('--branding-bg', 'none'); // jen gradient
-  }
-  root.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
 
+  // 1) Pokud máme obrázek, upřednostni IMG fallback (lepší na mobilech), CSS background nech pouze jako zálohu
   const img = el.bgFallback();
   if(img){
-    img.style.display = 'none';
     if(bgUrl){
-      img.onload = ()=>{ img.style.display = 'block'; };
-      img.onerror = ()=>{ img.style.display = 'none'; };
       img.src = bgUrl;
+      img.style.display = 'block';
+      // pro jistotu přepni také CSS var – ale necháme none, aby nesvítilo dvakrát
+      root.style.setProperty('--branding-bg', 'none');
     }else{
       img.removeAttribute('src');
+      img.style.display = 'none';
+      root.style.setProperty('--branding-bg', 'none');
     }
+  }else{
+    // 2) Bez IMG prvku použij aspoň CSS background
+    if(bgUrl){ root.style.setProperty('--branding-bg', `url("${bgUrl}")`); }
+    else{ root.style.setProperty('--branding-bg', 'none'); }
   }
+
+  // Fit mód (cover/contain/auto) – cover vyplní celou plochu
+  root.style.setProperty('--branding-fit', state.branding.bgFit || 'cover');
 }
 function handleBgFile(ev){
   const f = ev.target.files && ev.target.files[0]; if(!f) return;
