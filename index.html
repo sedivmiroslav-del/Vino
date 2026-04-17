@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia: import XLSX (prvý hárok, presné poradie stĺpcov), filtre A–B–D, kompozitné bunky (C pod B, E+F pod D a G pod A), ukladanie e‑mailov a hodnotení na GitHub, publikácia katalógu/pozadia na GitHub, responzívna tabuľka bez horizontálneho posuvu, úplné vyčistenie dát v ADMIN. Opravy: zmenšené písmo tabuľky o 15 %, stabilnejšie načítanie katalógu z GitHubu (Pages/Raw/API) a sprístupnené globálne funkcie pre tlačidlá." />
+<meta name="description" content="HTML aplikácia: import XLSX (prvý hárok, presné poradie stĺpcov), filtre A–B–D, kompozitné bunky (C pod B, E+F pod D a G pod A), ukladanie e‑mailov a hodnotení na GitHub, publikácia katalógu/pozadia na GitHub, responzívna tabuľka bez horizontálneho posuvu, úplné vyčistenie dát v ADMIN. Opravy: zmenšené písmo tabuľky o 15 %, stabilnejšie načítanie z GitHubu a viditeľné pozadie na mobile." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -103,13 +103,12 @@ body.locked{ overflow:hidden; }
 .table-responsive{ overflow-x:hidden; }
 table{
   width:100%; border-collapse:separate; border-spacing:0; table-layout: fixed;
-  /* pôvodne clamp(.78rem, .6rem + 1.2vw, .95rem) */
   font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
 }
 col.col-a{ width: 20%; } /* A + G */
 col.col-b{ width: 38%; } /* B + C */
 col.col-d{ width: 26%; } /* D + (E,F) */
-col.col-my{ width: 16%; } /* Moje body */
+col.col-my{ width: 16%; } /* Body */
 
 thead th{ position:sticky; top:0; background:linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7)); z-index:2; }
 th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; word-break: normal; overflow-wrap: break-word; }
@@ -144,7 +143,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* Prihlasovanie – s IMG fallbackom na mobile */
+/* Prihlasovanie – IMG fallback na mobile (zvýšená priorita nad backgroundom) */
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; background:#000; color:#fff; }
 .overlay.show{ display:flex; }
 .overlay .bg{ position:absolute; inset:0; background-image: var(--branding-bg); background-size: var(--branding-fit); background-position:center; background-repeat:no-repeat; }
@@ -443,7 +442,7 @@ function handleAuthSubmit(){
 function applyFilters(arr){
   const f=state.filters;
   const A = state.columns[0], B = state.columns[1], D = state.columns[3];
-  if(!f.A && !f.B && !f.D) return arr; // nič nefiltrujeme
+  if(!f.A && !f.B && !f.D) return arr;
   return arr.filter(w=>{
     if(f.A && A && norm(w[A]) !== norm(f.A)) return false;
     if(f.B && B && norm(w[B]) !== norm(f.B)) return false;
@@ -501,7 +500,7 @@ function renderHeader(){
   for(const h of showCols){
     const th=document.createElement('th'); th.textContent=h; theadRow.appendChild(th);
   }
-  const thMy=document.createElement('th'); thMy.textContent='Moje body (0–100)'; theadRow.appendChild(thMy);
+  const thMy=document.createElement('th'); thMy.textContent='Body'; theadRow.appendChild(thMy);
 }
 function renderPagination(total,page,pages){
   const nav = el.paginator; if(!nav) return;
@@ -536,35 +535,35 @@ function renderTable(){
   for(const w of slice){
     const tr=document.createElement('tr');
 
-    // Stĺpec A + G pod ním
+    // Stĺpec A + G pod ním (bez odrážky)
     const tdA=document.createElement('td');
     const aMain=document.createElement('div'); aMain.className='cell-main'; aMain.textContent=A?String(w[A]??''):'';
     tdA.appendChild(aMain);
     if(G && w[G]!==undefined && w[G]!==null && w[G]!==''){ const aSub=document.createElement('span'); aSub.className='cell-sub'; aSub.textContent=String(w[G]); tdA.appendChild(aSub); }
     tr.appendChild(tdA);
 
-    // Stĺpec B + C pod ním
+    // Stĺpec B + C pod ním (bez odrážky)
     const tdB=document.createElement('td');
     const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
     tdB.appendChild(bMain);
     if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
     tr.appendChild(tdB);
 
-    // Stĺpec D + (E,F) pod ním
+    // Stĺpec D + (E,F) pod ním (bez odrážky)
     const tdD=document.createElement('td');
     const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
     tdD.appendChild(dMain);
     const extras=[];
     if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push(String(w[E]));
     if(F && w[F]) extras.push(String(w[F]));
-    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent='• '+extras.join(' – '); tdD.appendChild(dSub); }
+    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
     tr.appendChild(tdD);
 
-    // Moje body – stav farbou
+    // Body – farba stavu
     const tdMy=document.createElement('td'); const input=document.createElement('input');
     input.type='number'; input.min='0'; input.max='100'; input.step='1'; input.placeholder='0–100'; input.className='rating-input';
     const wid = ensureWineId(w);
-    input.setAttribute('aria-label','Moje body pre položku '+(wid||''));
+    input.setAttribute('aria-label','Body pre položku '+(wid||''));
     const ex = state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid)) : null;
     if(ex){ input.value=ex.points; input.disabled=true; input.classList.add('rated'); }
     else if(!state.email){ input.disabled=true; input.title='Pre hodnotenie sa prihláste.'; input.classList.add('locked'); }
@@ -665,7 +664,7 @@ async function ghPutBinaryFile(path, arrayBuffer, message){
   return true;
 }
 async function ghAppendEmail(email){
-  if(!state.gh.token) return; // zapis len ak je token
+  if(!state.gh.token) return;
   try{
     const meta = await ghGetFile(state.gh.emailsPath);
     let text = 'email\n';
@@ -699,7 +698,7 @@ async function ghAppendRating(record){
   }catch(e){ console.warn('GH append rating error', e); }
 }
 
-/* ===== GH LOAD (dataset) – robustné ===== */
+/* ===== GH LOAD (dataset) ===== */
 function ensureGhConfigured(){ return !!(state.gh.owner && state.gh.repo); }
 async function loadCatalogFromGitHubAPI(){
   try{
@@ -755,7 +754,6 @@ async function loadCatalogSmart(){
   }catch(e){ console.warn('Raw fetch fail', e); }
   await loadCatalogFromGitHubAPI();
 }
-// sprístupnenie do window – pre prípad volaní z iných handlerov
 window.loadCatalogSmart = loadCatalogSmart;
 
 /* ===== Branding ===== */
@@ -765,7 +763,11 @@ function applyBranding(){
   const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
   document.documentElement.style.setProperty('--branding-bg', bg);
   document.documentElement.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
-  if(el.bgFallback){ el.bgFallback.src = state.branding.bgUrl || ''; el.bgFallback.style.display = state.branding.bgUrl ? 'block' : 'none'; }
+  // Fallback IMG – pre niektoré mobilné prehliadače
+  if(el.bgFallback){
+    el.bgFallback.src = state.branding.bgUrl || '';
+    el.bgFallback.style.display = state.branding.bgUrl ? 'block' : 'none';
+  }
 }
 function handleBgFile(ev){
   const f = ev.target.files && ev.target.files[0]; if(!f) return;
@@ -848,20 +850,41 @@ function exportMyRatingsPDF(){
   if(typeof window.jspdf==='undefined' && typeof window.jsPDF==='undefined'){ alert('Knižnica jsPDF sa nenačítala.'); return; }
   if(!state.email){ alert('Prihláste sa, aby ste mohli exportovať svoje hodnotenia.'); return; }
   const my = state.ratings.filter(r=>r.email===state.email);
-  const { jsPDF } = window.jspdf || window; const doc=new jsPDF({unit:'pt', format:'a4'});
-  doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text('Moje hodnotenia – '+(state.email||'neprihlásený'),40,40);
-  if(my.length===0){ doc.setFontSize(12); doc.text('Zatiaľ žiadne hodnotenia.',40,70); doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`); return; }
-  const map = new Map(); for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
-  const head = [...state.columns, 'Moje body', 'Čas hodnotenia'];
+  const { jsPDF } = window.jspdf || window;
+  // použi Courier – má lepšie mapovanie stredoeurópskych znakov v štandardnej sade
+  const doc=new jsPDF({unit:'pt', format:'a4'});
+  doc.setFont('courier','bold'); doc.setFontSize(15);
+  doc.text('Moje hodnotenia – '+(state.email||'neprihlásený'),40,40);
+
+  if(my.length===0){
+    doc.setFont('courier','normal'); doc.setFontSize(12);
+    doc.text('Zatiaľ žiadne hodnotenia.',40,70);
+    doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
+    return;
+  }
+
+  const map = new Map();
+  for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
+
+  const head = [...state.columns, 'Body', 'Čas hodnotenia'];
   const body = [];
   for(const r of my){
     const rowObj = map.get(String(r.wineId)) || {};
-    const row = []; for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
+    const row = [];
+    for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
     row.push(String(r.points));
     row.push(new Date(r.timestamp).toLocaleString());
     body.push(row);
   }
-  doc.autoTable({ startY:60, head:[head], body, styles:{fontSize:9, cellPadding:3}, headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] }, bodyStyles:{ valign:'top' } });
+
+  doc.autoTable({
+    startY:60,
+    head:[head],
+    body,
+    styles:{font:'courier', fontSize:9, cellPadding:3},
+    headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] },
+    bodyStyles:{ valign:'top' }
+  });
   doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
@@ -872,16 +895,14 @@ function afterDataChanged(){
   state.pager.page=1;
   renderTable(); updateStats();
 }
-// sprístupniť niektoré funkcie globálne (kvôli starým handlerom a debuggeru)
 window.afterDataChanged = afterDataChanged;
 window.publishCatalogToGitHub = publishCatalogToGitHub;
-
-/* ===== Publikácia katalógu ===== */
-async function publishCatalogToGitHub(){
+function publishCatalogToGitHub(){
   if(!state.wines.length){ alert('Žiadne dáta na publikovanie.'); return; }
   const payload = JSON.stringify(state.wines, null, 2);
-  const ok = await ghPutFile(state.gh.catalogPath || defaultCatalogPath, payload, 'publish catalog');
-  if(ok) showToast('Katalóg bol uložený na GitHub.');
+  ghPutFile(state.gh.catalogPath || defaultCatalogPath, payload, 'publish catalog')
+    .then(ok=> ok && showToast('Katalóg bol uložený na GitHub.'))
+    .catch(()=> alert('Uloženie na GitHub zlyhalo.'));
 }
 
 /* ===== INIT ===== */
@@ -902,10 +923,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   applyBranding();
 
+  // AUTH overlay
   showAuthOverlay();
   el.authSubmit && el.authSubmit.addEventListener('click', handleAuthSubmit);
   el.authInput && el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
+  // Admin handlers
   el.btnLoadCatalogGH && el.btnLoadCatalogGH.addEventListener('click', ()=>{ if(typeof loadCatalogSmart==='function'){ loadCatalogSmart(); } });
   el.btnSetGhToken && el.btnSetGhToken.addEventListener('click', async ()=>{ const ok=await ensureGhWriteConfig(); if(ok) showToast('GH token nastavený.'); });
   el.btnRelogin && el.btnRelogin.addEventListener('click', showAuthOverlay);
@@ -913,6 +936,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   el.btnClearData && el.btnClearData.addEventListener('click', wipeAllData);
   el.btnPublishGH && el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
 
+  // Branding
   el.bgFile && el.bgFile.addEventListener('change', handleBgFile);
   el.btnSetBgUrl && el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
   el.btnResetBg && el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
@@ -929,11 +953,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použité GH pozadie.');
   });
 
+  // Filtre
   el.fA && el.fA.addEventListener('change', onFilterChange);
   el.fB && el.fB.addEventListener('change', onFilterChange);
   el.fD && el.fD.addEventListener('change', onFilterChange);
   el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{ el.fA&&(el.fA.value=''); el.fB&&(el.fB.value=''); el.fD&&(el.fD.value=''); onFilterChange(); });
 
+  // Exporty
   el.btnExportPDF && el.btnExportPDF.addEventListener('click', exportMyRatingsPDF);
   el.btnExportEmails && el.btnExportEmails.addEventListener('click', exportEmailsCSV);
   el.btnExportRatings && el.btnExportRatings.addEventListener('click', exportAllRatingsCSV);
