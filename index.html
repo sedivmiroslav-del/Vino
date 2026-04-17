@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin exporty (e‑maily a hodnotenia), dynamická hlavička podľa XLSX, statické filtre, responzívna tabuľka bez horizontálneho posúvania (prispôsobené fonty/šírky), export do PDF." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin exporty (e‑maily a hodnotenia), responzívna tabuľka s kompaktnými stĺpcami (adresa pod vystavovateľom, ročník a prívlastok pod odrodou), export do PDF." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -15,7 +15,6 @@
   --light: rgb(206,213,218);
   --white: rgb(255,255,255);
   --black: rgb(0,0,0);
-  --teal: rgb(29,155,178);
   --lime: rgb(161,200,97);
   --yellow: rgb(255,255,96);
 
@@ -96,7 +95,7 @@ body.locked{ overflow:hidden; }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
 
-/* ===== Filtre – pôvodné 3 (Poradie, Vystavovateľ, Odroda) ===== */
+/* ===== Filtre – pevné 3 ===== */
 .filter-bar{
   display:flex; align-items:center; flex-wrap:wrap;
   gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
@@ -114,24 +113,14 @@ body.locked{ overflow:hidden; }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabuľka – bez horizontálneho posuvu, prispôsobené fonty/šírky ===== */
+/* ===== Tabuľka – kompaktné stĺpce, bez horizontálneho posuvu ===== */
 .table-wrap{ width:100%; overflow:hidden; }
 table{
   width:100%;
   border-collapse:separate; border-spacing:0;
-  table-layout: fixed; /* pevné rozdelenie šírok */
+  table-layout:auto; /* šírky prispôsobené obsahu */
   font-size: 0.95rem;
 }
-colgroup col.w-col-idx{ width: 7%; }
-colgroup col.w-col-vyst{ width: 19%; }
-colgroup col.w-col-adr{ width: 18%; }
-colgroup col.w-col-odr{ width: 15%; }
-colgroup col.w-col-roc{ width: 8%; }
-colgroup col.w-col-prv{ width: 12%; }
-colgroup col.w-col-body{ width: 8%; }
-colgroup col.w-col-moje{ width: 7%; }
-colgroup col.w-col-stav{ width: 6%; }
-
 thead th{
   position:sticky; top:0;
   background:linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7));
@@ -140,13 +129,15 @@ thead th{
 th,td{
   border-bottom:1px solid var(--border);
   padding:.55rem .5rem; text-align:left; vertical-align:top;
-  white-space: nowrap;           /* neprepíňaj po 1 znaku */
-  overflow: hidden;              /* orezanie pre elipsu */
-  text-overflow: ellipsis;       /* ... */
-  word-break: normal;
+  white-space: normal;
+  word-break: break-word;
 }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.08); }
+
+/* Kompozitné bunky */
+.cell-main{ font-weight: 700; }
+.cell-sub{ display:block; color: var(--muted); font-size:.9em; line-height:1.35; margin-top:.15rem; }
 
 /* Vstup hodnotenia */
 .rating-input{
@@ -201,26 +192,17 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 .hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight:900; text-shadow:0 6px 22px rgba(0,0,0,.45); }
 .hero-text{ max-width:980px; margin:0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height:1.65; color:rgba(255,255,255,.96); text-shadow:0 2px 12px rgba(0,0,0,.45); }
 
-/* ===== Mobilné prispôsobenie tabuľky ===== */
+/* ===== Mobilné prispôsobenie ===== */
 @media (max-width: 820px){
   .filter-bar{ padding:.6rem; }
   .filter-bar .group{ flex:1 1 100%; min-width:0; }
   .select-pill{ width:100%; }
-  table{ font-size: .88rem; }
-  th, td{ padding: .45rem .38rem; }
-  colgroup col.w-col-idx{ width: 9%; }
-  colgroup col.w-col-vyst{ width: 22%; }
-  colgroup col.w-col-adr{ width: 18%; }
-  colgroup col.w-col-odr{ width: 16%; }
-  colgroup col.w-col-roc{ width: 8%; }
-  colgroup col.w-col-prv{ width: 12%; }
-  colgroup col.w-col-body{ width: 7%; }
-  colgroup col.w-col-moje{ width: 5%; }
-  colgroup col.w-col-stav{ width: 3%; }
+  table{ font-size: .9rem; }
+  th, td{ padding: .45rem .4rem; }
   .rating-input{ max-width: 96px; font-size:.9rem; padding:.42rem .4rem; }
 }
 @media (max-width: 480px){
-  table{ font-size: .82rem; }
+  table{ font-size: .86rem; }
   th, td{ padding: .36rem .32rem; }
   .rating-input{ max-width: 88px; font-size:.86rem; }
 }
@@ -260,7 +242,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   <div class="header__inner">
     <div class="header__text">
       <h1 class="title">Katalóg vín – hodnotenia</h1>
-      <p class="subtitle">Prihlásenie je povinné. Hlavička sa prispôsobí XLSX. Filtre sú pevné (poradie, vystavovateľ, odroda).</p>
+      <p class="subtitle">Prihlásenie je povinné. Hlavička sa prispôsobí XLSX. Filtre sú pevné (poradie, vystavovateľ, odroda). Kompaktné stĺpce.</p>
     </div>
   </div>
   <div class="header__stats" role="region" aria-label="Štatistiky">
@@ -333,20 +315,9 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
     <div class="card__body">
       <div class="table-wrap" role="region" aria-label="Tabuľka katalógu vín">
         <table id="wine-table">
-          <colgroup>
-            <col class="w-col-idx">
-            <col class="w-col-vyst">
-            <col class="w-col-adr">
-            <col class="w-col-odr">
-            <col class="w-col-roc">
-            <col class="w-col-prv">
-            <col class="w-col-body">
-            <col class="w-col-moje">
-            <col class="w-col-stav">
-          </colgroup>
           <thead id="wine-thead">
             <tr id="thead-row">
-              <!-- Dynamické hlavičky -->
+              <!-- dynamické: kompaktné stĺpce -->
             </tr>
           </thead>
           <tbody id="wine-tbody"></tbody>
@@ -391,7 +362,7 @@ const state = {
   gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath:'', token:'' },
   branding: { bgUrl:'', bgFit:'cover' },
   pager: { page: 1, perPage: 30 },
-  emailsSeen: [] // unikátne prihlásené e‑maily (len lokálne)
+  emailsSeen: []
 };
 const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', emails:'winecat_emails_seen'
@@ -428,7 +399,17 @@ function ensureWineId(w){
   if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim();
   if(w.id!=null) return String(w.id);
   if(w.poradie!=null) return String(w.poradie);
+  const alt = findColumnAlias(['Číslo','#','ID','id','Poradové číslo','Poradie']); if(alt && w[alt]!=null) return String(w[alt]);
   return '';
+}
+function findColumnAlias(names){
+  if(!state.columns || !state.columns.length) return null;
+  const lower=state.columns.map(c=>c.toLowerCase().trim());
+  for(const n of names){
+    const i=lower.indexOf(String(n).toLowerCase().trim());
+    if(i>=0) return state.columns[i];
+  }
+  return null;
 }
 function downloadText(filename, text){
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
@@ -483,9 +464,8 @@ function handleAuthSubmit(){
 /* ===== FILTRE (pevné) ===== */
 function applyFilters(arr){
   const f=state.filters;
-  // zistenie aliasov stĺpcov
   const colPoradie = findColumnAlias(['Poradové číslo','Poradie','Číslo','#','ID','id','cislo','číslo vzorku']);
-  const colVyst = findColumnAlias(['Vystavovateľ','Vystavovatel','Vystavovatel\'','Vystavovateľ ']);
+  const colVyst = findColumnAlias(['Vystavovateľ','Vystavovatel']);
   const colOdr = findColumnAlias(['Odroda']);
   return arr.filter(w=>{
     if(f.poradie && colPoradie && String((w[colPoradie]??'')).trim()!==f.poradie) return false;
@@ -499,15 +479,6 @@ function onFilterChange(){
   state.filters.vystavovatel = el.fVyst ? (el.fVyst.value||'').toLowerCase() : '';
   state.filters.odroda = el.fOdr ? (el.fOdr.value||'').toLowerCase() : '';
   state.pager.page=1; renderTable(); updateStats();
-}
-function findColumnAlias(names){
-  if(!state.columns || !state.columns.length) return null;
-  const lower=state.columns.map(c=>c.toLowerCase().trim());
-  for(const n of names){
-    const i=lower.indexOf(String(n).toLowerCase().trim());
-    if(i>=0) return state.columns[i];
-  }
-  return null;
 }
 function rebuildFilterOptions(){
   const poradieCol = findColumnAlias(['Poradové číslo','Poradie','Číslo','#','ID','id','cislo','číslo vzorku']);
@@ -537,17 +508,12 @@ function rebuildFilterOptions(){
   fill(el.fOdr, odrSet, 'Všetky');
 }
 
-/* ===== RENDER HLAVIČKY a TABUĽKY ===== */
+/* ===== RENDER HLAVIČKY a TABUĽKY (kompaktné stĺpce) ===== */
 function renderHeader(){
   const theadRow = el.theadRow; if(!theadRow) return;
   theadRow.innerHTML='';
-  // hlavičky podľa state.columns
-  for(const col of state.columns){
-    const th=document.createElement('th'); th.textContent=col; theadRow.appendChild(th);
-  }
-  // doplnkové stĺpce
-  const thMy=document.createElement('th'); thMy.textContent='Moje body (0–100)'; theadRow.appendChild(thMy);
-  const thState=document.createElement('th'); thState.textContent='Stav'; theadRow.appendChild(thState);
+  const headers = ['#','Vystavovateľ','Odroda','Body (oficiálne)','Moje body (0–100)','Stav'];
+  for(const h of headers){ const th=document.createElement('th'); th.textContent=h; theadRow.appendChild(th); }
 }
 
 function renderPagination(total,page,pages){
@@ -577,18 +543,47 @@ function renderTable(){
   const page=Math.min(Math.max(1,state.pager.page||1),pages); state.pager.page=page;
   const slice=filtered.slice((page-1)*per,(page-1)*per+per);
 
+  const colPoradie = findColumnAlias(['Poradové číslo','Poradie','Číslo','#','ID','id','cislo','číslo vzorku']);
+  const colVyst = findColumnAlias(['Vystavovateľ','Vystavovatel']);
+  const colAdr  = findColumnAlias(['Adresa']);
+  const colOdr  = findColumnAlias(['Odroda']);
+  const colRok  = findColumnAlias(['Ročník','Rocnik']);
+  const colPrv  = findColumnAlias(['Prívlastok','Privlastok']);
+  const colBody = findColumnAlias(['Body','Body (oficiálne)','Body (oficialne)','Body (oficiálne )']);
+
   for(const w of slice){
     const tr=document.createElement('tr');
-    for(const col of state.columns){
-      const td=document.createElement('td');
-      let v = w[col];
-      if(v===undefined || v===null) v='';
-      const s = String(v);
-      td.textContent = s;
-      td.title = s; // tooltip pre celé znenie
-      td.setAttribute('data-label', col);
-      tr.appendChild(td);
-    }
+
+    // # (poradie)
+    const tdIdx=document.createElement('td');
+    tdIdx.textContent = colPoradie ? (w[colPoradie]??'') : (w.id??'');
+    tr.appendChild(tdIdx);
+
+    // Vystavovateľ (meno + pod tým adresa s odrážkou)
+    const tdVyst=document.createElement('td');
+    const name = colVyst ? (w[colVyst]??'') : '';
+    const adr = colAdr ? (w[colAdr]??'') : '';
+    const main = document.createElement('div'); main.className='cell-main'; main.textContent=String(name);
+    tdVyst.appendChild(main);
+    if(adr){ const sub=document.createElement('span'); sub.className='cell-sub'; sub.textContent='• '+String(adr); tdVyst.appendChild(sub); }
+    tr.appendChild(tdVyst);
+
+    // Odroda (odroda + pod tým „• ročník – prívlastok“)
+    const tdOdr=document.createElement('td');
+    const od = colOdr ? (w[colOdr]??'') : '';
+    const rok = colRok ? (w[colRok]??'') : '';
+    const prv = colPrv ? (w[colPrv]??'') : '';
+    const mO=document.createElement('div'); mO.className='cell-main'; mO.textContent=String(od); tdOdr.appendChild(mO);
+    const extra=[];
+    if(rok!=='' && rok!=null) extra.push(String(rok));
+    if(prv) extra.push(String(prv));
+    if(extra.length){ const sub=document.createElement('span'); sub.className='cell-sub'; sub.textContent='• '+extra.join(' – '); tdOdr.appendChild(sub); }
+    tr.appendChild(tdOdr);
+
+    // Body (oficiálne) – ak existujú
+    const tdBody=document.createElement('td');
+    tdBody.textContent = colBody ? (w[colBody]??'') : '';
+    tr.appendChild(tdBody);
 
     // Moje body
     const tdMy=document.createElement('td'); tdMy.setAttribute('data-label','Moje body (0–100)');
@@ -634,7 +629,6 @@ function handleRateSubmit(wineObj,inputEl,rowEl){
   }
   state.ratings.push({ email:state.email, wineId:String(wid), points:value, timestamp:new Date().toISOString() });
   try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
-  // žiadny text „Hodnotenie uložené“ – rovno modrý badge
   inputEl.disabled=true;
   const badge = rowEl.querySelector('.badge'); if(badge){ badge.classList.remove('pending','lock'); badge.classList.add('done'); badge.textContent='Hodnotené'; }
   updateStats();
@@ -740,7 +734,7 @@ function handleBgFile(ev){
   reader.readAsDataURL(f);
 }
 
-/* ===== XLSX IMPORT (admin) – prvý hárok, prvý riadok = hlavička ===== */
+/* ===== XLSX IMPORT (admin) ===== */
 function parseRowsWithHeader(rows){
   if(!rows || !rows.length) return { columns:[], data:[] };
   const start= (el.hasHeader && el.hasHeader.checked) ? 1 : 0;
@@ -798,9 +792,9 @@ function onLoadXLSX(){
 /* ===== JSON dáta (GitHub) -> columns ===== */
 function adoptColumnsFromData(arr){
   const first = arr[0] || {};
-  const cols = Object.keys(first);
+  const cols = Object.keys(first).filter(k=>k.toLowerCase()!=='id'); // "id" nezobrazujeme
   state.columns = cols;
-  state.idColumn = guessIdColumn(state.columns);
+  state.idColumn = guessIdColumn(cols);
 }
 
 /* ===== Po zmene datasetu – obnov UI ===== */
@@ -826,6 +820,7 @@ function exportMyRatingsPDF(){
     return;
   }
 
+  const idCol = state.idColumn;
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
 
@@ -852,7 +847,6 @@ function exportEmailsCSV(){
   downloadText(`emails_${new Date().toISOString().slice(0,10)}.csv`, csv);
 }
 function exportAllRatingsCSV(){
-  // hlavička: všetky stĺpce katalógu + email + moje body + čas
   const head = [...state.columns, 'email', 'points', 'timestamp'];
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
