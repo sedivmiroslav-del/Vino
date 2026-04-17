@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka, úplné vyčištění dat v ADMIN. Opravy: vrácená modrá barva, korekce diakritiky v PDF (TTF + fallback), opravené chyby null při startu, stabilnější pozadí na mobilu." />
+<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka, úplné vyčištění dat v ADMIN. Opravy: vrácená modrá, diakritika v PDF (TTF + fallback), odstraněny 404 pro select-caret.svg, bezpečné pozadí na mobilu, pevné inicializační vazby bez chyb null/undefined." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -30,7 +30,7 @@
   --space-4: 1rem;
   --space-5: 1.5rem;
   --space-6: 2rem;
-  --branding-bg: none;     /* runtime nastaví URL */
+  --branding-bg: none;     /* runtime nastaví URL, inak 'none' */
   --branding-fit: cover;
 }
 
@@ -94,9 +94,9 @@ body.locked{ overflow:hidden; }
 .filter-bar .group{ display:flex; align-items:center; gap:.5rem; flex:1 1 260px; min-width:220px; max-width:100%; }
 .filter-bar label{ margin:0; font-weight:700; color: var(--black); }
 .select-pill{
-  appearance:none; width:100%; max-width:100%; padding:.7rem 2.1rem .7rem .9rem;
+  appearance:auto; width:100%; max-width:100%; padding:.7rem .9rem;
   border:1px solid var(--border);
-  background: var(--white) url('./assets/img/select-caret.svg') no-repeat right .7rem center/12px 8px;
+  background: var(--white);   /* zrušená externá šipka => žiadny 404 */
   border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
 }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
@@ -149,11 +149,11 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color: var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* ===== Přihlášení – pevný gradient + bezpečný IMG fallback ===== */
-.overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; background:#000; color:#fff; }
+/* ===== Přihlášení – gradient + bezpečný IMG fallback ===== */
+.overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; color:#fff; }
 .overlay.show{ display:flex; }
 .overlay .bg{
-  position:absolute; inset:0;
+  position:absolute; inset:0; background:#000;
   background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65));
   background-size: var(--branding-fit), auto;
   background-position:center; background-repeat:no-repeat;
@@ -287,8 +287,6 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
               <option value="auto">Auto</option>
             </select>
           </label>
-          <button id="btn-upload-bg-github" class="btn btn-primary" type="button">Uložit pozadí na GitHub</button>
-          <button id="btn-use-gh-bg" class="btn btn-ghost" type="button">Použít GH pozadí</button>
         </div>
       </div>
     </div>
@@ -363,7 +361,7 @@ const defaultCatalogPath = 'data/catalog.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
 
-/* Vypočítat základní cestu pro GH Pages (repo jako subadresář) */
+/* GH Pages base path (repo složka) */
 const __basePath = (()=> {
   try{
     const parts = location.pathname.split('/').filter(Boolean);
@@ -371,7 +369,9 @@ const __basePath = (()=> {
   }catch(_){}
   return '';
 })();
-const defaultBrandingPath = `${__basePath}/assets/img/branding.jpg`; /* fallback na reálný soubor ve vašem repu */
+
+/* Pokud nemáte vlastní branding.jpg, ponechá se jen gradient (žádná 404) */
+const defaultBrandingPath = ''; // žádný výchozí obrázek => jen gradient
 
 /* ===== STAV ===== */
 const state = {
@@ -391,9 +391,8 @@ const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', emails:'winecat_emails_seen'
 };
 
-/* ===== DOM pomocník ===== */
+/* ===== DOM helper (čerstvé dotazy – žiadne null pri init) ===== */
 const $=id=>document.getElementById(id);
-/* Pozn.: některé elementy mohou být null při raném volání – používejme čerstvé getElementById uvnitř funkcí. */
 const el = {
   overlay: ()=>$('auth-overlay'), authInput:()=>$('auth-input'), authSubmit:()=>$('auth-submit'), authStatus:()=>$('auth-status'),
   wineBody:()=>$('wine-tbody'), theadRow:()=>$('thead-row'), paginator:()=>$('paginator'), tableStatus:()=>$('table-status'),
@@ -417,7 +416,7 @@ function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
 function downloadText(filename, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000); }
 
-/* Fallback pro core font: převod češtiny na ASCII, pokud se TTF nenačte */
+/* Fallback pro core font (ASCII), pokud chybí TTF */
 const CZ_MAP = {'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z','Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'};
 const asciiSanitize = s => String(s).replace(/[^\x20-\x7E]/g, ch => CZ_MAP[ch] ?? ch);
 
@@ -604,19 +603,19 @@ function renderTable(){
     else if(!state.email){ input.disabled=true; input.title='Pro hodnocení se přihlaste.'; input.classList.add('locked'); }
     else{ input.classList.add('unrated'); }
 
-    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input, tr); }});
-    input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input, tr); }});
+    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input); }});
+    input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input); }});
 
     tdMy.appendChild(input); tr.appendChild(tdMy);
 
     tbody.appendChild(tr);
   }
 
-  renderPagination(total,page,pages);
   const ts = el.tableStatus(); if(ts) ts.textContent=`Zobrazeno: ${slice.length} z ${total} (strana ${page})`;
+  renderPagination(total,page,pages);
 }
 
-/* ===== GitHub I/O, načítání a zápis (beze změn logiky) ===== */
+/* ===== GitHub I/O a načítání ===== */
 function inferGhFromLocation(){
   try{
     const params = new URLSearchParams(location.search);
@@ -781,17 +780,25 @@ window.loadCatalogSmart = loadCatalogSmart;
 function persistBranding(){ try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){} }
 function applyBranding(){
   try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved}; }catch(_){}
-  const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : defaultBrandingPath;
-  document.documentElement.style.setProperty('--branding-bg', `url("${bgUrl}")`);
-  document.documentElement.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
+  const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : '';
+  const root = document.documentElement;
+  if(bgUrl){
+    root.style.setProperty('--branding-bg', `url("${bgUrl}")`);
+  }else{
+    root.style.setProperty('--branding-bg', 'none'); // jen gradient
+  }
+  root.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
 
-  // Bezpečný IMG fallback: zobraz pouze pokud se načte
   const img = el.bgFallback();
   if(img){
     img.style.display = 'none';
-    img.onload = ()=>{ img.style.display = 'block'; };
-    img.onerror = ()=>{ img.style.display = 'none'; };
-    img.src = bgUrl;
+    if(bgUrl){
+      img.onload = ()=>{ img.style.display = 'block'; };
+      img.onerror = ()=>{ img.style.display = 'none'; };
+      img.src = bgUrl;
+    }else{
+      img.removeAttribute('src');
+    }
   }
 }
 function handleBgFile(ev){
@@ -892,6 +899,16 @@ function handleRateSubmit(wineObj, inputEl){
   showToast('Hodnocení uloženo.');
 }
 
+/* ===== VYMAZÁNÍ ===== */
+function wipeAllData(){
+  if(!confirm('Smazat úplně vše (katalog, hodnocení, e‑maily, branding, GH nastavení, přihlášení)?')) return;
+  try{ Object.values(LS).forEach(k=>localStorage.removeItem(k)); }catch(_){}
+  state.wines=[]; state.columns=[]; state.idColumn=null; state.ratings=[]; state.email=null; state.isAdmin=false;
+  state.filters={ A:'', B:'', D:'' }; state.gh={ owner:'', repo:'', branch:'', catalogPath:'', emailsPath: defaultEmailsPath, ratingsPath: defaultRatingsPath, brandingPath: defaultBrandingPath, token:'' };
+  state.branding={ bgUrl:'', bgFit:'cover' }; state.pager={ page:1, perPage:30 }; state.emailsSeen=[];
+  applyBranding(); renderHeader(); rebuildFilterOptions(); renderTable(); updateStats(); showToast('Aplikace byla vyčištěna.'); showAuthOverlay();
+}
+
 /* ===== EXPORTY ===== */
 async function exportMyRatingsPDF(){
   if(typeof window.jspdf==='undefined' && typeof window.jsPDF==='undefined'){ alert('Knihovna jsPDF se nenačetla.'); return; }
@@ -900,7 +917,6 @@ async function exportMyRatingsPDF(){
   const { jsPDF } = window.jspdf || window;
   const doc=new jsPDF({unit:'pt', format:'a4'});
 
-  // Pokus o načtení TTF (správná diakritika)
   const dejavuLoaded = await tryLoadCustomFont(doc);
 
   if(dejavuLoaded){ doc.setFont('DejaVuSans','normal'); }
@@ -945,7 +961,7 @@ async function exportMyRatingsPDF(){
 }
 async function tryLoadCustomFont(doc){
   const urls = [];
-  urls.push(`${__basePath}/assets/fonts/DejaVuSans.ttf`);
+  urls.push(`${__basePath}/assets/fonts/DejaVuSans.ttf`); // pokud existuje ve vašem repu
   try{
     const host = location.hostname, path = location.pathname.split('/').filter(Boolean)[0]||'';
     if(/\.github\.io$/i.test(host) && path){
@@ -1055,12 +1071,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(upBg) upBg.addEventListener('click', async ()=>{
     const f = el.bgFile() && el.bgFile().files && el.bgFile().files[0]; if(!f){ alert('Vyberte obrázek.'); return; }
     const buf = await f.arrayBuffer(); const ok=await ghPutBinaryFile(state.gh.brandingPath || defaultBrandingPath, buf, 'upload branding');
-    if(ok){ const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
+    if(ok){ const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||'assets/img/branding.jpg').replace(/^\//,'')}`;
       state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Pozadí uloženo na GitHub.'); }
   });
   if(useGh) useGh.addEventListener('click', ()=>{
     if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
+    const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||'assets/img/branding.jpg').replace(/^\//,'')}`;
     state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použito GH pozadí.');
   });
 
