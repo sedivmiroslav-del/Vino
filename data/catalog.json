@@ -1,3107 +1,3107 @@
 [
   {
-    "č": 1,
+    "Č/B": 1,
     "Pěstitel": "Javornický Michal",
     "Lokalita": "Petrov 510",
     "Odrůda": "Muškát moravský",
     "Ročník": 2025,
     "Přívlastek": 20.5,
-    "Body": 88
+    "B": 99
   },
   {
-    "č": 2,
+    "Č/B": 2,
     "Pěstitel": "Javornický Michal",
     "Lokalita": "Petrov 510",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": 21,
-    "Body": 71
+    "B": 91
   },
   {
-    "č": 3,
+    "Č/B": 3,
     "Pěstitel": "Javornický Michal",
     "Lokalita": "Petrov 510",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": 23.5,
-    "Body": 98
+    "B": 81
   },
   {
-    "č": 4,
+    "Č/B": 4,
     "Pěstitel": "Daněk Pavel",
     "Lokalita": "Strážnice",
     "Odrůda": "Cabernet Sauvignon",
     "Ročník": 2024,
     "Přívlastek": 23,
-    "Body": 70
+    "B": 61
   },
   {
-    "č": 5,
+    "Č/B": 5,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 866",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 95
+    "B": 99
   },
   {
-    "č": 6,
+    "Č/B": 6,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 866",
     "Odrůda": "Souvignier Gris",
     "Ročník": 2025,
     "Přívlastek": 23,
-    "Body": 71
+    "B": 97
   },
   {
-    "č": 7,
+    "Č/B": 7,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 866",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 98
+    "B": 62
   },
   {
-    "č": 8,
+    "Č/B": 8,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 866",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 95
+    "B": 50
   },
   {
-    "č": 9,
+    "Č/B": 9,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 70",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 61
+    "B": 50
   },
   {
-    "č": 10,
+    "Č/B": 10,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 70",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2024,
     "Přívlastek": 22,
-    "Body": 55
+    "B": 83
   },
   {
-    "č": 11,
+    "Č/B": 11,
     "Pěstitel": "Kuta Martin",
     "Lokalita": "Blažovice 444",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2024,
     "Přívlastek": 19,
-    "Body": 69
+    "B": 59
   },
   {
-    "č": 12,
+    "Č/B": 12,
     "Pěstitel": "Kuta Martin",
     "Lokalita": "Blažovice 444",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 20,
-    "Body": 90
+    "B": 88
   },
   {
-    "č": 13,
+    "Č/B": 13,
     "Pěstitel": "Vyskočil Radoslav",
     "Lokalita": "Blatnice pod sv. Ant. 389",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 80
+    "B": 74
   },
   {
-    "č": 14,
+    "Č/B": 14,
     "Pěstitel": "Kuta Martin",
     "Lokalita": "Blažovice 444",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 68
+    "B": 63
   },
   {
-    "č": 15,
+    "Č/B": 15,
     "Pěstitel": "Gajda Antonín",
     "Lokalita": "Strážnice 866",
     "Odrůda": "Rulandské šedé",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 87
+    "B": 74
   },
   {
-    "č": 16,
+    "Č/B": 16,
     "Pěstitel": "Vyskočil Radoslav",
     "Lokalita": "Blatnice pod sv. Ant. 389",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 80
+    "B": 70
   },
   {
-    "č": 17,
+    "Č/B": 17,
     "Pěstitel": "Daněk Michal Ing. Ph.D.",
     "Lokalita": "Strážnice 1208",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": 23,
-    "Body": 61
+    "B": 72
   },
   {
-    "č": 18,
+    "Č/B": 18,
     "Pěstitel": "Daněk Michal Ing. Ph.D.",
     "Lokalita": "Strážnice 1208",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 23,
-    "Body": 56
+    "B": 61
   },
   {
-    "č": 19,
+    "Č/B": 19,
     "Pěstitel": "Daněk Michal Ing. Ph.D.",
     "Lokalita": "Strážnice 1208",
     "Odrůda": "Cuvée Hib+Ng+Rb",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 82
+    "B": 85
   },
   {
-    "č": 20,
+    "Č/B": 20,
     "Pěstitel": "Daněk Michal Ing. Ph.D.",
     "Lokalita": "Strážnice 1208",
     "Odrůda": "Rosé CS",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 86
+    "B": 54
   },
   {
-    "č": 21,
+    "Č/B": 21,
     "Pěstitel": "Daněk Michal Ing. Ph.D.",
     "Lokalita": "Strážnice 1208",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 50
+    "B": 80
   },
   {
-    "č": 22,
+    "Č/B": 22,
     "Pěstitel": "Daněk Michal Ing. Ph.D.",
     "Lokalita": "Strážnice 1208",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 67
+    "B": 53
   },
   {
-    "č": 23,
+    "Č/B": 23,
     "Pěstitel": "Rusňák Roland",
     "Lokalita": "Strážnice 1712",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 72
+    "B": 79
   },
   {
-    "č": 24,
+    "Č/B": 24,
     "Pěstitel": "Rusňák Roland",
     "Lokalita": "Strážnice 1712",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 74
+    "B": 84
   },
   {
-    "č": 25,
+    "Č/B": 25,
     "Pěstitel": "Rusňák Radek",
     "Lokalita": "Strážnice 1626",
     "Odrůda": "Souvignier Gris",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 60
+    "B": 68
   },
   {
-    "č": 26,
+    "Č/B": 26,
     "Pěstitel": "Rusňák Radek",
     "Lokalita": "Strážnice 1626",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 89
+    "B": 83
   },
   {
-    "č": 27,
+    "Č/B": 27,
     "Pěstitel": "Vyskočil Radoslav",
     "Lokalita": "Blatnice pod sv. Ant. 389",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 100
+    "B": 85
   },
   {
-    "č": 28,
+    "Č/B": 28,
     "Pěstitel": "Vyskočil Radoslav",
     "Lokalita": "Blatnice pod sv. Ant. 389",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 76
+    "B": 99
   },
   {
-    "č": 29,
+    "Č/B": 29,
     "Pěstitel": "Krůtil Martin",
     "Lokalita": "Petrov 509",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": 20,
-    "Body": 85
+    "B": 93
   },
   {
-    "č": 30,
+    "Č/B": 30,
     "Pěstitel": "Krůtil Martin",
     "Lokalita": "Petrov 509",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 97
+    "B": 58
   },
   {
-    "č": 31,
+    "Č/B": 31,
     "Pěstitel": "Krůtil Martin",
     "Lokalita": "Petrov 509",
     "Odrůda": "Neuburské",
     "Ročník": 2025,
     "Přívlastek": 20,
-    "Body": 64
+    "B": 87
   },
   {
-    "č": 32,
+    "Č/B": 32,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Cuvée Donauriesling + Ch + Hib",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 69
+    "B": 81
   },
   {
-    "č": 33,
+    "Č/B": 33,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 56
+    "B": 84
   },
   {
-    "č": 34,
+    "Č/B": 34,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Cuvée Rosé",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 51
+    "B": 67
   },
   {
-    "č": 35,
+    "Č/B": 35,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Cuvée Rosé",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 53
+    "B": 50
   },
   {
-    "č": 36,
+    "Č/B": 36,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 95
+    "B": 52
   },
   {
-    "č": 37,
+    "Č/B": 37,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 82
+    "B": 98
   },
   {
-    "č": 38,
+    "Č/B": 38,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 83
+    "B": 79
   },
   {
-    "č": 39,
+    "Č/B": 39,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Cabernet Cortis",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 57
+    "B": 64
   },
   {
-    "č": 40,
+    "Č/B": 40,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 63
+    "B": 88
   },
   {
-    "č": 41,
+    "Č/B": 41,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 94
+    "B": 52
   },
   {
-    "č": 42,
+    "Č/B": 42,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Dornfelder",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 88
+    "B": 75
   },
   {
-    "č": 43,
+    "Č/B": 43,
     "Pěstitel": "Pukančík Pavol",
     "Lokalita": "Kunov 242",
     "Odrůda": "Cuvée červené",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 83
+    "B": 90
   },
   {
-    "č": 44,
+    "Č/B": 44,
     "Pěstitel": "Mikéska Miroslav",
     "Lokalita": "Petrov 429",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 68
+    "B": 98
   },
   {
-    "č": 45,
+    "Č/B": 45,
     "Pěstitel": "Mikéska Miroslav",
     "Lokalita": "Petrov 429",
     "Odrůda": "Malverina",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 95
+    "B": 56
   },
   {
-    "č": 46,
+    "Č/B": 46,
     "Pěstitel": "Mikéska Miroslav",
     "Lokalita": "Petrov 429",
     "Odrůda": "Frankovka",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 98
+    "B": 74
   },
   {
-    "č": 47,
+    "Č/B": 47,
     "Pěstitel": "Urbánek Petr",
     "Lokalita": "Strážnice 145",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 78
+    "B": 80
   },
   {
-    "č": 48,
+    "Č/B": 48,
     "Pěstitel": "Urbánek Petr",
     "Lokalita": "Strážnice 145",
     "Odrůda": "Cuvée RR + RV",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 95
+    "B": 88
   },
   {
-    "č": 49,
+    "Č/B": 49,
     "Pěstitel": "Mlýnek Radek",
     "Lokalita": "Strážnice 1639",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 78
+    "B": 92
   },
   {
-    "č": 50,
+    "Č/B": 50,
     "Pěstitel": "Mlýnek Radek",
     "Lokalita": "Strážnice 1639",
     "Odrůda": "Irsai Oliver",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 68
+    "B": 77
   },
   {
-    "č": 51,
+    "Č/B": 51,
     "Pěstitel": "Adamec Ondřej",
     "Lokalita": "Strážnice 202",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 72
+    "B": 86
   },
   {
-    "č": 52,
+    "Č/B": 52,
     "Pěstitel": "Adamec Ondřej",
     "Lokalita": "Strážnice 202",
     "Odrůda": "Solaris",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 69
+    "B": 88
   },
   {
-    "č": 53,
+    "Č/B": 53,
     "Pěstitel": "Březovský Jan",
     "Lokalita": "Petrov 459",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 77
+    "B": 82
   },
   {
-    "č": 54,
+    "Č/B": 54,
     "Pěstitel": "Březovský Jan",
     "Lokalita": "Petrov 459",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 69
+    "B": 89
   },
   {
-    "č": 55,
+    "Č/B": 55,
     "Pěstitel": "Březovský Jan",
     "Lokalita": "Petrov 459",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 62
+    "B": 52
   },
   {
-    "č": 56,
+    "Č/B": 56,
     "Pěstitel": "Keprt Lukáš",
     "Lokalita": "Radějov 214",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 73
+    "B": 56
   },
   {
-    "č": 57,
+    "Č/B": 57,
     "Pěstitel": "Popelka Marek",
     "Lokalita": "Strážnice 1400",
     "Odrůda": "Muškát moravský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 99
+    "B": 83
   },
   {
-    "č": 58,
+    "Č/B": 58,
     "Pěstitel": "Popelka Marek",
     "Lokalita": "Strážnice 1400",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 62
+    "B": 58
   },
   {
-    "č": 59,
+    "Č/B": 59,
     "Pěstitel": "Popelka Marek",
     "Lokalita": "Strážnice 1400",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 74
+    "B": 87
   },
   {
-    "č": 60,
+    "Č/B": 60,
     "Pěstitel": "Popelka Marek",
     "Lokalita": "Strážnice 1400",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 98
+    "B": 62
   },
   {
-    "č": 61,
+    "Č/B": 61,
     "Pěstitel": "Popelka Marek",
     "Lokalita": "Strážnice 1400",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 62
+    "B": 80
   },
   {
-    "č": 62,
+    "Č/B": 62,
     "Pěstitel": "Vríčan Radim",
     "Lokalita": "Skalica",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 81
+    "B": 72
   },
   {
-    "č": 63,
+    "Č/B": 63,
     "Pěstitel": "Vríčan Radim",
     "Lokalita": "Skalica",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 24,
-    "Body": 67
+    "B": 50
   },
   {
-    "č": 64,
+    "Č/B": 64,
     "Pěstitel": "Vríčan Radim",
     "Lokalita": "Skalica",
     "Odrůda": "Cabernet Cortis",
     "Ročník": 2024,
     "Přívlastek": 27,
-    "Body": 80
+    "B": 80
   },
   {
-    "č": 65,
+    "Č/B": 65,
     "Pěstitel": "Bureš Vín",
     "Lokalita": "Skalica",
     "Odrůda": "Cuvée Evelin",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 75
+    "B": 71
   },
   {
-    "č": 66,
+    "Č/B": 66,
     "Pěstitel": "Bureš Vín",
     "Lokalita": "Skalica",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 91
+    "B": 89
   },
   {
-    "č": 67,
+    "Č/B": 67,
     "Pěstitel": "Možnar Leoš",
     "Lokalita": "Strážnice 91",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 79
+    "B": 87
   },
   {
-    "č": 68,
+    "Č/B": 68,
     "Pěstitel": "Možnar Leoš",
     "Lokalita": "Strážnice 91",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 73
+    "B": 100
   },
   {
-    "č": 69,
+    "Č/B": 69,
     "Pěstitel": "Možnar Leoš",
     "Lokalita": "Strážnice 91",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 89
+    "B": 52
   },
   {
-    "č": 70,
+    "Č/B": 70,
     "Pěstitel": "Nenička Pavel Ing.",
     "Lokalita": "Vlkoš 407",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 88
+    "B": 53
   },
   {
-    "č": 71,
+    "Č/B": 71,
     "Pěstitel": "Nenička Pavel Ing.",
     "Lokalita": "Vlkoš 407",
     "Odrůda": "Svatovařinecké",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 90
+    "B": 74
   },
   {
-    "č": 72,
+    "Č/B": 72,
     "Pěstitel": "Nenička Pavel Ing.",
     "Lokalita": "Vlkoš 407",
     "Odrůda": "Neuburské",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 89
+    "B": 72
   },
   {
-    "č": 73,
+    "Č/B": 73,
     "Pěstitel": "Nenička Pavel Ing.",
     "Lokalita": "Vlkoš 407",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 90
+    "B": 97
   },
   {
-    "č": 74,
+    "Č/B": 74,
     "Pěstitel": "Nenička Pavel Ing.",
     "Lokalita": "Vlkoš 407",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 55
+    "B": 71
   },
   {
-    "č": 75,
+    "Č/B": 75,
     "Pěstitel": "Nenička Pavel Ing.",
     "Lokalita": "Vlkoš 407",
     "Odrůda": "Modrý Portugál",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 82
+    "B": 97
   },
   {
-    "č": 76,
+    "Č/B": 76,
     "Pěstitel": "Kováč Radek",
     "Lokalita": "Novosedly",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 66
+    "B": 90
   },
   {
-    "č": 77,
+    "Č/B": 77,
     "Pěstitel": "Kováč Radek",
     "Lokalita": "Novosedly",
     "Odrůda": "Muškát Ottonel",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 75
+    "B": 64
   },
   {
-    "č": 78,
+    "Č/B": 78,
     "Pěstitel": "Kováč Radek",
     "Lokalita": "Novosedly",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 96
+    "B": 87
   },
   {
-    "č": 79,
+    "Č/B": 79,
     "Pěstitel": "Kováč Radek",
     "Lokalita": "Novosedly",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 60
+    "B": 65
   },
   {
-    "č": 80,
+    "Č/B": 80,
     "Pěstitel": "Kováč Radek",
     "Lokalita": "Novosedly",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 89
+    "B": 56
   },
   {
-    "č": 81,
+    "Č/B": 81,
     "Pěstitel": "Kováč Radek",
     "Lokalita": "Novosedly",
     "Odrůda": "Muškát moravský",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 54
+    "B": 89
   },
   {
-    "č": 82,
+    "Č/B": 82,
     "Pěstitel": "Vinařství Janča",
     "Lokalita": "Petrov 404",
     "Odrůda": "RB bar.",
     "Ročník": 2024,
     "Přívlastek": 26,
-    "Body": 71
+    "B": 58
   },
   {
-    "č": 83,
+    "Č/B": 83,
     "Pěstitel": "Vinařství Janča",
     "Lokalita": "Petrov 404",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 25,
-    "Body": 75
+    "B": 96
   },
   {
-    "č": 84,
+    "Č/B": 84,
     "Pěstitel": "Vinařství Janča",
     "Lokalita": "Petrov 404",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": 23,
-    "Body": 63
+    "B": 67
   },
   {
-    "č": 85,
+    "Č/B": 85,
     "Pěstitel": "Vinařství Janča",
     "Lokalita": "Petrov 404",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": 24,
-    "Body": 53
+    "B": 100
   },
   {
-    "č": 86,
+    "Č/B": 86,
     "Pěstitel": "Vinařství Janča",
     "Lokalita": "Petrov 404",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": 23,
-    "Body": 61
+    "B": 99
   },
   {
-    "č": 87,
+    "Č/B": 87,
     "Pěstitel": "Vinařství Janča",
     "Lokalita": "Petrov 404",
     "Odrůda": "Solaris",
     "Ročník": 2025,
     "Přívlastek": 24,
-    "Body": 78
+    "B": 50
   },
   {
-    "č": 88,
+    "Č/B": 88,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 61
+    "B": 57
   },
   {
-    "č": 89,
+    "Č/B": 89,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Sauvignon",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 78
+    "B": 83
   },
   {
-    "č": 90,
+    "Č/B": 90,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Pálava",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 92
+    "B": 87
   },
   {
-    "č": 91,
+    "Č/B": 91,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 69
+    "B": 91
   },
   {
-    "č": 92,
+    "Č/B": 92,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Cuvée Ch + IO",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 66
+    "B": 53
   },
   {
-    "č": 93,
+    "Č/B": 93,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 55
+    "B": 97
   },
   {
-    "č": 94,
+    "Č/B": 94,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 72
+    "B": 54
   },
   {
-    "č": 95,
+    "Č/B": 95,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 80
+    "B": 95
   },
   {
-    "č": 96,
+    "Č/B": 96,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Nitra",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 70
+    "B": 60
   },
   {
-    "č": 97,
+    "Č/B": 97,
     "Pěstitel": "Martinek Stanislav",
     "Lokalita": "Petrov 191",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 51
+    "B": 93
   },
   {
-    "č": 98,
+    "Č/B": 98,
     "Pěstitel": "Martinek Stanislav",
     "Lokalita": "Petrov 191",
     "Odrůda": "Veltlínské červené ranné",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 69
+    "B": 65
   },
   {
-    "č": 99,
+    "Č/B": 99,
     "Pěstitel": "Martinek Stanislav",
     "Lokalita": "Petrov 191",
     "Odrůda": "Rulandské šedé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 56
+    "B": 78
   },
   {
-    "č": 100,
+    "Č/B": 100,
     "Pěstitel": "Martinek Stanislav",
     "Lokalita": "Petrov 191",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 82
+    "B": 69
   },
   {
-    "č": 101,
+    "Č/B": 101,
     "Pěstitel": "Martinek Tomáš",
     "Lokalita": "Petrov 191",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 80
+    "B": 65
   },
   {
-    "č": 102,
+    "Č/B": 102,
     "Pěstitel": "Bellay Vladimír ",
     "Lokalita": "Skalica",
     "Odrůda": "Alibernet",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 79
+    "B": 95
   },
   {
-    "č": 103,
+    "Č/B": 103,
     "Pěstitel": "Bellay Vladimír ",
     "Lokalita": "Skalica",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 77
+    "B": 95
   },
   {
-    "č": 104,
+    "Č/B": 104,
     "Pěstitel": "Bellay Vladimír ",
     "Lokalita": "Skalica",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 75
+    "B": 75
   },
   {
-    "č": 105,
+    "Č/B": 105,
     "Pěstitel": "Matyáš Štěpán",
     "Lokalita": "Strážnice 1562",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 69
+    "B": 50
   },
   {
-    "č": 106,
+    "Č/B": 106,
     "Pěstitel": "Matyáš Štěpán",
     "Lokalita": "Strážnice 1562",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 70
+    "B": 57
   },
   {
-    "č": 107,
+    "Č/B": 107,
     "Pěstitel": "Matyáš Štěpán",
     "Lokalita": "Strážnice 1562",
     "Odrůda": "Rosé RM",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 90
+    "B": 62
   },
   {
-    "č": 108,
+    "Č/B": 108,
     "Pěstitel": "Keprt Lukáš",
     "Lokalita": "Radějov 214",
     "Odrůda": "Merlot",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 85
+    "B": 75
   },
   {
-    "č": 109,
+    "Č/B": 109,
     "Pěstitel": "Telesz Jiří ",
     "Lokalita": "Strážnice 646 ",
     "Odrůda": "Cuvée CS + CM",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 70
+    "B": 70
   },
   {
-    "č": 110,
+    "Č/B": 110,
     "Pěstitel": "Telesz Jiří ",
     "Lokalita": "Strážnice 646 ",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 52
+    "B": 70
   },
   {
-    "č": 111,
+    "Č/B": 111,
     "Pěstitel": "Bačík Michal ",
     "Lokalita": "Petrov 180 ",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 87
+    "B": 78
   },
   {
-    "č": 112,
+    "Č/B": 112,
     "Pěstitel": "Bačík Michal ",
     "Lokalita": "Petrov 180 ",
     "Odrůda": "Souvignier Gris",
     "Ročník": 2025,
     "Přívlastek": 23.5,
-    "Body": 58
+    "B": 76
   },
   {
-    "č": 113,
+    "Č/B": 113,
     "Pěstitel": "Bačík Michal ",
     "Lokalita": "Petrov 180 ",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 24,
-    "Body": 87
+    "B": 97
   },
   {
-    "č": 114,
+    "Č/B": 114,
     "Pěstitel": "Bačík Michal ",
     "Lokalita": "Petrov 180 ",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 87
+    "B": 74
   },
   {
-    "č": 115,
+    "Č/B": 115,
     "Pěstitel": "Bačík Michal ",
     "Lokalita": "Petrov 180 ",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 55
+    "B": 89
   },
   {
-    "č": 116,
+    "Č/B": 116,
     "Pěstitel": "Bačík Michal ",
     "Lokalita": "Petrov 180 ",
     "Odrůda": "Othelo",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 59
+    "B": 79
   },
   {
-    "č": 117,
+    "Č/B": 117,
     "Pěstitel": "Koštuřík Stanislav",
     "Lokalita": "Petrov 421",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 82
+    "B": 72
   },
   {
-    "č": 118,
+    "Č/B": 118,
     "Pěstitel": "Koštuřík Stanislav",
     "Lokalita": "Petrov 421",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 72
+    "B": 78
   },
   {
-    "č": 119,
+    "Č/B": 119,
     "Pěstitel": "Režňák Marek",
     "Lokalita": "Petrov 368",
     "Odrůda": "Cuvée bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 82
+    "B": 98
   },
   {
-    "č": 120,
+    "Č/B": 120,
     "Pěstitel": "Režňák Marek",
     "Lokalita": "Petrov 368",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 88
+    "B": 80
   },
   {
-    "č": 121,
+    "Č/B": 121,
     "Pěstitel": "Režňák Marek",
     "Lokalita": "Petrov 368",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 67
   },
   {
-    "č": 122,
+    "Č/B": 122,
     "Pěstitel": "Urbánek Vlastimil Ing.",
     "Lokalita": "Hodonín 3",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 99
+    "B": 74
   },
   {
-    "č": 123,
+    "Č/B": 123,
     "Pěstitel": "Urbánek Vlastimil Ing.",
     "Lokalita": "Hodonín 3",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 58
+    "B": 59
   },
   {
-    "č": 124,
+    "Č/B": 124,
     "Pěstitel": "Urbánek Vlastimil Ing.",
     "Lokalita": "Hodonín 3",
     "Odrůda": "Petrovský rubín",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 90
+    "B": 90
   },
   {
-    "č": 125,
+    "Č/B": 125,
     "Pěstitel": "Smutný Krištof",
     "Lokalita": "Petrov 551",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 63
+    "B": 85
   },
   {
-    "č": 126,
+    "Č/B": 126,
     "Pěstitel": "Obrtlík Pavel Mgr.",
     "Lokalita": "Petrov 551",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": 23.5,
-    "Body": 87
+    "B": 87
   },
   {
-    "č": 127,
+    "Č/B": 127,
     "Pěstitel": "Obrtlík František",
     "Lokalita": "Petrov 551",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 68
+    "B": 50
   },
   {
-    "č": 128,
+    "Č/B": 128,
     "Pěstitel": "Smutný Josef",
     "Lokalita": "Petrov 551",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 99
+    "B": 71
   },
   {
-    "č": 129,
+    "Č/B": 129,
     "Pěstitel": "Obrtlíková Jiřina",
     "Lokalita": "Petrov 551",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "Kab",
-    "Body": 74
+    "B": 57
   },
   {
-    "č": 130,
+    "Č/B": 130,
     "Pěstitel": "Vajčner Petr ",
     "Lokalita": "Petrov 467",
     "Odrůda": "Cuvée bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 98
+    "B": 95
   },
   {
-    "č": 131,
+    "Č/B": 131,
     "Pěstitel": "Vajčner Petr ",
     "Lokalita": "Petrov 467",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 64
+    "B": 69
   },
   {
-    "č": 132,
+    "Č/B": 132,
     "Pěstitel": "Vajčner Petr ",
     "Lokalita": "Petrov 467",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 84
+    "B": 100
   },
   {
-    "č": 133,
+    "Č/B": 133,
     "Pěstitel": "Vajčner Petr ",
     "Lokalita": "Petrov 467",
     "Odrůda": "Frankovka",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 71
+    "B": 73
   },
   {
-    "č": 134,
+    "Č/B": 134,
     "Pěstitel": "Vajčner Petr ",
     "Lokalita": "Petrov 467",
     "Odrůda": "Cuvée červené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 73
+    "B": 59
   },
   {
-    "č": 135,
+    "Č/B": 135,
     "Pěstitel": "Vajčner Petr ",
     "Lokalita": "Petrov 467",
     "Odrůda": "Rosé Zw",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 88
+    "B": 71
   },
   {
-    "č": 136,
+    "Č/B": 136,
     "Pěstitel": "Vajčner Jan",
     "Lokalita": "Strážnice 453",
     "Odrůda": "Dornfelder",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 83
+    "B": 85
   },
   {
-    "č": 137,
+    "Č/B": 137,
     "Pěstitel": "Vajčner Jan",
     "Lokalita": "Strážnice 453",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 66
+    "B": 60
   },
   {
-    "č": 138,
+    "Č/B": 138,
     "Pěstitel": "Vajčner Jan",
     "Lokalita": "Strážnice 453",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 60
+    "B": 96
   },
   {
-    "č": 139,
+    "Č/B": 139,
     "Pěstitel": "Káčerek Stanislav",
     "Lokalita": "Petrov 427",
     "Odrůda": "Rulandské modré",
     "Ročník": 2024,
     "Přívlastek": 25,
-    "Body": 54
+    "B": 99
   },
   {
-    "č": 140,
+    "Č/B": 140,
     "Pěstitel": "Káčerek Stanislav",
     "Lokalita": "Petrov 427",
     "Odrůda": "Rulandské šedé",
     "Ročník": 2024,
     "Přívlastek": 28,
-    "Body": 92
+    "B": 77
   },
   {
-    "č": 141,
+    "Č/B": 141,
     "Pěstitel": "Káčerek Stanislav",
     "Lokalita": "Petrov 427",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": 24,
-    "Body": 69
+    "B": 54
   },
   {
-    "č": 142,
+    "Č/B": 142,
     "Pěstitel": "Káčerek Stanislav",
     "Lokalita": "Petrov 427",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2024,
     "Přívlastek": 26,
-    "Body": 91
+    "B": 92
   },
   {
-    "č": 143,
+    "Č/B": 143,
     "Pěstitel": "Káčerek Stanislav",
     "Lokalita": "Petrov 427",
     "Odrůda": "Frankovka",
     "Ročník": 2023,
     "Přívlastek": 24,
-    "Body": 97
+    "B": 79
   },
   {
-    "č": 144,
+    "Č/B": 144,
     "Pěstitel": "Káčerek Stanislav",
     "Lokalita": "Petrov 427",
     "Odrůda": "Frankovka",
     "Ročník": 2021,
     "Přívlastek": 24,
-    "Body": 51
+    "B": 89
   },
   {
-    "č": 145,
+    "Č/B": 145,
     "Pěstitel": "Nekarda Vojtěch",
     "Lokalita": "Hroznová Lhota 62",
     "Odrůda": "Svatovařinecké",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 54
+    "B": 74
   },
   {
-    "č": 146,
+    "Č/B": 146,
     "Pěstitel": "Nekarda Vojtěch",
     "Lokalita": "Hroznová Lhota 62",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 100
+    "B": 91
   },
   {
-    "č": 147,
+    "Č/B": 147,
     "Pěstitel": "Kubiš Jan",
     "Lokalita": "Hroznová Lhota 333",
     "Odrůda": "Neuburské",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 97
+    "B": 53
   },
   {
-    "č": 148,
+    "Č/B": 148,
     "Pěstitel": "Kubiš Jan",
     "Lokalita": "Hroznová Lhota 333",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 97
+    "B": 50
   },
   {
-    "č": 149,
+    "Č/B": 149,
     "Pěstitel": "Kubiš Jan",
     "Lokalita": "Hroznová Lhota 333",
     "Odrůda": "Cuvée Fr + Sv + MP",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 75
+    "B": 61
   },
   {
-    "č": 150,
+    "Č/B": 150,
     "Pěstitel": "Žůrek Martin",
     "Lokalita": "Hroznová Lhota 352",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 69
+    "B": 65
   },
   {
-    "č": 151,
+    "Č/B": 151,
     "Pěstitel": "Náhlík Stanislav",
     "Lokalita": "Hroznová Lhota 60",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 81
+    "B": 70
   },
   {
-    "č": 152,
+    "Č/B": 152,
     "Pěstitel": "Náhlík Stanislav",
     "Lokalita": "Hroznová Lhota 60",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 73
+    "B": 82
   },
   {
-    "č": 153,
+    "Č/B": 153,
     "Pěstitel": "Petrucha František",
     "Lokalita": "Hroznová Lhota 442",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 66
+    "B": 71
   },
   {
-    "č": 154,
+    "Č/B": 154,
     "Pěstitel": "Petrucha František",
     "Lokalita": "Hroznová Lhota 442",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 53
+    "B": 81
   },
   {
-    "č": 155,
+    "Č/B": 155,
     "Pěstitel": "Petrucha František",
     "Lokalita": "Hroznová Lhota 442",
     "Odrůda": "Rulandské modré",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 73
+    "B": 82
   },
   {
-    "č": 156,
+    "Č/B": 156,
     "Pěstitel": "Pavlica František",
     "Lokalita": "Hroznová Lhota 387",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 98
+    "B": 73
   },
   {
-    "č": 157,
+    "Č/B": 157,
     "Pěstitel": "Pavlica František",
     "Lokalita": "Hroznová Lhota 387",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 55
+    "B": 67
   },
   {
-    "č": 158,
+    "Č/B": 158,
     "Pěstitel": "Břečka Karel ",
     "Lokalita": "Vnorovy 235",
     "Odrůda": "Johaniter",
     "Ročník": 2025,
     "Přívlastek": 21.5,
-    "Body": 71
+    "B": 75
   },
   {
-    "č": 159,
+    "Č/B": 159,
     "Pěstitel": "Břečka Karel ",
     "Lokalita": "Vnorovy 235",
     "Odrůda": "Cuvée RR + Sol ",
     "Ročník": 2025,
     "Přívlastek": 23,
-    "Body": 79
+    "B": 78
   },
   {
-    "č": 160,
+    "Č/B": 160,
     "Pěstitel": "Břečka Karel ",
     "Lokalita": "Vnorovy 235",
     "Odrůda": "Solaris",
     "Ročník": 2025,
     "Přívlastek": 26,
-    "Body": 59
+    "B": 92
   },
   {
-    "č": 161,
+    "Č/B": 161,
     "Pěstitel": "Břečka Karel ",
     "Lokalita": "Vnorovy 235",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 52
+    "B": 65
   },
   {
-    "č": 162,
+    "Č/B": 162,
     "Pěstitel": "Břečka Karel ",
     "Lokalita": "Vnorovy 235",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 84
+    "B": 78
   },
   {
-    "č": 163,
+    "Č/B": 163,
     "Pěstitel": "Břečka Karel ",
     "Lokalita": "Vnorovy 235",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2023,
     "Přívlastek": 21,
-    "Body": 77
+    "B": 57
   },
   {
-    "č": 164,
+    "Č/B": 164,
     "Pěstitel": "Obrtlík František",
     "Lokalita": "Petrov 299",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 50
+    "B": 71
   },
   {
-    "č": 165,
+    "Č/B": 165,
     "Pěstitel": "Obrtlík František",
     "Lokalita": "Petrov 299",
     "Odrůda": "Fr bar.",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 87
+    "B": 100
   },
   {
-    "č": 166,
+    "Č/B": 166,
     "Pěstitel": "Kačíková Kateřina",
     "Lokalita": "Vracov",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 53
+    "B": 77
   },
   {
-    "č": 167,
+    "Č/B": 167,
     "Pěstitel": "Kašný Roman",
     "Lokalita": "Tv. Lhota 282",
     "Odrůda": "Klaret Fr",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 53
+    "B": 69
   },
   {
-    "č": 168,
+    "Č/B": 168,
     "Pěstitel": "Kašný Roman",
     "Lokalita": "Tv. Lhota 282",
     "Odrůda": "Dornfelder",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 100
+    "B": 73
   },
   {
-    "č": 169,
+    "Č/B": 169,
     "Pěstitel": "Kašný Roman",
     "Lokalita": "Tv. Lhota 282",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 88
+    "B": 86
   },
   {
-    "č": 170,
+    "Č/B": 170,
     "Pěstitel": "Kašný Roman",
     "Lokalita": "Tv. Lhota 282",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 52
+    "B": 77
   },
   {
-    "č": 171,
+    "Č/B": 171,
     "Pěstitel": "Kašný Roman",
     "Lokalita": "Tv. Lhota 282",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 81
+    "B": 63
   },
   {
-    "č": 172,
+    "Č/B": 172,
     "Pěstitel": "Zubek Daniel",
     "Lokalita": "Petrov 446",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2024,
     "Přívlastek": "VZH",
-    "Body": 70
+    "B": 90
   },
   {
-    "č": 173,
+    "Č/B": 173,
     "Pěstitel": "Zubek Daniel",
     "Lokalita": "Petrov 446",
     "Odrůda": "Blauburger",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 89
+    "B": 98
   },
   {
-    "č": 174,
+    "Č/B": 174,
     "Pěstitel": "Zubek Ondřej",
     "Lokalita": "Petrov 110",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 90
+    "B": 64
   },
   {
-    "č": 175,
+    "Č/B": 175,
     "Pěstitel": "Zubek Matěj",
     "Lokalita": "Petrov 446",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 67
+    "B": 60
   },
   {
-    "č": 176,
+    "Č/B": 176,
     "Pěstitel": "Sýkora Miroslav",
     "Lokalita": "Petrov 310",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": 22.5,
-    "Body": 80
+    "B": 86
   },
   {
-    "č": 177,
+    "Č/B": 177,
     "Pěstitel": "Sýkora Miroslav",
     "Lokalita": "Petrov 310",
     "Odrůda": "Merlot",
     "Ročník": 2023,
     "Přívlastek": 23,
-    "Body": 78
+    "B": 55
   },
   {
-    "č": 178,
+    "Č/B": 178,
     "Pěstitel": "Šťastný Josef ",
     "Lokalita": "Petrov 107",
     "Odrůda": "Muškát moravský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 54
+    "B": 99
   },
   {
-    "č": 179,
+    "Č/B": 179,
     "Pěstitel": "Šťastný Josef ",
     "Lokalita": "Petrov 107",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 77
+    "B": 63
   },
   {
-    "č": 180,
+    "Č/B": 180,
     "Pěstitel": "Šťastný Josef ",
     "Lokalita": "Petrov 107",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 20,
-    "Body": 63
+    "B": 71
   },
   {
-    "č": 181,
+    "Č/B": 181,
     "Pěstitel": "Šťastný Josef ",
     "Lokalita": "Petrov 107",
     "Odrůda": "Cuvée Zw + CS",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 52
+    "B": 76
   },
   {
-    "č": 182,
+    "Č/B": 182,
     "Pěstitel": "Šural Petr ",
     "Lokalita": "Petrov 374",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 83
+    "B": 55
   },
   {
-    "č": 183,
+    "Č/B": 183,
     "Pěstitel": "Šural Petr ",
     "Lokalita": "Petrov 374",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 92
+    "B": 97
   },
   {
-    "č": 184,
+    "Č/B": 184,
     "Pěstitel": "Šural Petr ",
     "Lokalita": "Petrov 374",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 79
+    "B": 61
   },
   {
-    "č": 185,
+    "Č/B": 185,
     "Pěstitel": "Opavský Petr",
     "Lokalita": "Strážnice 1811",
     "Odrůda": "Othelo",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 83
+    "B": 70
   },
   {
-    "č": 186,
+    "Č/B": 186,
     "Pěstitel": "Opavský Petr",
     "Lokalita": "Strážnice 1811",
     "Odrůda": "Klaret RM",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 86
+    "B": 62
   },
   {
-    "č": 187,
+    "Č/B": 187,
     "Pěstitel": "Opavský Petr",
     "Lokalita": "Strážnice 1811",
     "Odrůda": "Frankovka",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 86
+    "B": 71
   },
   {
-    "č": 188,
+    "Č/B": 188,
     "Pěstitel": "Opavský Jan",
     "Lokalita": "Petrov 414 ",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 72
+    "B": 55
   },
   {
-    "č": 189,
+    "Č/B": 189,
     "Pěstitel": "Opavský Jan",
     "Lokalita": "Petrov 414 ",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2024,
     "Přívlastek": 22,
-    "Body": 63
+    "B": 75
   },
   {
-    "č": 190,
+    "Č/B": 190,
     "Pěstitel": "Vinařství Tomanovský",
     "Lokalita": "Petrov 465",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 96
+    "B": 97
   },
   {
-    "č": 191,
+    "Č/B": 191,
     "Pěstitel": "Vinařství Tomanovský",
     "Lokalita": "Petrov 465",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 59
+    "B": 90
   },
   {
-    "č": 192,
+    "Č/B": 192,
     "Pěstitel": "Vinařství Tomanovský",
     "Lokalita": "Petrov 465",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 90
+    "B": 66
   },
   {
-    "č": 193,
+    "Č/B": 193,
     "Pěstitel": "Vinařství Tomanovský",
     "Lokalita": "Petrov 465",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 82
+    "B": 76
   },
   {
-    "č": 194,
+    "Č/B": 194,
     "Pěstitel": "Vinařství Tomanovský",
     "Lokalita": "Petrov 465",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 68
+    "B": 69
   },
   {
-    "č": 195,
+    "Č/B": 195,
     "Pěstitel": "Vinařství Tomanovský",
     "Lokalita": "Petrov 465",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 81
   },
   {
-    "č": 196,
+    "Č/B": 196,
     "Pěstitel": "VINICE NA LOUCE",
     "Lokalita": "Strážnice 1460",
     "Odrůda": "Cabernet Cortis",
     "Ročník": 2024,
     "Přívlastek": 25.5,
-    "Body": 88
+    "B": 63
   },
   {
-    "č": 197,
+    "Č/B": 197,
     "Pěstitel": "VINICE NA LOUCE",
     "Lokalita": "Strážnice 1460",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2024,
     "Přívlastek": 24,
-    "Body": 62
+    "B": 92
   },
   {
-    "č": 198,
+    "Č/B": 198,
     "Pěstitel": "VINICE NA LOUCE",
     "Lokalita": "Strážnice 1460",
     "Odrůda": "Donauriesling",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 63
+    "B": 74
   },
   {
-    "č": 199,
+    "Č/B": 199,
     "Pěstitel": "Ospalík Tomáš",
     "Lokalita": "Sudoměřice  449",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 78
+    "B": 84
   },
   {
-    "č": 200,
+    "Č/B": 200,
     "Pěstitel": "Ospalík Tomáš",
     "Lokalita": "Sudoměřice  449",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 20,
-    "Body": 100
+    "B": 67
   },
   {
-    "č": 201,
+    "Č/B": 201,
     "Pěstitel": "Smrž Radek",
     "Lokalita": "Dolní Bojanovice 750",
     "Odrůda": "Svatovařinecké",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 78
+    "B": 82
   },
   {
-    "č": 202,
+    "Č/B": 202,
     "Pěstitel": "Smrž Radek",
     "Lokalita": "Dolní Bojanovice 750",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 61
+    "B": 78
   },
   {
-    "č": 203,
+    "Č/B": 203,
     "Pěstitel": "Smrž Radek",
     "Lokalita": "Dolní Bojanovice 750",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 60
+    "B": 76
   },
   {
-    "č": 204,
+    "Č/B": 204,
     "Pěstitel": "Lekavý Petr",
     "Lokalita": "Dolní Bojanovice 676",
     "Odrůda": "Chorvát",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 92
+    "B": 72
   },
   {
-    "č": 205,
+    "Č/B": 205,
     "Pěstitel": "Lekavý Petr",
     "Lokalita": "Dolní Bojanovice 676",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 60
+    "B": 78
   },
   {
-    "č": 206,
+    "Č/B": 206,
     "Pěstitel": "Lekavý Petr",
     "Lokalita": "Dolní Bojanovice 676",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 54
+    "B": 70
   },
   {
-    "č": 207,
+    "Č/B": 207,
     "Pěstitel": "Makudera František",
     "Lokalita": "Dolní Bojanovice 372",
     "Odrůda": "Cuvée Dor + MP",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 71
+    "B": 98
   },
   {
-    "č": 208,
+    "Č/B": 208,
     "Pěstitel": "Makudera František",
     "Lokalita": "Dolní Bojanovice 372",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 99
+    "B": 65
   },
   {
-    "č": 209,
+    "Č/B": 209,
     "Pěstitel": "Makudera František",
     "Lokalita": "Dolní Bojanovice 372",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 63
+    "B": 63
   },
   {
-    "č": 210,
+    "Č/B": 210,
     "Pěstitel": "Makudera František",
     "Lokalita": "Dolní Bojanovice 372",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 58
+    "B": 80
   },
   {
-    "č": 211,
+    "Č/B": 211,
     "Pěstitel": "Martinek Josef",
     "Lokalita": "Petrov 37",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 78
+    "B": 69
   },
   {
-    "č": 212,
+    "Č/B": 212,
     "Pěstitel": "Martinek Josef",
     "Lokalita": "Petrov 37",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 93
+    "B": 54
   },
   {
-    "č": 213,
+    "Č/B": 213,
     "Pěstitel": "Martinek Josef",
     "Lokalita": "Petrov 37",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 83
+    "B": 88
   },
   {
-    "č": 214,
+    "Č/B": 214,
     "Pěstitel": "Martinek Josef",
     "Lokalita": "Petrov 37",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 73
+    "B": 95
   },
   {
-    "č": 215,
+    "Č/B": 215,
     "Pěstitel": "Martinek Josef",
     "Lokalita": "Petrov 37",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 60
+    "B": 62
   },
   {
-    "č": 216,
+    "Č/B": 216,
     "Pěstitel": "Martinková Ludmila",
     "Lokalita": "Petrov 37",
     "Odrůda": "Nitra",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 73
+    "B": 68
   },
   {
-    "č": 217,
+    "Č/B": 217,
     "Pěstitel": "Martinková Ludmila",
     "Lokalita": "Petrov 37",
     "Odrůda": "Frankovka",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 91
+    "B": 86
   },
   {
-    "č": 218,
+    "Č/B": 218,
     "Pěstitel": "Zezula František",
     "Lokalita": "Petrov 41 ",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 70
+    "B": 72
   },
   {
-    "č": 219,
+    "Č/B": 219,
     "Pěstitel": "Zezula František",
     "Lokalita": "Petrov 41 ",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 98
   },
   {
-    "č": 220,
+    "Č/B": 220,
     "Pěstitel": "Zezulová Lenka",
     "Lokalita": "Petrov 546",
     "Odrůda": "Rosé Zw",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 89
+    "B": 69
   },
   {
-    "č": 221,
+    "Č/B": 221,
     "Pěstitel": "Zezulová Lenka",
     "Lokalita": "Petrov 546",
     "Odrůda": "Rosé CS",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 77
+    "B": 76
   },
   {
-    "č": 222,
+    "Č/B": 222,
     "Pěstitel": "Zezula Petr",
     "Lokalita": "Petrov 546",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 82
+    "B": 96
   },
   {
-    "č": 223,
+    "Č/B": 223,
     "Pěstitel": "Zezula Petr",
     "Lokalita": "Petrov 546",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 57
+    "B": 100
   },
   {
-    "č": 224,
+    "Č/B": 224,
     "Pěstitel": "Macháček Jan ",
     "Lokalita": "Petrov 457",
     "Odrůda": "Rulandské šedé",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 90
+    "B": 77
   },
   {
-    "č": 225,
+    "Č/B": 225,
     "Pěstitel": "Macháček Jan ",
     "Lokalita": "Petrov 457",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 62
+    "B": 51
   },
   {
-    "č": 226,
+    "Č/B": 226,
     "Pěstitel": "Macháček Jan ",
     "Lokalita": "Petrov 457",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 61
+    "B": 84
   },
   {
-    "č": 227,
+    "Č/B": 227,
     "Pěstitel": "Macháček Jan ",
     "Lokalita": "Petrov 457",
     "Odrůda": "Malverina",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 52
+    "B": 94
   },
   {
-    "č": 228,
+    "Č/B": 228,
     "Pěstitel": "Macháček Jan ",
     "Lokalita": "Petrov 457",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 81
+    "B": 59
   },
   {
-    "č": 229,
+    "Č/B": 229,
     "Pěstitel": "Macháček Jan ",
     "Lokalita": "Petrov 457",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 56
+    "B": 79
   },
   {
-    "č": 230,
+    "Č/B": 230,
     "Pěstitel": "Macháček Zdeněk",
     "Lokalita": "Petrov 420",
     "Odrůda": "Cuvée Mal + Ot",
     "Ročník": 2025,
     "Přívlastek": "Kab",
-    "Body": 100
+    "B": 99
   },
   {
-    "č": 231,
+    "Č/B": 231,
     "Pěstitel": "Macháček Zdeněk",
     "Lokalita": "Petrov 420",
     "Odrůda": "Rulandské šedé",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 67
+    "B": 96
   },
   {
-    "č": 232,
+    "Č/B": 232,
     "Pěstitel": "Macháček Zdeněk",
     "Lokalita": "Petrov 420",
     "Odrůda": "Cuvée Fr + Zw + Sv",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 79
+    "B": 81
   },
   {
-    "č": 233,
+    "Č/B": 233,
     "Pěstitel": "Macháček Zdeněk",
     "Lokalita": "Petrov 420",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 56
+    "B": 88
   },
   {
-    "č": 234,
+    "Č/B": 234,
     "Pěstitel": "Macháček Zdeněk",
     "Lokalita": "Petrov 420",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 75
+    "B": 84
   },
   {
-    "č": 235,
+    "Č/B": 235,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2024,
     "Přívlastek": "MZV",
-    "Body": 80
+    "B": 75
   },
   {
-    "č": 236,
+    "Č/B": 236,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Frankovka",
     "Ročník": 2024,
     "Přívlastek": "MZV",
-    "Body": 82
+    "B": 53
   },
   {
-    "č": 237,
+    "Č/B": 237,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Dornfelder",
     "Ročník": 2024,
     "Přívlastek": "MZV",
-    "Body": 91
+    "B": 80
   },
   {
-    "č": 238,
+    "Č/B": 238,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Cuvée Rosé",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 81
+    "B": 82
   },
   {
-    "č": 239,
+    "Č/B": 239,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 65
+    "B": 83
   },
   {
-    "č": 240,
+    "Č/B": 240,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 71
+    "B": 61
   },
   {
-    "č": 241,
+    "Č/B": 241,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 85
+    "B": 87
   },
   {
-    "č": 242,
+    "Č/B": 242,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 90
+    "B": 68
   },
   {
-    "č": 243,
+    "Č/B": 243,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 58
+    "B": 55
   },
   {
-    "č": 244,
+    "Č/B": 244,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 61
+    "B": 60
   },
   {
-    "č": 245,
+    "Č/B": 245,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 74
+    "B": 83
   },
   {
-    "č": 246,
+    "Č/B": 246,
     "Pěstitel": "Víno Martinek",
     "Lokalita": "Strážnice 1753",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "MZV",
-    "Body": 68
+    "B": 66
   },
   {
-    "č": 247,
+    "Č/B": 247,
     "Pěstitel": "Říha Lubomír ",
     "Lokalita": "Mutěnice 1215",
     "Odrůda": "Saphira",
     "Ročník": 2025,
     "Přívlastek": "Kab",
-    "Body": 66
+    "B": 73
   },
   {
-    "č": 248,
+    "Č/B": 248,
     "Pěstitel": "Říha Lubomír ",
     "Lokalita": "Mutěnice 1215",
     "Odrůda": "Kortč",
     "Ročník": 2025,
     "Přívlastek": "Kab",
-    "Body": 77
+    "B": 77
   },
   {
-    "č": 249,
+    "Č/B": 249,
     "Pěstitel": "Říhová Monika",
     "Lokalita": "Mutěnice 1215",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 24.5,
-    "Body": 58
+    "B": 80
   },
   {
-    "č": 250,
+    "Č/B": 250,
     "Pěstitel": "Říhová Monika",
     "Lokalita": "Mutěnice 1215",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": 25.5,
-    "Body": 69
+    "B": 77
   },
   {
-    "č": 251,
+    "Č/B": 251,
     "Pěstitel": "Mokruša Josef",
     "Lokalita": "Mutěnice",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 88
+    "B": 63
   },
   {
-    "č": 252,
+    "Č/B": 252,
     "Pěstitel": "Mokruša Josef",
     "Lokalita": "Mutěnice",
     "Odrůda": "Muškát Ottonel",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 94
+    "B": 85
   },
   {
-    "č": 253,
+    "Č/B": 253,
     "Pěstitel": "Mokruša Josef",
     "Lokalita": "Mutěnice",
     "Odrůda": "Neuburské",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 96
+    "B": 97
   },
   {
-    "č": 254,
+    "Č/B": 254,
     "Pěstitel": "Mokruša Josef",
     "Lokalita": "Mutěnice",
     "Odrůda": "Cuvée Rosé Zw + An",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 56
+    "B": 51
   },
   {
-    "č": 255,
+    "Č/B": 255,
     "Pěstitel": "Vaculovič Jozef",
     "Lokalita": "Mutěnice 1130",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 50
+    "B": 81
   },
   {
-    "č": 256,
+    "Č/B": 256,
     "Pěstitel": "Vaculovič Jozef",
     "Lokalita": "Mutěnice 1130",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 79
+    "B": 98
   },
   {
-    "č": 257,
+    "Č/B": 257,
     "Pěstitel": "Vaculovič Jozef",
     "Lokalita": "Mutěnice 1130",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 92
+    "B": 70
   },
   {
-    "č": 258,
+    "Č/B": 258,
     "Pěstitel": "Vinný sklep U Ševčíků",
     "Lokalita": "Mutěnice",
     "Odrůda": "Irsai Oliver",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 54
+    "B": 89
   },
   {
-    "č": 259,
+    "Č/B": 259,
     "Pěstitel": "Vinný sklep U Ševčíků",
     "Lokalita": "Mutěnice",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 94
   },
   {
-    "č": 260,
+    "Č/B": 260,
     "Pěstitel": "Vinný sklep U Ševčíků",
     "Lokalita": "Mutěnice",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 68
+    "B": 50
   },
   {
-    "č": 261,
+    "Č/B": 261,
     "Pěstitel": "Vinný sklep U Ševčíků",
     "Lokalita": "Mutěnice",
     "Odrůda": "Děvín",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 83
+    "B": 94
   },
   {
-    "č": 262,
+    "Č/B": 262,
     "Pěstitel": "Macalík Stanislav",
     "Lokalita": "Petrov 435",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 73
+    "B": 94
   },
   {
-    "č": 263,
+    "Č/B": 263,
     "Pěstitel": "Macalík Stanislav",
     "Lokalita": "Petrov 435",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 72
+    "B": 50
   },
   {
-    "č": 264,
+    "Č/B": 264,
     "Pěstitel": "Macalík Stanislav",
     "Lokalita": "Petrov 435",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 51
+    "B": 94
   },
   {
-    "č": 265,
+    "Č/B": 265,
     "Pěstitel": "Macalík Stanislav",
     "Lokalita": "Petrov 435",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 68
+    "B": 81
   },
   {
-    "č": 266,
+    "Č/B": 266,
     "Pěstitel": "Macalík Stanislav",
     "Lokalita": "Petrov 435",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 81
+    "B": 99
   },
   {
-    "č": 267,
+    "Č/B": 267,
     "Pěstitel": "Macalík Stanislav",
     "Lokalita": "Petrov 435",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": 19,
-    "Body": 88
+    "B": 97
   },
   {
-    "č": 268,
+    "Č/B": 268,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Frašták",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 85
+    "B": 72
   },
   {
-    "č": 269,
+    "Č/B": 269,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 54
+    "B": 65
   },
   {
-    "č": 270,
+    "Č/B": 270,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 50
+    "B": 50
   },
   {
-    "č": 271,
+    "Č/B": 271,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Donauriesling",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 68
+    "B": 96
   },
   {
-    "č": 272,
+    "Č/B": 272,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Souvignier Gris",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 61
   },
   {
-    "č": 273,
+    "Č/B": 273,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 58
+    "B": 81
   },
   {
-    "č": 274,
+    "Č/B": 274,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Rosé RM",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 51
+    "B": 80
   },
   {
-    "č": 275,
+    "Č/B": 275,
     "Pěstitel": "Vinařství Klásek",
     "Lokalita": "Petrov 73",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 81
+    "B": 54
   },
   {
-    "č": 276,
+    "Č/B": 276,
     "Pěstitel": "Koštuřík Richard",
     "Lokalita": "Petrov 350",
     "Odrůda": "Dornfelder",
     "Ročník": 2023,
     "Přívlastek": "PS",
-    "Body": 65
+    "B": 64
   },
   {
-    "č": 277,
+    "Č/B": 277,
     "Pěstitel": "Koštuřík Richard",
     "Lokalita": "Petrov 350",
     "Odrůda": "Merlot",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 65
+    "B": 50
   },
   {
-    "č": 278,
+    "Č/B": 278,
     "Pěstitel": "Koštuřík Richard",
     "Lokalita": "Petrov 350",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 95
+    "B": 68
   },
   {
-    "č": 279,
+    "Č/B": 279,
     "Pěstitel": "Koštuřík Richard",
     "Lokalita": "Petrov 350",
     "Odrůda": "Pálava",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 87
+    "B": 72
   },
   {
-    "č": 280,
+    "Č/B": 280,
     "Pěstitel": "Koštuřík Richard",
     "Lokalita": "Petrov 350",
     "Odrůda": "ACOLON",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 97
+    "B": 87
   },
   {
-    "č": 281,
+    "Č/B": 281,
     "Pěstitel": "Koštuřík Richard",
     "Lokalita": "Petrov 350",
     "Odrůda": "Cuvée CS + Ac + Me",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 63
+    "B": 55
   },
   {
-    "č": 282,
+    "Č/B": 282,
     "Pěstitel": "Hulcký Zdeněk",
     "Lokalita": "Moravany 156",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 62
+    "B": 50
   },
   {
-    "č": 283,
+    "Č/B": 283,
     "Pěstitel": "Měchura Jiří",
     "Lokalita": "Vacenovice",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 75
+    "B": 99
   },
   {
-    "č": 284,
+    "Č/B": 284,
     "Pěstitel": "Moravanský Jakub",
     "Lokalita": "Moravany 106",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 95
+    "B": 62
   },
   {
-    "č": 285,
+    "Č/B": 285,
     "Pěstitel": "VaZ Moravany",
     "Lokalita": "Moravany 73",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 89
+    "B": 64
   },
   {
-    "č": 286,
+    "Č/B": 286,
     "Pěstitel": "Zálešák Roman",
     "Lokalita": "Moravany 294",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 78
+    "B": 89
   },
   {
-    "č": 287,
+    "Č/B": 287,
     "Pěstitel": "Zálešák Roman",
     "Lokalita": "Moravany 294",
     "Odrůda": "Müller Thurgau",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 50
+    "B": 71
   },
   {
-    "č": 288,
+    "Č/B": 288,
     "Pěstitel": "Kalinec Jaroslav ",
     "Lokalita": "Moravany 43",
     "Odrůda": "Sylvánské zelené",
     "Ročník": 2025,
     "Přívlastek": "Kab",
-    "Body": 90
+    "B": 99
   },
   {
-    "č": 289,
+    "Č/B": 289,
     "Pěstitel": "Kalinec Jaroslav ",
     "Lokalita": "Moravany 43",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 67
+    "B": 100
   },
   {
-    "č": 290,
+    "Č/B": 290,
     "Pěstitel": "Horák Petr ",
     "Lokalita": "Petrov 42",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "VZH",
-    "Body": 60
+    "B": 82
   },
   {
-    "č": 291,
+    "Č/B": 291,
     "Pěstitel": "Veselý Miroslav ",
     "Lokalita": "Brumovice ",
     "Odrůda": "Frankovka",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 71
   },
   {
-    "č": 292,
+    "Č/B": 292,
     "Pěstitel": "Veselý Miroslav ",
     "Lokalita": "Brumovice ",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 56
+    "B": 57
   },
   {
-    "č": 293,
+    "Č/B": 293,
     "Pěstitel": "Veselý Miroslav ",
     "Lokalita": "Brumovice ",
     "Odrůda": "Chorvát",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 92
+    "B": 83
   },
   {
-    "č": 294,
+    "Č/B": 294,
     "Pěstitel": "Veselý Miroslav ",
     "Lokalita": "Brumovice ",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 84
+    "B": 67
   },
   {
-    "č": 295,
+    "Č/B": 295,
     "Pěstitel": "Veselý Miroslav ",
     "Lokalita": "Brumovice ",
     "Odrůda": "Dornfelder",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 66
+    "B": 61
   },
   {
-    "č": 296,
+    "Č/B": 296,
     "Pěstitel": "Veselý Miroslav ",
     "Lokalita": "Brumovice ",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 59
+    "B": 70
   },
   {
-    "č": 297,
+    "Č/B": 297,
     "Pěstitel": "Svoboda Jan",
     "Lokalita": "Petrov 408",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 68
+    "B": 68
   },
   {
-    "č": 298,
+    "Č/B": 298,
     "Pěstitel": "Svoboda Jan",
     "Lokalita": "Petrov 408",
     "Odrůda": "Frankovka",
     "Ročník": 2023,
     "Přívlastek": "-",
-    "Body": 61
+    "B": 86
   },
   {
-    "č": 299,
+    "Č/B": 299,
     "Pěstitel": "Svoboda Jan",
     "Lokalita": "Petrov 408",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 60
+    "B": 96
   },
   {
-    "č": 300,
+    "Č/B": 300,
     "Pěstitel": "Barák Vladimír",
     "Lokalita": "Petrov 373",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 86
   },
   {
-    "č": 301,
+    "Č/B": 301,
     "Pěstitel": "Barák Vladimír",
     "Lokalita": "Petrov 373",
     "Odrůda": "Cuvée Sv + Fr",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 69
+    "B": 85
   },
   {
-    "č": 302,
+    "Č/B": 302,
     "Pěstitel": "Obrtlík Karel RnDr.",
     "Lokalita": "Petrov 230",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 65
+    "B": 80
   },
   {
-    "č": 303,
+    "Č/B": 303,
     "Pěstitel": "Marková Renata",
     "Lokalita": "Strážnice 452",
     "Odrůda": "Rosé Sv",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 72
+    "B": 93
   },
   {
-    "č": 304,
+    "Č/B": 304,
     "Pěstitel": "Svoboda Jan",
     "Lokalita": "Strážnice 1591",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 100
+    "B": 64
   },
   {
-    "č": 305,
+    "Č/B": 305,
     "Pěstitel": "Svoboda Jan",
     "Lokalita": "Strážnice 1591",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 100
+    "B": 84
   },
   {
-    "č": 306,
+    "Č/B": 306,
     "Pěstitel": "Marek Zbyněk",
     "Lokalita": "Strážnice 452",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 98
+    "B": 65
   },
   {
-    "č": 307,
+    "Č/B": 307,
     "Pěstitel": "Hynek Ladislav Ing",
     "Lokalita": "Petrov",
     "Odrůda": "Klaret Sv",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 94
+    "B": 75
   },
   {
-    "č": 308,
+    "Č/B": 308,
     "Pěstitel": "Hynek Ladislav Ing",
     "Lokalita": "Petrov",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": 22,
-    "Body": 84
+    "B": 86
   },
   {
-    "č": 309,
+    "Č/B": 309,
     "Pěstitel": "Hudeček Josef",
     "Lokalita": "Petrov 11",
     "Odrůda": "Souvignier Gris",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 53
+    "B": 63
   },
   {
-    "č": 310,
+    "Č/B": 310,
     "Pěstitel": "Hudeček Josef",
     "Lokalita": "Petrov 11",
     "Odrůda": "Johaniter",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 60
+    "B": 63
   },
   {
-    "č": 311,
+    "Č/B": 311,
     "Pěstitel": "Hudeček Josef",
     "Lokalita": "Petrov 11",
     "Odrůda": "Solaris",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 86
+    "B": 79
   },
   {
-    "č": 312,
+    "Č/B": 312,
     "Pěstitel": "Hudeček Josef",
     "Lokalita": "Petrov 11",
     "Odrůda": "Hibernal",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 59
+    "B": 92
   },
   {
-    "č": 313,
+    "Č/B": 313,
     "Pěstitel": "Hudeček Josef",
     "Lokalita": "Petrov 11",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 92
+    "B": 96
   },
   {
-    "č": 314,
+    "Č/B": 314,
     "Pěstitel": "Hudeček Josef",
     "Lokalita": "Petrov 11",
     "Odrůda": "Tramín (červený)",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 91
+    "B": 91
   },
   {
-    "č": 315,
+    "Č/B": 315,
     "Pěstitel": "Baňař Jindřich",
     "Lokalita": "Strážnice 55",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": 21,
-    "Body": 66
+    "B": 80
   },
   {
-    "č": 316,
+    "Č/B": 316,
     "Pěstitel": "Baňař František",
     "Lokalita": "Strážnice 1693",
     "Odrůda": "Ryzlink vlašský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 68
+    "B": 98
   },
   {
-    "č": 317,
+    "Č/B": 317,
     "Pěstitel": "Baňař František",
     "Lokalita": "Strážnice 1693",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 79
+    "B": 98
   },
   {
-    "č": 318,
+    "Č/B": 318,
     "Pěstitel": "Dubský Lubomír",
     "Lokalita": "Moravany 315",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 72
+    "B": 53
   },
   {
-    "č": 319,
+    "Č/B": 319,
     "Pěstitel": "Dubský Lubomír",
     "Lokalita": "Moravany 315",
     "Odrůda": "Rosé Sv",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 62
+    "B": 51
   },
   {
-    "č": 320,
+    "Č/B": 320,
     "Pěstitel": "Dubský Lubomír",
     "Lokalita": "Moravany 315",
     "Odrůda": "Ryzlink rýnský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 69
+    "B": 70
   },
   {
-    "č": 321,
+    "Č/B": 321,
     "Pěstitel": "Dubský Lubomír",
     "Lokalita": "Moravany 315",
     "Odrůda": "Cuvée CM + Fr",
     "Ročník": 2024,
     "Přívlastek": "-",
-    "Body": 64
+    "B": 95
   },
   {
-    "č": 322,
+    "Č/B": 322,
     "Pěstitel": "Hačunda Jaromír",
     "Lokalita": "Moravany 121",
     "Odrůda": "Rulandské bílé",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 84
+    "B": 73
   },
   {
-    "č": 323,
+    "Č/B": 323,
     "Pěstitel": "Hačunda Jaromír",
     "Lokalita": "Moravany 121",
     "Odrůda": "Veltlínské zelené",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 50
+    "B": 60
   },
   {
-    "č": 324,
+    "Č/B": 324,
     "Pěstitel": "Komosný Pavel ",
     "Lokalita": "Hodonín ",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 66
+    "B": 74
   },
   {
-    "č": 325,
+    "Č/B": 325,
     "Pěstitel": "Komosný Pavel ",
     "Lokalita": "Hodonín ",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 80
+    "B": 90
   },
   {
-    "č": 326,
+    "Č/B": 326,
     "Pěstitel": "Komosný Pavel ",
     "Lokalita": "Hodonín ",
     "Odrůda": "Cuvée Rosé An + Izabela",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 70
+    "B": 65
   },
   {
-    "č": 327,
+    "Č/B": 327,
     "Pěstitel": "Komosný Pavel ",
     "Lokalita": "Hodonín ",
     "Odrůda": "Cabernet Sauvignon",
     "Ročník": 2018,
     "Přívlastek": "-",
-    "Body": 94
+    "B": 99
   },
   {
-    "č": 328,
+    "Č/B": 328,
     "Pěstitel": "Měchura Jiří",
     "Lokalita": "Vacenovice",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 88
+    "B": 80
   },
   {
-    "č": 329,
+    "Č/B": 329,
     "Pěstitel": "Měchura Jiří",
     "Lokalita": "Vacenovice",
     "Odrůda": "Zweigeltrebe",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 55
+    "B": 96
   },
   {
-    "č": 330,
+    "Č/B": 330,
     "Pěstitel": "Vinařství Brázdová",
     "Lokalita": "Sudoměřice",
     "Odrůda": "Johaniter",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 95
+    "B": 94
   },
   {
-    "č": 331,
+    "Č/B": 331,
     "Pěstitel": "Vinařství Brázdová",
     "Lokalita": "Sudoměřice",
     "Odrůda": "Rosé Me",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 82
+    "B": 64
   },
   {
-    "č": 332,
+    "Č/B": 332,
     "Pěstitel": "Vinařství Brázdová",
     "Lokalita": "Sudoměřice",
     "Odrůda": "Sauvignon",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 65
+    "B": 83
   },
   {
-    "č": 333,
+    "Č/B": 333,
     "Pěstitel": "Vinařství Brázdová",
     "Lokalita": "Sudoměřice",
     "Odrůda": "Merlot",
     "Ročník": 2024,
     "Přívlastek": "MZV",
-    "Body": 81
+    "B": 79
   },
   {
-    "č": 334,
+    "Č/B": 334,
     "Pěstitel": "Vinařství Brázdová",
     "Lokalita": "Sudoměřice",
     "Odrůda": "Frankovka",
     "Ročník": 2023,
     "Přívlastek": "VZH",
-    "Body": 75
+    "B": 91
   },
   {
-    "č": 335,
+    "Č/B": 335,
     "Pěstitel": "Vinařství Brázdová",
     "Lokalita": "Sudoměřice",
     "Odrůda": "Rulandské šedé",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 100
+    "B": 51
   },
   {
-    "č": 336,
+    "Č/B": 336,
     "Pěstitel": "Tesař Jan",
     "Lokalita": "Petrov 392",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2018,
     "Přívlastek": "-",
-    "Body": 77
+    "B": 60
   },
   {
-    "č": 337,
+    "Č/B": 337,
     "Pěstitel": "Vladyka Josef",
     "Lokalita": "Moravany 13",
     "Odrůda": "Rosé An",
     "Ročník": 2024,
     "Přívlastek": "PS",
-    "Body": 67
+    "B": 85
   },
   {
-    "č": 338,
+    "Č/B": 338,
     "Pěstitel": "Vladyka Josef",
     "Lokalita": "Moravany 13",
     "Odrůda": "Cuvée IO + MM",
     "Ročník": 2025,
     "Přívlastek": "PS",
-    "Body": 50
+    "B": 87
   },
   {
-    "č": 339,
+    "Č/B": 339,
     "Pěstitel": "Ovečka Pavol",
     "Lokalita": "Skalica",
     "Odrůda": "Pálava",
     "Ročník": 2025,
     "Přívlastek": "PZ",
-    "Body": 71
+    "B": 57
   },
   {
-    "č": 340,
+    "Č/B": 340,
     "Pěstitel": "Ovečka Pavol",
     "Lokalita": "Skalica",
     "Odrůda": "Frankovka",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 81
+    "B": 64
   },
   {
-    "č": 341,
+    "Č/B": 341,
     "Pěstitel": "Ovečka Pavol",
     "Lokalita": "Skalica",
     "Odrůda": "Muškát moravský",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 93
+    "B": 95
   },
   {
-    "č": 342,
+    "Č/B": 342,
     "Pěstitel": "Ovečka Pavol",
     "Lokalita": "Skalica",
     "Odrůda": "Chardonnay",
     "Ročník": 2025,
     "Přívlastek": "PZ",
-    "Body": 95
+    "B": 68
   },
   {
-    "č": 343,
+    "Č/B": 343,
     "Pěstitel": "Konevalik František",
     "Lokalita": "Skalica",
     "Odrůda": "Skalický Rubín",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 71
+    "B": 74
   },
   {
-    "č": 344,
+    "Č/B": 344,
     "Pěstitel": "Konevalik Martin",
     "Lokalita": "Skalica",
     "Odrůda": "André",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 96
+    "B": 56
   },
   {
-    "č": 345,
+    "Č/B": 345,
     "Pěstitel": "Janota Boris",
     "Lokalita": "Skalica",
     "Odrůda": "Cabernet Moravia",
     "Ročník": 2025,
     "Přívlastek": "-",
-    "Body": 83
+    "B": 72
   }
 ]
