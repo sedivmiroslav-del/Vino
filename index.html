@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia: import XLSX (prvý hárok, presné poradie stĺpcov), filtre A–B–D, kompozitné bunky (C pod B, E+F pod D a G pod A), ukladanie e‑mailov a hodnotení na GitHub, publikácia katalógu/pozadia na GitHub, responzívna tabuľka bez horizontálneho posuvu, úplné vyčistenie dát v ADMIN. Opravy: zmenšené písmo tabuľky o 15 %, stabilnejšie načítanie katalógu z GitHubu." />
+<meta name="description" content="HTML aplikácia: import XLSX (prvý hárok, presné poradie stĺpcov), filtre A–B–D, kompozitné bunky (C pod B, E+F pod D a G pod A), ukladanie e‑mailov a hodnotení na GitHub, publikácia katalógu/pozadia na GitHub, responzívna tabuľka bez horizontálneho posuvu, úplné vyčistenie dát v ADMIN. Opravy: zmenšené písmo tabuľky o 15 %, stabilnejšie načítanie katalógu z GitHubu (Pages/Raw/API) a sprístupnené globálne funkcie pre tlačidlá." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -99,11 +99,11 @@ body.locked{ overflow:hidden; }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* Tabuľka – zmenšené písmo o ~15 % */
+/* Tabuľka – písmo zmenšené o ~15 % */
 .table-responsive{ overflow-x:hidden; }
 table{
   width:100%; border-collapse:separate; border-spacing:0; table-layout: fixed;
-  /* predtým clamp(.78rem, .6rem + 1.2vw, .95rem) -> -15 % */
+  /* pôvodne clamp(.78rem, .6rem + 1.2vw, .95rem) */
   font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
 }
 col.col-a{ width: 20%; } /* A + G */
@@ -624,7 +624,6 @@ async function safeFetchJSON(url){
   const ct=(res.headers.get('content-type')||'').toLowerCase();
   if(ct.includes('application/json')) return res.json();
   const txt=await res.text();
-  // pokus o odfiltrovanie HTML/komentárov/BOM – vezmeme substring od prvého { alebo [
   const i = txt.search(/[\{\[]/);
   if(i>=0){ return JSON.parse(txt.slice(i)); }
   throw new Error('Neplatný formát odpovede');
@@ -756,7 +755,7 @@ async function loadCatalogSmart(){
   }catch(e){ console.warn('Raw fetch fail', e); }
   await loadCatalogFromGitHubAPI();
 }
-// sprístupniť do window (kvôli onclick/handlerom z iných častí)
+// sprístupnenie do window – pre prípad volaní z iných handlerov
 window.loadCatalogSmart = loadCatalogSmart;
 
 /* ===== Branding ===== */
@@ -866,6 +865,25 @@ function exportMyRatingsPDF(){
   doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
+/* ===== Po zmene datasetu – obnov UI ===== */
+function afterDataChanged(){
+  renderHeader();
+  rebuildFilterOptions();
+  state.pager.page=1;
+  renderTable(); updateStats();
+}
+// sprístupniť niektoré funkcie globálne (kvôli starým handlerom a debuggeru)
+window.afterDataChanged = afterDataChanged;
+window.publishCatalogToGitHub = publishCatalogToGitHub;
+
+/* ===== Publikácia katalógu ===== */
+async function publishCatalogToGitHub(){
+  if(!state.wines.length){ alert('Žiadne dáta na publikovanie.'); return; }
+  const payload = JSON.stringify(state.wines, null, 2);
+  const ok = await ghPutFile(state.gh.catalogPath || defaultCatalogPath, payload, 'publish catalog');
+  if(ok) showToast('Katalóg bol uložený na GitHub.');
+}
+
 /* ===== INIT ===== */
 document.addEventListener('DOMContentLoaded', ()=>{
   $('year').textContent = new Date().getFullYear();
@@ -884,12 +902,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   applyBranding();
 
-  // AUTH overlay
   showAuthOverlay();
   el.authSubmit && el.authSubmit.addEventListener('click', handleAuthSubmit);
   el.authInput && el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
-  // Admin handlers
   el.btnLoadCatalogGH && el.btnLoadCatalogGH.addEventListener('click', ()=>{ if(typeof loadCatalogSmart==='function'){ loadCatalogSmart(); } });
   el.btnSetGhToken && el.btnSetGhToken.addEventListener('click', async ()=>{ const ok=await ensureGhWriteConfig(); if(ok) showToast('GH token nastavený.'); });
   el.btnRelogin && el.btnRelogin.addEventListener('click', showAuthOverlay);
@@ -897,7 +913,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   el.btnClearData && el.btnClearData.addEventListener('click', wipeAllData);
   el.btnPublishGH && el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
 
-  // Branding
   el.bgFile && el.bgFile.addEventListener('change', handleBgFile);
   el.btnSetBgUrl && el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
   el.btnResetBg && el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
@@ -914,13 +929,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použité GH pozadie.');
   });
 
-  // Filtre
   el.fA && el.fA.addEventListener('change', onFilterChange);
   el.fB && el.fB.addEventListener('change', onFilterChange);
   el.fD && el.fD.addEventListener('change', onFilterChange);
   el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{ el.fA&&(el.fA.value=''); el.fB&&(el.fB.value=''); el.fD&&(el.fD.value=''); onFilterChange(); });
 
-  // Exporty
   el.btnExportPDF && el.btnExportPDF.addEventListener('click', exportMyRatingsPDF);
   el.btnExportEmails && el.btnExportEmails.addEventListener('click', exportEmailsCSV);
   el.btnExportRatings && el.btnExportRatings.addEventListener('click', exportAllRatingsCSV);
