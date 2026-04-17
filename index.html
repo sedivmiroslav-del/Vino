@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie a roletkové filtre." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -18,7 +18,7 @@
   --black: rgb(0,0,0);
   --yellow: rgb(255,255,96);
 
-  /* Moravská modrá – hlavná farba */
+  /* Moravská modrá – hlavná farba podľa požiadavky */
   --primary: rgb(0,79,152);
   --focus: rgb(0,79,152);
 
@@ -40,7 +40,7 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
 
-  /* Branding premenné pre pozadie */
+  /* Branding premenné pre pozadie prihlasovania */
   --branding-bg: none;
   --branding-fit: cover;
 }
@@ -63,20 +63,46 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
+/* Header s väčším logom vľavo cez celý modrý pruh */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white);
-  padding: var(--space-5) 0 var(--space-4);
+  padding: var(--space-4) 0 var(--space-4);
   border-bottom: 1px solid rgba(255,255,255,.2);
   box-shadow: var(--shadow-1);
 }
-.header__inner{ display:flex; align-items:center; gap:var(--space-4); max-width: 1200px; margin:0 auto; padding: 0 var(--space-4); flex-wrap: wrap; }
-.logo{ width:64px; height:64px; object-fit:contain; border-radius:10px; background: rgba(255,255,255,.9); padding: 4px; box-shadow: var(--shadow-1); }
-.title{ margin:.2rem 0; font-size: clamp(1.4rem, 2.3vw, 2rem); font-weight: 800; letter-spacing: .2px; }
-.subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .95; font-weight: 600; }
+.header__inner{
+  display:grid;
+  grid-template-columns: auto 1fr;
+  align-items:center;
+  gap: var(--space-4);
+  max-width: 1200px; margin:0 auto; padding: 0 var(--space-4);
+}
+.logo{
+  height: 96px; /* väčšie logo */
+  width: auto;
+  object-fit: contain;
+  background: rgba(255,255,255,.95);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: var(--shadow-1);
+}
+.title{ margin:.2rem 0; font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 800; letter-spacing: .2px; }
+.subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .98; font-weight: 600; }
 
-.header__stats{ display:flex; gap: var(--space-4); max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4); }
-.stat{ flex:1; min-width: 200px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: var(--space-4); backdrop-filter: blur(6px); }
+.header__stats{
+  display:flex; gap: var(--space-4);
+  max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4);
+  flex-wrap: wrap;
+}
+.stat{
+  flex:1; min-width: 220px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  backdrop-filter: blur(6px);
+}
 .stat__value{ font-size: 1.6rem; font-weight: 800; }
 .stat__label{ font-size: .95rem; opacity: .95; }
 
@@ -157,9 +183,10 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
-/* Prihlasovacie prekrytie s pozadím */
+/* Prihlasovacie prekrytie: biele pozadie cez celú obrazovku, obrázok ako nenatienené pozadie */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
+  background: var(--white);
 }
 .overlay.show{ display:flex; }
 .overlay::before{
@@ -169,7 +196,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
   background-size: var(--branding-fit);
   background-position: center center;
   background-repeat: no-repeat;
-  filter: brightness(.6);
+  opacity: 1; /* bez stmavenia, za obrázkom je biele pozadie */
   z-index: 0;
 }
 .dialog{
@@ -179,13 +206,23 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .dialog h2{ margin-top:0; }
 .note{ color: var(--muted); font-size: .9rem; }
-.intro{
-  margin-top: 0;
-  padding: .5rem .75rem;
-  background: rgba(0,79,152,.08);
-  border-left: 4px solid var(--primary);
-  border-radius: 6px;
-  font-weight: 600;
+
+/* Úvodný text pod bielym oknom */
+.overlay-intro{
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: min(6vh, 48px);
+  width: min(800px, 92vw);
+  z-index: 1;
+  background: rgba(255,255,255,.95);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .75rem 1rem;
+  box-shadow: var(--shadow-1);
+  text-align: center;
+  font-weight: 700;
+  color: var(--black);
+  outline-offset: 4px;
 }
 
 /* Panel roletkových filtrov nad tabuľkou */
@@ -255,11 +292,10 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 <body>
 <a class="skip-link" href="#main">Preskočiť na obsah</a>
 
-<!-- Prihlasovacie prekrytie: e‑mail + úvodný text + pozadie z brandingu -->
+<!-- Prihlasovacie prekrytie: e‑mail; úvodný text je pod bielym oknom -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="auth-title-overlay">
-  <div class="dialog">
+  <div class="dialog" role="document" aria-describedby="overlay-intro">
     <h2 id="auth-title-overlay">Prihlásenie</h2>
-    <p class="intro">Vinari Petrov úvodný text</p>
     <p>Zadajte svoj e‑mail a pokračujte do katalógu.</p>
     <div class="input-group">
       <label for="auth-input" class="required">E‑mail</label>
@@ -270,6 +306,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
     </div>
     <p id="auth-status" class="status" role="status" aria-live="polite"></p>
   </div>
+  <p id="overlay-intro" class="overlay-intro">Vinari Petrov úvodný text</p>
 </div>
 
 <header class="header" role="banner" aria-label="Hlavný banner">
@@ -281,9 +318,22 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
     </div>
   </div>
   <div class="header__stats" role="region" aria-label="Štatistiky">
-    <div class="stat"><div class="stat__value" id="stat-total">0</div><div class="stat__label">Položiek</div></div>
-    <div class="stat"><div class="stat__value" id="stat-filtered">0</div><div class="stat__label">Zobrazených</div></div>
-    <div class="stat"><div class="stat__value" id="stat-rated">0</div><div class="stat__label">Ohodnotených</div></div>
+    <div class="stat">
+      <div class="stat__value" id="stat-total">0</div>
+      <div class="stat__label">Položiek</div>
+    </div>
+    <div class="stat">
+      <div class="stat__value" id="stat-filtered">0</div>
+      <div class="stat__label">Zobrazených</div>
+    </div>
+    <div class="stat">
+      <div class="stat__value" id="stat-rated">0</div>
+      <div class="stat__label">Ohodnotených</div>
+    </div>
+    <div class="stat">
+      <div class="stat__value" id="stat-avg">–</div>
+      <div class="stat__label">Priemerné moje hodnotenie</div>
+    </div>
   </div>
 </header>
 
@@ -447,7 +497,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
           <button id="btn-clear-filters" class="btn btn-ghost" type="button" aria-label="Zrušiť filtre">Zrušiť filtre</button>
         </div>
       </div>
-      <p class="help-text">Filtre sú naplnené jedinečnými hodnotami z nahratého katalógu.</p>
+      <p class="help-text">Filtre sú naplnené jedinečnými hodnotami z nahratého katalógu a filtrovaním ovplyvňujú tabuľku nižšie.</p>
     </div>
   </section>
 
@@ -504,7 +554,7 @@ const state = {
   hasHeader: true,
   persistWines: false,
   columnMap: { A:'A', B:'B', C:'C', D:'D', E:'E', F:'F', G:'G' },
-  // nové filtre (roletky) – presné zhodovanie, prázdne = všetky
+  // roletkové filtre – presná zhoda; prázdne = všetky
   filters: { poradie:'', vystavovatel:'', odroda:'' },
   email: null,
   isAdmin: false,
@@ -608,7 +658,7 @@ function init(){
   if(el.btnRelogin){ el.btnRelogin.addEventListener('click', showAuthOverlay); }
   if(el.btnLoadCatalogGH){ el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart); }
 
-  // Roletkové filtre – zmena resetuje stránku na 1
+  // Roletkové filtre – zmena resetuje stránku na 1 a filtruje tabuľku
   const onFilterChange = ()=>{
     state.filters.poradie = el.fPoradie ? el.fPoradie.value : '';
     state.filters.vystavovatel = el.fVyst ? el.fVyst.value : '';
@@ -766,7 +816,7 @@ function applyBranding(){
   // logo
   if(state.branding.logoUrl){ el.appLogo.src = state.branding.logoUrl; }
   else { el.appLogo.src = 'assets/img/logo.png'; }
-  // pozadie (telo aj overlay)
+  // pozadie pre overlay
   const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
   document.documentElement.style.setProperty('--branding-bg', bg);
   const fit = state.branding.bgFit || 'cover';
@@ -780,7 +830,6 @@ function handleLogoFile(ev){
   const f = ev.target.files && ev.target.files[0]; if(!f) return;
   const reader = new FileReader();
   reader.onload = e => {
-    // použijeme dataURL len dočasne (bez ukladania do LS)
     el.appLogo.src = e.target.result;
     showToast('Logo bolo načítané (dočasne).');
   };
@@ -790,7 +839,6 @@ function handleBgFile(ev){
   const f = ev.target.files && ev.target.files[0]; if(!f) return;
   const reader = new FileReader();
   reader.onload = e => {
-    // použijeme dataURL dočasne (neukladáme do LS kvôli veľkosti)
     document.documentElement.style.setProperty('--branding-bg', `url("${e.target.result}")`);
     showToast('Pozadie bolo načítané (dočasne).');
   };
@@ -814,7 +862,6 @@ function rebuildFilterOptions(){
     sel.innerHTML = '';
     const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent=placeholder; sel.appendChild(opt0);
     const arr = Array.from(values);
-    // Poradové číslo – číselne, ostatné – abecedne
     if(sel.id==='filter-poradie'){
       arr.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
     }else{
@@ -823,7 +870,6 @@ function rebuildFilterOptions(){
     for(const v of arr){
       const opt = document.createElement('option'); opt.value=v; opt.textContent=v; sel.appendChild(opt);
     }
-    // zachovať voľbu, ak existuje
     sel.value = arr.includes(curVal) ? curVal : '';
   };
   fillSelect(el.fPoradie, poradieSet, 'Všetky');
@@ -902,7 +948,6 @@ function renderPagination({ total, pages, page }){
   nav.appendChild(mkBtn('«', ()=>{ state.pager.page=1; renderTable(); }, { title:'Prvá', disabled: page===1 }));
   nav.appendChild(mkBtn('‹', ()=>{ state.pager.page=Math.max(1,page-1); renderTable(); }, { title:'Predošlá', disabled: page===1 }));
 
-  // Číselné stránky – okno okolo aktuálnej
   const windowSize = 2;
   let start = Math.max(1, page - windowSize);
   let end = Math.min(pages, page + windowSize);
@@ -944,7 +989,7 @@ function exportPDF(){
   doc.save(`moje_hodnotenia_${tsFile()}.pdf`);
 }
 
-/* ===== Utility ===== */
+/* ===== Utility & štatistiky ===== */
 function clearData(){ if(!confirm('Naozaj vymazať nahraté dáta (vína)? Hodnotenia ostanú uložené.')) return; state.wines=[]; localStorage.removeItem(LS_KEYS.wines); rebuildFilterOptions(); state.pager.page=1; renderTable(); updateStats(); showToast('Dáta katalógu vymazané.'); }
 function parseRows(rows){
   const m=state.columnMap, idx=l=>{ const s=(l||'').trim().toUpperCase(); let n=0; for(let i=0;i<s.length;i++){ const c=s.charCodeAt(i)-64; if(c<1||c>26) return null; n=n*26+c; } return n-1; };
@@ -961,11 +1006,21 @@ function safeTrim(v){ if(v===undefined||v===null) return ''; return String(v).tr
 function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=parseInt(String(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
 function tsFile(){ const d=new Date(),p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`; }
 function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email); }
+
 function updateStats(){
-  const total=state.wines.length, shown=applyFilters(state.wines.slice()).length, rated=state.email?state.wines.filter(w=>!!getUserRatingForWine(state.email,w.id)).length:0;
-  const t1=$('stat-total'), t2=$('stat-filtered'), t3=$('stat-rated'); if(t1) t1.textContent=total; if(t2) t2.textContent=shown; if(t3) t3.textContent=rated;
+  const total=state.wines.length;
+  const shown=applyFilters(state.wines.slice()).length;
+  const my = state.ratings.filter(r=>r.email===state.email);
+  const rated = my.length;
+  const avg = rated ? (my.reduce((s,r)=>s+(parseInt(r.points,10)||0),0)/rated) : null;
+
+  const t1=$('stat-total'), t2=$('stat-filtered'), t3=$('stat-rated'), t4=$('stat-avg');
+  if(t1) t1.textContent=total;
+  if(t2) t2.textContent=shown;
+  if(t3) t3.textContent=rated;
+  if(t4) t4.textContent = (avg!==null) ? avg.toFixed(1) : '–';
 }
-function debounce(fn, wait){ let t; return function(...args){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args),wait); }; }
+
 function showToast(text){ if(!el.toast) return; el.toast.textContent=text; el.toast.hidden=false; el.toast.classList.add('show'); clearTimeout(el.toast._t); el.toast._t=setTimeout(()=>el.toast.classList.remove('show'),2200); }
 function b64encodeUnicode(str){ const bytes=new TextEncoder().encode(str); let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin); }
 </script>
