@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinnné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -40,7 +40,7 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
 
-  /* Branding premenné pre pozadie prihlasovania */
+  /* Branding premenné pre pozadie prihlasovania (použije sa vaša fotka z URL alebo súboru) */
   --branding-bg: none;
   --branding-fit: cover;
 }
@@ -189,46 +189,84 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
-/* Prihlasovacie prekrytie: biele pozadie s obrázkom bez stmavenia */
+/* ===== Nový HERO štýl prihlasovacej obrazovky podľa screenshotu ===== */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
   background: var(--white);
+  color: var(--white);
 }
 .overlay.show{ display:flex; }
 .overlay::before{
   content:"";
   position:absolute; inset:0;
-  background-image: var(--branding-bg);
+  background-image: var(--branding-bg); /* vaša fotka */
   background-size: var(--branding-fit);
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 1;
+  filter: blur(2px);
+  transform: scale(1.03); /* jemný zoom ako na obrázku */
   z-index: 0;
 }
+.overlay::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.55) 100%);
+  z-index: 0;
+}
+.hero-wrap{
+  position: relative; z-index: 1;
+  display:flex; flex-direction: column; align-items: center; text-align:center;
+  width: min(1100px, 92vw);
+  padding: min(5vh, 40px) 16px;
+}
+.hero-title{
+  font-size: clamp(2rem, 5vw + 1.2rem, 5rem);
+  line-height: 1.05;
+  margin: 0 0 .4rem;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-shadow: 0 6px 22px rgba(0,0,0,.45);
+}
+.hero-title .small{
+  display:block;
+  font-size: .5em;
+  line-height: 1.1;
+  letter-spacing: .06em;
+}
+.hero-year{
+  margin:.2rem 0 1.2rem;
+  font-size: clamp(2rem, 4vw + .6rem, 4.2rem);
+  font-weight: 900;
+  text-shadow: 0 6px 22px rgba(0,0,0,.45);
+}
+.hero-text{
+  max-width: 980px;
+  margin: 0 auto 1.2rem;
+  font-size: clamp(1rem, .9rem + .4vw, 1.2rem);
+  line-height: 1.65;
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+}
+
+/* Login karta – nahrádza zelené tlačidlo zo screenshotu */
 .dialog{
   position: relative; z-index: 1;
-  width: min(560px, 92vw); background: rgba(255,255,255,.98); border-radius: var(--radius);
-  box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: var(--space-5);
+  width: min(460px, 92vw); background: rgba(255,255,255,.98); border-radius: 9999px;
+  box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: .6rem .75rem .6rem 1rem;
+  display: flex; gap: .6rem; align-items: center; justify-content: center;
 }
-.dialog h2{ margin-top:0; }
-.note{ color: var(--muted); font-size: .9rem; }
+.dialog h2{ display:none; } /* nadpis skryjeme – hero už má veľký titulok */
+.dialog label{ margin:0; }
+.dialog input{ flex: 1 1 auto; min-width: 160px; border-radius: 9999px; }
+.dialog .btn{ border-radius: 9999px; }
 
-/* Úvodný text pod bielym oknom */
-.overlay-intro{
-  position: absolute;
-  left: 50%; transform: translateX(-50%);
-  bottom: min(6vh, 48px);
-  width: min(800px, 92vw);
-  z-index: 1;
-  background: rgba(255,255,255,.95);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: .75rem 1rem;
-  box-shadow: var(--shadow-1);
-  text-align: center;
+/* Pomocný status pod „tlačidlom“ */
+.overlay-status{
+  margin-top:.6rem;
+  color: #ffdddd;
   font-weight: 700;
-  color: var(--black);
-  outline-offset: 4px;
+  min-height: 1.2em;
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
 }
 
 /* Panel roletkových filtrov nad tabuľkou */
@@ -298,21 +336,29 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 <body>
 <a class="skip-link" href="#main">Preskočiť na obsah</a>
 
-<!-- Prihlasovacie prekrytie: e‑mail; úvodný text je pod bielym oknom -->
-<div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="auth-title-overlay">
-  <div class="dialog" role="document" aria-describedby="overlay-intro">
-    <h2 id="auth-title-overlay">Prihlásenie</h2>
-    <p>Zadajte svoj e‑mail a pokračujte do katalógu.</p>
-    <div class="input-group">
-      <label for="auth-input" class="required">E‑mail</label>
-      <input id="auth-input" type="text" placeholder="vas@email.sk" />
-    </div>
-    <div class="inline-row">
+<!-- HERO prihlasovacia obrazovka v štýle zo screenshotu.
+     Zostáva vaša fotka (branding background), farby a namiesto tlačidla je e‑mail prihlasovanie. -->
+<div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
+  <div class="hero-wrap" role="document" aria-describedby="overlay-intro">
+    <h1 id="hero-title" class="hero-title">
+      <span class="small">Přehlídka vín</span>
+      PÁLAVSKÝ VLAŠÁK
+    </h1>
+    <div class="hero-year">2025</div>
+    <p id="overlay-intro" class="hero-text">
+      Milovníku Vlašáku, vítej na stránkách online katalogu přehídky vín PÁLAVSKÝ VLAŠÁK 2025.
+      V tomto katalogu máš nejen možnost vzorky procházet, vyhledávat, ale také hodnotit a značit si vzorky, které jsi už ochutnal.
+    </p>
+
+    <!-- Prihlasovací „chip“ – nahrádza zelené tlačidlo zo screenshotu -->
+    <div class="dialog">
+      <h2>Prihlásenie</h2>
+      <label for="auth-input" class="required" style="display:none">E‑mail</label>
+      <input id="auth-input" type="text" placeholder="vas@email.sk" aria-label="E‑mail na prihlásenie" />
       <button id="auth-submit" class="btn btn-primary" type="button">Pokračovať</button>
     </div>
-    <p id="auth-status" class="status" role="status" aria-live="polite"></p>
+    <p id="auth-status" class="overlay-status" role="status" aria-live="polite"></p>
   </div>
-  <p id="overlay-intro" class="overlay-intro">Vinari Petrov úvodný text</p>
 </div>
 
 <header class="header" role="banner" aria-label="Hlavný banner">
@@ -693,12 +739,14 @@ function init(){
   if(el.btnResetBg) el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
   if(el.bgFit) el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
 
+  if(el.btnExportPDF){ el.btnExportPDF.addEventListener('click', exportPDF); }
+
   renderTable();
   updateStats();
   updateIdentityUI();
 }
 
-/* FIX: chýbajúca funkcia z konzoly – ukladá GitHub konfiguráciu */
+/* FIX: chýbajúca funkcia (hlásila sa v konzole) – ukladá GitHub konfiguráciu */
 function saveGhConfigFromInputs(){
   state.gh.owner = (el.ghOwner?.value || '').trim();
   state.gh.repo = (el.ghRepo?.value || '').trim();
@@ -832,7 +880,7 @@ function applyBranding(){
   // logo
   if(state.branding.logoUrl){ el.appLogo.src = state.branding.logoUrl; }
   else { el.appLogo.src = 'assets/img/logo.png'; }
-  // pozadie pre overlay
+  // pozadie pre overlay – vaša fotka pre hero
   const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
   document.documentElement.style.setProperty('--branding-bg', bg);
   const fit = state.branding.bgFit || 'cover';
