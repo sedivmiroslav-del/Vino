@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalóg vín – hodnotenia</title>
-<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásenie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
+<meta name="description" content="HTML aplikácia na nahratie XLSX katalógu vín, povinné prihlásanie, admin mód, branding a export do PDF. Responzívna tabuľka bez horizontálneho posúvania. Stránkovanie, roletkové filtre a priemerné hodnotenie používateľa." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -12,8 +12,6 @@
   --green: rgb(0,137,6);
   --gray: rgb(135,135,135);
   --light: rgb(206,213,218);
-  --cyan: rgb(29,155,178);
-  --olive: rgb(161,200,97);
   --white: rgb(255,255,255);
   --black: rgb(0,0,0);
 
@@ -21,8 +19,6 @@
   --primary: rgb(0,79,152);
   --focus: rgb(0,79,152);
 
-  --bg: var(--white);
-  --text: var(--black);
   --muted: var(--gray);
   --border: var(--light);
 
@@ -43,13 +39,13 @@
   --branding-fit: cover;
 }
 
-*{box-sizing: border-box}
+*{box-sizing:border-box}
 
 html,body{
   margin:0;
   padding:0;
   background: linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
-  color: var(--text);
+  color: var(--black);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height: 1.5;
 }
@@ -61,27 +57,19 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* ===== HEADER (bez loga) – prispôsobený textu ===== */
+/* ===== HEADER (bez loga) ===== */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white);
   border-bottom: 1px solid rgba(255,255,255,.2);
   box-shadow: var(--shadow-1);
 }
-.header__inner{
-  width: 100%;
-  padding: 1.2rem var(--space-4);
-}
-.header__text{
-  text-align: center;
-  max-width: min(80ch, 92vw);
-  margin: 0 auto;
-}
+.header__inner{ width:100%; padding: 1.2rem var(--space-4); }
+.header__text{ text-align:center; max-width:min(80ch,92vw); margin:0 auto; }
 .title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
-/* Podtitul biely */
 .subtitle{ margin:.2rem 0; color: var(--white); opacity: .98; font-weight: 600; }
 
-/* Štatistiky pod hlavičkou */
+/* Štatistiky */
 .header__stats{
   display:flex; gap: var(--space-4);
   max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4);
@@ -101,70 +89,37 @@ body.locked{ overflow:hidden; }
 .banner.show{ display:flex; }
 
 /* Karty bez hlavičiek */
-.card{
-  border:1px solid var(--border); border-radius: var(--radius); background: var(--white);
-  margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip;
-}
+.card{ border:1px solid var(--border); border-radius: var(--radius); background: var(--white); margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip; }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
 
 /* ===== Filtre – rovnaké šírky, nepresahujú ===== */
 .filter-bar{
-  display:flex; align-items: center; flex-wrap: wrap;
-  gap: .6rem;
-  margin: .25rem 0;
-  padding: .6rem .8rem;
+  display:flex; align-items:center; flex-wrap:wrap;
+  gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
   background: rgba(206,213,218,.25);
-  border: 1px solid var(--border);
-  border-radius: 9999px;
+  border:1px solid var(--border); border-radius: 9999px;
 }
-.filter-bar .group{
-  display:flex; align-items:center; gap:.5rem;
-  flex: 1 1 260px;
-  min-width: 220px;
-  max-width: 100%;
-}
+.filter-bar .group{ display:flex; align-items:center; gap:.5rem; flex:1 1 260px; min-width:220px; max-width:100%; }
 .filter-bar label{ margin:0; font-weight:700; color: var(--black); }
 .select-pill{
-  appearance:none;
-  width: 100%;
-  max-width: 100%;
-  padding:.85rem 2.1rem .85rem .9rem;
+  appearance:none; width:100%; max-width:100%; padding:.85rem 2.1rem .85rem .9rem;
   border:1px solid var(--border);
   background: var(--white) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="%23004F98" stroke-width="2" fill="none" stroke-linecap="round"/></svg>') no-repeat right .7rem center/12px 8px;
-  border-radius: 9999px;
-  font-weight: 700;
-  color: var(--black);
-  box-sizing: border-box;
+  border-radius: 9999px; font-weight:700; color: var(--black); box-sizing:border-box;
 }
-.btn-chip{
-  border:1px solid var(--border);
-  border-radius: 9999px;
-  padding:.85rem 1rem;
-  background: var(--white);
-  color: var(--black);
-  font-weight:700;
-  flex: 0 0 auto;
-}
+.btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.85rem 1rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabuľka (desktop vzhľad aj na mobile) ===== */
-.table-responsive{
-  overflow-x: auto;
-}
+/* ===== Tabuľka – desktop vzhľad aj na mobile (horizontálny posuvník) ===== */
+.table-responsive{ overflow-x:auto; }
 table{
   width:100%;
-  min-width: 960px;            /* aby sa na mobile nekrvilo – horizontálny posuvník */
-  border-collapse: separate;
-  border-spacing: 0;
-  table-layout: fixed;
+  min-width: 960px;
+  border-collapse:separate; border-spacing:0; table-layout:fixed;
 }
-thead th{
-  position: sticky; top:0;
-  background: linear-gradient(180deg, rgba(206,213,218,.7), rgba(206,213,218,.45));
-  z-index:2;
-}
-th, td{ border-bottom:1px solid var(--border); padding:.6rem .55rem; text-align:left; vertical-align: top; word-wrap: break-word; }
+thead th{ position:sticky; top:0; background:linear-gradient(180deg, rgba(206,213,218,.7), rgba(206,213,218,.45)); z-index:2; }
+th,td{ border-bottom:1px solid var(--border); padding:.6rem .55rem; text-align:left; vertical-align:top; word-wrap:break-word; }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.08); }
 
@@ -174,90 +129,63 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
   width: min(560px, 92vw);
   background: rgba(255,255,255,.98); border-radius: 9999px;
   box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: 1rem 1rem 1rem 1.2rem;
-  display: flex; gap: .8rem; align-items: center; justify-content: center;
+  display:flex; gap:.8rem; align-items:center; justify-content:center;
 }
 .dialog h2{ display:none; }
-.dialog input{
-  flex: 1 1 auto;
-  min-width: 220px;
-  border-radius: 9999px;
-  font-size: 1.25rem;
-  padding: .95rem 1.1rem;
-}
-.rating-input{
-  width: 180px;
-  font-size: 1.1rem;
-  padding: .85rem .7rem;
-}
+.dialog input{ flex:1 1 auto; min-width:220px; border-radius:9999px; font-size:1.25rem; padding:.95rem 1.1rem; }
+.rating-input{ width: 180px; font-size:1.1rem; padding:.85rem .7rem; }
 
-.status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
-.error{ color: #b00020; font-weight:700; }
-
-.footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
-
-.badge{
-  display:inline-block; padding:.25rem .5rem; border-radius: 999px; font-size:.85rem; border:1px solid transparent;
-  background: rgb(255,255,96); color: var(--black); font-weight: 800; letter-spacing:.2px;
-}
+/* Badges & buttons */
+.badge{ display:inline-block; padding:.25rem .5rem; border-radius:999px; font-size:.85rem; border:1px solid transparent; background: rgb(255,255,96); color: var(--black); font-weight:800; letter-spacing:.2px; }
 .badge.done{ background: var(--primary); color: var(--white); }
 .badge.pending{ background: rgb(161,200,97); color: var(--black); }
 .badge.lock{ background: var(--gray); color: var(--white); }
 
-.btn{
-  border:1px solid transparent; border-radius: 999px; padding:.8rem 1.1rem; cursor:pointer; font-weight:700;
-  transition: transform .05s ease, filter .15s ease, background-color .15s ease;
-}
+.btn{ border:1px solid transparent; border-radius:999px; padding:.8rem 1.1rem; cursor:pointer; font-weight:700; transition: transform .05s ease, filter .15s ease, background-color .15s ease; }
 .btn:active{ transform: translateY(1px); }
 .btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,79,152,.25); }
-.btn-primary:hover{ filter: brightness(0.96); }
+.btn-primary:hover{ filter:brightness(0.96); }
 .btn-ghost{ background: var(--white); color: var(--black); border-color: var(--border); }
 .btn-ghost:hover{ background: rgba(206,213,218,.25); }
 
-.toast{
-  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
-  padding: .75rem 1rem; background: var(--black); color: var(--white); border-radius: 999px;
-  box-shadow: var(--shadow-2); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 9999;
-}
-.toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
+/* Status, footer, toast */
+.status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
+.error{ color:#b00020; font-weight:700; }
+.footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
+.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color:var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
+.toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
 /* ===== HERO prihlasovanie – pozadie 100% aj na mobile, nepresvitá katalóg ===== */
 .overlay{
-  position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
-  background: var(--black);                      /* fallback, aby nepresvital katalóg */
+  position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000;
+  background: var(--black);
   color: var(--white);
 }
 .overlay.show{ display:flex; }
 .overlay::before{
-  content:"";
-  position:absolute; inset:0;
+  content:""; position:absolute; inset:0;
   background-image: var(--branding-bg);
   background-size: var(--branding-fit);
-  background-position: center center;
-  background-repeat: no-repeat;
-  z-index: 0;
+  background-position:center center;
+  background-repeat:no-repeat;
+  z-index:0;
 }
 .overlay::after{
-  content:"";
-  position:absolute; inset:0;
+  content:""; position:absolute; inset:0;
   background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.55) 100%);
-  z-index: 0;
+  z-index:0;
 }
-.hero-wrap{
-  position: relative; z-index: 1;
-  display:flex; flex-direction: column; align-items: center; text-align:center;
-  width: min(1100px, 92vw);
-  padding: min(5vh, 40px) 16px;
-}
-.hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height: 1.05; margin: 0 0 .4rem; font-weight: 900; letter-spacing: .5px; text-shadow: 0 6px 22px rgba(0,0,0,.45); }
-.hero-title .small{ display:block; font-size: .5em; line-height: 1.1; letter-spacing: .06em; }
-.hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight: 900; text-shadow: 0 6px 22px rgba(0,0,0,.45); }
-.hero-text{ max-width: 980px; margin: 0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height: 1.65; color: rgba(255,255,255,.96); text-shadow: 0 2px 12px rgba(0,0,0,.45); }
+.hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
+.hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
+.hero-title .small{ display:block; font-size:.5em; line-height:1.1; letter-spacing:.06em; }
+.hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight:900; text-shadow:0 6px 22px rgba(0,0,0,.45); }
+.hero-text{ max-width:980px; margin:0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height:1.65; color:rgba(255,255,255,.96); text-shadow:0 2px 12px rgba(0,0,0,.45); }
 
 /* Mobil – desktop tabuľka sa zachová, len sa posúva do šírky */
 @media (max-width: 820px){
-  .filter-bar{ border-radius: 14px; padding: .6rem; }
-  .filter-bar .group{ flex: 1 1 100%; min-width: 0; }
-  .select-pill{ width: 100%; }
+  .filter-bar{ border-radius:14px; padding:.6rem; }
+  .filter-bar .group{ flex:1 1 100%; min-width:0; }
+  .select-pill{ width:100%; }
 }
 </style>
 
@@ -269,7 +197,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 <body>
 <a class="skip-link" href="#main">Preskočiť na obsah</a>
 
-<!-- HERO prihlasovacia obrazovka -->
+<!-- Prihlasovanie (overlay) -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
   <div class="hero-wrap" role="document" aria-describedby="overlay-intro">
     <h1 id="hero-title" class="hero-title">
@@ -279,7 +207,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
     <div class="hero-year">2025</div>
     <p id="overlay-intro" class="hero-text">
       Milovníku Vlašáku, vítej na stránkách online katalogu přehídky vín PÁLAVSKÝ VLAŠÁK 2025.
-      V tomto katalogu máš nejen možnost vzorky procházet, vyhledávat, ale také hodnotit a značit si vzorky, které jsi už ochutnal.
+      V tomto katalogu máš nejen možnosť vzorky prehliadať a vyhľadávať, ale tiež ich hodnotiť.
     </p>
 
     <div class="dialog">
@@ -313,56 +241,6 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 </div>
 
 <main id="main" class="container" role="main">
-
-  <!-- ADMIN: nahratie a publikovanie katalógu -->
-  <section id="upload-section" aria-labelledby="upload-title" class="card card--nohead" hidden>
-    <div class="card__header"></div>
-    <div class="card__body">
-      <p>Očakávané stĺpce v poradí: A: Poradové číslo, B: Vystavovateľ, C: Adresa, D: Odroda, E: Ročník, F: Prívlastok, G: Body (oficiálne).</p>
-      <div class="upload-controls">
-        <div class="input-group">
-          <label for="file-input" class="required">Súbor XLSX</label>
-          <div class="file-row">
-            <input id="file-input" type="file" accept=".xlsx,.xls" aria-describedby="file-help" />
-            <button id="btn-load" class="btn btn-primary" type="button" aria-label="Načítať XLSX">Načítať</button>
-            <button id="btn-clear-data" class="btn btn-ghost" type="button" aria-label="Vymazať nahraté dáta">Vymazať dáta</button>
-          </div>
-          <div id="file-help" class="help-text">Prvý hárok v súbore bude spracovaný.</div>
-        </div>
-        <div class="input-inline">
-          <label class="checkbox"><input id="has-header" type="checkbox" checked /> Súbor obsahuje hlavičku</label>
-          <label class="checkbox" title="Pozor: veľké súbory nemusia ísť uložiť."><input id="persist-wines" type="checkbox" /> Ukladať katalóg do prehliadača</label>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Branding (len pozadie) -->
-  <section id="branding-section" aria-labelledby="branding-title" class="card card--nohead" hidden>
-    <div class="card__header"></div>
-    <div class="card__body">
-      <div class="input-group">
-        <label for="bg-file">Nahrať pozadie (PNG/JPG)</label>
-        <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
-      </div>
-      <div class="input-group">
-        <label for="bg-url">URL pozadia</label>
-        <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
-        <div class="inline-row">
-          <button id="btn-set-bg-url" class="btn btn-primary" type="button">Použiť URL pozadia</button>
-          <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovať pozadie</button>
-        </div>
-      </div>
-      <div class="input-group">
-        <label for="bg-fit">Zobrazenie</label>
-        <select id="bg-fit">
-          <option value="cover">Vyplniť (cover)</option>
-          <option value="contain">Obsiahnuť (contain)</option>
-          <option value="auto">Auto</option>
-        </select>
-      </div>
-    </div>
-  </section>
 
   <!-- Filtre -->
   <section class="card card--nohead" aria-label="Filtrovanie katalógu">
@@ -414,6 +292,7 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
           <tbody id="wine-tbody"></tbody>
         </table>
       </div>
+      <nav id="paginator" class="pager" aria-label="Stránkovanie" style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-top:var(--space-4);"></nav>
       <p id="table-status" role="status" class="status"></p>
     </div>
   </section>
@@ -434,188 +313,65 @@ tbody tr:hover{ background: rgba(0,79,152,.08); }
 </footer>
 
 <script>
-/* ===== KONŠTANTY ===== */
+/* ========= KONŠTANTY ========= */
 const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 
-/* ===== GLOBÁLNY STAV & LS KĽÚČE ===== */
+/* ========= STAV ========= */
 const state = {
   wines: [],
-  hasHeader: true,
-  persistWines: false,
-  columnMap: { A:'A', B:'B', C:'C', D:'D', E:'E', F:'F', G:'G' },
-  filters: { poradie:'', vystavovatel:'', odroda:'' },
+  ratings: [],
   email: null,
   isAdmin: false,
-  ratings: [],
+  filters: { poradie:'', vystavovatel:'', odroda:'' },
   gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath:'', token:'' },
   branding: { bgUrl:'', bgFit:'cover' },
   pager: { page: 1, perPage: 30 }
 };
-const LS_KEYS = {
-  email: 'winecat_email',
-  ratings: 'winecat_ratings',
-  wines: 'winecat_wines',
-  map: 'winecat_map',
-  hasHeader: 'winecat_hasHeader',
-  persist: 'winecat_persist',
-  gh: 'winecat_github_cfg',
-  branding: 'winecat_branding'
+const LS = {
+  email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding'
 };
 
-/* ===== DOM ===== */
+/* ========= DOM ========= */
 const $ = id => document.getElementById(id);
 const el = {
-  overlay: $('auth-overlay'),
-  authInput: $('auth-input'),
-  authSubmit: $('auth-submit'),
-  authStatus: $('auth-status'),
-
-  uploadSection: $('upload-section'),
-  brandingSection: $('branding-section'),
-
-  ghOwner: $('gh-owner'), ghRepo: $('gh-repo'), ghBranch: $('gh-branch'),
-  ghCatalog: $('gh-catalog-path'), ghEmails: $('gh-emails-path'), ghToken: $('gh-token'),
-
-  file: $('file-input'),
-  hasHeader: $('has-header'),
-  persistWines: $('persist-wines'),
-  btnLoad: $('btn-load'),
-  btnClearData: $('btn-clear-data'),
-  btnPublishGH: $('btn-publish-github'),
-
-  whoami: $('whoami'),
-  btnRelogin: $('btn-relogin'),
-  btnLoadCatalogGH: $('btn-load-catalog-gh'),
-
-  fPoradie: $('filter-poradie'),
-  fVyst: $('filter-vystavovatel'),
-  fOdr: $('filter-odroda'),
-  btnClearFilters: $('btn-clear-filters'),
-
-  tbody: $('wine-tbody'),
-  tableStatus: $('table-status'),
-  btnExportPDF: $('btn-export-pdf'),
-
-  bgFile: $('bg-file'),
-  bgUrl: $('bg-url'),
-  btnSetBgUrl: $('btn-set-bg-url'),
-  btnResetBg: $('btn-reset-bg'),
-  bgFit: $('bg-fit'),
-
-  year: $('year'),
-  toast: $('toast')
+  overlay: $('auth-overlay'), authInput: $('auth-input'), authSubmit: $('auth-submit'), authStatus: $('auth-status'),
+  wineBody: $('wine-tbody'), paginator: $('paginator'), tableStatus: $('table-status'),
+  year: $('year'), toast: $('toast'),
+  fPoradie: $('filter-poradie'), fVyst: $('filter-vystavovatel'), fOdr: $('filter-odroda'), btnClearFilters: $('btn-clear-filters'),
+  btnExportPDF: $('btn-export-pdf')
 };
 
-/* ===== POMOCNÉ ===== */
-function showToast(text){
-  if(!el.toast) return;
-  el.toast.textContent = text;
-  el.toast.hidden = false;
-  el.toast.classList.add('show');
-  clearTimeout(el.toast._t);
-  el.toast._t = setTimeout(()=>el.toast.classList.remove('show'), 2200);
-}
-function safeTrim(v){ if(v===undefined||v===null) return ''; return String(v).trim(); }
-function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=parseInt(String(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
-function tsFile(){ const d=new Date(),p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`; }
+/* ========= UTIL ========= */
+function showToast(text){ if(!el.toast) return; el.toast.textContent=text; el.toast.hidden=false; el.toast.classList.add('show'); clearTimeout(el.toast._t); el.toast._t=setTimeout(()=>el.toast.classList.remove('show'),2200); }
 function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email); }
+function toIntSafe(v){ if(v===undefined||v===null||v==='') return null; const n=parseInt(String(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
 
-/* ===== GH INFERRING (definované SKÔR, aby login nespadol) ===== */
-function inferGhFromLocation(){
-  try{
-    const params = new URLSearchParams(location.search);
-    const catalogOverride = params.get('catalog');
-    const host = location.hostname;
-    const path = location.pathname;
-    if(/\.github\.io$/i.test(host)){
-      const owner = host.split('.')[0];
-      const repo = (path.split('/').filter(Boolean)[0] || '');
-      if(owner && repo){
-        state.gh.owner ||= owner;
-        state.gh.repo ||= repo;
-        state.gh.branch ||= 'main';
-        state.gh.catalogPath ||= (catalogOverride || defaultCatalogPath);
-        localStorage.setItem(LS_KEYS.gh, JSON.stringify(state.gh));
-      }
-    }
-  }catch(e){ console.warn('inferGhFromLocation error', e); }
+/* Base64 -> UTF‑8 (oprava diakritiky) */
+function b64ToUtf8(base64){
+  const binStr = atob(base64.replace(/\n/g,''));
+  const len = binStr.length;
+  const bytes = new Uint8Array(len);
+  for(let i=0;i<len;i++) bytes[i] = binStr.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
 }
 
-/* ===== GH KONFIG ===== */
-function saveGhConfigFromInputs(){
-  if(!el.ghOwner) return;
-  state.gh.owner = el.ghOwner.value.trim();
-  state.gh.repo = el.ghRepo.value.trim();
-  state.gh.branch = el.ghBranch.value.trim() || 'main';
-  state.gh.catalogPath = el.ghCatalog.value.trim() || defaultCatalogPath;
-  state.gh.emailsPath = el.ghEmails.value.trim();
-  state.gh.token = el.ghToken.value.trim();
-  localStorage.setItem(LS_KEYS.gh, JSON.stringify(state.gh));
-}
-async function fetchPublicJSON(url){
-  const res = await fetch(url,{mode:'cors',cache:'no-cache',headers:{'Accept':'application/json'}});
-  if(!res.ok) throw new Error('HTTP '+res.status);
-  return res.json();
-}
-async function ghGetFile(path){
-  const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(state.gh.branch||'main')}`;
-  const headers = { 'Accept':'application/vnd.github+json' };
-  if(state.gh.token){ headers['Authorization']=`Bearer ${state.gh.token}`; }
-  const res = await fetch(url,{headers});
-  if(res.status===404) return null;
-  if(!res.ok) throw new Error('GitHub GET error '+res.status);
-  return res.json();
-}
-async function loadCatalogFromGitHubAPI(){
-  try{
-    const meta = await ghGetFile(state.gh.catalogPath);
-    if(!meta || !meta.content){ alert('Katalóg na GitHube sa nenašiel.'); return; }
-    const txt = atob(meta.content.replace(/\n/g,''));
-    const data = JSON.parse(txt);
-    if(!Array.isArray(data)){ alert('Katalóg na GitHube má neočakávaný formát.'); return; }
-    state.wines = data; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (API): ${data.length}`);
-  }catch(err){ console.error(err); alert('Načítanie katalógu zlyhalo.'); }
-}
-function ensureGhConfigured(){
-  return !!(state.gh.owner && state.gh.repo && (state.gh.branch||'main') && state.gh.catalogPath);
-}
-async function loadCatalogSmart(){
-  if(!ensureGhConfigured()){
-    inferGhFromLocation();
-    if(!ensureGhConfigured()){
-      showToast('Chýbajú GitHub nastavenia.');
-      return;
-    }
-  }
-  const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
-  const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
-  try{ const d1 = await fetchPublicJSON(pagesUrl); if(Array.isArray(d1)){ state.wines=d1; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (Pages): ${d1.length}`); return; } }catch(_){}
-  try{ const d2 = await fetchPublicJSON(rawUrl); if(Array.isArray(d2)){ state.wines=d2; rebuildFilterOptions(); renderTable(); updateStats(); showToast(`Katalóg (Raw): ${d2.length}`); return; } }catch(_){}
-  await loadCatalogFromGitHubAPI();
+/* ========= ŠTATISTIKY ========= */
+function updateStats(){
+  const total = state.wines.length;
+  const shown = applyFilters(state.wines.slice()).length;
+  const myRatings = state.ratings.filter(r=>r.email===state.email);
+  const rated = myRatings.length;
+  const avg = rated ? (myRatings.reduce((s,r)=>s+(parseInt(r.points,10)||0),0)/rated) : null;
+
+  const t1=$('stat-total'), t2=$('stat-filtered'), t3=$('stat-rated'), t4=$('stat-avg');
+  if(t1) t1.textContent = total;
+  if(t2) t2.textContent = shown;
+  if(t3) t3.textContent = rated;
+  if(t4) t4.textContent = avg!==null ? avg.toFixed(1) : '–';
 }
 
-/* ===== BRANDING (pozadie) ===== */
-function persistBranding(){ try{ localStorage.setItem(LS_KEYS.branding, JSON.stringify(state.branding)); }catch(_){} }
-function applyBranding(){
-  const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
-  document.documentElement.style.setProperty('--branding-bg', bg);
-  const fit = state.branding.bgFit || 'cover';
-  document.documentElement.style.setProperty('--branding-fit', fit==='auto'?'auto':fit);
-  if(el.bgFit) el.bgFit.value = state.branding.bgFit || 'cover';
-  if(el.bgUrl) el.bgUrl.value = state.branding.bgUrl || '';
-}
-function handleBgFile(ev){
-  const f = ev.target.files && ev.target.files[0]; if(!f) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.documentElement.style.setProperty('--branding-bg', `url("${e.target.result}")`);
-    showToast('Pozadie bolo načítané (dočasne).');
-  };
-  reader.readAsDataURL(f);
-}
-
-/* ===== AUTH ===== */
+/* ========= AUTH ========= */
 function showAuthOverlay(){
   el.overlay.classList.add('show'); document.body.classList.add('locked');
   el.authStatus.textContent=''; el.authStatus.classList.remove('error'); el.authInput.value='';
@@ -623,152 +379,67 @@ function showAuthOverlay(){
 }
 function setStatus(msg, err){ el.authStatus.textContent=msg; el.authStatus.classList.toggle('error', !!err); }
 function closeOverlay(){ el.overlay.classList.remove('show'); document.body.classList.remove('locked'); }
-function updateIdentityUI(){
-  const who = $('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'neprihlásený');
-  if(el.uploadSection) el.uploadSection.hidden = !state.isAdmin;
-  if(el.brandingSection) el.brandingSection.hidden = !state.isAdmin;
-}
 function handleAuthSubmit(){
   const val = el.authInput.value.trim();
   if(!val){ setStatus('Zadajte e‑mail.', true); return; }
-  if(val === ADMIN_CODE){ state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS_KEYS.email, state.email); closeOverlay(); updateIdentityUI(); showToast('Admin mód aktivovaný.'); return; }
+  if(val === ADMIN_CODE){ state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); closeOverlay(); updateStats(); showToast('Admin mód aktivovaný.'); return; }
   if(!validateEmail(val)){ setStatus('Neplatný e‑mail. Skúste znova.', true); return; }
-  state.isAdmin=false; state.email=val; localStorage.setItem(LS_KEYS.email, state.email);
-  closeOverlay(); updateIdentityUI(); loadCatalogSmart().catch(()=>{});
+  state.isAdmin=false; state.email=val; localStorage.setItem(LS.email, state.email);
+  closeOverlay(); updateStats(); loadCatalogSmart().catch(()=>{});
   showToast('Prihlásenie úspešné.');
 }
 
-/* ===== PERZISTENCIA ===== */
-function tryLoadLocal(){
-  try{
-    const email = localStorage.getItem(LS_KEYS.email); if(email) state.email=email;
-    const ratings = JSON.parse(localStorage.getItem(LS_KEYS.ratings) || '[]'); if(Array.isArray(ratings)) state.ratings=ratings;
-    const wines = JSON.parse(localStorage.getItem(LS_KEYS.wines) || '[]'); if(Array.isArray(wines)&&wines.length) state.wines=wines;
-    const hh = localStorage.getItem(LS_KEYS.hasHeader); if(hh!==null) state.hasHeader=JSON.parse(hh);
-    const pp = localStorage.getItem(LS_KEYS.persist); if(pp!==null) state.persistWines=JSON.parse(pp);
-    const gh = localStorage.getItem(LS_KEYS.gh); if(gh){ try{ state.gh=JSON.parse(gh)||state.gh; }catch{} }
-    const branding = localStorage.getItem(LS_KEYS.branding); if(branding){ try{ state.branding={...state.branding, ...(JSON.parse(branding)||{})}; }catch{} }
-  }catch(e){ console.warn('Local load error', e); }
-}
-
-/* ===== XLSX IMPORT (admin) ===== */
-function parseRows(rows){
-  const m=state.columnMap, idx=l=>{ const s=(l||'').trim().toUpperCase(); let n=0; for(let i=0;i<s.length;i++){ const c=s.charCodeAt(i)-64; if(c<1||c>26) return null; n=n*26+c; } return n-1; };
-  const a=idx(m.A), b=idx(m.B), c=idx(m.C), d=idx(m.D), e=idx(m.E), f=idx(m.F), g=idx(m.G);
-  const start=state.hasHeader?1:0, out=[];
-  for(let r=start;r<rows.length;r++){
-    const row=rows[r]||[], por=safeTrim(row[a]), vyst=safeTrim(row[b]), adr=safeTrim(row[c]), odr=safeTrim(row[d]), roc=safeTrim(row[e]), prv=safeTrim(row[f]), body=toIntSafe(row[g]);
-    if([por,vyst,adr,odr,roc,prv,body].every(v=>v===''||v==null)) continue;
-    out.push({ id:String(por||(r+1)), poradie:toIntSafe(por)??(r+1), vystavovatel:vyst||'', adresa:adr||'', odroda:odr||'', rocnik:roc||'', privlastok:prv||'', body:body??'' });
-  }
-  return out;
-}
-function onLoadXLSX(){
-  if(typeof XLSX==='undefined'){ alert('Knižnica XLSX sa nenačítala.'); return; }
-  const file = el.file && el.file.files && el.file.files[0]; if(!file){ alert('Vyberte XLSX súbor.'); return; }
-  const reader = new FileReader();
-  reader.onload = e=>{
-    try{
-      const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]]; if(!ws){ alert('Nepodarilo sa načítať prvý hárok.'); return; }
-      const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true});
-      state.wines = parseRows(rows);
-      if(state.persistWines){ try{ localStorage.setItem(LS_KEYS.wines, JSON.stringify(state.wines)); }catch(_){ showToast('Dataset je veľký – ponechaný len v pamäti.'); } }
-      rebuildFilterOptions();
-      renderTable(); updateStats();
-      el.tableStatus.textContent=`Načítaných položiek: ${state.wines.length}`;
-      showToast(`Načítaných položiek: ${state.wines.length}`);
-    }catch(err){ console.error(err); alert('Chyba pri čítaní XLSX.'); }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-/* ===== PUBLIKÁCIA NA GH (admin) ===== */
-async function publishCatalogToGitHub(){
-  if(!state.isAdmin){ alert('Len admin môže publikovať katalóg.'); return; }
-  if(!ensureGhConfigured()){ alert('Chýbajú GitHub nastavenia.'); return; }
-  const payload = JSON.stringify(state.wines, null, 2);
-  const existing = await ghGetFile(state.gh.catalogPath);
-  const body = { message:'Publikácia katalógu (web)', content:b64encodeUnicode(payload), branch: state.gh.branch||'main' };
-  if(existing && existing.sha) body.sha = existing.sha;
-  const url = `https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(state.gh.catalogPath)}`;
-  const res = await fetch(url,{
-    method:'PUT',
-    headers:{
-      'Accept':'application/vnd.github+json',
-      'Authorization':`Bearer ${state.gh.token}`,
-      'Content-Type':'application/json'
-    },
-    body:JSON.stringify(body)
-  });
-  if(!res.ok){ alert('Zápis na GitHub zlyhal.'); return; }
-  showToast('Katalóg publikovaný.');
-}
-function b64encodeUnicode(str){
-  const bytes=new TextEncoder().encode(str); let bin='';
-  bytes.forEach(b=>bin+=String.fromCharCode(b));
-  return btoa(bin);
-}
-
-/* ===== FILTRE + RENDER ===== */
-function rebuildFilterOptions(){
-  const poradieSet = new Set();
-  const vystSet = new Set();
-  const odrSet = new Set();
-  for(const w of state.wines){
-    if(w.poradie!==undefined && w.poradie!==null && w.poradie!=='') poradieSet.add(String(w.poradie).trim());
-    if(w.vystavovatel) vystSet.add(String(w.vystavovatel).trim());
-    if(w.odroda) odrSet.add(String(w.odroda).trim());
-  }
-  const fillSelect = (sel, values, placeholder)=>{
-    if(!sel) return;
-    const curVal = sel.value;
-    sel.innerHTML = '';
-    const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent='Všetky'; sel.appendChild(opt0);
-    const arr = Array.from(values);
-    if(sel.id==='filter-poradie'){
-      arr.sort((a,b)=>parseInt(a,10)-parseInt(b,10));
-    }else{
-      arr.sort((a,b)=> a.localeCompare(b,'sk',{sensitivity:'base'}));
-    }
-    for(const v of arr){
-      const opt = document.createElement('option'); opt.value=v; opt.textContent=v; sel.appendChild(opt);
-    }
-    sel.value = arr.includes(curVal) ? curVal : '';
-  };
-  fillSelect(el.fPoradie, poradieSet, 'Všetky');
-  fillSelect(el.fVyst, vystSet, 'Všetci');
-  fillSelect(el.fOdr, odrSet, 'Všetky');
-}
+/* ========= FILTRE ========= */
 function applyFilters(arr){
-  const f = {
-    poradie: (state.filters.poradie||'').trim(),
-    vystavovatel: (state.filters.vystavovatel||'').toLowerCase(),
-    odroda: (state.filters.odroda||'').toLowerCase()
-  };
+  const f = state.filters;
   return arr.filter(w=>{
-    const por = (w.poradie!==undefined && w.poradie!==null) ? String(w.poradie).trim() : '';
-    if(f.poradie && por !== f.poradie) return false;
-    const vy = (w.vystavovatel||'').toLowerCase();
-    const od = (w.odroda||'').toLowerCase();
-    if(f.vystavovatel && vy !== f.vystavovatel) return false;
-    if(f.odroda && od !== f.odroda) return false;
+    if(f.poradie && String(w.poradie).trim()!==f.poradie) return false;
+    if(f.vystavovatel && (w.vystavovatel||'').toLowerCase()!==f.vystavovatel) return false;
+    if(f.odroda && (w.odroda||'').toLowerCase()!==f.odroda) return false;
     return true;
   });
 }
+function onFilterChange(){
+  state.filters.poradie = el.fPoradie ? el.fPoradie.value : '';
+  state.filters.vystavovatel = el.fVyst ? (el.fVyst.value||'').toLowerCase() : '';
+  state.filters.odroda = el.fOdr ? (el.fOdr.value||'').toLowerCase() : '';
+  state.pager.page = 1;
+  renderTable(); updateStats();
+}
+
+/* ========= RENDER + STRÁNKOVANIE ========= */
+function renderPagination(total, page, pages){
+  const nav = el.paginator; if(!nav) return;
+  nav.innerHTML = '';
+  if(pages<=1){ return; }
+  const mk = (lab, to, opts={})=>{
+    const b=document.createElement('button'); b.type='button'; b.textContent=lab;
+    b.className='btn btn-ghost'; if(opts.active) b.classList.add('btn-primary');
+    if(opts.disabled) b.disabled=true;
+    b.addEventListener('click', ()=>{ state.pager.page=to; renderTable(); });
+    return b;
+  };
+  nav.appendChild(mk('«',1,{disabled:page===1}));
+  nav.appendChild(mk('‹',Math.max(1,page-1),{disabled:page===1}));
+  const win=2; let s=Math.max(1,page-win), e=Math.min(pages,page+win);
+  if(s>1){ nav.appendChild(mk('1',1,{active:page===1})); if(s>2){ const span=document.createElement('span'); span.textContent='…'; nav.appendChild(span);} }
+  for(let p=s;p<=e;p++) nav.appendChild(mk(String(p),p,{active:p===page}));
+  if(e<pages){ if(e<pages-1){ const span=document.createElement('span'); span.textContent='…'; nav.appendChild(span);} nav.appendChild(mk(String(pages),pages,{active:page===pages})); }
+  nav.appendChild(mk('›',Math.min(pages,page+1),{disabled:page===pages}));
+  nav.appendChild(mk('»',pages,{disabled:page===pages}));
+}
+
 function renderTable(){
-  const tbody=el.tbody; if(!tbody) return;
-  tbody.innerHTML='';
+  const tbody=el.wineBody; if(!tbody) return; tbody.innerHTML='';
   const filtered = applyFilters(state.wines.slice());
   const total = filtered.length;
-  const per = state.pager.perPage || 30;
+  const per = state.pager.perPage||30;
   const pages = Math.max(1, Math.ceil(total/per));
   const page = Math.min(Math.max(1, state.pager.page||1), pages);
-  const start = (page-1)*per;
-  const end = Math.min(start+per, total);
-  const list = filtered.slice(start, end);
+  state.pager.page = page;
+  const slice = filtered.slice((page-1)*per, (page-1)*per+per);
 
-  for(const w of list){
+  for(const w of slice){
     const tr=document.createElement('tr');
     const add=(t,l)=>{ const td=document.createElement('td'); td.textContent=t??''; td.setAttribute('data-label',l); return td; };
     tr.appendChild(add(w.poradie ?? w.id ?? '','#'));
@@ -778,82 +449,149 @@ function renderTable(){
     tr.appendChild(add(w.rocnik||'','Ročník'));
     tr.appendChild(add(w.privlastok||'','Prívlastok'));
     tr.appendChild(add(w.body ?? '','Body (oficiálne)'));
+
     const tdMy=add('', 'Moje body (0–100)');
     const input=document.createElement('input');
     input.type='number'; input.min='0'; input.max='100'; input.step='1';
     input.placeholder='0–100'; input.className='rating-input';
     input.setAttribute('aria-label','Moje body pre položku '+(w.poradie??w.id));
-    const ex=state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(w.id)) : null;
-    if(ex){ input.value=ex.points; input.disabled=true; }
+
+    const existing = state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(w.id)) : null;
+    if(existing){ input.value=existing.points; input.disabled=true; }
     else if(!state.email){ input.disabled=true; input.title='Pre hodnotenie sa prihláste.'; }
+
     const msg=document.createElement('div'); msg.className='help-text';
-    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w.id,input,msg); }});
-    input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w.id,input,msg); }});
+    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w.id, input, msg); }});
+    input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w.id, input, msg); }});
+
     tdMy.appendChild(input); tr.appendChild(tdMy);
-    const tdState=add('', 'Stav'); const badge=document.createElement('span'); badge.className='badge';
-    if(ex){ badge.classList.add('done'); badge.textContent='Hodnotené'; }
+
+    const tdState=add('', 'Stav');
+    const badge=document.createElement('span'); badge.className='badge';
+    if(existing){ badge.classList.add('done'); badge.textContent='Hodnotené'; }
     else if(state.email){ badge.classList.add('pending'); badge.textContent='Čaká na hodnotenie'; }
-    else{ badge.classList.add('lock'); badge.textContent='Uzamknuté'; }
+    else { badge.classList.add('lock'); badge.textContent='Uzamknuté'; }
     tdState.appendChild(badge); tdState.appendChild(document.createElement('br')); tdState.appendChild(msg); tr.appendChild(tdState);
+
     tbody.appendChild(tr);
   }
 
-  if(list.length===0){
-    const tr=document.createElement('tr'); const td=document.createElement('td'); td.colSpan=9;
-    td.textContent='Žiadne dáta. Načítajte katalóg z GitHubu alebo nahrajte XLSX (admin).';
-    tr.appendChild(td); tbody.appendChild(tr);
-  }
-
-  el.tableStatus.textContent = `Zobrazené: ${list.length} z ${total}`;
+  renderPagination(total, state.pager.page, Math.max(1, Math.ceil(total/(state.pager.perPage||30))));
+  el.tableStatus.textContent = `Zobrazené: ${slice.length} z ${total} (strana ${state.pager.page})`;
 }
 
-/* ===== INITIALIZÁCIA ===== */
-document.addEventListener('DOMContentLoaded', init);
-function init(){
+/* ========= HODNOTENIA ========= */
+function handleRateSubmit(wineId, inputEl, statusEl){
+  if(!state.email){ alert('Na hodnotenie je potrebné prihlásenie.'); return; }
+  const value = toIntSafe(inputEl.value);
+  if(value===null || value<0 || value>100){
+    statusEl.textContent='Zadajte celé číslo 0–100.'; statusEl.classList.add('error'); return;
+  }
+  const exists = state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wineId));
+  if(exists){
+    statusEl.textContent='Už ste hodnotili túto položku.'; statusEl.classList.add('error');
+    inputEl.disabled=true; inputEl.value=exists.points;
+    return;
+  }
+  state.ratings.push({ email:state.email, wineId:String(wineId), points:value, timestamp:new Date().toISOString() });
+  try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
+  statusEl.textContent='Hodnotenie uložené.'; statusEl.classList.remove('error'); inputEl.disabled=true;
+  updateStats(); showToast('Hodnotenie uložené.');
+}
+
+/* ========= GH – NAČÍTANIE KATALÓGU ========= */
+function ensureGhConfigured(){
+  return !!(state.gh.owner && state.gh.repo && (state.gh.branch||'main') && state.gh.catalogPath);
+}
+async function loadCatalogSmart(){
+  if(!ensureGhConfigured()){
+    inferGhFromLocation();
+    if(!ensureGhConfigured()){ showToast('Chýbajú GitHub nastavenia.'); return; }
+  }
+  const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${state.gh.catalogPath.replace(/^\//,'')}`;
+  const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${state.gh.catalogPath.replace(/^\//,'')}`;
+
+  try{
+    const d1 = await fetch(pagesUrl,{cache:'no-cache'});
+    if(d1.ok){
+      const txt = await d1.text();
+      const data = JSON.parse(txt);
+      if(Array.isArray(data)){ state.wines=data; rebuildOptionsRender(); return; }
+    }
+  }catch(_){}
+
+  try{
+    const d2 = await fetch(rawUrl,{cache:'no-cache'});
+    if(d2.ok){
+      const txt = await d2.text();         // text, nie json – kvôli BOM/diakritike
+      const data = JSON.parse(txt);
+      if(Array.isArray(data)){ state.wines=data; rebuildOptionsRender(); return; }
+    }
+  }catch(_){}
+
+  // Skús API (base64 -> UTF‑8)
+  try{
+    const meta = await ghGetFile(state.gh.catalogPath);
+    if(meta && meta.content){
+      const json = b64ToUtf8(meta.content);
+      const arr = JSON.parse(json);
+      if(Array.isArray(arr)){ state.wines=arr; rebuildOptionsRender(); return; }
+    }
+  }catch(e){
+    console.error(e); alert('Načítanie katalógu zlyhalo.');
+  }
+}
+
+function rebuildOptionsRender(){
+  rebuildFilterOptions(); state.pager.page=1; renderTable(); updateStats();
+  showToast(`Katalóg: ${state.wines.length} položiek`);
+}
+
+/* ========= BRANDING ========= */
+function applyBranding(){
+  const saved = localStorage.getItem(LS.branding);
+  if(saved){ try{ state.branding={...state.branding, ...(JSON.parse(saved)||{})}; }catch{} }
+  const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
+  document.documentElement.style.setProperty('--branding-bg', bg);
+  document.documentElement.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
+}
+
+/* ========= INIT ========= */
+document.addEventListener('DOMContentLoaded', ()=>{
   el.year && (el.year.textContent = new Date().getFullYear());
-  tryLoadLocal();
-  inferGhFromLocation();
+  // načítaj LS
+  try{
+    const em = localStorage.getItem(LS.email); if(em) state.email=em;
+    const rt = localStorage.getItem(LS.ratings); if(rt) state.ratings = JSON.parse(rt)||[];
+    const gh = localStorage.getItem(LS.gh); if(gh){ try{ state.gh = {...state.gh, ...(JSON.parse(gh)||{})}; }catch{} }
+  }catch(_){}
   applyBranding();
 
+  // AUTH
   showAuthOverlay();
-
   el.authSubmit && el.authSubmit.addEventListener('click', handleAuthSubmit);
   el.authInput && el.authInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
-  [el.ghOwner, el.ghRepo, el.ghBranch, el.ghCatalog, el.ghEmails, el.ghToken].forEach(inp=>{
-    if(!inp) return; inp.addEventListener('input', saveGhConfigFromInputs);
-  });
-
-  el.btnLoad && el.btnLoad.addEventListener('click', onLoadXLSX);
-  el.btnClearData && el.btnClearData.addEventListener('click', ()=>{ if(!confirm('Naozaj vymazať nahraté dáta?')) return; state.wines=[]; localStorage.removeItem(LS_KEYS.wines); renderTable(); updateStats(); showToast('Dáta katalógu vymazané.'); });
-
-  el.btnPublishGH && el.btnPublishGH.addEventListener('click', publishCatalogToGitHub);
-
-  const onFilterChange = ()=>{
-    state.filters.poradie = el.fPoradie ? el.fPoradie.value : '';
-    state.filters.vystavovatel = el.fVyst ? el.fVyst.value : '';
-    state.filters.odroda = el.fOdr ? el.fOdr.value : '';
-    renderTable(); updateStats();
-  };
+  // Filtre
   el.fPoradie && el.fPoradie.addEventListener('change', onFilterChange);
   el.fVyst && el.fVyst.addEventListener('change', onFilterChange);
   el.fOdr && el.fOdr.addEventListener('change', onFilterChange);
-  el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{
-    el.fPoradie && (el.fPoradie.value='');
-    el.fVyst && (el.fVyst.value='');
-    el.fOdr && (el.fOdr.value='');
-    onFilterChange();
+  el.btnClearFilters && el.btnClearFilters.addEventListener('click', ()=>{ if(el.fPoradie) el.fPoradie.value=''; if(el.fVyst) el.fVyst.value=''; if(el.fOdr) el.fOdr.value=''; onFilterChange(); });
+
+  // Export
+  el.btnExportPDF && el.btnExportPDF.addEventListener('click', ()=>{
+    if(typeof window.jspdf==='undefined' && typeof window.jsPDF==='undefined'){ alert('Knižnica jsPDF sa nenačítala.'); return; }
+    const { jsPDF } = window.jspdf || window; const doc=new jsPDF({unit:'pt', format:'a4'}); const title='Moje hodnotenia – '+(state.email||'neprihlásený');
+    doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text(title,40,40);
+    const rows=state.ratings.filter(r=>r.email===state.email).map(r=>[r.wineId, r.points, new Date(r.timestamp).toLocaleString()]);
+    if(rows.length===0){ doc.setFontSize(12); doc.text('Zatiaľ žiadne hodnotenia.',40,70); }
+    else { doc.autoTable({ startY:60, head:[['ID/Poradie','Body','Čas']], body:rows, styles:{fontSize:9}, headStyles:{ fillColor:[0,79,152] } }); }
+    doc.save(`moje_hodnotenia_${new Date().toISOString().slice(0,10)}.pdf`);
   });
 
-  el.bgFile && el.bgFile.addEventListener('change', handleBgFile);
-  el.btnSetBgUrl && el.btnSetBgUrl.addEventListener('click', ()=>{ state.branding.bgUrl = (el.bgUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Pozadie nastavené z URL.'); });
-  el.btnResetBg && el.btnResetBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadie resetované.'); });
-  el.bgFit && el.bgFit.addEventListener('change', ()=>{ state.branding.bgFit = el.bgFit.value||'cover'; persistBranding(); applyBranding(); });
-
-  renderTable();
-  updateStats();
-  updateIdentityUI();
-}
+  // Počiatočný render
+  renderTable(); updateStats();
+});
 </script>
 </body>
 </html>
