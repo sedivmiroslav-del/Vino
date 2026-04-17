@@ -63,7 +63,7 @@ body.locked{ overflow:hidden; }
   z-index: 9999; border-radius: var(--radius-sm);
 }
 
-/* Header – logo 1 cm od ľavého okraja, vertikálne vystredené */
+/* Header – text v strede, logo 2× väčšie a vertikálne centrované */
 .header{
   background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
   color: var(--white);
@@ -72,30 +72,39 @@ body.locked{ overflow:hidden; }
   box-shadow: var(--shadow-1);
 }
 .header__inner{
+  position: relative;
   display:grid;
   grid-template-columns: auto 1fr;
-  align-items: center;         /* vertikálne vystrediť logo aj text */
+  align-items: center;                /* logo aj text budú centrované na výšku */
   gap: var(--space-4);
   width: 100%;
   max-width: none;
-  padding-left: 0;             /* bez vnútorného odsadenia zľava */
+  padding-left: 0;                    /* bez vnútorného odsadenia zľava */
   padding-right: var(--space-4);
-  min-height: 140px;           /* výška modrého pruhu */
+  min-height: 200px;                  /* vyšší modrý pruh, aby sa vošlo väčšie logo */
   margin: 0;
 }
 .logo{
-  height: 120px;
+  height: 200px;                      /* ~2× oproti pôvodnému (100–120px) */
   width: auto;
   object-fit: contain;
   background: rgba(255,255,255,.98);
   border-radius: 10px;
-  padding: 8px;
+  padding: 10px;
   box-shadow: var(--shadow-1);
-  margin-left: 1cm;            /* 1 cm od ľavého okraja */
+  margin-left: 1cm;                   /* žiadaný „centimeter“ od ľavého okraja */
 }
-.title{ margin:.2rem 0; font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 800; letter-spacing: .2px; }
+.header__text{
+  position: absolute;                 /* vycentrovanie do stredu pruhu */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  max-width: min(80ch, 80vw);
+}
+.title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--yellow); opacity: .98; font-weight: 600; }
 
+/* Štatistiky pod hlavičkou */
 .header__stats{
   display:flex; gap: var(--space-4);
   max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4);
@@ -189,7 +198,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 }
 .toast.show{ opacity: .96; transform: translateX(-50%) translateY(-6px); pointer-events: auto; }
 
-/* ===== Nový HERO štýl prihlasovacej obrazovky podľa screenshotu ===== */
+/* ===== HERO štýl prihlasovacej obrazovky ===== */
 .overlay{
   position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000;
   background: var(--white);
@@ -199,12 +208,12 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 .overlay::before{
   content:"";
   position:absolute; inset:0;
-  background-image: var(--branding-bg); /* vaša fotka */
+  background-image: var(--branding-bg);
   background-size: var(--branding-fit);
   background-position: center center;
   background-repeat: no-repeat;
   filter: blur(2px);
-  transform: scale(1.03); /* jemný zoom ako na obrázku */
+  transform: scale(1.03);
   z-index: 0;
 }
 .overlay::after{
@@ -248,19 +257,19 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
   text-shadow: 0 2px 12px rgba(0,0,0,.45);
 }
 
-/* Login karta – nahrádza zelené tlačidlo zo screenshotu */
+/* Login „chip“ */
 .dialog{
   position: relative; z-index: 1;
   width: min(460px, 92vw); background: rgba(255,255,255,.98); border-radius: 9999px;
   box-shadow: var(--shadow-2); border: 1px solid var(--border); padding: .6rem .75rem .6rem 1rem;
   display: flex; gap: .6rem; align-items: center; justify-content: center;
 }
-.dialog h2{ display:none; } /* nadpis skryjeme – hero už má veľký titulok */
+.dialog h2{ display:none; }
 .dialog label{ margin:0; }
 .dialog input{ flex: 1 1 auto; min-width: 160px; border-radius: 9999px; }
 .dialog .btn{ border-radius: 9999px; }
 
-/* Pomocný status pod „tlačidlom“ */
+/* Stav text k overlayu */
 .overlay-status{
   margin-top:.6rem;
   color: #ffdddd;
@@ -336,8 +345,7 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
 <body>
 <a class="skip-link" href="#main">Preskočiť na obsah</a>
 
-<!-- HERO prihlasovacia obrazovka v štýle zo screenshotu.
-     Zostáva vaša fotka (branding background), farby a namiesto tlačidla je e‑mail prihlasovanie. -->
+<!-- HERO prihlasovacia obrazovka -->
 <div id="auth-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="hero-title">
   <div class="hero-wrap" role="document" aria-describedby="overlay-intro">
     <h1 id="hero-title" class="hero-title">
@@ -350,7 +358,6 @@ details{ border-left: 3px solid rgba(0,79,152,.35); padding-left: .6rem; }
       V tomto katalogu máš nejen možnost vzorky procházet, vyhledávat, ale také hodnotit a značit si vzorky, které jsi už ochutnal.
     </p>
 
-    <!-- Prihlasovací „chip“ – nahrádza zelené tlačidlo zo screenshotu -->
     <div class="dialog">
       <h2>Prihlásenie</h2>
       <label for="auth-input" class="required" style="display:none">E‑mail</label>
@@ -606,7 +613,6 @@ const state = {
   hasHeader: true,
   persistWines: false,
   columnMap: { A:'A', B:'B', C:'C', D:'D', E:'E', F:'F', G:'G' },
-  // roletkové filtre – presná zhoda; prázdne = všetky
   filters: { poradie:'', vystavovatel:'', odroda:'' },
   email: null,
   isAdmin: false,
@@ -655,7 +661,6 @@ const el = {
   btnRelogin: $('btn-relogin'),
   btnLoadCatalogGH: $('btn-load-catalog-gh'),
 
-  // roletkové filtre
   fPoradie: $('filter-poradie'),
   fVyst: $('filter-vystavovatel'),
   fOdr: $('filter-odroda'),
@@ -667,7 +672,6 @@ const el = {
 
   btnExportPDF: $('btn-export-pdf'),
 
-  // branding inputs
   logoFile: $('logo-file'),
   logoUrl: $('logo-url'),
   btnSetLogoUrl: $('btn-set-logo-url'),
@@ -689,7 +693,7 @@ function init(){
   el.year.textContent = new Date().getFullYear();
   tryLoadLocal();
   inferGhFromLocation();
-  applyBranding(); // použije uložené logo/pozadie
+  applyBranding();
 
   showAuthOverlay();
 
@@ -710,7 +714,6 @@ function init(){
   if(el.btnRelogin){ el.btnRelogin.addEventListener('click', showAuthOverlay); }
   if(el.btnLoadCatalogGH){ el.btnLoadCatalogGH.addEventListener('click', loadCatalogSmart); }
 
-  // Roletkové filtre – zmena resetuje stránku na 1 a filtruje tabuľku
   const onFilterChange = ()=>{
     state.filters.poradie = el.fPoradie ? el.fPoradie.value : '';
     state.filters.vystavovatel = el.fVyst ? el.fVyst.value : '';
@@ -730,7 +733,6 @@ function init(){
     onFilterChange();
   });
 
-  // Branding eventy
   if(el.logoFile) el.logoFile.addEventListener('change', handleLogoFile);
   if(el.btnSetLogoUrl) el.btnSetLogoUrl.addEventListener('click', ()=>{ state.branding.logoUrl = (el.logoUrl.value||'').trim(); persistBranding(); applyBranding(); showToast('Logo nastavené z URL.'); });
   if(el.btnResetLogo) el.btnResetLogo.addEventListener('click', ()=>{ state.branding.logoUrl=''; persistBranding(); applyBranding(); showToast('Logo resetované.'); });
@@ -746,7 +748,7 @@ function init(){
   updateIdentityUI();
 }
 
-/* FIX: chýbajúca funkcia (hlásila sa v konzole) – ukladá GitHub konfiguráciu */
+/* Uloženie GitHub konfigurácie (fix pre chybu v konzole) */
 function saveGhConfigFromInputs(){
   state.gh.owner = (el.ghOwner?.value || '').trim();
   state.gh.repo = (el.ghRepo?.value || '').trim();
@@ -877,15 +879,12 @@ async function publishCatalogToGitHub(){
 /* ===== Branding ===== */
 function persistBranding(){ try{ localStorage.setItem(LS_KEYS.branding, JSON.stringify(state.branding)); }catch(_){} }
 function applyBranding(){
-  // logo
   if(state.branding.logoUrl){ el.appLogo.src = state.branding.logoUrl; }
   else { el.appLogo.src = 'assets/img/logo.png'; }
-  // pozadie pre overlay – vaša fotka pre hero
   const bg = state.branding.bgUrl ? `url("${state.branding.bgUrl}")` : 'none';
   document.documentElement.style.setProperty('--branding-bg', bg);
   const fit = state.branding.bgFit || 'cover';
   document.documentElement.style.setProperty('--branding-fit', fit==='auto'?'auto':fit);
-  // naplniť vstupy (ak existujú)
   if(el.bgFit) el.bgFit.value = state.branding.bgFit || 'cover';
   if(el.logoUrl) el.logoUrl.value = state.branding.logoUrl || '';
   if(el.bgUrl) el.bgUrl.value = state.branding.bgUrl || '';
@@ -909,17 +908,17 @@ function handleBgFile(ev){
   reader.readAsDataURL(f);
 }
 
-/* ===== Pomocné – normalizácia reťazcov pre presnú zhodu ===== */
+/* ===== Pomocné – normalizácia reťazcov ===== */
 function normStr(s){
   return (s||'')
     .toString()
-    .replace(/\u00A0/g,' ')  // NBSP -> space
+    .replace(/\u00A0/g,' ')
     .replace(/\s+/g,' ')
     .trim()
     .toLocaleLowerCase('sk');
 }
 
-/* ===== Normalizácia dát ===== */
+/* ===== Dátová normalizácia ===== */
 function normalizeWines(list){
   return (list||[]).map((w,i)=>{
     const por = w.poradie ?? w.Poradie ?? w.id ?? w.ID ?? null;
@@ -976,7 +975,6 @@ function applyFilters(arr){
   return arr.filter(w=>{
     const por = (w.poradie!==undefined && w.poradie!==null) ? String(w.poradie).trim() : '';
     if(f.poradie && por !== f.poradie) return false;
-
     const vy = normStr(w.vystavovatel);
     const od = normStr(w.odroda);
     if(f.vystavovatel && vy !== f.vystavovatel) return false;
