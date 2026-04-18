@@ -16,7 +16,7 @@
   --black: rgb(0,0,0);
   --lime: rgb(161,200,97);
   --yellow: rgb(255,255,96);
-  --primary: rgb(0,79,152);   /* vaše modrá */
+  --primary: rgb(0,79,152);
   --focus: rgb(0,79,152);
   --muted: var(--gray);
   --border: var(--light);
@@ -96,7 +96,7 @@ body.locked{ overflow:hidden; }
 .select-pill{
   appearance:auto; width:100%; max-width:100%; padding:.7rem .9rem;
   border:1px solid var(--border);
-  background: var(--white);   /* zrušená externá šipka => žiadny 404 */
+  background: var(--white);
   border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
 }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
@@ -166,7 +166,7 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 }
 .hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
 .hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
-.hero-title .small{ display:block; font-size:.5em; line-height:1.1; letter-spacing:.06em; }
+.hero-title .small{ display:block; font-size:.5em; line-height:1.1; letter-spacing:.06em; text-transform:uppercase; opacity:.95; }
 .hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight:900; text-shadow:0 6px 22px rgba(0,0,0,.45); }
 .hero-text{ max-width:980px; margin:0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height:1.65; color:rgba(255,255,255,.96); text-shadow:0 2px 12px rgba(0,0,0,.45); }
 
@@ -270,13 +270,14 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
   <section id="branding-section" class="card card--nohead" hidden>
     <div class="card__body">
       <h3>Branding (pozadí přihlášení)</h3>
+      <p>Tip: Pro zobrazení na všech zařízeních použijte uložený obrázek v repozitáři (assets/img/branding.jpg) a nastavte ho přes GitHub tlačítka níže.</p>
       <div class="input-group" style="margin-bottom:1rem">
         <label for="bg-file">Nahrát pozadí (PNG/JPG)</label>
         <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
       </div>
       <div class="input-group" style="margin-bottom:1rem">
         <label for="bg-url">URL pozadí</label>
-        <input id="bg-url" type="url" placeholder="https://example.com/background.jpg" />
+        <input id="bg-url" type="url" placeholder="https://raw.githubusercontent.com/owner/repo/branch/assets/img/branding.jpg" />
         <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
           <button id="btn-set-bg-url" class="btn btn-ghost" type="button">Použít URL pozadí</button>
           <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovat pozadí</button>
@@ -288,6 +289,10 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
             </select>
           </label>
         </div>
+      </div>
+      <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button id="btn-upload-bg-github" class="btn btn-primary" type="button">Nahrát na GitHub a použít</button>
+        <button id="btn-use-gh-bg" class="btn btn-ghost" type="button">Použít obrázek z GitHubu</button>
       </div>
     </div>
   </section>
@@ -371,7 +376,7 @@ const __basePath = (()=> {
 })();
 
 /* Pokud nemáte vlastní branding.jpg, ponechá se jen gradient (žádná 404) */
-const defaultBrandingPath = ''; // žádný výchozí obrázek => jen gradient
+const defaultBrandingPath = 'assets/img/branding.jpg'; // výchozí cesta v repozitáři
 
 /* ===== STAV ===== */
 const state = {
@@ -655,7 +660,7 @@ async function ghGetFile(path){
 }
 async function ensureGhWriteConfig(){
   if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-  if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo'); return false; }
+  if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo (otevřete přes GitHub Pages URL nebo nakonfigurujte ručně v kódu).'); return false; }
   if(!state.gh.token){
     const t = prompt('Zadejte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
     if(!t){ showToast('GH token nebyl zadán.'); return false; }
@@ -807,7 +812,7 @@ function handleBgFile(ev){
   reader.onload = e => {
     state.branding.bgUrl = e.target.result;
     persistBranding(); applyBranding();
-    showToast('Pozadí bylo nahráno.');
+    showToast('Pozadí bylo nahráno (lokálně). Pro sdílení použijte „Nahrát na GitHub a použít“.');
   };
   reader.readAsDataURL(f);
 }
@@ -961,7 +966,7 @@ async function exportMyRatingsPDF(){
 }
 async function tryLoadCustomFont(doc){
   const urls = [];
-  urls.push(`${__basePath}/assets/fonts/DejaVuSans.ttf`); // pokud existuje ve vašem repu
+  urls.push(`${__basePath}/assets/fonts/DejaVuSans.ttf`);
   try{
     const host = location.hostname, path = location.pathname.split('/').filter(Boolean)[0]||'';
     if(/\.github\.io$/i.test(host) && path){
@@ -1068,15 +1073,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(setBg) setBg.addEventListener('click', ()=>{ const i=el.bgUrl(); state.branding.bgUrl = (i && i.value || '').trim(); persistBranding(); applyBranding(); showToast('Pozadí nastaveno z URL.'); });
   if(rstBg) rstBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadí resetováno.'); });
   if(fitSel) fitSel.addEventListener('change', ()=>{ state.branding.bgFit = fitSel.value||'cover'; persistBranding(); applyBranding(); });
+
   if(upBg) upBg.addEventListener('click', async ()=>{
-    const f = el.bgFile() && el.bgFile().files && el.bgFile().files[0]; if(!f){ alert('Vyberte obrázek.'); return; }
-    const buf = await f.arrayBuffer(); const ok=await ghPutBinaryFile(state.gh.brandingPath || defaultBrandingPath, buf, 'upload branding');
-    if(ok){ const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||'assets/img/branding.jpg').replace(/^\//,'')}`;
-      state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Pozadí uloženo na GitHub.'); }
+    const f = el.bgFile() && el.bgFile().files && el.bgFile().files[0]; if(!f){ alert('Vyberte obrázek (PNG/JPG).'); return; }
+    const ok = await ensureGhWriteConfig(); if(!ok) return;
+    const buf = await f.arrayBuffer();
+    const targetPath = (state.gh.brandingPath || defaultBrandingPath);
+    const uploaded = await ghPutBinaryFile(targetPath, buf, 'upload branding');
+    if(uploaded){
+      const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${targetPath.replace(/^\//,'')}`;
+      state.branding.bgUrl = raw; persistBranding(); applyBranding();
+      showToast('Pozadí uloženo na GitHub a nastaveno.');
+    }else{
+      alert('Nahrání na GitHub selhalo.');
+    }
   });
   if(useGh) useGh.addEventListener('click', ()=>{
     if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||'assets/img/branding.jpg').replace(/^\//,'')}`;
+    if(!state.gh.owner || !state.gh.repo){ alert('GH owner/repo se nepodařilo odvodit. Otevřete stránku přes GitHub Pages URL nebo zadejte ručně v kódu.'); return; }
+    const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
     state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použito GH pozadí.');
   });
 
