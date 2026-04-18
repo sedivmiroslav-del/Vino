@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub, responzivní tabulka, úplné vyčištění dat v ADMIN. Opravy: vrácená modrá, diakritika v PDF (TTF + fallback), odstraněny 404 pro select-caret.svg, bezpečné pozadí na mobilu, pevné inicializační vazby bez chyb null/undefined." />
+<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení na GitHub, publikace katalogu/pozadí na GitHub (centrální branding.json), responzivní tabulka, úplné vyčištění dat v ADMIN. Opravy: diakritika v PDF (TTF + fallback), bezpečné pozadí na mobilu, inicializace bez chyb null/undefined." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -16,7 +16,7 @@
   --black: rgb(0,0,0);
   --lime: rgb(161,200,97);
   --yellow: rgb(255,255,96);
-  --primary: rgb(0,79,152);
+  --primary: rgb(0,79,152);   /* vaše modrá */
   --focus: rgb(0,79,152);
   --muted: var(--gray);
   --border: var(--light);
@@ -270,14 +270,14 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
   <section id="branding-section" class="card card--nohead" hidden>
     <div class="card__body">
       <h3>Branding (pozadí přihlášení)</h3>
-      <p>Tip: Pro zobrazení na všech zařízeních použijte uložený obrázek v repozitáři (assets/img/branding.jpg) a nastavte ho přes GitHub tlačítka níže.</p>
+      <p>Konfigurace pozadí se ukládá centrálně do data/branding.json v repozitáři, aby byla viditelná na všech zařízeních.</p>
       <div class="input-group" style="margin-bottom:1rem">
         <label for="bg-file">Nahrát pozadí (PNG/JPG)</label>
         <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
       </div>
       <div class="input-group" style="margin-bottom:1rem">
         <label for="bg-url">URL pozadí</label>
-        <input id="bg-url" type="url" placeholder="https://raw.githubusercontent.com/owner/repo/branch/assets/img/branding.jpg" />
+        <input id="bg-url" type="url" placeholder="https://OWNER.github.io/REPO/assets/img/branding.jpg" />
         <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
           <button id="btn-set-bg-url" class="btn btn-ghost" type="button">Použít URL pozadí</button>
           <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovat pozadí</button>
@@ -365,6 +365,7 @@ const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
+const defaultBrandingConfigPath = 'data/branding.json';
 
 /* GH Pages base path (repo složka) */
 const __basePath = (()=> {
@@ -375,8 +376,8 @@ const __basePath = (()=> {
   return '';
 })();
 
-/* Pokud nemáte vlastní branding.jpg, ponechá se jen gradient (žádná 404) */
-const defaultBrandingPath = 'assets/img/branding.jpg'; // výchozí cesta v repozitáři
+/* Výchozí obrázek v repozitáři (použijeme Pages URL) */
+const defaultBrandingPath = 'assets/img/branding.jpg';
 
 /* ===== STAV ===== */
 const state = {
@@ -396,7 +397,7 @@ const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', emails:'winecat_emails_seen'
 };
 
-/* ===== DOM helper (čerstvé dotazy – žiadne null pri init) ===== */
+/* ===== DOM helper ===== */
 const $=id=>document.getElementById(id);
 const el = {
   overlay: ()=>$('auth-overlay'), authInput:()=>$('auth-input'), authSubmit:()=>$('auth-submit'), authStatus:()=>$('auth-status'),
@@ -638,7 +639,7 @@ function inferGhFromLocation(){
         state.gh.emailsPath ||= defaultEmailsPath;
         state.gh.ratingsPath ||= defaultRatingsPath;
         state.gh.brandingPath ||= defaultBrandingPath;
-        localStorage.setItem(LS.gh, JSON.stringify(state.gh));
+        try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
       }
     }
   }catch(e){ console.warn('inferGhFromLocation error', e); }
@@ -660,7 +661,7 @@ async function ghGetFile(path){
 }
 async function ensureGhWriteConfig(){
   if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-  if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo (otevřete přes GitHub Pages URL nebo nakonfigurujte ručně v kódu).'); return false; }
+  if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo'); return false; }
   if(!state.gh.token){
     const t = prompt('Zadejte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
     if(!t){ showToast('GH token nebyl zadán.'); return false; }
@@ -724,64 +725,33 @@ async function ghAppendRating(record){
   }catch(e){ console.warn('GH append rating error', e); }
 }
 
-/* ===== Načtení katalogu ===== */
-function ensureGhConfigured(){ return !!(state.gh.owner && state.gh.repo); }
-async function loadCatalogFromGitHubAPI(){
+/* ===== Branding – centrálne cez data/branding.json + Pages URL ===== */
+async function loadBrandingConfigFromRepo(){
   try{
-    const path = state.gh.catalogPath || defaultCatalogPath;
-    const meta=await ghGetFile(path);
-    if(!meta || !meta.content){ alert('Katalog na GitHubu se nenašel.'); return; }
-    const json=b64ToUtf8(meta.content);
-    const arr=JSON.parse(json);
-    if(!Array.isArray(arr)) throw new Error('Formát JSON není pole.');
-    adoptColumnsFromData(arr);
-    state.wines=arr;
-    try{
-      localStorage.setItem(LS.wines, JSON.stringify(state.wines));
-      localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-      localStorage.setItem(LS.idcol, state.idColumn||'');
-    }catch(_){}
-    afterDataChanged();
-    showToast(`Katalog (API): ${arr.length}`);
-  }catch(e){ console.error(e); alert('Načtení katalogu selhalo.'); }
-}
-async function loadCatalogSmart(){
-  if(!ensureGhConfigured()){
-    inferGhFromLocation();
-    if(!ensureGhConfigured()){ showToast('Chybí GitHub nastavení.'); return; }
-  }
-  const catPath = (state.gh.catalogPath || defaultCatalogPath).replace(/^\//,'');
-  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${catPath}`;
-  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${catPath}`;
-  try{
-    const arr=await safeFetchJSON(pagesUrl);
-    if(Array.isArray(arr)){
-      adoptColumnsFromData(arr); state.wines=arr;
-      try{
-        localStorage.setItem(LS.wines, JSON.stringify(arr));
-        localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-        localStorage.setItem(LS.idcol, state.idColumn||'');
-      }catch(_){}
-      afterDataChanged(); showToast(`Katalog (Pages): ${arr.length}`); return;
+    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+    if(!state.gh.owner || !state.gh.repo) return;
+    const rel = defaultBrandingConfigPath.replace(/^\//,'');
+    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
+    const rawUrl   = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
+    let cfg = null;
+    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
+    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ /* ignore */ } }
+    if(cfg && typeof cfg==='object'){
+      state.branding = { ...state.branding, ...cfg };
+      persistBranding();
     }
-  }catch(e){ console.warn('Pages fetch fail', e); }
-  try{
-    const arr=await safeFetchJSON(rawUrl);
-    if(Array.isArray(arr)){
-      adoptColumnsFromData(arr); state.wines=arr;
-      try{
-        localStorage.setItem(LS.wines, JSON.stringify(arr));
-        localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-        localStorage.setItem(LS.idcol, state.idColumn||'');
-      }catch(_){}
-      afterDataChanged(); showToast(`Katalog (Raw): ${arr.length}`); return;
-    }
-  }catch(e){ console.warn('Raw fetch fail', e); }
-  await loadCatalogFromGitHubAPI();
+  }catch(e){ console.warn('Branding config load fail', e); }
 }
-window.loadCatalogSmart = loadCatalogSmart;
+async function saveBrandingConfigToRepo(){
+  const cfg = {
+    bgUrl: (state.branding.bgUrl||'').trim(),
+    bgFit: state.branding.bgFit||'cover'
+  };
+  const ok = await ghPutFile(defaultBrandingConfigPath, JSON.stringify(cfg, null, 2), 'update branding config');
+  if(ok){ showToast('Branding konfigurace uložena do repozitáře.'); }
+  else { alert('Uložení branding konfigurace na GitHub selhalo.'); }
+}
 
-/* ===== Branding ===== */
 function persistBranding(){ try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){} }
 function applyBranding(){
   try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved}; }catch(_){}
@@ -812,7 +782,7 @@ function handleBgFile(ev){
   reader.onload = e => {
     state.branding.bgUrl = e.target.result;
     persistBranding(); applyBranding();
-    showToast('Pozadí bylo nahráno (lokálně). Pro sdílení použijte „Nahrát na GitHub a použít“.');
+    showToast('Pozadí bylo nahráno (lokálně). Pro sdílení klikněte „Nahrát na GitHub a použít“ nebo uložte URL do repozitáře.');
   };
   reader.readAsDataURL(f);
 }
@@ -1027,7 +997,7 @@ function publishCatalogToGitHub(){
 }
 
 /* ===== INIT ===== */
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', async ()=>{
   const y=$('year'); if(y) y.textContent = new Date().getFullYear();
 
   try{
@@ -1042,6 +1012,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(state.email) rememberEmail(state.email);
   }catch(_){}
 
+  // 1) odvoď GitHub kontext
+  inferGhFromLocation();
+  // 2) načti centrální branding config z repozitáře (Pages → Raw)
+  await loadBrandingConfigFromRepo();
+
+  // 3) pokud stále nemáme URL, předvyplníme Pages URL na defaultní obrázek
+  if(!state.branding.bgUrl && state.gh.owner && state.gh.repo){
+    const targetPath = (state.gh.brandingPath || defaultBrandingPath).replace(/^\//,'');
+    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath}`;
+    state.branding.bgUrl = pagesUrl;
+    persistBranding();
+  }
+
+  // 4) aplikuj branding
   applyBranding();
 
   showAuthOverlay();
@@ -1070,9 +1054,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   const bgFile=el.bgFile(), setBg=el.btnSetBgUrl(), rstBg=el.btnResetBg(), fitSel=el.bgFit(), upBg=el.btnUploadBgGH(), useGh=el.btnUseGhBg();
   if(bgFile) bgFile.addEventListener('change', handleBgFile);
-  if(setBg) setBg.addEventListener('click', ()=>{ const i=el.bgUrl(); state.branding.bgUrl = (i && i.value || '').trim(); persistBranding(); applyBranding(); showToast('Pozadí nastaveno z URL.'); });
-  if(rstBg) rstBg.addEventListener('click', ()=>{ state.branding.bgUrl=''; persistBranding(); applyBranding(); showToast('Pozadí resetováno.'); });
-  if(fitSel) fitSel.addEventListener('change', ()=>{ state.branding.bgFit = fitSel.value||'cover'; persistBranding(); applyBranding(); });
+  if(setBg) setBg.addEventListener('click', async ()=>{
+    const i=el.bgUrl();
+    state.branding.bgUrl = (i && i.value || '').trim();
+    persistBranding(); applyBranding();
+    showToast('Pozadí nastaveno z URL.');
+    try{ await saveBrandingConfigToRepo(); }catch(_){}
+  });
+  if(rstBg) rstBg.addEventListener('click', async ()=>{
+    state.branding.bgUrl='';
+    persistBranding(); applyBranding();
+    showToast('Pozadí resetováno.');
+    try{ await saveBrandingConfigToRepo(); }catch(_){}
+  });
+  if(fitSel) fitSel.addEventListener('change', async ()=>{
+    state.branding.bgFit = fitSel.value||'cover';
+    persistBranding(); applyBranding();
+    try{ await saveBrandingConfigToRepo(); }catch(_){}
+  });
 
   if(upBg) upBg.addEventListener('click', async ()=>{
     const f = el.bgFile() && el.bgFile().files && el.bgFile().files[0]; if(!f){ alert('Vyberte obrázek (PNG/JPG).'); return; }
@@ -1081,18 +1080,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const targetPath = (state.gh.brandingPath || defaultBrandingPath);
     const uploaded = await ghPutBinaryFile(targetPath, buf, 'upload branding');
     if(uploaded){
-      const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${targetPath.replace(/^\//,'')}`;
-      state.branding.bgUrl = raw; persistBranding(); applyBranding();
-      showToast('Pozadí uloženo na GitHub a nastaveno.');
+      // Preferujeme GitHub Pages URL
+      const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath.replace(/^\//,'')}`;
+      state.branding.bgUrl = pagesUrl; persistBranding(); applyBranding();
+      await saveBrandingConfigToRepo();
+      showToast('Pozadí uloženo na GitHub (Pages) a nastaveno.');
     }else{
       alert('Nahrání na GitHub selhalo.');
     }
   });
-  if(useGh) useGh.addEventListener('click', ()=>{
+  if(useGh) useGh.addEventListener('click', async ()=>{
     if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    if(!state.gh.owner || !state.gh.repo){ alert('GH owner/repo se nepodařilo odvodit. Otevřete stránku přes GitHub Pages URL nebo zadejte ručně v kódu.'); return; }
-    const raw = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
-    state.branding.bgUrl = raw; persistBranding(); applyBranding(); showToast('Použito GH pozadí.');
+    if(!state.gh.owner || !state.gh.repo){ alert('GH owner/repo se nepodařilo odvodit.'); return; }
+    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${(state.gh.brandingPath||defaultBrandingPath).replace(/^\//,'')}`;
+    state.branding.bgUrl = pagesUrl; persistBranding(); applyBranding(); showToast('Použito GH Pages pozadí.');
+    try{ await saveBrandingConfigToRepo(); }catch(_){}
   });
 
   renderAll();
