@@ -9,7 +9,7 @@
 
 <style>
 :root{
-/* Paleta (původní modrá + zadání) */
+/* Paleta */
 --green: rgb(0,137,6);
 --gray: rgb(135,135,135);
 --light: rgb(206,213,218);
@@ -17,7 +17,7 @@
 --black: rgb(0,0,0);
 --lime: rgb(161,200,97);
 --yellow: rgb(255,255,96);
-/* Primárna modrá je pôvodná; pre konzistenciu nechávame */
+/* Primárna modrá (pôvodná) */
 --primary: rgb(0,79,152);
 --focus: rgb(0,79,152);
 
@@ -273,7 +273,6 @@ th, td{ padding: .34rem .3rem; }
       <button id="btn-load-catalog-gh" class="btn btn-ghost" type="button">Načíst katalog (auto)</button>
       <button id="btn-set-gh-token" class="btn btn-ghost" type="button">Nastavit GitHub token</button>
     </div>
-    <!-- Sociální tlačítka přesunuta níže do sekce Export pro všechny přihlášené -->
   </div>
 </section>
 
@@ -494,7 +493,7 @@ const state = {
   columns: [],
   idColumn: null,
   ratings: [],
-  email: null, // všeobecný identifikátor
+  email: null,
   isAdmin: false,
   filters: { A:'', B:'', D:'' },
   gh: { owner:'', repo:'', branch:'', catalogPath:'', brandingPath: defaultBrandingPath, token:'' },
@@ -577,7 +576,7 @@ function rememberEmail(identifier){
 function handleAuthSubmit(){
   const input = el.authInput();
   const val = input ? input.value.trim() : '';
-  if(!val){ setStatus('Zadejte libovolný text.', true); return; } // už NEvyžadujeme e‑mail
+  if(!val){ setStatus('Zadejte libovolný text.', true); return; }
   if(val === ADMIN_CODE){
     state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
     closeOverlay(); updateIdentityUI(); renderAll(); showToast('Admin mód aktivován.');
@@ -696,8 +695,12 @@ function renderTable(){
     const tdB=document.createElement('td');
     const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
     tdB.appendChild(bMain);
-    if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); }
-    if(C && w[C]) tdB.appendChild(bSub);
+    if(C && w[C]){ 
+      const bSub=document.createElement('span'); 
+      bSub.className='cell-sub'; 
+      bSub.textContent=String(w[C]); 
+      tdB.appendChild(bSub); 
+    }
     tr.appendChild(tdB);
 
     // D + (E,F)
@@ -844,22 +847,18 @@ async function saveBrandingConfigToRepo(){
   else { alert('Uložení branding konfigurace na GitHub selhalo.'); }
 }
 function applyBranding(){
-  // Lokální storage merge
   try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved, social: { ...(state.branding.social||{}), ...(saved.social||{}) } }; }catch(_){}
-  // Overlay
   const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : '';
   const root = document.documentElement;
   if(bgUrl){ root.style.setProperty('--branding-bg', `url("${bgUrl}")`); }
   else{ root.style.setProperty('--branding-bg', 'none'); }
   root.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
 
-  // App header background
   const appBg = state.branding.appBgUrl && state.branding.appBgUrl.trim() ? `url("${state.branding.appBgUrl.trim()}")` : 'none';
   root.style.setProperty('--app-bg-url', appBg);
   root.style.setProperty('--app-bg-fit', state.branding.appBgFit||'cover');
   root.style.setProperty('--app-bg-opacity', String(Number(state.branding.appBgOpacity||0.15)));
 
-  // Overlay fallback IMG (bezpečnost)
   const img = el.bgFallback();
   if(img){
     img.style.display = 'none';
@@ -872,7 +871,7 @@ function applyBranding(){
     }
   }
 
-  // Sociální tlačítka – aktivace/deaktivace
+  // Sociální tlačítka
   const fb = el.btnSocialFB(), ig = el.btnSocialIG(), wb = el.btnSocialWEB();
   const setLink = (anchor, url)=> {
     if(!anchor) return;
@@ -1224,21 +1223,17 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     if(state.email) rememberEmail(state.email);
   }catch(_){}
 
-  // GitHub kontext (katalog/branding)
   inferGhFromLocation();
 
-  // Načti centrální nastavení (branding, katalog URL)
   await loadBrandingConfigFromRepo();
   await loadCatalogSourceFromRepo();
 
-  // Pokud není bgUrl (overlay), nastav default Pages obrázek
   if(!state.branding.bgUrl && state.gh.owner && state.gh.repo){
     const targetPath = (state.gh.brandingPath || defaultBrandingPath).replace(/^\//,'');
     const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath}`;
     state.branding.bgUrl = pagesUrl;
     try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
   }
-  // Pokud není appBgUrl, nastav default app pozadí
   if(!state.branding.appBgUrl && state.gh.owner && state.gh.repo){
     const targetPath = (defaultAppBgPath).replace(/^\//,'');
     const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath}`;
@@ -1246,10 +1241,8 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
   }
 
-  // Aplikuj branding (nastaví odkazy na FB/IG/Web)
   applyBranding();
 
-  // UI handlery
   showAuthOverlay();
   const btnAuth=el.authSubmit(), inpAuth=el.authInput();
   if(btnAuth) btnAuth.addEventListener('click', handleAuthSubmit);
