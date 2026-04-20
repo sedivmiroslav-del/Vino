@@ -17,7 +17,7 @@
 --black: rgb(0,0,0);
 --lime: rgb(161,200,97);
 --yellow: rgb(255,255,96);
---primary: rgb(0,79,152);   /* hlavní modrá */
+--primary: rgb(0,79,152);
 --focus: rgb(0,79,152);
 
 --muted: var(--gray);
@@ -41,8 +41,7 @@
 *{box-sizing:border-box}
 html,body{
 margin:0; padding:0;
-background:
-linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
+background: linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
 color: var(--black);
 font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 line-height: 1.5;
@@ -123,7 +122,7 @@ width:100%; padding:.75rem .95rem; border:1px solid var(--border); background: v
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:800; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabulka – VYLEPŠENÝ VZHLED ===== */
+/* ===== Tabulka – vylepšený vzhled + fix pre telefón ===== */
 .table-shell{
 border:1px solid var(--border);
 border-radius: 18px;
@@ -131,7 +130,7 @@ overflow: hidden;
 box-shadow: var(--shadow-2);
 background: var(--white);
 }
-.table-responsive{ overflow-x:auto; }
+.table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
 table{
 width:100%;
 border-collapse:separate; border-spacing:0; table-layout: fixed;
@@ -156,9 +155,9 @@ border-bottom:1px solid var(--border);
 padding:.6rem .6rem;
 text-align:left; vertical-align:top;
 white-space: normal; word-break: normal; overflow-wrap: break-word;
-background: linear-gradient(180deg, rgba(255,255,255,1), rgba(206,213,218,.15));
+background: #fff; /* zpět k čistému pozadí pro lepší čitelnost i na mobile */
 }
-tbody tr:nth-child(even) td{ background: linear-gradient(180deg, rgba(255,255,255,1), rgba(206,213,218,.22)); }
+tbody tr:nth-child(even) td{ background: rgba(206,213,218,.18); }
 tbody tr:hover td{ background: rgba(0,79,152,.08); }
 
 /* Dekor prvního sloupce */
@@ -169,14 +168,6 @@ box-shadow: inset 3px 0 0 rgba(0,79,152,.25);
 /* Kompozitní buňky */
 .cell-main{ font-weight: 900; color:#122; }
 .cell-sub{ display:block; color: var(--muted); font-size:.88em; line-height:1.35; margin-top:.2rem; }
-
-/* Badges */
-.badges{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.35rem; }
-.badge{
-display:inline-flex; align-items:center; gap:.4rem;
-padding:.25rem .6rem; border-radius:9999px;
-font-size:.78em; font-weight:800; color:#123; background: rgba(161,200,97,.45); border:1px solid rgba(161,200,97,.85);
-}
 
 /* Vstup hodnocení */
 .rating-input{
@@ -225,16 +216,26 @@ background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,
 .hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight:900; text-shadow:0 6px 22px rgba(0,0,0,.45); }
 .hero-text{ max-width:980px; margin:0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height:1.65; color:rgba(255,255,255,.96); text-shadow:0 2px 12px rgba(0,0,0,.45); }
 
-/* Mobilní doplnění */
+/* Mobilní doplnění – fix deformácie */
 @media (max-width: 860px){
 .filter-bar{ grid-template-columns: repeat(6, 1fr); }
 .group--a, .group--b, .group--d{ grid-column: span 6; }
+.table-responsive{ overflow-x:auto; }
+col.col-a{ width: 28%; }
+col.col-b{ width: 36%; }
+col.col-d{ width: 22%; }
+col.col-my{ width: 14%; }
 th, td{ padding:.55rem .55rem; }
 .rating-input{ max-width: 110px; }
 }
 @media (max-width: 480px){
-th, td{ padding:.45rem .5rem; }
-.rating-input{ max-width: 98px; font-size:.95em; }
+th, td{ padding:.5rem; }
+.table-responsive{ overflow-x:auto; }
+col.col-a{ width: 34%; }
+col.col-b{ width: 34%; }
+col.col-d{ width: 18%; }
+col.col-my{ width: 14%; }
+.rating-input{ max-width: 96px; font-size:.95em; }
 }
 </style>
 
@@ -418,7 +419,6 @@ th, td{ padding:.45rem .5rem; }
   <section class="card card--nohead" aria-label="Exporty">
     <div class="card__body" style="display:flex;gap:.6rem;flex-wrap:wrap">
       <button id="btn-export-pdf" class="btn btn-primary" type="button">Moje hodnocení do PDF</button>
-      <!-- E‑maily a všechna hodnocení CSV odstraněny dle požadavku -->
     </div>
   </section>
 </main>
@@ -489,7 +489,10 @@ function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(emai
 function toBase64FromArrayBuffer(buf){ let bin=''; const bytes=new Uint8Array(buf); for(let i=0;i<bytes.byteLength;i++) bin+=String.fromCharCode(bytes[i]); return btoa(bin); }
 function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
-function downloadText(filename, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000); }
+
+/* ===== CZ -> ASCII mapa pre PDF fallback (návrat do pôvodného stavu) ===== */
+const CZ_MAP = {'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z','Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'};
+const asciiSanitize = s => String(s).replace(/[^\x20-\x7E]/g, ch => CZ_MAP[ch] ?? ch);
 
 /* ===== STATISTIKY ===== */
 function updateStats(){
@@ -517,10 +520,9 @@ function updateIdentityUI(){
   if(idc) idc.hidden = !state.isAdmin;
 }
 function rememberEmail(email){
-  // pouze lokálně – žádné GitHub zápisy
   try{
-    const list = JSON.parse(localStorage.getItem(LS.email_list)||'[]');
-    if(Array.isArray(list) && !list.includes(email)){ list.push(email); localStorage.setItem(LS.email_list, JSON.stringify(list)); }
+    const list = JSON.parse(localStorage.getItem('email_list')||'[]');
+    if(Array.isArray(list) && !list.includes(email)){ list.push(email); localStorage.setItem('email_list', JSON.stringify(list)); }
   }catch(_){}
 }
 function handleAuthSubmit(){
@@ -545,7 +547,6 @@ function applyFilters(arr){
   const A = state.columns[0], B = state.columns[1], D = state.columns[3];
   if(!f.A && !f.B && !f.D) return arr;
   return arr.filter(w=>{
-    // A – číselná shoda (trim)
     if(f.A && A){
       const wA = String(w[A] ?? '').trim();
       if(String(f.A).trim() !== wA) return false;
@@ -577,7 +578,6 @@ function rebuildFilterOptions(){
     for(const v of arr){ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); }
     sel.value = arr.includes(cur) ? cur : '';
     sel.disabled = arr.length===0;
-    // přejmenuj labely na reálné hlavičky
     const lab = sel.previousElementSibling;
     if(lab && lab.tagName==='LABEL'){
       if(sel===el.fB() && B) lab.textContent = B;
@@ -586,7 +586,6 @@ function rebuildFilterOptions(){
   };
   fill(el.fB(), setB, 'Vše');
   fill(el.fD(), setD, 'Vše');
-  // label pro A
   const labA = (el.fA() && el.fA().previousElementSibling);
   if(labA && labA.tagName==='LABEL' && A) labA.textContent = A+' (číslo)';
 }
@@ -652,19 +651,14 @@ function renderTable(){
     if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
     tr.appendChild(tdB);
 
-    // D + (E,F) + badges
+    // D + (E,F) – návrat k pôvodnému formátu (bez podfarbených „badges“)
     const tdD=document.createElement('td');
     const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
     tdD.appendChild(dMain);
-    const badgesWrap=document.createElement('div'); badgesWrap.className='badges';
     const extras=[];
-    if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push({lab:E,val:String(w[E])});
-    if(F && w[F]) extras.push({lab:F,val:String(w[F])});
-    for(const ex of extras){
-      const b=document.createElement('span'); b.className='badge'; b.textContent = ex.val;
-      badgesWrap.appendChild(b);
-    }
-    if(extras.length) tdD.appendChild(badgesWrap);
+    if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push(String(w[E]));
+    if(F && w[F]) extras.push(String(w[F]));
+    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
     tr.appendChild(tdD);
 
     // Body
@@ -927,7 +921,7 @@ function wipeAllData(){
   applyBranding(); renderHeader(); rebuildFilterOptions(); renderTable(); updateStats(); showToast('Aplikace byla vyčištěna.'); showAuthOverlay();
 }
 
-/* ===== EXPORT – moje hodnocení do PDF ===== */
+/* ===== EXPORT – moje hodnocení do PDF (návrat formátovania) ===== */
 async function exportMyRatingsPDF(){
   if(typeof window.jspdf==='undefined' && typeof window.jsPDF==='undefined'){ alert('Knihovna jsPDF se nenačetla.'); return; }
   if(!state.email){ alert('Přihlaste se, abyste mohli exportovat svá hodnocení.'); return; }
@@ -936,21 +930,24 @@ async function exportMyRatingsPDF(){
   const doc=new jsPDF({unit:'pt', format:'a4'});
 
   const dejavuLoaded = await tryLoadCustomFont(doc);
-  if(dejavuLoaded){ doc.setFont('DejaVuSans','normal'); } else { doc.setFont('helvetica','bold'); }
+  if(dejavuLoaded){ doc.setFont('DejaVuSans','normal'); }
+  else{ doc.setFont('helvetica','bold'); }
 
-  doc.setFontSize(16);
-  const title = 'Moje hodnocení – '+(state.email||'nepřihlášen');
+  doc.setFontSize(15);
+  const titleRaw = 'Moje hodnocení – '+(state.email||'nepřihlášen');
+  const title = dejavuLoaded ? titleRaw : asciiSanitize(titleRaw);
   doc.text(title,40,40);
 
   if(my.length===0){
     doc.setFontSize(12);
-    doc.text('Zatím žádná hodnocení.',40,70);
+    const msg = dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanitize('Zatím žádná hodnocení.');
+    doc.text(msg,40,70);
     doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
     return;
   }
 
   const headRaw = [...state.columns, 'Body', 'Čas hodnocení'];
-  const head = headRaw;
+  const head = dejavuLoaded ? headRaw : headRaw.map(asciiSanitize);
 
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
@@ -962,7 +959,7 @@ async function exportMyRatingsPDF(){
     for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
     row.push(String(r.points));
     row.push(new Date(r.timestamp).toLocaleString());
-    body.push(row);
+    body.push(dejavuLoaded ? row : row.map(asciiSanitize));
   }
 
   doc.autoTable({
