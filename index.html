@@ -4,12 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení, publikace katalogu i pozadí (centrální config), responzivní tabulka, úplné vyčištění dat v ADMIN. Přidáno: ruční zadání URL katalogu, automatické načítání e‑mailů a hodnocení z GitHubu po přihlášení ADMIN, tlačítka pro načtení e‑mailů a hodnocení v ADMIN." />
+<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení, publikace katalogu i pozadí (centrální config), responzivní tabulka, úplné vyčištění dat v ADMIN. Přidáno: ruční zadání URL katalogu, automatické načítání e‑mailů a hodnocení z GitHubu po přihlášení ADMIN, tlačítka pro načtení e‑mailů a hodnocení v ADMIN, ruční nastavení GitHub owner/repo/branch." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
 :root{
-/* Paleta (podľa pokynov) */
+/* Paleta podľa pokynov */
 --green: rgb(0,137,6);
 --gray: rgb(135,135,135);
 --light: rgb(206,213,218);
@@ -17,7 +17,7 @@
 --black: rgb(0,0,0);
 --lime: rgb(161,200,97);
 --yellow: rgb(255,255,96);
---primary: rgb(29,155,178);
+--primary: rgb(29,155,178); /* HLAVNÁ – z palety */
 --focus: rgb(29,155,178);
 
 --muted: var(--gray);
@@ -237,6 +237,12 @@ th, td{ padding: .34rem .3rem; }
 
 <main id="main" class="container" role="main">
 
+  <!-- Upozornenie na chýbajúci GH kontext (keď aplikácia nebeží na *.github.io a nemáme uložený owner/repo) -->
+  <div id="gh-banner" class="banner" role="alert" aria-live="polite">
+    <strong>GitHub není nastaven.</strong>
+    <span>Nastavte prosím OWNER, REPO a BRANCH v sekci „Nastavení GitHub“ (ADMIN), aby bylo možné stáhnout e‑maily a hodnocení z GitHubu.</span>
+  </div>
+
   <!-- ADMIN IDENTITA -->
   <section id="identity-section" class="card card--nohead" hidden>
     <div class="card__body">
@@ -249,6 +255,35 @@ th, td{ padding: .34rem .3rem; }
         <button id="btn-load-emails-gh" class="btn btn-ghost" type="button" title="Načte emails.csv z GitHubu">Načíst e‑maily z GitHubu</button>
         <button id="btn-load-ratings-gh" class="btn btn-ghost" type="button" title="Načte ratings.csv z GitHubu">Načíst hodnocení z GitHubu</button>
         <button id="btn-load-all-gh" class="btn btn-primary" type="button" title="Načte katalog, e‑maily i hodnocení">Načíst vše z GitHubu</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN Nastavení GitHub (nové) -->
+  <section id="gh-settings-section" class="card card--nohead" hidden>
+    <div class="card__body">
+      <h3>Nastavení GitHub (ADMIN)</h3>
+      <p>Vyplňte OWNER/REPO/BRANCH pro čtení z GitHubu (čtení veřejného repozitáře funguje bez tokenu).</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.6rem">
+        <label>Owner
+          <input id="gh-owner" type="text" placeholder="OWNER" style="display:block;padding:.5rem;border:1px solid var(--border);border-radius:8px;min-width:220px" />
+        </label>
+        <label>Repo
+          <input id="gh-repo" type="text" placeholder="REPO" style="display:block;padding:.5rem;border:1px solid var(--border);border-radius:8px;min-width:220px" />
+        </label>
+        <label>Branch
+          <input id="gh-branch" type="text" placeholder="main" style="display:block;padding:.5rem;border:1px solid var(--border);border-radius:8px;min-width:140px" />
+        </label>
+        <label>Emails path
+          <input id="gh-emails" type="text" placeholder="data/emails.csv" style="display:block;padding:.5rem;border:1px solid var(--border);border-radius:8px;min-width:220px" />
+        </label>
+        <label>Ratings path
+          <input id="gh-ratings" type="text" placeholder="data/ratings.csv" style="display:block;padding:.5rem;border:1px solid var(--border);border-radius:8px;min-width:220px" />
+        </label>
+      </div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem">
+        <button id="btn-save-gh" class="btn btn-primary" type="button">Uložit GH nastavení</button>
+        <button id="btn-test-gh" class="btn btn-ghost" type="button">Otestovat čtení CSV</button>
       </div>
     </div>
   </section>
@@ -436,7 +471,11 @@ const el = {
   file:()=>$('file-input'), hasHeader:()=>$('has-header'), persistWines:()=>$('persist-wines'), btnLoad:()=>$('btn-load'), btnClearData:()=>$('btn-clear-data'), btnPublishGH:()=>$('btn-publish-github'),
   bgFile:()=>$('bg-file'), bgUrl:()=>$('bg-url'), btnSetBgUrl:()=>$('btn-set-bg-url'), btnResetBg:()=>$('btn-reset-bg'), bgFit:()=>$('bg-fit'),
   btnUploadBgGH:()=>$('btn-upload-bg-github'), btnUseGhBg:()=>$('btn-use-gh-bg'), bgFallback:()=>$('bg-fallback'),
-  catalogUrl:()=>$('catalog-url'), btnSetCatalogUrl:()=>$('btn-set-catalog-url'), btnResetCatalogUrl:()=>$('btn-reset-catalog-url'), btnLoadCatalogNow:()=>$('btn-load-catalog-now')
+  catalogUrl:()=>$('catalog-url'), btnSetCatalogUrl:()=>$('btn-set-catalog-url'), btnResetCatalogUrl:()=>$('btn-reset-catalog-url'), btnLoadCatalogNow:()=>$('btn-load-catalog-now'),
+  ghOwner:()=>$('gh-owner'), ghRepo:()=>$('gh-repo'), ghBranch:()=>$('gh-branch'), ghEmails:()=>$('gh-emails'), ghRatings:()=>$('gh-ratings'),
+  btnSaveGh:()=>$('btn-save-gh'), btnTestGh:()=>$('btn-test-gh'),
+  ghBanner:()=>$('gh-banner'),
+  ghSettingsSection:()=>$('gh-settings-section')
 };
 
 /* ===== UTIL ===== */
@@ -449,7 +488,7 @@ function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
 function downloadText(filename, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000); }
 
-/* CSV parser (podpora uvozovek, čiarky, nové riadky) -> pole polí */
+/* CSV parser */
 function parseCSV(text){
   const rows=[]; let row=[]; let field=''; let inQuotes=false;
   for(let i=0;i<text.length;i++){
@@ -458,22 +497,15 @@ function parseCSV(text){
       if(ch==='"'){
         if(next==='"'){ field+='"'; i++; }
         else { inQuotes=false; }
-      }else{
-        field+=ch;
-      }
+      }else{ field+=ch; }
     }else{
       if(ch==='"'){ inQuotes=true; }
       else if(ch===','){ row.push(field); field=''; }
-      else if(ch==='\n'){
-        row.push(field); rows.push(row); row=[]; field='';
-      }else if(ch==='\r'){
-        // ignore, consume \r\n pairs by skipping \r
-      }else{
-        field+=ch;
-      }
+      else if(ch==='\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(ch==='\r'){ /* skip */ }
+      else{ field+=ch; }
     }
   }
-  // posledné pole/riadok
   if(field!=='' || inQuotes || row.length>0){ row.push(field); rows.push(row); }
   return rows;
 }
@@ -502,15 +534,21 @@ function setStatus(msg, err){ const s=el.authStatus(); if(!s) return; s.textCont
 function closeOverlay(){ const ov=el.overlay(); if(!ov) return; ov.classList.remove('show'); document.body.classList.remove('locked'); }
 function updateIdentityUI(){
   const who=$('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'nepřihlášen');
-  const up=el.uploadSection(), br=el.brandingSection(), idc=el.identitySection();
+  const up=el.uploadSection(), br=el.brandingSection(), idc=el.identitySection(), ghSec=el.ghSettingsSection();
   if(up) up.hidden = !state.isAdmin;
   if(br) br.hidden = !state.isAdmin;
   if(idc) idc.hidden = !state.isAdmin;
+  if(ghSec) ghSec.hidden = !state.isAdmin;
   const be=el.btnExportEmails(), brt=el.btnExportRatings();
   if(be) be.hidden = !state.isAdmin;
   if(brt) brt.hidden = !state.isAdmin;
   const catSec = $('catalog-source-section');
   if(catSec) catSec.hidden = !state.isAdmin;
+  // Banner pre GH
+  const banner = el.ghBanner();
+  if(banner){
+    banner.classList.toggle('show', !(state.gh.owner && state.gh.repo));
+  }
 }
 function rememberEmail(email){
   const set = new Set([...(state.emailsSeen||[]), email]);
@@ -525,8 +563,9 @@ function handleAuthSubmit(){
   if(val === ADMIN_CODE){
     state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
     closeOverlay(); updateIdentityUI(); renderAll(); showToast('Admin mód aktivován.');
-    // Auto načtení z GitHubu (katalog + e‑maily + hodnocení)
-    loadAllGhData().catch(()=>{});
+    // Auto načtení z GitHubu
+    if(state.gh.owner && state.gh.repo){ loadAllGhData().catch(()=>{}); }
+    else { showToast('Doplňte GitHub OWNER/REPO v Nastavení GitHub.'); }
     return;
   }
   if(!validateEmail(val)){ setStatus('Neplatný e‑mail. Zkuste znovu.', true); return; }
@@ -937,7 +976,8 @@ function handleRateSubmit(wineObj, inputEl){
   if(v===''){ return; }
   const n = Number(v);
   if(!Number.isFinite(n) || n<0 || n>100){
-    showToast('Zadejte číslo 0–100.'); inputEl.focus(); return;
+    showToast('Zadejte číslo 0–100.');
+    inputEl.focus(); return;
   }
   if(!state.email){ showToast('Pro uložení hodnocení se přihlaste.'); return; }
   const wineId = ensureWineId(wineObj);
@@ -992,7 +1032,7 @@ async function exportMyRatingsPDF(){
   }
 
   const headRaw = [...state.columns, 'Body', 'Čas hodnocení'];
-  const head = dejavuLoaded ? headRaw : headRaw.map(asciiSanitize);
+  const head = dejavuLoaded ? headRaw : headRaw.map(asciiSanize => asciiSanize);
 
   const map = new Map();
   for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
@@ -1146,7 +1186,6 @@ async function loadCatalogSmart(){
 window.loadCatalogSmart = loadCatalogSmart;
 
 /* ===== Načítanie e‑mailov a hodnotení z GitHubu (ADMIN) ===== */
-/* Získa text CSV: skúsi GitHub Pages, potom Raw, nakoniec API (ak je token) */
 async function fetchCSVFromGitHub(relPath){
   if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
   if(!state.gh.owner || !state.gh.repo) throw new Error('Neznámý owner/repo');
@@ -1161,26 +1200,23 @@ async function fetchCSVFromGitHub(relPath){
     const res = await fetch(rawUrl, {cache:'no-cache'});
     if(res.ok) return await res.text();
   }catch(_){}
-  // API (vyžaduje token pre private, pre public môže fungovať bez)
   try{
     const meta = await ghGetFile(clean);
     if(meta && meta.content) return b64ToUtf8(meta.content);
   }catch(_){}
   throw new Error('CSV se nepodařilo načíst z GitHubu: '+relPath);
 }
-
-/* Načíta emails.csv a zlúči do state.emailsSeen */
 async function loadEmailsFromGitHub(){
   try{
     const text = await fetchCSVFromGitHub(state.gh.emailsPath || defaultEmailsPath);
-    const rows = parseCSV(text).filter(r=>r.length && r.some(v=>String(v).trim()!=='')); // odstráni prázdne riadky
+    const rows = parseCSV(text).filter(r=>r.length && r.some(v=>String(v).trim()!==''));
     if(rows.length===0){ showToast('E‑maily: prázdný soubor.'); return; }
     const header = rows[0].map(h=>String(h).trim().toLowerCase());
     let emailIdx = header.indexOf('email');
     const dataRows = rows.slice(1);
     const set = new Set(state.emailsSeen||[]);
     for(const r of dataRows){
-      if(emailIdx<0){ // fallback: jediný stĺpec
+      if(emailIdx<0){
         if(r.length>0 && String(r[0]).trim()!=='') set.add(String(r[0]).trim());
       }else{
         const val = r[emailIdx]!=null ? String(r[emailIdx]).trim() : '';
@@ -1196,15 +1232,12 @@ async function loadEmailsFromGitHub(){
     alert('Načtení e‑mailů z GitHubu selhalo.');
   }
 }
-
-/* Načíta ratings.csv a zlúči do state.ratings (deduplikácia podľa email+wineId s preferenciou novšieho timestampu) */
 async function loadRatingsFromGitHub(){
   try{
     const text = await fetchCSVFromGitHub(state.gh.ratingsPath || defaultRatingsPath);
     const rows = parseCSV(text).filter(r=>r.length && r.some(v=>String(v).trim()!==''));
     if(rows.length===0){ showToast('Hodnocení: prázdný soubor.'); return; }
     const header = rows[0].map(h=>String(h).trim());
-    // nájdi indexy
     const low = header.map(h=>h.toLowerCase());
     const idxEmail = low.lastIndexOf('email');
     const idxPoints = low.lastIndexOf('points');
@@ -1212,17 +1245,12 @@ async function loadRatingsFromGitHub(){
     if(idxEmail<0 || idxPoints<0 || idxTs<0){
       alert('ratings.csv: chybí hlavičky email/points/timestamp.'); return;
     }
-    // predpoklad: prvý datový stĺpec = wineId (prvý stĺpec v pôvodnom katalógu)
     const idxWineId = 0;
-
-    // priprav mapu pre deduplikáciu
-    const map = new Map(); // key: email||wineId -> {email,wineId,points,timestamp}
-    // najprv existujúce lokálne
+    const map = new Map();
     for(const r of (state.ratings||[])){
       const k = `${r.email}||${String(r.wineId)}`;
       map.set(k, r);
     }
-    // teraz CSV
     for(let i=1;i<rows.length;i++){
       const row = rows[i];
       const email = String(row[idxEmail] ?? '').trim();
@@ -1237,7 +1265,6 @@ async function loadRatingsFromGitHub(){
       if(!existing){
         if(Number.isFinite(points)) map.set(k, { email, wineId, points, timestamp });
       }else{
-        // vyber novší záznam podľa timestamp
         const tNew = Date.parse(timestamp)||0;
         const tOld = Date.parse(existing.timestamp)||0;
         if(tNew>=tOld && Number.isFinite(points)){
@@ -1255,8 +1282,6 @@ async function loadRatingsFromGitHub(){
     alert('Načtení hodnocení z GitHubu selhalo.');
   }
 }
-
-/* Načíta všetko potrebné pre ADMIN (katalog + e‑maily + hodnocení) */
 async function loadAllGhData(){
   await loadCatalogSmart();
   await loadEmailsFromGitHub();
@@ -1286,7 +1311,6 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
   try{
     const em=localStorage.getItem(LS.email); if(em) state.email=em;
-    // ADMIN detekcia pri štarte
     if(state.email === 'admin@local'){ state.isAdmin = true; }
     const rt=localStorage.getItem(LS.ratings); if(rt) state.ratings=JSON.parse(rt)||[];
     const gh=localStorage.getItem(LS.gh); if(gh){ try{ state.gh={...state.gh, ...(JSON.parse(gh)||{})}; }catch{} }
@@ -1299,8 +1323,11 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     if(state.email) rememberEmail(state.email);
   }catch(_){}
 
-  // GitHub kontext
+  // GitHub kontext alebo ručné nastavenie
   inferGhFromLocation();
+
+  // Zobraz banner ak GH nie je nakonfigurovaný
+  updateIdentityUI();
 
   // Načti centrální nastavení (branding, katalog URL)
   await loadBrandingConfigFromRepo();
@@ -1318,7 +1345,6 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   applyBranding();
 
   // UI handlery
-  // Overlay ukážeme vždy, ale ak už je ADMIN, po prihlásení automaticky načítame GH dáta
   showAuthOverlay();
   const btnAuth=el.authSubmit(), inpAuth=el.authInput();
   if(btnAuth) btnAuth.addEventListener('click', handleAuthSubmit);
@@ -1415,11 +1441,40 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   if(bLR) bLR.addEventListener('click', loadRatingsFromGitHub);
   if(bLA) bLA.addEventListener('click', loadAllGhData);
 
+  // GH settings UI
+  const iOwner=el.ghOwner(), iRepo=el.ghRepo(), iBr=el.ghBranch(), iEm=el.ghEmails(), iRt=el.ghRatings(), bSave=el.btnSaveGh(), bTest=el.btnTestGh();
+  if(iOwner) iOwner.value = state.gh.owner||'';
+  if(iRepo) iRepo.value = state.gh.repo||'';
+  if(iBr) iBr.value = state.gh.branch||'main';
+  if(iEm) iEm.value = state.gh.emailsPath||defaultEmailsPath;
+  if(iRt) iRt.value = state.gh.ratingsPath||defaultRatingsPath;
+
+  if(bSave) bSave.addEventListener('click', ()=>{
+    state.gh.owner = (iOwner && iOwner.value.trim()) || state.gh.owner;
+    state.gh.repo = (iRepo && iRepo.value.trim()) || state.gh.repo;
+    state.gh.branch = (iBr && iBr.value.trim()) || 'main';
+    state.gh.emailsPath = (iEm && iEm.value.trim()) || defaultEmailsPath;
+    state.gh.ratingsPath = (iRt && iRt.value.trim()) || defaultRatingsPath;
+    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
+    updateIdentityUI();
+    showToast('GH nastavení uloženo.');
+  });
+
+  if(bTest) bTest.addEventListener('click', async ()=>{
+    try{
+      await loadEmailsFromGitHub();
+      await loadRatingsFromGitHub();
+      showToast('CSV čtení z GitHubu OK.');
+    }catch(_){
+      alert('Čtení CSV se nezdařilo. Zkontrolujte OWNER/REPO/BRANCH/cesty.');
+    }
+  });
+
   updateIdentityUI();
   renderAll();
 
-  // Automaticky (keď už je ADMIN z predchádzajúcej relácie) načítaj dáta po spustení
-  if(state.isAdmin){
+  // Automaticky (keď už je ADMIN) načti hneď – ale len ak máme GH nastavení
+  if(state.isAdmin && state.gh.owner && state.gh.repo){
     loadAllGhData().catch(()=>{});
   }
 });
