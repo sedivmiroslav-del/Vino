@@ -4,56 +4,58 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení na GitHub, publikace katalogu i pozadí (centrální config), responzivní tabulka, úplné vyčištění dat v ADMIN. Přidáno: ruční zadání URL katalogu (stejně jako obrázku), ukládání zdroje katalogu do data/catalog_source.json." />
+<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, kompozitní buňky, ukládání e‑mailů a hodnocení, publikace katalogu i pozadí (centrální config), responzivní tabulka, úplné vyčištění dat v ADMIN. Přidáno: ruční zadání URL katalogu, automatické načítání e‑mailů a hodnocení z GitHubu po přihlášení ADMIN, tlačítka pro načtení e‑mailů a hodnocení v ADMIN." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
 :root{
-  --green: rgb(0,137,6);
-  --gray: rgb(135,135,135);
-  --light: rgb(206,213,218);
-  --white: rgb(255,255,255);
-  --black: rgb(0,0,0);
-  --lime: rgb(161,200,97);
-  --yellow: rgb(255,255,96);
-  --primary: rgb(0,79,152);
-  --focus: rgb(0,79,152);
-  --muted: var(--gray);
-  --border: var(--light);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow-1: 0 2px 10px rgba(0,0,0,.06);
-  --shadow-2: 0 8px 24px rgba(0,0,0,.08);
-  --space-1: .25rem;
-  --space-2: .5rem;
-  --space-3: .75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --branding-bg: none;
-  --branding-fit: cover;
+/* Paleta (podľa pokynov) */
+--green: rgb(0,137,6);
+--gray: rgb(135,135,135);
+--light: rgb(206,213,218);
+--white: rgb(255,255,255);
+--black: rgb(0,0,0);
+--lime: rgb(161,200,97);
+--yellow: rgb(255,255,96);
+--primary: rgb(29,155,178);
+--focus: rgb(29,155,178);
+
+--muted: var(--gray);
+--border: var(--light);
+--radius: 12px;
+--radius-sm: 8px;
+--shadow-1: 0 2px 10px rgba(0,0,0,.06);
+--shadow-2: 0 8px 24px rgba(0,0,0,.08);
+--space-1: .25rem;
+--space-2: .5rem;
+--space-3: .75rem;
+--space-4: 1rem;
+--space-5: 1.5rem;
+--space-6: 2rem;
+--branding-bg: none;
+--branding-fit: cover;
 }
 
 *{box-sizing:border-box}
 html,body{
-  margin:0; padding:0;
-  background: linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
-  color: var(--black);
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  line-height: 1.5;
+margin:0; padding:0;
+background: linear-gradient(180deg, rgba(206,213,218,.35), rgba(255,255,255,1) 30%);
+color: var(--black);
+font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+line-height: 1.5;
 }
 body.locked{ overflow:hidden; }
 
 .skip-link{ position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .skip-link:focus{
-  position:static; width:auto; height:auto; padding:.5rem 1rem; background: var(--white); color: var(--black);
-  z-index: 9999; border-radius: var(--radius-sm);
+position:static; width:auto; height:auto; padding:.5rem 1rem; background: var(--white); color: var(--black);
+z-index: 9999; border-radius: var(--radius-sm);
 }
 
 /* ===== HEADER ===== */
 .header{
-  background: linear-gradient(90deg, rgba(0,79,152,1) 0%, rgba(0,79,152,.92) 60%, rgba(0,79,152,.86) 100%);
-  color: var(--white); border-bottom: 1px solid rgba(255,255,255,.2); box-shadow: var(--shadow-1);
+background: linear-gradient(90deg, rgba(29,155,178,1) 0%, rgba(29,155,178,.92) 60%, rgba(29,155,178,.86) 100%);
+color: var(--white); border-bottom: 1px solid rgba(255,255,255,.2); box-shadow: var(--shadow-1);
 }
 .header__inner{ width:100%; padding: 1.2rem var(--space-4); }
 .header__text{ text-align:center; max-width:min(80ch,92vw); margin:0 auto; }
@@ -62,9 +64,9 @@ body.locked{ overflow:hidden; }
 
 /* Statistiky */
 .header__stats{
-  display:flex; gap: var(--space-4);
-  max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4);
-  flex-wrap: wrap;
+display:flex; gap: var(--space-4);
+max-width: 1200px; margin: var(--space-4) auto 0; padding: 0 var(--space-4) var(--space-4);
+flex-wrap: wrap;
 }
 .stat{ flex:1; min-width: 220px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); padding: var(--space-4); backdrop-filter: blur(6px); }
 .stat__value{ font-size: 1.6rem; font-weight: 800; }
@@ -73,9 +75,9 @@ body.locked{ overflow:hidden; }
 .container{ max-width: 1200px; margin: var(--space-6) auto var(--space-6); padding: 0 var(--space-4); }
 
 .banner{
-  display:none; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
-  max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
-  background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
+display:none; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
+max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
+background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
 }
 .banner.show{ display:flex; }
 
@@ -86,18 +88,18 @@ body.locked{ overflow:hidden; }
 
 /* ===== Filtry – A, B, D ===== */
 .filter-bar{
-  display:flex; align-items:center; flex-wrap:wrap;
-  gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
-  background: rgba(206,213,218,.25);
-  border:1px solid var(--border); border-radius: 14px;
+display:flex; align-items:center; flex-wrap:wrap;
+gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
+background: rgba(206,213,218,.25);
+border:1px solid var(--border); border-radius: 14px;
 }
 .filter-bar .group{ display:flex; align-items:center; gap:.5rem; flex:1 1 260px; min-width:220px; max-width:100%; }
 .filter-bar label{ margin:0; font-weight:700; color: var(--black); }
 .select-pill{
-  appearance:auto; width:100%; max-width:100%; padding:.7rem .9rem;
-  border:1px solid var(--border);
-  background: var(--white);
-  border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
+appearance:auto; width:100%; max-width:100%; padding:.7rem .9rem;
+border:1px solid var(--border);
+background: var(--white);
+border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
 }
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
@@ -105,9 +107,9 @@ body.locked{ overflow:hidden; }
 /* ===== Tabulka ===== */
 .table-responsive{ overflow-x:hidden; }
 table{
-  width:100%;
-  border-collapse:separate; border-spacing:0; table-layout: fixed;
-  font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
+width:100%;
+border-collapse:separate; border-spacing:0; table-layout: fixed;
+font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
 }
 col.col-a{ width: 20%; } /* A + G */
 col.col-b{ width: 38%; } /* B + C */
@@ -117,7 +119,7 @@ col.col-my{ width: 16%; } /* Body */
 thead th{ position:sticky; top:0; background:linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7)); z-index:2; }
 th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; word-break: normal; overflow-wrap: break-word; }
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
-tbody tr:hover{ background: rgba(0,79,152,.1); }
+tbody tr:hover{ background: rgba(29,155,178,.12); }
 
 /* Kompozitní buňky */
 .cell-main{ font-weight: 700; }
@@ -125,8 +127,8 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 
 /* Vstup hodnocení */
 .rating-input{
-  width: 100%; max-width: 120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px;
-  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+width: 100%; max-width: 120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px;
+transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 .rating-input.unrated{ background: rgba(161,200,97,.8); color: var(--black); }
 .rating-input.rated{ background: var(--primary); color: var(--white); border-color: var(--primary); }
@@ -137,7 +139,7 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 /* Buttons */
 .btn{ border:1px solid transparent; border-radius:999px; padding:.8rem 1.1rem; cursor:pointer; font-weight:700; transition: transform .05s, filter .15s, background-color .15s; }
 .btn:active{ transform: translateY(1px); }
-.btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,79,152,.25); }
+.btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(29,155,178,.25); }
 .btn-primary:hover{ filter:brightness(0.96); }
 .btn-ghost{ background: var(--white); color: var(--black); border-color: var(--border); }
 .btn-ghost:hover{ background: rgba(206,213,218,.25); }
@@ -153,16 +155,16 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; color:#fff; }
 .overlay.show{ display:flex; }
 .overlay .bg{
-  position:absolute; inset:0; background:#000;
-  background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65));
-  background-size: var(--branding-fit), auto;
-  background-position:center; background-repeat:no-repeat;
+position:absolute; inset:0; background:#000;
+background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65));
+background-size: var(--branding-fit), auto;
+background-position:center; background-repeat:no-repeat;
 }
 .overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%;
-  object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none;
+object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none;
 }
 .overlay .shade{ position:absolute; inset:0;
-  background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
+background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
 }
 .hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
 .hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
@@ -172,15 +174,15 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 
 /* Mobilní doplnění */
 @media (max-width: 820px){
-  .filter-bar{ padding:.6rem; }
-  .filter-bar .group{ flex:1 1 100%; min-width:0; }
-  .select-pill{ width:100%; }
-  th, td{ padding: .4rem .36rem; }
-  .rating-input{ max-width: 96px; font-size:.95em; padding:.38rem .36rem; }
+.filter-bar{ padding:.6rem; }
+.filter-bar .group{ flex:1 1 100%; min-width:0; }
+.select-pill{ width:100%; }
+th, td{ padding: .4rem .36rem; }
+.rating-input{ max-width: 96px; font-size:.95em; padding:.38rem .36rem; }
 }
 @media (max-width: 480px){
-  th, td{ padding: .34rem .3rem; }
-  .rating-input{ max-width: 88px; font-size:.9em; }
+th, td{ padding: .34rem .3rem; }
+.rating-input{ max-width: 88px; font-size:.9em; }
 }
 </style>
 
@@ -243,6 +245,10 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
         <button id="btn-relogin" class="btn btn-ghost" type="button">Změnit uživatele</button>
         <button id="btn-load-catalog-gh" class="btn btn-ghost" type="button">Načíst katalog (auto)</button>
         <button id="btn-set-gh-token" class="btn btn-ghost" type="button">Nastavit GitHub token</button>
+        <!-- Nové: ADMIN načtení z GitHubu -->
+        <button id="btn-load-emails-gh" class="btn btn-ghost" type="button" title="Načte emails.csv z GitHubu">Načíst e‑maily z GitHubu</button>
+        <button id="btn-load-ratings-gh" class="btn btn-ghost" type="button" title="Načte ratings.csv z GitHubu">Načíst hodnocení z GitHubu</button>
+        <button id="btn-load-all-gh" class="btn btn-primary" type="button" title="Načte katalog, e‑maily i hodnocení">Načíst vše z GitHubu</button>
       </div>
     </div>
   </section>
@@ -380,7 +386,7 @@ tbody tr:hover{ background: rgba(0,79,152,.1); }
 /* ===== KONSTANTY ===== */
 const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
-const defaultCatalogSourcePath = 'data/catalog_source.json'; // nový centrálny súbor so zdrojovou URL
+const defaultCatalogSourcePath = 'data/catalog_source.json';
 const defaultEmailsPath = 'data/emails.csv';
 const defaultRatingsPath = 'data/ratings.csv';
 const defaultBrandingConfigPath = 'data/branding.json';
@@ -408,7 +414,7 @@ const state = {
   filters: { A:'', B:'', D:'' },
   gh: { owner:'', repo:'', branch:'', catalogPath:'', emailsPath: defaultEmailsPath, ratingsPath: defaultRatingsPath, brandingPath: defaultBrandingPath, token:'' },
   branding: { bgUrl:'', bgFit:'cover' },
-  catalog: { url:'' }, // NOVÉ: ručne zadaná URL katalógu
+  catalog: { url:'' },
   pager: { page: 1, perPage: 30 },
   emailsSeen: []
 };
@@ -426,6 +432,7 @@ const el = {
   btnExportPDF:()=>$('btn-export-pdf'), btnExportEmails:()=>$('btn-export-emails'), btnExportRatings:()=>$('btn-export-ratings'),
   uploadSection:()=>$('upload-section'), brandingSection:()=>$('branding-section'), identitySection:()=>$('identity-section'),
   btnRelogin:()=>$('btn-relogin'), btnLoadCatalogGH:()=>$('btn-load-catalog-gh'), btnSetGhToken:()=>$('btn-set-gh-token'),
+  btnLoadEmailsGH:()=>$('btn-load-emails-gh'), btnLoadRatingsGH:()=>$('btn-load-ratings-gh'), btnLoadAllGH:()=>$('btn-load-all-gh'),
   file:()=>$('file-input'), hasHeader:()=>$('has-header'), persistWines:()=>$('persist-wines'), btnLoad:()=>$('btn-load'), btnClearData:()=>$('btn-clear-data'), btnPublishGH:()=>$('btn-publish-github'),
   bgFile:()=>$('bg-file'), bgUrl:()=>$('bg-url'), btnSetBgUrl:()=>$('btn-set-bg-url'), btnResetBg:()=>$('btn-reset-bg'), bgFit:()=>$('bg-fit'),
   btnUploadBgGH:()=>$('btn-upload-bg-github'), btnUseGhBg:()=>$('btn-use-gh-bg'), bgFallback:()=>$('bg-fallback'),
@@ -441,6 +448,35 @@ function toBase64FromArrayBuffer(buf){ let bin=''; const bytes=new Uint8Array(bu
 function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
 function downloadText(filename, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000); }
+
+/* CSV parser (podpora uvozovek, čiarky, nové riadky) -> pole polí */
+function parseCSV(text){
+  const rows=[]; let row=[]; let field=''; let inQuotes=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i], next=text[i+1];
+    if(inQuotes){
+      if(ch==='"'){
+        if(next==='"'){ field+='"'; i++; }
+        else { inQuotes=false; }
+      }else{
+        field+=ch;
+      }
+    }else{
+      if(ch==='"'){ inQuotes=true; }
+      else if(ch===','){ row.push(field); field=''; }
+      else if(ch==='\n'){
+        row.push(field); rows.push(row); row=[]; field='';
+      }else if(ch==='\r'){
+        // ignore, consume \r\n pairs by skipping \r
+      }else{
+        field+=ch;
+      }
+    }
+  }
+  // posledné pole/riadok
+  if(field!=='' || inQuotes || row.length>0){ row.push(field); rows.push(row); }
+  return rows;
+}
 
 /* Fallback font mapping */
 const CZ_MAP = {'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z','Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'};
@@ -489,6 +525,8 @@ function handleAuthSubmit(){
   if(val === ADMIN_CODE){
     state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
     closeOverlay(); updateIdentityUI(); renderAll(); showToast('Admin mód aktivován.');
+    // Auto načtení z GitHubu (katalog + e‑maily + hodnocení)
+    loadAllGhData().catch(()=>{});
     return;
   }
   if(!validateEmail(val)){ setStatus('Neplatný e‑mail. Zkuste znovu.', true); return; }
@@ -754,7 +792,7 @@ async function loadBrandingConfigFromRepo(){
     if(!state.gh.owner || !state.gh.repo) return;
     const rel = defaultBrandingConfigPath.replace(/^\//,'');
     const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
-    const rawUrl   = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
+    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
     let cfg = null;
     try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
     if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
@@ -812,7 +850,7 @@ async function loadCatalogSourceFromRepo(){
     if(!state.gh.owner || !state.gh.repo) return;
     const rel = defaultCatalogSourcePath.replace(/^\//,'');
     const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
-    const rawUrl   = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
+    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
     let cfg = null;
     try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
     if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
@@ -974,7 +1012,7 @@ async function exportMyRatingsPDF(){
     head:[head],
     body,
     styles:{font: dejavuLoaded ? 'DejaVuSans' : 'helvetica', fontSize:9, cellPadding:3},
-    headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] },
+    headStyles:{ fillColor:[29,155,178], textColor:[255,255,255] },
     bodyStyles:{ valign:'top' }
   });
   doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
@@ -1067,13 +1105,11 @@ async function loadCatalogFromGitHubAPI(){
 }
 
 async function loadCatalogSmart(){
-  // 1) Ak je zadaná centrálna URL katalogu, použij ju
   const src = (state.catalog.url||'').trim();
   if(src){
     await loadCatalogFromURL(src);
     return;
   }
-  // 2) Inak načítaj z GitHub Pages/Raw cesty repozitára (data/catalog.json)
   if(!ensureGhConfigured()){
     inferGhFromLocation();
     if(!ensureGhConfigured()){ showToast('Chybí GitHub nastavení.'); return; }
@@ -1109,6 +1145,124 @@ async function loadCatalogSmart(){
 }
 window.loadCatalogSmart = loadCatalogSmart;
 
+/* ===== Načítanie e‑mailov a hodnotení z GitHubu (ADMIN) ===== */
+/* Získa text CSV: skúsi GitHub Pages, potom Raw, nakoniec API (ak je token) */
+async function fetchCSVFromGitHub(relPath){
+  if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+  if(!state.gh.owner || !state.gh.repo) throw new Error('Neznámý owner/repo');
+  const clean = relPath.replace(/^\//,'');
+  const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${clean}`;
+  try{
+    const res = await fetch(pagesUrl, {cache:'no-cache'});
+    if(res.ok) return await res.text();
+  }catch(_){}
+  const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${clean}`;
+  try{
+    const res = await fetch(rawUrl, {cache:'no-cache'});
+    if(res.ok) return await res.text();
+  }catch(_){}
+  // API (vyžaduje token pre private, pre public môže fungovať bez)
+  try{
+    const meta = await ghGetFile(clean);
+    if(meta && meta.content) return b64ToUtf8(meta.content);
+  }catch(_){}
+  throw new Error('CSV se nepodařilo načíst z GitHubu: '+relPath);
+}
+
+/* Načíta emails.csv a zlúči do state.emailsSeen */
+async function loadEmailsFromGitHub(){
+  try{
+    const text = await fetchCSVFromGitHub(state.gh.emailsPath || defaultEmailsPath);
+    const rows = parseCSV(text).filter(r=>r.length && r.some(v=>String(v).trim()!=='')); // odstráni prázdne riadky
+    if(rows.length===0){ showToast('E‑maily: prázdný soubor.'); return; }
+    const header = rows[0].map(h=>String(h).trim().toLowerCase());
+    let emailIdx = header.indexOf('email');
+    const dataRows = rows.slice(1);
+    const set = new Set(state.emailsSeen||[]);
+    for(const r of dataRows){
+      if(emailIdx<0){ // fallback: jediný stĺpec
+        if(r.length>0 && String(r[0]).trim()!=='') set.add(String(r[0]).trim());
+      }else{
+        const val = r[emailIdx]!=null ? String(r[emailIdx]).trim() : '';
+        if(val) set.add(val);
+      }
+    }
+    state.emailsSeen = Array.from(set);
+    try{ localStorage.setItem(LS.emails, JSON.stringify(state.emailsSeen)); }catch(_){}
+    updateIdentityUI();
+    showToast(`E‑maily načteny: ${state.emailsSeen.length}`);
+  }catch(e){
+    console.warn(e);
+    alert('Načtení e‑mailů z GitHubu selhalo.');
+  }
+}
+
+/* Načíta ratings.csv a zlúči do state.ratings (deduplikácia podľa email+wineId s preferenciou novšieho timestampu) */
+async function loadRatingsFromGitHub(){
+  try{
+    const text = await fetchCSVFromGitHub(state.gh.ratingsPath || defaultRatingsPath);
+    const rows = parseCSV(text).filter(r=>r.length && r.some(v=>String(v).trim()!==''));
+    if(rows.length===0){ showToast('Hodnocení: prázdný soubor.'); return; }
+    const header = rows[0].map(h=>String(h).trim());
+    // nájdi indexy
+    const low = header.map(h=>h.toLowerCase());
+    const idxEmail = low.lastIndexOf('email');
+    const idxPoints = low.lastIndexOf('points');
+    const idxTs = low.lastIndexOf('timestamp');
+    if(idxEmail<0 || idxPoints<0 || idxTs<0){
+      alert('ratings.csv: chybí hlavičky email/points/timestamp.'); return;
+    }
+    // predpoklad: prvý datový stĺpec = wineId (prvý stĺpec v pôvodnom katalógu)
+    const idxWineId = 0;
+
+    // priprav mapu pre deduplikáciu
+    const map = new Map(); // key: email||wineId -> {email,wineId,points,timestamp}
+    // najprv existujúce lokálne
+    for(const r of (state.ratings||[])){
+      const k = `${r.email}||${String(r.wineId)}`;
+      map.set(k, r);
+    }
+    // teraz CSV
+    for(let i=1;i<rows.length;i++){
+      const row = rows[i];
+      const email = String(row[idxEmail] ?? '').trim();
+      const wineId = String(row[idxWineId] ?? '').trim();
+      const ptsRaw = String(row[idxPoints] ?? '').trim();
+      const tsRaw = String(row[idxTs] ?? '').trim();
+      if(!email || !wineId) continue;
+      const points = parseInt(ptsRaw,10);
+      const timestamp = tsRaw || new Date().toISOString();
+      const k = `${email}||${wineId}`;
+      const existing = map.get(k);
+      if(!existing){
+        if(Number.isFinite(points)) map.set(k, { email, wineId, points, timestamp });
+      }else{
+        // vyber novší záznam podľa timestamp
+        const tNew = Date.parse(timestamp)||0;
+        const tOld = Date.parse(existing.timestamp)||0;
+        if(tNew>=tOld && Number.isFinite(points)){
+          map.set(k, { email, wineId, points, timestamp });
+        }
+      }
+    }
+    state.ratings = Array.from(map.values());
+    try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
+    updateStats();
+    renderTable();
+    showToast(`Hodnocení načtena: ${state.ratings.length}`);
+  }catch(e){
+    console.warn(e);
+    alert('Načtení hodnocení z GitHubu selhalo.');
+  }
+}
+
+/* Načíta všetko potrebné pre ADMIN (katalog + e‑maily + hodnocení) */
+async function loadAllGhData(){
+  await loadCatalogSmart();
+  await loadEmailsFromGitHub();
+  await loadRatingsFromGitHub();
+}
+
 /* ===== Po změně dat – obnov UI ===== */
 function afterDataChanged(){
   renderHeader();
@@ -1132,6 +1286,8 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
   try{
     const em=localStorage.getItem(LS.email); if(em) state.email=em;
+    // ADMIN detekcia pri štarte
+    if(state.email === 'admin@local'){ state.isAdmin = true; }
     const rt=localStorage.getItem(LS.ratings); if(rt) state.ratings=JSON.parse(rt)||[];
     const gh=localStorage.getItem(LS.gh); if(gh){ try{ state.gh={...state.gh, ...(JSON.parse(gh)||{})}; }catch{} }
     const br=localStorage.getItem(LS.branding); if(br){ try{ state.branding={...state.branding, ...(JSON.parse(br)||{})}; }catch{} }
@@ -1162,6 +1318,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   applyBranding();
 
   // UI handlery
+  // Overlay ukážeme vždy, ale ak už je ADMIN, po prihlásení automaticky načítame GH dáta
   showAuthOverlay();
   const btnAuth=el.authSubmit(), inpAuth=el.authInput();
   if(btnAuth) btnAuth.addEventListener('click', handleAuthSubmit);
@@ -1252,13 +1409,27 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     await loadCatalogFromURL(url);
   });
 
+  // Nové: ADMIN tlačidlá na GitHub CSV
+  const bLE=el.btnLoadEmailsGH(), bLR=el.btnLoadRatingsGH(), bLA=el.btnLoadAllGH();
+  if(bLE) bLE.addEventListener('click', loadEmailsFromGitHub);
+  if(bLR) bLR.addEventListener('click', loadRatingsFromGitHub);
+  if(bLA) bLA.addEventListener('click', loadAllGhData);
+
   updateIdentityUI();
   renderAll();
 
-  // Po prihlásení si užívateľ vie načítať auto
-  // Ak chcete hneď pri štarte, môžete odkomentovať:
-  // await loadCatalogSmart();
+  // Automaticky (keď už je ADMIN z predchádzajúcej relácie) načítaj dáta po spustení
+  if(state.isAdmin){
+    loadAllGhData().catch(()=>{});
+  }
 });
+
+function renderAll(){
+  renderHeader();
+  rebuildFilterOptions();
+  renderTable();
+  updateStats();
+}
 </script>
 </body>
 </html>
