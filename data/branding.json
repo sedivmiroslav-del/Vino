@@ -2,7 +2,7 @@
   "bgUrl": "https://sedivmiroslav-del.github.io/Vino/assets/img/branding.jpg",
   "bgFit": "cover",
   "appBgUrl": "https://sedivmiroslav-del.github.io/Vino/assets/img/app_bg.jpg",
-  "appBgFit": "cover",
+  "appBgFit": "contain",
   "appBgOpacity": 0.15,
   "social": {
     "facebook": "https://www.facebook.com/czspetrov/",
