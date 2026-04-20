@@ -165,7 +165,6 @@ transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 .btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,79,152,.25); }
 .btn-primary:hover{ filter:brightness(0.96); }
 .btn-ghost{ background: var(--white); color: var(--black); border-color: var(--border); }
-.btn-ghost:hover{ background: rgba(206,213,218,.25); }
 
 /* Ikony (SVG) v tlačítkách – jednotná velikost */
 .btn svg{ width:18px; height:18px; }
@@ -274,25 +273,7 @@ th, td{ padding: .34rem .3rem; }
       <button id="btn-load-catalog-gh" class="btn btn-ghost" type="button">Načíst katalog (auto)</button>
       <button id="btn-set-gh-token" class="btn btn-ghost" type="button">Nastavit GitHub token</button>
     </div>
-
-    <!-- Sociální odkazy (tlačítka s ikonami, aktivní pokud je URL nastavené) -->
-    <div aria-label="Sociální odkazy" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem">
-      <a id="btn-social-fb" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Facebook" title="Facebook" aria-disabled="true">
-        <!-- Facebook SVG -->
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22 12.06C22 6.48 17.52 2 12 2S2 6.48 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34v7.03C18.34 21.21 22 17.06 22 12.06z"/></svg>
-        Facebook
-      </a>
-      <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
-        <!-- Instagram SVG -->
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
-        Instagram
-      </a>
-      <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-        <!-- Globe SVG -->
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
-        Web
-      </a>
-    </div>
+    <!-- Sociální tlačítka přesunuta níže do sekce Export pro všechny přihlášené -->
   </div>
 </section>
 
@@ -381,7 +362,7 @@ th, td{ padding: .34rem .3rem; }
     <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
 
     <h3>Sociální odkazy</h3>
-    <p>Vyplňte URL. Tlačítka se zobrazí v admin sekci výše.</p>
+    <p>Vyplňte URL. Tlačítka se zobrazí všem přihlášeným uživatelům dole vedle exportu PDF.</p>
     <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
       <label for="social-fb" style="min-width:120px">Facebook</label>
       <input id="social-fb" type="url" placeholder="https://facebook.com/..." style="flex:1;min-width:260px" />
@@ -459,10 +440,24 @@ th, td{ padding: .34rem .3rem; }
   </div>
 </section>
 
-<!-- ===== Export ===== -->
-<section class="card card--nohead" aria-label="Exporty">
-  <div class="card__body" style="display:flex;gap:.6rem;flex-wrap:wrap">
+<!-- ===== Export a odkazy ===== -->
+<section class="card card--nohead" aria-label="Exporty a odkazy">
+  <div class="card__body" style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
     <button id="btn-export-pdf" class="btn btn-primary" type="button">Moje hodnocení do PDF</button>
+
+    <!-- Sociální tlačítka – pro všechny přihlášené uživatele -->
+    <a id="btn-social-fb" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Facebook" title="Facebook" aria-disabled="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22 12.06C22 6.48 17.52 2 12 2S2 6.48 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34v7.03C18.34 21.21 22 17.06 22 12.06z"/></svg>
+      Facebook
+    </a>
+    <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
+      Instagram
+    </a>
+    <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
+      Web
+    </a>
   </div>
 </section>
 </main>
@@ -701,7 +696,8 @@ function renderTable(){
     const tdB=document.createElement('td');
     const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
     tdB.appendChild(bMain);
-    if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
+    if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); }
+    if(C && w[C]) tdB.appendChild(bSub);
     tr.appendChild(tdB);
 
     // D + (E,F)
@@ -793,7 +789,6 @@ async function ghPutFile(path, contentText, message){
   if(!res.ok){ console.warn('GH PUT fail', await res.text()); return false; }
   return true;
 }
-/* Binary/base64 content (obrázky) */
 async function ghPutContentBase64(path, base64Content, message){
   if(!state.gh.owner || !state.gh.repo){
     inferGhFromLocation();
@@ -1251,7 +1246,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
   }
 
-  // Aplikuj branding
+  // Aplikuj branding (nastaví odkazy na FB/IG/Web)
   applyBranding();
 
   // UI handlery
