@@ -146,16 +146,6 @@ position: sticky; top: 0; z-index: 1;
 color: var(--muted); font-style: italic;
 }
 
-/* Badge – body (vizualne podobne piluli vstupu) */
-.badge-score{
-display:inline-block; padding:.35rem .7rem;
-border-radius: 9999px;
-background: rgba(161,200,97,0.85);
-color: var(--black);
-font-weight:700; font-size:.9em;
-min-width:64px; text-align:center;
-}
-
 /* ===== Filtry ===== */
 .filter-bar{
 display:flex; align-items:center; flex-wrap:wrap;
@@ -538,11 +528,11 @@ th, td{ padding: .34rem .3rem; }
       Facebook
     </a>
     <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0  0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0  1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
       Instagram
     </a>
     <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0  0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0  0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0  1-5.3 6.93Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0  0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
       Web
     </a>
   </div>
@@ -643,10 +633,6 @@ function resolveWineById(id){
   if(!id) return null;
   const A = state.columns[0];
   return state.wines.find(w => String(w[A] ?? '').trim() === String(id).trim()) || null;
-}
-function findYearColumnIndex(){
-  const idx = state.columns.findIndex(h => /^(rok|ročník)/i.test(String(h||'')));
-  return idx >= 0 ? idx : null;
 }
 function getUserPointsForWineId(id){
   if(!id || !state.email) return '';
@@ -754,7 +740,7 @@ function rebuildFilterOptions(){
   if(labA && labA.tagName==='LABEL' && A) labA.textContent = A+' (číslo)';
 }
 
-/* ===== RENDER: Winners (veřejná sekce, formát jako spodní tabulka) ===== */
+/* ===== RENDER: Winners (veřejná sekce, shodné skládání s dolní tabulkou) ===== */
 function renderWinnersSection(){
   const sec = el.winnersSection(); const grid = el.winnersGrid();
   if(!sec || !grid) return;
@@ -770,29 +756,27 @@ function renderWinnersSection(){
   if(!hasAny) return;
 
   const A = state.columns[0], B = state.columns[1], C = state.columns[2], D = state.columns[3], E = state.columns[4], F = state.columns[5], G = state.columns[6];
-  const yearIdx = findYearColumnIndex();
-  const yearHeader = yearIdx!=null ? state.columns[yearIdx] : 'Rok';
 
+  // Hlavička přesně jako dole
   const mkMiniTableHead = ()=>{
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
-    const heads = [A||'Č', B||'Pěstitel', D||'Odrůda', 'Body'];
-    for(const h of heads){ const th = document.createElement('th'); th.textContent=h; tr.appendChild(th); }
+    [A||'Č', B||'Pěstitel', D||'Odrůda', 'Body'].forEach(h=>{
+      const th = document.createElement('th'); th.textContent = h; tr.appendChild(th);
+    });
     thead.appendChild(tr); return thead;
   };
 
+  // Jeden řádek – stejné skládání buněk jako v dolní tabulce + interaktivní vstup pro body
   const mkRowComposite = (w)=>{
     const tr = document.createElement('tr');
     const wid = ensureWineId(w);
-    const points = getUserPointsForWineId(wid);
 
-    // A + sub (G) ... ale pro vítěze pod A zobrazíme "Body: X" stejně jako ve vzoru
+    // A + G
     const tdA=document.createElement('td');
     const aMain=document.createElement('div'); aMain.className='cell-main'; aMain.textContent=A?String(w[A]??''):'';
     tdA.appendChild(aMain);
-    const subA=document.createElement('span'); subA.className='cell-sub';
-    subA.textContent = points ? ('Body:'+points) : (G && w[G] ? String(w[G]) : '');
-    tdA.appendChild(subA);
+    if(G && w[G]){ const aSub=document.createElement('span'); aSub.className='cell-sub'; aSub.textContent=String(w[G]); tdA.appendChild(aSub); }
     tr.appendChild(tdA);
 
     // B + C
@@ -802,21 +786,29 @@ function renderWinnersSection(){
     if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
     tr.appendChild(tdB);
 
-    // D + (E,F, Rok)
+    // D + (E,F) – jen jednou, bez duplikování roku; bereme stejně jako dole
     const tdD=document.createElement('td');
     const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
     tdD.appendChild(dMain);
     const extras=[];
-    if(yearIdx!=null){ const yr = w[state.columns[yearIdx]]; if(yr!==undefined && yr!==null && yr!=='') extras.push(String(yr)); }
     if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push(String(w[E]));
     if(F && w[F]) extras.push(String(w[F]));
     if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
     tr.appendChild(tdD);
 
-    // Body (badge – bez vstupu)
+    // Body – stejný interaktivní vstup jako dole
     const tdP=document.createElement('td');
-    const badge=document.createElement('span'); badge.className='badge-score'; badge.textContent = points ? points : '–';
-    badge.setAttribute('aria-label','Body'); tdP.appendChild(badge);
+    const input=document.createElement('input');
+    input.type='number'; input.min='0'; input.max='100'; input.step='1';
+    input.placeholder='0–100'; input.className='rating-input';
+    input.setAttribute('aria-label','Body pro položku '+(wid||''));
+    const ex = state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid)) : null;
+    if(ex){ input.value=ex.points; input.disabled=true; input.classList.add('rated'); }
+    else if(!state.email){ input.disabled=true; input.title='Pro hodnocení se přihlaste.'; input.classList.add('locked'); }
+    else{ input.classList.add('unrated'); }
+    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input); }});
+    input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input); }});
+    tdP.appendChild(input);
     tr.appendChild(tdP);
 
     return tr;
@@ -827,7 +819,6 @@ function renderWinnersSection(){
     const head = document.createElement('div'); head.className='block__head';
     const h = document.createElement('h3'); h.className='block__title'; h.textContent = title;
     head.appendChild(h); block.appendChild(head);
-
     const body = document.createElement('div'); body.className='block__body';
     const table = document.createElement('table'); table.className='mini-table'; table.setAttribute('aria-label', title);
     const thead = mkMiniTableHead(); table.appendChild(thead);
@@ -1521,11 +1512,9 @@ function renderWinnersPreview(){
     if(id){
       const w = resolveWineById(id);
       if(w){
-        const A=state.columns[0], B=state.columns[1], C=state.columns[2], D=state.columns[3], E=state.columns[4], F=state.columns[5], G=state.columns[6];
-        const yIdx = findYearColumnIndex(); const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
-        const extras=[]; if(year) extras.push(year); if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
-        const points = getUserPointsForWineId(id) || '–';
-        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok/extra: ${extras.join(' – ')} | Body: ${points}`;
+        const A=state.columns[0], B=state.columns[1], C=state.columns[2], D=state.columns[3], E=state.columns[4], F=state.columns[5];
+        const extras=[]; if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
+        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Extra: ${extras.join(' – ')}`;
         div.appendChild(p);
       }else{
         const p = document.createElement('p'); p.className='error'; p.textContent = `Nebylo nalezeno víno s číslem A=${id}.`;
@@ -1551,11 +1540,9 @@ function renderWinnersPreview(){
       const li = document.createElement('li');
       const w = resolveWineById(id);
       if(w){
-        const A=state.columns[0], B=state.columns[1], D=state.columns[3];
-        const yIdx = findYearColumnIndex();
-        const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
-        const points = getUserPointsForWineId(id) || '–';
-        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok: ${year} | Body: ${points}`;
+        const A=state.columns[0], B=state.columns[1], D=state.columns[3], E=state.columns[4], F=state.columns[5];
+        const extras=[]; if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
+        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Extra: ${extras.join(' – ')}`;
       }else{
         li.innerHTML = `<span class="error">Nenalezeno A=${id}</span>`;
       }
