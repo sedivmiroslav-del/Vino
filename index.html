@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D (A jako číselný vstup), lokální ukládání hodnocení, publikace katalogu/branding, responzivní tabulka v původním vzhledu, export mých hodnocení do PDF, šampioni a vítězové odrůd." />
+<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, lokální ukládání hodnocení, publikace katalogu/branding, šampioni a vítězové odrůd s náhledem, export mých hodnocení do PDF." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
 :root{
-/* Paleta (požadovaná) */
+/* Paleta */
 --green: rgb(0,137,6);
 --gray: rgb(135,135,135);
 --light: rgb(206,213,218);
---blue: rgb(29,155,178);
---lime: rgb(161,200,97);
 --white: rgb(255,255,255);
 --black: rgb(0,0,0);
+--lime: rgb(161,200,97);
 --yellow: rgb(255,255,96);
+--blue-accent: rgb(29,155,178);
 
-/* Původní primární modrá (pro existující UI) */
+/* Původní primární modrá rozhraní */
 --primary: rgb(0,79,152);
 --focus: rgb(0,79,152);
 
@@ -110,7 +110,7 @@ max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020
 background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
 }
 
-/* ===== Winners (nová sekce) ===== */
+/* ===== Winners (verejná sekce nad filtry) ===== */
 #winners-section .winners-grid{
 display:grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
 }
@@ -243,8 +243,8 @@ background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,
 .admin-winners .row{
 display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:.5rem;
 }
-.admin-winners input[type="text"], .admin-winners input[type="number"]{
-padding:.5rem .6rem; border:1px solid var(--border); border-radius:8px; font-weight:600;
+.admin-winners input[type="number"]{
+padding:.5rem .6rem; border:1px solid var(--border); border-radius:8px; font-weight:600; min-width:140px;
 }
 .admin-winners .list{
 border:1px dashed var(--border); border-radius:8px; padding:.6rem; background: rgba(206,213,218,.15);
@@ -361,7 +361,7 @@ th, td{ padding: .34rem .3rem; }
   </div>
 </section>
 
-<!-- ADMIN Branding (původní) -->
+<!-- ADMIN Branding -->
 <section id="branding-section" class="card card--nohead" hidden>
   <div class="card__body">
     <h3>Branding (pozadí přihlášení)</h3>
@@ -427,7 +427,7 @@ th, td{ padding: .34rem .3rem; }
   </div>
 </section>
 
-<!-- ADMIN Winners (nové) -->
+<!-- ADMIN Winners – jednoduchý výběr číslem jako u šampionů -->
 <section id="winners-admin-section" class="card card--nohead" hidden aria-label="Nastavení vítězů a šampionů">
   <div class="card__body admin-winners">
     <h3>Vítězové a šampioni (ADMIN)</h3>
@@ -449,18 +449,18 @@ th, td{ padding: .34rem .3rem; }
 
     <h4>Vítězové odrůd – bílá vína</h4>
     <div id="white-var-list" class="list" aria-label="Seznam vítězů bílých odrůd">
-      <!-- řádky doplní skript -->
+      <!-- řádky doplní skript (pouze číselné vstupy A) -->
     </div>
     <div class="controls" style="margin:.5rem 0 1rem">
-      <button id="btn-add-white" class="btn btn-ghost" type="button">Přidat bílou odrůdu</button>
+      <button id="btn-add-white" class="btn btn-ghost" type="button">Přidat vítěze (bílá)</button>
     </div>
 
     <h4>Vítězové odrůd – červená vína</h4>
     <div id="red-var-list" class="list" aria-label="Seznam vítězů červených odrůd">
-      <!-- řádky doplní skript -->
+      <!-- řádky doplní skript (pouze číselné vstupy A) -->
     </div>
     <div class="controls" style="margin:.5rem 0 1rem">
-      <button id="btn-add-red" class="btn btn-ghost" type="button">Přidat červenou odrůdu</button>
+      <button id="btn-add-red" class="btn btn-ghost" type="button">Přidat vítěze (červená)</button>
     </div>
 
     <div class="controls" style="margin-top:.5rem">
@@ -537,7 +537,7 @@ th, td{ padding: .34rem .3rem; }
       Instagram
     </a>
     <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0  0 1-5.3 6.93Z"/></svg>
       Web
     </a>
   </div>
@@ -556,7 +556,7 @@ const ADMIN_CODE = 'PetrovSedivy492';
 const defaultCatalogPath = 'data/catalog.json';
 const defaultCatalogSourcePath = 'data/catalog_source.json';
 const defaultBrandingConfigPath = 'data/branding.json';
-const defaultWinnersPath = 'data/winners.json'; // NOVÉ
+const defaultWinnersPath = 'data/winners.json';
 
 /* GH Pages base path (fonty atď.) */
 const __basePath = (()=> {
@@ -586,17 +586,17 @@ const state = {
   },
   catalog: { url:'' },
   pager: { page: 1, perPage: 30 },
-  winners: { // NOVÉ
+  winners: {
     championWhite: { wineId: '' },
     championRed: { wineId: '' },
     championRose: { wineId: '' },
-    whiteVarietyWinners: [], // [{variety:'Ryzlink rýnský', wineId:'12'}]
-    redVarietyWinners: []    // [{variety:'Frankovka', wineId:'233'}]
+    whiteVarietyWinners: [], // [ "12", "53", ... ] — pouze čísla A
+    redVarietyWinners: []    // [ "233", ... ]
   }
 };
 const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', catalogSrc:'winecat_catalog_src',
-  winners:'winecat_winners' // NOVÉ
+  winners:'winecat_winners'
 };
 
 /* ===== DOM helper ===== */
@@ -640,7 +640,7 @@ function resolveWineById(id){
   return state.wines.find(w => String(w[A] ?? '').trim() === String(id).trim()) || null;
 }
 
-/* ===== CZ -> ASCII mapa (PDF fallback) ===== */
+/* ===== CZ -> ASCII mapa ===== */
 const CZ_MAP = {'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z','Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'};
 const asciiSanitize = s => String(s).replace(/[^\x20-\x7E]/g, ch => CZ_MAP[ch] ?? ch);
 
@@ -759,7 +759,7 @@ function renderWinnersSection(){
   const mkMiniTableHead = ()=>{
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
-    [A||'Sloupec A', B||'Sloupec B', D||'Sloupec D'].forEach(h=>{
+    [A||'A', B||'B', D||'D'].forEach(h=>{
       const th = document.createElement('th'); th.textContent = h; tr.appendChild(th);
     });
     thead.appendChild(tr); return thead;
@@ -771,7 +771,7 @@ function renderWinnersSection(){
     const tdD = document.createElement('td'); tdD.textContent = D?String(w[D]??''):''; tr.appendChild(tdD);
     return tr;
   };
-  const mkBlock = (title, winesOrIds, mappingFn)=>{
+  const mkBlock = (title, ids)=>{
     const block = document.createElement('div'); block.className='block';
     const head = document.createElement('div'); head.className='block__head';
     const h = document.createElement('h3'); h.className='block__title'; h.textContent = title;
@@ -781,15 +781,14 @@ function renderWinnersSection(){
     const thead = mkMiniTableHead(); table.appendChild(thead);
     const tbody = document.createElement('tbody');
 
-    const items = mappingFn ? mappingFn(winesOrIds) : winesOrIds;
-    const rowsAdded = [];
-    for(const w of items){
+    let rows = 0;
+    for(const id of ids){
+      const w = resolveWineById(id);
       if(!w) continue;
-      const tr = mkRow(w);
-      tbody.appendChild(tr);
-      rowsAdded.push(true);
+      tbody.appendChild(mkRow(w));
+      rows++;
     }
-    if(rowsAdded.length===0){
+    if(rows===0){
       const p = document.createElement('p'); p.className='empty'; p.textContent = 'Zatím není vybráno.'; body.appendChild(p);
     }else{
       table.appendChild(tbody); body.appendChild(table);
@@ -803,56 +802,24 @@ function renderWinnersSection(){
   const cr = state.winners.championRed?.wineId ? resolveWineById(state.winners.championRed.wineId) : null;
   const ro = state.winners.championRose?.wineId ? resolveWineById(state.winners.championRose.wineId) : null;
 
-  const championsRow = document.createElement('div');
-  championsRow.className = 'block block--half'; // half width on desktop
-  // To create two blocks side by side, we append individually; adjust classes per block
-  if(cw){
-    const b = mkBlock('Šampion bílých vín', [cw]);
-    b.classList.add('block--half');
-    grid.appendChild(b);
-  }
-  if(cr){
-    const b = mkBlock('Šampion červených vín', [cr]);
-    b.classList.add('block--half');
-    grid.appendChild(b);
-  }
-  if(ro){
-    const b = mkBlock('Vítěz růžových vín', [ro]);
-    b.classList.add('block--half');
-    grid.appendChild(b);
-  }
+  if(cw){ const b = mkBlock('Šampion bílých vín', [cw[A]]); b.classList.add('block--half'); grid.appendChild(b); }
+  if(cr){ const b = mkBlock('Šampion červených vín', [cr[A]]); b.classList.add('block--half'); grid.appendChild(b); }
+  if(ro){ const b = mkBlock('Vítěz růžových vín', [ro[A]]); b.classList.add('block--half'); grid.appendChild(b); }
 
   // VÍTĚZOVÉ ODRŮD – BÍLÁ
   if(Array.isArray(state.winners.whiteVarietyWinners) && state.winners.whiteVarietyWinners.length){
-    // Seskupené – nad tabulkou ukážeme počet, v řádcích přidáme i název odrůdy jako title atribut do buňky D.
-    const mapping = (list)=>{
-      const out=[];
-      for(const it of list){
-        const w = resolveWineById(it.wineId);
-        if(w){ out.push(w); }
-      }
-      return out;
-    };
-    const block = mkBlock('Vítězové odrůd bílých vín', state.winners.whiteVarietyWinners, mapping);
+    const block = mkBlock('Vítězové odrůd bílých vín', state.winners.whiteVarietyWinners);
     grid.appendChild(block);
   }
 
   // VÍTĚZOVÉ ODRŮD – ČERVENÁ
   if(Array.isArray(state.winners.redVarietyWinners) && state.winners.redVarietyWinners.length){
-    const mapping = (list)=>{
-      const out=[];
-      for(const it of list){
-        const w = resolveWineById(it.wineId);
-        if(w){ out.push(w); }
-      }
-      return out;
-    };
-    const block = mkBlock('Vítězové odrůd červených vín', state.winners.redVarietyWinners, mapping);
+    const block = mkBlock('Vítězové odrůd červených vín', state.winners.redVarietyWinners);
     grid.appendChild(block);
   }
 }
 
-/* ===== RENDER: tabulka hlavní ===== */
+/* ===== RENDER: hlavní tabulka ===== */
 function renderHeader(){
   const theadRow = el.theadRow(); if(!theadRow) return;
   theadRow.innerHTML='';
@@ -1153,8 +1120,8 @@ async function loadWinnersFromRepo(){
         championWhite: { wineId: (cfg.championWhite?.wineId||'').toString() },
         championRed: { wineId: (cfg.championRed?.wineId||'').toString() },
         championRose: { wineId: (cfg.championRose?.wineId||'').toString() },
-        whiteVarietyWinners: Array.isArray(cfg.whiteVarietyWinners) ? cfg.whiteVarietyWinners.map(x=>({ variety: x.variety||'', wineId: (x.wineId||'').toString() })) : [],
-        redVarietyWinners: Array.isArray(cfg.redVarietyWinners) ? cfg.redVarietyWinners.map(x=>({ variety: x.variety||'', wineId: (x.wineId||'').toString() })) : []
+        whiteVarietyWinners: Array.isArray(cfg.whiteVarietyWinners) ? cfg.whiteVarietyWinners.map(x=>x.toString()) : [],
+        redVarietyWinners: Array.isArray(cfg.redVarietyWinners) ? cfg.redVarietyWinners.map(x=>x.toString()) : []
       };
       try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
     }
@@ -1165,8 +1132,8 @@ async function saveWinnersToRepo(){
     championWhite: { wineId: (state.winners.championWhite?.wineId||'').toString().trim() },
     championRed: { wineId: (state.winners.championRed?.wineId||'').toString().trim() },
     championRose: { wineId: (state.winners.championRose?.wineId||'').toString().trim() },
-    whiteVarietyWinners: (state.winners.whiteVarietyWinners||[]).map(x=>({ variety: (x.variety||'').trim(), wineId: (x.wineId||'').toString().trim() })),
-    redVarietyWinners: (state.winners.redVarietyWinners||[]).map(x=>({ variety: (x.variety||'').trim(), wineId: (x.wineId||'').toString().trim() }))
+    whiteVarietyWinners: (state.winners.whiteVarietyWinners||[]).map(x=>x.toString().trim()).filter(Boolean),
+    redVarietyWinners: (state.winners.redVarietyWinners||[]).map(x=>x.toString().trim()).filter(Boolean)
   };
   const ok = await ghPutFile(defaultWinnersPath, JSON.stringify(payload, null, 2), 'update winners');
   if(ok){
@@ -1230,8 +1197,7 @@ function onLoadXLSX(){
       }
       afterDataChanged();
       showToast(`Načtených položek: ${state.wines.length}`);
-      renderWinnersSection(); // po načtení katalogu přepočítat
-      renderWinnersPreview();
+      renderWinnersSection(); renderWinnersPreview();
     }catch(err){ console.error(err); alert('Chyba při čtení XLSX.'); }
   };
   reader.readAsArrayBuffer(file);
@@ -1303,7 +1269,7 @@ async function exportMyRatingsPDF(){
 
   if(my.length===0){
     doc.setFontSize(12);
-    const msg = dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanitize('Zatím žádná hodnocení.');
+    const msg = dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanize('Zatím žádná hodnocení.');
     doc.text(msg,40,70);
     doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
     return;
@@ -1447,39 +1413,36 @@ async function loadCatalogSmart(){
   await loadCatalogFromGitHubAPI();
 }
 
-/* ===== Winners – Admin UI ===== */
-function addVarietyRow(containerEl, type, item={variety:'', wineId:''}){
+/* ===== Winners – Admin UI (pouze čísla jako u šampionů) ===== */
+function addVarietyRow(containerEl, type, idValue=''){
   const row = document.createElement('div'); row.className='row';
-  const inpVar = document.createElement('input'); inpVar.type='text'; inpVar.placeholder='Název odrůdy'; inpVar.value=item.variety||''; inpVar.setAttribute('aria-label','Název odrůdy');
-  const inpId = document.createElement('input'); inpId.type='number'; inpId.inputMode='numeric'; inpId.placeholder='Číslo (A)'; inpId.value=item.wineId||''; inpId.setAttribute('aria-label','Číslo položky (A)');
+  const label = document.createElement('label'); label.textContent = 'Číslo (A):'; label.style.minWidth='90px';
+  const inpId = document.createElement('input'); inpId.type='number'; inpId.inputMode='numeric'; inpId.placeholder='např. 53'; inpId.value=idValue||''; inpId.setAttribute('aria-label','Číslo položky (A)');
   const btnDel = document.createElement('button'); btnDel.type='button'; btnDel.className='btn btn-ghost'; btnDel.textContent='Odebrat';
   btnDel.addEventListener('click', ()=>{
     containerEl.removeChild(row);
     syncVarietyListFromDOM();
     renderWinnersPreview();
   });
-  inpVar.addEventListener('input', ()=>{ syncVarietyListFromDOM(); renderWinnersPreview(); });
-  inpId.addEventListener('input', ()=>{ syncVarietyListFromDOM(); renderWinnersPreview(); });
-  row.appendChild(inpVar); row.appendChild(inpId); row.appendChild(btnDel);
-  containerEl.appendChild(row);
-
-  function syncVarietyListFromDOM(){
-    const list = [];
+  const syncVarietyListFromDOM = ()=>{
+    const ids = [];
     for(const r of containerEl.querySelectorAll('.row')){
-      const v = r.querySelector('input[type="text"]')?.value || '';
       const id = r.querySelector('input[type="number"]')?.value || '';
-      if(v.trim() || id.trim()){ list.push({ variety: v.trim(), wineId: id.toString().trim() }); }
+      if(id.trim()) ids.push(id.toString().trim());
     }
-    if(type==='white') state.winners.whiteVarietyWinners = list;
-    if(type==='red') state.winners.redVarietyWinners = list;
+    if(type==='white') state.winners.whiteVarietyWinners = ids;
+    if(type==='red') state.winners.redVarietyWinners = ids;
     try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
-  }
+  };
+  inpId.addEventListener('input', ()=>{ syncVarietyListFromDOM(); renderWinnersPreview(); });
+  row.appendChild(label); row.appendChild(inpId); row.appendChild(btnDel);
+  containerEl.appendChild(row);
 }
 
 function rebuildVarietyLists(){
   const wC = el.listWhite(), rC = el.listRed();
-  if(wC){ wC.innerHTML=''; (state.winners.whiteVarietyWinners||[]).forEach(it=> addVarietyRow(wC, 'white', it)); }
-  if(rC){ rC.innerHTML=''; (state.winners.redVarietyWinners||[]).forEach(it=> addVarietyRow(rC, 'red', it)); }
+  if(wC){ wC.innerHTML=''; (state.winners.whiteVarietyWinners||[]).forEach(id=> addVarietyRow(wC, 'white', id)); }
+  if(rC){ rC.innerHTML=''; (state.winners.redVarietyWinners||[]).forEach(id=> addVarietyRow(rC, 'red', id)); }
 }
 
 function readChampionsInputsToState(){
@@ -1507,7 +1470,7 @@ function renderWinnersPreview(){
       const w = resolveWineById(id);
       if(w){
         const A=state.columns[0], B=state.columns[1], D=state.columns[3];
-        const p = document.createElement('p'); p.textContent = `${A||'A'}: ${w[A]??''} | ${B||'B'}: ${w[B]??''} | ${D||'D'}: ${w[D]??''}`;
+        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''}`;
         div.appendChild(p);
       }else{
         const p = document.createElement('p'); p.className='error'; p.textContent = `Nebylo nalezeno víno s číslem A=${id}.`;
@@ -1520,23 +1483,23 @@ function renderWinnersPreview(){
     return div;
   };
 
+  section.appendChild(mkInfo('Vítěz růžových vín', state.winners.championRose?.wineId));
   section.appendChild(mkInfo('Šampion bílých vín', state.winners.championWhite?.wineId));
   section.appendChild(mkInfo('Šampion červených vín', state.winners.championRed?.wineId));
-  section.appendChild(mkInfo('Vítěz růžových vín', state.winners.championRose?.wineId));
 
   const mkListPreview = (title, list)=>{
     const d = document.createElement('div');
     const h = document.createElement('h5'); h.textContent = title; d.appendChild(h);
     if(!list || !list.length){ const p=document.createElement('p'); p.className='empty'; p.textContent='Zatím prázdné.'; d.appendChild(p); return d; }
     const ul = document.createElement('ul');
-    for(const it of list){
+    for(const id of list){
       const li = document.createElement('li');
-      const w = resolveWineById(it.wineId);
+      const w = resolveWineById(id);
       if(w){
         const A=state.columns[0], B=state.columns[1], D=state.columns[3];
-        li.textContent = `${it.variety||'(odrůda?)'} — ${A||'A'}: ${w[A]??''} | ${B||'B'}: ${w[B]??''} | ${D||'D'}: ${w[D]??''}`;
+        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''}`;
       }else{
-        li.innerHTML = `<span class="error">${it.variety||'(odrůda?)'} — nenalezeno A=${it.wineId}</span>`;
+        li.innerHTML = `<span class="error">Nenalezeno A=${id}</span>`;
       }
       ul.appendChild(li);
     }
@@ -1706,8 +1669,8 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   });
 
   // Winners – admin UI events
-  if(el.btnAddWhite()) el.btnAddWhite().addEventListener('click', ()=>{ const c=el.listWhite(); if(c){ addVarietyRow(c,'white',{variety:'', wineId:''}); renderWinnersPreview(); } });
-  if(el.btnAddRed()) el.btnAddRed().addEventListener('click', ()=>{ const c=el.listRed(); if(c){ addVarietyRow(c,'red',{variety:'', wineId:''}); renderWinnersPreview(); } });
+  if(el.btnAddWhite()) el.btnAddWhite().addEventListener('click', ()=>{ const c=el.listWhite(); if(c){ addVarietyRow(c,'white',''); renderWinnersPreview(); } });
+  if(el.btnAddRed()) el.btnAddRed().addEventListener('click', ()=>{ const c=el.listRed(); if(c){ addVarietyRow(c,'red',''); renderWinnersPreview(); } });
   if(el.btnSaveWinners()) el.btnSaveWinners().addEventListener('click', saveWinnersToRepo);
   if(el.btnLoadWinners()) el.btnLoadWinners().addEventListener('click', async ()=>{ await loadWinnersFromRepo(); syncChampionsInputsFromState(); rebuildVarietyLists(); renderWinnersPreview(); renderWinnersSection(); showToast('Vítězové načteni.'); });
   if(el.btnClearWinnersLocal()) el.btnClearWinnersLocal().addEventListener('click', ()=>{
@@ -1721,7 +1684,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   if(el.champRed()) el.champRed().addEventListener('input', ()=>{ readChampionsInputsToState(); renderWinnersPreview(); });
   if(el.champRose()) el.champRose().addEventListener('input', ()=>{ readChampionsInputsToState(); renderWinnersPreview(); });
 
-  // Inicializace admin winners UI z uloženého stavu
+  // Inicializace admin winners UI
   syncChampionsInputsFromState();
   rebuildVarietyLists();
 
