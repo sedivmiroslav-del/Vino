@@ -50,5 +50,10 @@
       "wineId": "195"
     }
   ],
-  "redVarietyWinners": []
+  "redVarietyWinners": [
+    {
+      "variety": "302",
+      "wineId": ""
+    }
+  ]
 }
