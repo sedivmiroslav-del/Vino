@@ -133,10 +133,10 @@ color: var(--black);
 }
 #winners-section .block__body{ padding: .75rem .9rem; }
 #winners-section .mini-table{
-width:100%; border-collapse: separate; border-spacing:0; table-layout: fixed; font-size: .92rem;
+width:100%; border-collapse: separate; border-spacing:0; table-layout: fixed; font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
 }
 #winners-section .mini-table th, #winners-section .mini-table td{
-border-bottom:1px solid var(--border); padding:.4rem .45rem; text-align:left; vertical-align:top;
+border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; word-break: normal; overflow-wrap: break-word;
 }
 #winners-section .mini-table thead th{
 background: linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7));
@@ -144,6 +144,16 @@ position: sticky; top: 0; z-index: 1;
 }
 #winners-section .empty{
 color: var(--muted); font-style: italic;
+}
+
+/* Badge – body (vizualne podobne piluli vstupu) */
+.badge-score{
+display:inline-block; padding:.35rem .7rem;
+border-radius: 9999px;
+background: rgba(161,200,97,0.85);
+color: var(--black);
+font-weight:700; font-size:.9em;
+min-width:64px; text-align:center;
 }
 
 /* ===== Filtry ===== */
@@ -181,7 +191,7 @@ th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:
 tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
 tbody tr:hover{ background: rgba(0,79,152,.1); }
 
-/* Kompozitní buňky */
+/* Kompozitní buňky (spodní tabulka vzhled) */
 .cell-main{ font-weight: 700; }
 .cell-sub{ display:block; color: var(--muted); font-size:.88em; line-height:1.35; margin-top:.15rem; }
 
@@ -528,11 +538,11 @@ th, td{ padding: .34rem .3rem; }
       Facebook
     </a>
     <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0  0 1 0-2.2Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0  0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
       Instagram
     </a>
     <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0  0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0  0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0  0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0  1-5.3 6.93Z"/></svg>
       Web
     </a>
   </div>
@@ -744,7 +754,7 @@ function rebuildFilterOptions(){
   if(labA && labA.tagName==='LABEL' && A) labA.textContent = A+' (číslo)';
 }
 
-/* ===== RENDER: Winners (veřejná sekce) ===== */
+/* ===== RENDER: Winners (veřejná sekce, formát jako spodní tabulka) ===== */
 function renderWinnersSection(){
   const sec = el.winnersSection(); const grid = el.winnersGrid();
   if(!sec || !grid) return;
@@ -759,32 +769,65 @@ function renderWinnersSection(){
   grid.innerHTML = '';
   if(!hasAny) return;
 
-  const A = state.columns[0], B = state.columns[1], D = state.columns[3];
+  const A = state.columns[0], B = state.columns[1], C = state.columns[2], D = state.columns[3], E = state.columns[4], F = state.columns[5], G = state.columns[6];
   const yearIdx = findYearColumnIndex();
   const yearHeader = yearIdx!=null ? state.columns[yearIdx] : 'Rok';
+
   const mkMiniTableHead = ()=>{
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
-    [A||'Č', B||'Pěstitel', D||'Odrůda', yearHeader, 'Body'].forEach(h=>{
-      const th = document.createElement('th'); th.textContent = h; tr.appendChild(th);
-    });
+    const heads = [A||'Č', B||'Pěstitel', D||'Odrůda', 'Body'];
+    for(const h of heads){ const th = document.createElement('th'); th.textContent=h; tr.appendChild(th); }
     thead.appendChild(tr); return thead;
   };
-  const mkRow = (w)=>{
-    const wid = ensureWineId(w);
+
+  const mkRowComposite = (w)=>{
     const tr = document.createElement('tr');
-    const tdA = document.createElement('td'); tdA.textContent = A?String(w[A]??''):''; tr.appendChild(tdA);
-    const tdB = document.createElement('td'); tdB.textContent = B?String(w[B]??''):''; tr.appendChild(tdB);
-    const tdD = document.createElement('td'); tdD.textContent = D?String(w[D]??''):''; tr.appendChild(tdD);
-    const tdY = document.createElement('td'); tdY.textContent = yearIdx!=null ? String(w[state.columns[yearIdx]]??'') : ''; tr.appendChild(tdY);
-    const tdP = document.createElement('td'); tdP.textContent = getUserPointsForWineId(wid) || '–'; tr.appendChild(tdP);
+    const wid = ensureWineId(w);
+    const points = getUserPointsForWineId(wid);
+
+    // A + sub (G) ... ale pro vítěze pod A zobrazíme "Body: X" stejně jako ve vzoru
+    const tdA=document.createElement('td');
+    const aMain=document.createElement('div'); aMain.className='cell-main'; aMain.textContent=A?String(w[A]??''):'';
+    tdA.appendChild(aMain);
+    const subA=document.createElement('span'); subA.className='cell-sub';
+    subA.textContent = points ? ('Body:'+points) : (G && w[G] ? String(w[G]) : '');
+    tdA.appendChild(subA);
+    tr.appendChild(tdA);
+
+    // B + C
+    const tdB=document.createElement('td');
+    const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
+    tdB.appendChild(bMain);
+    if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
+    tr.appendChild(tdB);
+
+    // D + (E,F, Rok)
+    const tdD=document.createElement('td');
+    const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
+    tdD.appendChild(dMain);
+    const extras=[];
+    if(yearIdx!=null){ const yr = w[state.columns[yearIdx]]; if(yr!==undefined && yr!==null && yr!=='') extras.push(String(yr)); }
+    if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push(String(w[E]));
+    if(F && w[F]) extras.push(String(w[F]));
+    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
+    tr.appendChild(tdD);
+
+    // Body (badge – bez vstupu)
+    const tdP=document.createElement('td');
+    const badge=document.createElement('span'); badge.className='badge-score'; badge.textContent = points ? points : '–';
+    badge.setAttribute('aria-label','Body'); tdP.appendChild(badge);
+    tr.appendChild(tdP);
+
     return tr;
   };
+
   const mkBlockByIds = (title, ids)=>{
     const block = document.createElement('div'); block.className='block';
     const head = document.createElement('div'); head.className='block__head';
     const h = document.createElement('h3'); h.className='block__title'; h.textContent = title;
     head.appendChild(h); block.appendChild(head);
+
     const body = document.createElement('div'); body.className='block__body';
     const table = document.createElement('table'); table.className='mini-table'; table.setAttribute('aria-label', title);
     const thead = mkMiniTableHead(); table.appendChild(thead);
@@ -794,7 +837,7 @@ function renderWinnersSection(){
     for(const id of ids){
       const w = resolveWineById(id);
       if(!w) continue;
-      tbody.appendChild(mkRow(w));
+      tbody.appendChild(mkRowComposite(w));
       rows++;
     }
     if(rows===0){
@@ -1478,10 +1521,11 @@ function renderWinnersPreview(){
     if(id){
       const w = resolveWineById(id);
       if(w){
-        const A=state.columns[0], B=state.columns[1], D=state.columns[3];
-        const yIdx = findYearColumnIndex();
-        const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
-        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok: ${year} | Body: ${getUserPointsForWineId(id) || '–'}`;
+        const A=state.columns[0], B=state.columns[1], C=state.columns[2], D=state.columns[3], E=state.columns[4], F=state.columns[5], G=state.columns[6];
+        const yIdx = findYearColumnIndex(); const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
+        const extras=[]; if(year) extras.push(year); if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
+        const points = getUserPointsForWineId(id) || '–';
+        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok/extra: ${extras.join(' – ')} | Body: ${points}`;
         div.appendChild(p);
       }else{
         const p = document.createElement('p'); p.className='error'; p.textContent = `Nebylo nalezeno víno s číslem A=${id}.`;
@@ -1510,7 +1554,8 @@ function renderWinnersPreview(){
         const A=state.columns[0], B=state.columns[1], D=state.columns[3];
         const yIdx = findYearColumnIndex();
         const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
-        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok: ${year} | Body: ${getUserPointsForWineId(id) || '–'}`;
+        const points = getUserPointsForWineId(id) || '–';
+        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok: ${year} | Body: ${points}`;
       }else{
         li.innerHTML = `<span class="error">Nenalezeno A=${id}</span>`;
       }
