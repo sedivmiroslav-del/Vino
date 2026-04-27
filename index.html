@@ -86,7 +86,7 @@ z-index: 0;
 .title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--white); opacity: .98; font-weight: 600; }
 
-/* Toggle vložený do modrého pole */
+/* Toggle – zabudovaný do modrého pole, tlačítka každé zvlášť */
 .header__switch-outer{
 max-width: 1200px; margin: .6rem auto 0; padding: 0 var(--space-4) var(--space-4);
 }
@@ -94,13 +94,9 @@ max-width: 1200px; margin: .6rem auto 0; padding: 0 var(--space-4) var(--space-4
 display:flex; align-items:center; gap:.6rem; padding:.6rem; border-radius: 12px;
 background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.25); backdrop-filter: blur(6px);
 }
-.switch-group{
-display:inline-flex; align-items:center; gap:.6rem; padding:.35rem; border-radius: 999px;
-background: rgba(255,255,255,.85); border: 1px solid rgba(0,0,0,.08);
-}
 .header .switch-btn{
 appearance:none; border:none; cursor:pointer; font-weight:800;
-padding:.5rem .9rem; border-radius:999px; transition: all .15s ease;
+padding:.6rem 1rem; border-radius:999px; transition: all .15s ease;
 background: var(--white); color: var(--black); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
 }
 .header .switch-btn[aria-pressed="true"]{
@@ -120,32 +116,20 @@ flex-wrap: wrap;
 
 .container{ max-width: 1200px; margin: var(--space-6) auto var(--space-6); padding: 0 var(--space-4); }
 
-/* Karty / Banner */
+/* Karty */
 .card{ border:1px solid var(--border); border-radius: var(--radius); background: var(--white); margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip; }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
-.banner{ display:none; }
-.banner.show{
-display:flex; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
-max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
-background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
-}
 
-/* ===== Winners (sjednocená tabulka) ===== */
-#winners-section .section-title{
-margin: 0 0 .6rem; font-weight: 900; font-size: clamp(1rem, .8rem + .5vw, 1.2rem); color: var(--black);
+/* ===== Winners – oddělené bloky ===== */
+#winners-section .section-title{ margin: 0 0 .6rem; font-weight: 900; font-size: clamp(1rem, .8rem + .5vw, 1.2rem); color: var(--black); }
+.wblocks{ display:block; }
+.wblock{ border:1px solid var(--border); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-1); overflow:hidden; margin-bottom: 14px; }
+.wblock__head{
+padding:.6rem .8rem; font-weight:900; background: rgba(161,200,97,.25); border-bottom:1px solid var(--border);
 }
-#winners-section .table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
-#winners-section .hint{ color: var(--muted); margin:.2rem 0 .8rem; }
-
-/* Separator řádky uvnitř winners tabulky */
-.winners-sep{
-background: rgba(161,200,97,.18);
-font-weight: 900;
-}
-.winners-sep td{
-padding-top:.6rem; padding-bottom:.6rem;
-}
+.wblock__body{ padding: .75rem .9rem; }
+.wblock .table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
 
 /* ===== Filtry ===== */
 .filter-bar{
@@ -165,7 +149,7 @@ border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-bo
 .btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
 .btn-chip:hover{ background: rgba(206,213,218,.35); }
 
-/* ===== Tabulka ===== */
+/* ===== Tabulka (spoločný štýl) ===== */
 .table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
 table{
 width:100%;
@@ -305,13 +289,11 @@ th, td{ padding: .34rem .3rem; }
       <p class="subtitle">Za každou sklenkou stojí jedinečný příběh, pečlivě vybraná odrůda, poctivá práce vinařů a chuť, kterou si sami ohodnotíte od 0 do 100.</p>
     </div>
 
-    <!-- Toggle zabudovaný do modrého pole -->
+    <!-- Toggle zabudovaný do modrého pole – tlačítka zvlášť -->
     <div class="header__switch-outer">
       <div class="header__switch" role="tablist" aria-label="Přepínač zobrazení">
-        <div class="switch-group" aria-label="Zobrazení">
-          <button id="btn-view-winners" class="switch-btn" role="tab" aria-selected="false" aria-pressed="false" aria-controls="winners-section">Vítězové</button>
-          <button id="btn-view-catalog" class="switch-btn" role="tab" aria-selected="true" aria-pressed="true" aria-controls="filters-section catalog-section export-section">Katalog</button>
-        </div>
+        <button id="btn-view-winners" class="switch-btn" role="tab" aria-selected="false" aria-pressed="false" aria-controls="winners-section">Vítězové</button>
+        <button id="btn-view-catalog" class="switch-btn" role="tab" aria-selected="true" aria-pressed="true" aria-controls="filters-section catalog-section export-section">Katalog</button>
       </div>
     </div>
   </div>
@@ -326,21 +308,12 @@ th, td{ padding: .34rem .3rem; }
 
 <main id="main" class="container" role="main">
 
-<!-- ===== VÍTĚZOVÉ/ŠAMPIONI – veřejná sekce (sjednocená tabulka) ===== -->
+<!-- ===== VÍTĚZOVÉ/ŠAMPIONI – oddělené tabulky ===== -->
 <section id="winners-section" class="card card--nohead" aria-label="Vítězové a šampioni" hidden>
   <div class="card__body">
     <h3 class="section-title">Vítězové a šampioni</h3>
-    <p class="hint" id="winners-hint">Přehled je ve stejném formátu jako hlavní katalog. Hodnotící sloupec je skrytý. Každý šampion je uveden v samostatném bloku.</p>
-    <div class="table-responsive" role="region" aria-label="Tabulka vítězů">
-      <table id="winners-table" aria-describedby="winners-hint">
-        <colgroup>
-          <col class="col-a"><col class="col-b"><col class="col-d">
-        </colgroup>
-        <thead id="winners-thead">
-          <tr id="winners-thead-row"></tr>
-        </thead>
-        <tbody id="winners-tbody"></tbody>
-      </table>
+    <div id="winners-blocks" class="wblocks" role="region" aria-label="Seznam tabulek vítězů">
+      <!-- bloky doplní skript -->
     </div>
     <p id="winners-status" class="status" role="status"></p>
   </div>
@@ -466,17 +439,13 @@ th, td{ padding: .34rem .3rem; }
     </div>
 
     <h4>Vítězové odrůd – bílá vína</h4>
-    <div id="white-var-list" class="list" aria-label="Seznam vítězů bílých odrůd">
-      <!-- řádky doplní skript (pouze číselné vstupy A) -->
-    </div>
+    <div id="white-var-list" class="list" aria-label="Seznam vítězů bílých odrůd"></div>
     <div class="controls" style="margin:.5rem 0 1rem">
       <button id="btn-add-white" class="btn btn-ghost" type="button">Přidat vítěze (bílá)</button>
     </div>
 
     <h4>Vítězové odrůd – červená vína</h4>
-    <div id="red-var-list" class="list" aria-label="Seznam vítězů červených odrůd">
-      <!-- řádky doplní skript (pouze číselné vstupy A) -->
-    </div>
+    <div id="red-var-list" class="list" aria-label="Seznam vítězů červených odrůd"></div>
     <div class="controls" style="margin:.5rem 0 1rem">
       <button id="btn-add-red" class="btn btn-ghost" type="button">Přidat vítěze (červená)</button>
     </div>
@@ -489,9 +458,7 @@ th, td{ padding: .34rem .3rem; }
 
     <div class="preview" role="region" aria-label="Náhled vybraných vítězů">
       <h4>Náhled</h4>
-      <div id="winners-preview">
-        <!-- náhled doplní skript -->
-      </div>
+      <div id="winners-preview"></div>
     </div>
   </div>
 </section>
@@ -551,11 +518,11 @@ th, td{ padding: .34rem .3rem; }
       Facebook
     </a>
     <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0  0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0  0 1 0-2.2Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0  1 0 12 15.8 2.8 2.8 0  0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0  0 1 0-2.2Z"/></svg>
       Instagram
     </a>
     <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0  0 0-2.13-6.07A8.01 8.01 0  0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0  0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0  0 1-5.3 6.93Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0  0 0-2.13-6.07A8.01 8.01 0  0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0  0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0  0 0 16.76 13h3.17a8.01 8.01 0  0 1-5.3 6.93Z"/></svg>
       Web
     </a>
   </div>
@@ -611,7 +578,7 @@ const state = {
     whiteVarietyWinners: [],
     redVarietyWinners: []
   },
-  view: 'catalog' // 'catalog' | 'winners'
+  view: 'catalog'
 };
 const LS = {
   email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', catalogSrc:'winecat_catalog_src',
@@ -634,12 +601,11 @@ const el = {
   socialFb:()=>$('social-fb'), socialIg:()=>$('social-ig'), socialWeb:()=>$('social-web'), btnSaveSocial:()=>$('btn-save-social'),
   btnSocialFB:()=>$('btn-social-fb'), btnSocialIG:()=>$('btn-social-ig'), btnSocialWEB:()=>$('btn-social-web'),
   catalogUrl:()=>$('catalog-url'), btnSetCatalogUrl:()=>$('btn-set-catalog-url'), btnResetCatalogUrl:()=>$('btn-reset-catalog-url'), btnLoadCatalogNow:()=>$('btn-load-catalog-now'),
-  // Winners – veřejná sekce
+  // Winners blocks
   winnersSection:()=>$('winners-section'),
-  winnersTableHeadRow:()=>$('winners-thead-row'),
-  winnersTableBody:()=>$('winners-tbody'),
+  winnersBlocks:()=>$('winners-blocks'),
   winnersStatus:()=>$('winners-status'),
-  // Winners – admin UI
+  // Admin winners
   winnersAdmin:()=>$('winners-admin-section'),
   champWhite:()=>$('champ-white'), champRed:()=>$('champ-red'), champRose:()=>$('champ-rose'),
   listWhite:()=>$('white-var-list'), listRed:()=>$('red-var-list'),
@@ -789,20 +755,19 @@ function updateView(){
   if(showWinners){ renderWinnersSection(); }
 }
 
-/* ===== RENDER: Winners (sjednocená tabulka ve formátu katalogu, bez sloupce Body) ===== */
-function renderWinnersHeader(){
-  const row = el.winnersTableHeadRow(); if(!row) return;
-  row.innerHTML='';
+/* ===== RENDER: Winners – oddělené tabulky v pořadí ===== */
+/* Pořadí: Šampion bílých, Šampion červených, Vítězové odrůd – bílá, Vítěz růžových, Vítězové odrůd – červená */
+function renderWinnersHeaderRow(tr){
   const cols=state.columns;
   const showCols=[];
   if(cols[0]) showCols.push(cols[0]); // A
   if(cols[1]) showCols.push(cols[1]); // B
   if(cols[3]) showCols.push(cols[3]); // D
   for(const h of showCols){
-    const th=document.createElement('th'); th.textContent=h; row.appendChild(th);
+    const th=document.createElement('th'); th.textContent=h; tr.appendChild(th);
   }
 }
-function winnersPushWineRow(tbody, w){
+function winnersBuildRow(w){
   const A=state.columns[0], B=state.columns[1], C=state.columns[2], D=state.columns[3], E=state.columns[4], F=state.columns[5], G=state.columns[6];
 
   const tr=document.createElement('tr');
@@ -836,20 +801,45 @@ function winnersPushWineRow(tbody, w){
   if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
   tr.appendChild(tdD);
 
-  tbody.appendChild(tr);
+  return tr;
 }
-function winnersPushSeparator(tbody, label){
-  const tr = document.createElement('tr'); tr.className='winners-sep';
-  const td = document.createElement('td'); td.colSpan = 3; td.textContent = label;
-  tr.appendChild(td);
-  tbody.appendChild(tr);
+function makeWinnersBlock(title, ids){
+  const block = document.createElement('div'); block.className='wblock';
+  const head = document.createElement('div'); head.className='wblock__head'; head.textContent = title;
+  const body = document.createElement('div'); body.className='wblock__body';
+  const wrap = document.createElement('div'); wrap.className='table-responsive';
+  const table = document.createElement('table');
+  const colg = document.createElement('colgroup');
+  colg.innerHTML = '<col class="col-a"><col class="col-b"><col class="col-d">';
+  table.appendChild(colg);
+  const thead = document.createElement('thead');
+  const trh = document.createElement('tr');
+  winnersRenderHeaderInto(trh); // fallback if renamed
+  function winnersRenderHeaderInto(tr){ renderWinnersHeaderRow(tr); }
+  thead.appendChild(trh); table.appendChild(thead);
+  const tbody = document.createElement('tbody');
+
+  let haveRow=false;
+  ids.forEach(id=>{
+    const w = resolveWineById(id);
+    if(w){ tbody.appendChild(winnersBuildRow(w)); haveRow=true; }
+  });
+
+  if(!haveRow){
+    const tr = document.createElement('tr');
+    const td = document.createElement('td'); td.colSpan=3; td.textContent='Zatím není vybráno.'; td.style.color='var(--gray)';
+    tr.appendChild(td); tbody.appendChild(tr);
+  }
+
+  table.appendChild(tbody); wrap.appendChild(table); body.appendChild(wrap);
+  block.appendChild(head); block.appendChild(body);
+  return block;
 }
 function renderWinnersSection(){
-  const sec = el.winnersSection(); const tbody = el.winnersTableBody(); const status = el.winnersStatus();
-  if(!sec || !tbody) return;
+  const holder = el.winnersBlocks(); const status = el.winnersStatus();
+  if(!holder) return;
 
-  tbody.innerHTML='';
-  renderWinnersHeader();
+  holder.innerHTML='';
 
   const anyData = Boolean(
     (state.winners.championWhite?.wineId) ||
@@ -858,48 +848,25 @@ function renderWinnersSection(){
     (state.winners.whiteVarietyWinners?.length) ||
     (state.winners.redVarietyWinners?.length)
   );
-
   if(!anyData){
-    if(status){ status.textContent = 'Zatím nejsou nastaveni žádní vítězové ani šampioni.'; }
+    if(status){ status.textContent='Zatím nejsou nastaveni žádní vítězové ani šampioni.'; }
     return;
   }else{
-    if(status){ status.textContent = ''; }
+    if(status){ status.textContent=''; }
   }
 
-  // ŠAMPIONI – každý ve vlastním bloku
-  const cw = state.winners.championWhite?.wineId ? resolveWineById(state.winners.championWhite.wineId) : null;
-  const cr = state.winners.championRed?.wineId ? resolveWineById(state.winners.championRed.wineId) : null;
-  const ro = state.winners.championRose?.wineId ? resolveWineById(state.winners.championRose.wineId) : null;
+  // Pořadí bloků:
+  const blocksSpec = [
+    { title:'Šampion bílých vín', ids: state.winners.championWhite?.wineId ? [state.winners.championWhite.wineId] : [] },
+    { title:'Šampion červených vín', ids: state.winners.championRed?.wineId ? [state.winners.championRed.wineId] : [] },
+    { title:'Vítězové odrůd – bílá vína', ids: Array.isArray(state.winners.whiteVarietyWinners) ? state.winners.whiteVarietyWinners : [] },
+    { title:'Vítěz růžových vín', ids: state.winners.championRose?.wineId ? [state.winners.championRose.wineId] : [] },
+    { title:'Vítězové odrůd – červená vína', ids: Array.isArray(state.winners.redVarietyWinners) ? state.winners.redVarietyWinners : [] }
+  ];
 
-  if(ro){
-    winnersPushSeparator(tbody, 'Vítěz růžových vín');
-    winnersPushWineRow(tbody, ro);
-  }
-  if(cw){
-    winnersPushSeparator(tbody, 'Šampion bílých vín');
-    winnersPushWineRow(tbody, cw);
-  }
-  if(cr){
-    winnersPushSeparator(tbody, 'Šampion červených vín');
-    winnersPushWineRow(tbody, cr);
-  }
-
-  // VÍTĚZOVÉ ODRŮD – BÍLÁ
-  if(Array.isArray(state.winners.whiteVarietyWinners) && state.winners.whiteVarietyWinners.length){
-    winnersPushSeparator(tbody, 'Vítězové odrůd – bílá vína');
-    for(const id of state.winners.whiteVarietyWinners){
-      const w = resolveWineById(id);
-      if(w) winnersPushWineRow(tbody, w);
-    }
-  }
-
-  // VÍTĚZOVÉ ODRŮD – ČERVENÁ
-  if(Array.isArray(state.winners.redVarietyWinners) && state.winners.redVarietyWinners.length){
-    winnersPushSeparator(tbody, 'Vítězové odrůd – červená vína');
-    for(const id of state.winners.redVarietyWinners){
-      const w = resolveWineById(id);
-      if(w) winnersPushWineRow(tbody, w);
-    }
+  for(const spec of blocksSpec){
+    const block = makeWinnersBlock(spec.title, spec.ids);
+    holder.appendChild(block);
   }
 }
 
@@ -976,7 +943,7 @@ function renderTable(){
     const extras=[];
     if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push(String(w[E]));
     if(F && w[F]) extras.push(String(w[F]));
-    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
+    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); dSub.setAttribute('data-extras',''); tdD.appendChild(dSub); }
     tr.appendChild(tdD);
 
     // Body
