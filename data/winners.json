@@ -9,51 +9,18 @@
     "wineId": "257"
   },
   "whiteVarietyWinners": [
-    {
-      "variety": "",
-      "wineId": "53"
-    },
-    {
-      "variety": "",
-      "wineId": "74"
-    },
-    {
-      "variety": "",
-      "wineId": "26"
-    },
-    {
-      "variety": "",
-      "wineId": "125"
-    },
-    {
-      "variety": "",
-      "wineId": "178"
-    },
-    {
-      "variety": "",
-      "wineId": "104"
-    },
-    {
-      "variety": "",
-      "wineId": "214"
-    },
-    {
-      "variety": "",
-      "wineId": "143"
-    },
-    {
-      "variety": "",
-      "wineId": "166"
-    },
-    {
-      "variety": "",
-      "wineId": "195"
-    }
+    "53",
+    "74",
+    "26",
+    "125",
+    "178",
+    "104",
+    "214",
+    "143",
+    "166",
+    "195"
   ],
   "redVarietyWinners": [
-    {
-      "variety": "302",
-      "wineId": ""
-    }
+    "302"
   ]
 }
