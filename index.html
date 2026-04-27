@@ -115,7 +115,7 @@ background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: va
 display:grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
 }
 #winners-section .block{
-grid-column: span 12;
+grid-column: span 12; /* Každý blok na celou šířku – i šampioni */
 border:1px solid var(--border);
 border-radius: var(--radius);
 background: var(--white);
@@ -124,7 +124,7 @@ box-shadow: var(--shadow-1);
 #winners-section .block__head{
 display:flex; align-items:center; justify-content:space-between;
 padding:.8rem 1rem;
-background: linear-gradient(90deg, rgba(0,137,6,.10), rgba(161,200,97,.10));
+background: linear-gradient(90deg, rgba(161,200,97,.28), rgba(206,213,218,.18));
 border-bottom:1px solid var(--border);
 }
 #winners-section .block__title{
@@ -144,11 +144,6 @@ position: sticky; top: 0; z-index: 1;
 }
 #winners-section .empty{
 color: var(--muted); font-style: italic;
-}
-
-/* Responsivita winners grid */
-@media (min-width: 820px){
-  #winners-section .block--half{ grid-column: span 6; }
 }
 
 /* ===== Filtry ===== */
@@ -215,7 +210,7 @@ transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 .status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
 .error{ color:#b00020; font-weight:700; }
 .footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
-.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color:var(--white); border-radius:999px; box-shadow: var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
+.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color:var(--white); border-radius:999px; box-shadow:var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
 .toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
 /* ===== Přihlášení – gradient + bezpečný IMG fallback ===== */
@@ -533,11 +528,11 @@ th, td{ padding: .34rem .3rem; }
       Facebook
     </a>
     <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0  0 1 0-2.2Z"/></svg>
       Instagram
     </a>
     <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0  0 1-5.3 6.93Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0  0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0 0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
       Web
     </a>
   </div>
@@ -638,6 +633,15 @@ function resolveWineById(id){
   if(!id) return null;
   const A = state.columns[0];
   return state.wines.find(w => String(w[A] ?? '').trim() === String(id).trim()) || null;
+}
+function findYearColumnIndex(){
+  const idx = state.columns.findIndex(h => /^(rok|ročník)/i.test(String(h||'')));
+  return idx >= 0 ? idx : null;
+}
+function getUserPointsForWineId(id){
+  if(!id || !state.email) return '';
+  const rec = state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(id));
+  return rec ? String(rec.points) : '';
 }
 
 /* ===== CZ -> ASCII mapa ===== */
@@ -756,22 +760,27 @@ function renderWinnersSection(){
   if(!hasAny) return;
 
   const A = state.columns[0], B = state.columns[1], D = state.columns[3];
+  const yearIdx = findYearColumnIndex();
+  const yearHeader = yearIdx!=null ? state.columns[yearIdx] : 'Rok';
   const mkMiniTableHead = ()=>{
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
-    [A||'A', B||'B', D||'D'].forEach(h=>{
+    [A||'Č', B||'Pěstitel', D||'Odrůda', yearHeader, 'Body'].forEach(h=>{
       const th = document.createElement('th'); th.textContent = h; tr.appendChild(th);
     });
     thead.appendChild(tr); return thead;
   };
   const mkRow = (w)=>{
+    const wid = ensureWineId(w);
     const tr = document.createElement('tr');
     const tdA = document.createElement('td'); tdA.textContent = A?String(w[A]??''):''; tr.appendChild(tdA);
     const tdB = document.createElement('td'); tdB.textContent = B?String(w[B]??''):''; tr.appendChild(tdB);
     const tdD = document.createElement('td'); tdD.textContent = D?String(w[D]??''):''; tr.appendChild(tdD);
+    const tdY = document.createElement('td'); tdY.textContent = yearIdx!=null ? String(w[state.columns[yearIdx]]??'') : ''; tr.appendChild(tdY);
+    const tdP = document.createElement('td'); tdP.textContent = getUserPointsForWineId(wid) || '–'; tr.appendChild(tdP);
     return tr;
   };
-  const mkBlock = (title, ids)=>{
+  const mkBlockByIds = (title, ids)=>{
     const block = document.createElement('div'); block.className='block';
     const head = document.createElement('div'); head.className='block__head';
     const h = document.createElement('h3'); h.className='block__title'; h.textContent = title;
@@ -797,25 +806,25 @@ function renderWinnersSection(){
     return block;
   };
 
-  // ŠAMPIONI
-  const cw = state.winners.championWhite?.wineId ? resolveWineById(state.winners.championWhite.wineId) : null;
-  const cr = state.winners.championRed?.wineId ? resolveWineById(state.winners.championRed.wineId) : null;
-  const ro = state.winners.championRose?.wineId ? resolveWineById(state.winners.championRose.wineId) : null;
-
-  if(cw){ const b = mkBlock('Šampion bílých vín', [cw[A]]); b.classList.add('block--half'); grid.appendChild(b); }
-  if(cr){ const b = mkBlock('Šampion červených vín', [cr[A]]); b.classList.add('block--half'); grid.appendChild(b); }
-  if(ro){ const b = mkBlock('Vítěz růžových vín', [ro[A]]); b.classList.add('block--half'); grid.appendChild(b); }
+  // ŠAMPIONI – každý na celý řádek
+  if(state.winners.championWhite?.wineId){
+    grid.appendChild(mkBlockByIds('Šampion bílých vín', [state.winners.championWhite.wineId]));
+  }
+  if(state.winners.championRed?.wineId){
+    grid.appendChild(mkBlockByIds('Šampion červených vín', [state.winners.championRed.wineId]));
+  }
+  if(state.winners.championRose?.wineId){
+    grid.appendChild(mkBlockByIds('Vítěz růžových vín', [state.winners.championRose.wineId]));
+  }
 
   // VÍTĚZOVÉ ODRŮD – BÍLÁ
   if(Array.isArray(state.winners.whiteVarietyWinners) && state.winners.whiteVarietyWinners.length){
-    const block = mkBlock('Vítězové odrůd bílých vín', state.winners.whiteVarietyWinners);
-    grid.appendChild(block);
+    grid.appendChild(mkBlockByIds('Vítězové odrůd bílých vín', state.winners.whiteVarietyWinners));
   }
 
   // VÍTĚZOVÉ ODRŮD – ČERVENÁ
   if(Array.isArray(state.winners.redVarietyWinners) && state.winners.redVarietyWinners.length){
-    const block = mkBlock('Vítězové odrůd červených vín', state.winners.redVarietyWinners);
-    grid.appendChild(block);
+    grid.appendChild(mkBlockByIds('Vítězové odrůd červených vín', state.winners.redVarietyWinners));
   }
 }
 
@@ -1269,7 +1278,7 @@ async function exportMyRatingsPDF(){
 
   if(my.length===0){
     doc.setFontSize(12);
-    const msg = dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanize('Zatím žádná hodnocení.');
+    const msg = dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanitize('Zatím žádná hodnocení.');
     doc.text(msg,40,70);
     doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
     return;
@@ -1470,7 +1479,9 @@ function renderWinnersPreview(){
       const w = resolveWineById(id);
       if(w){
         const A=state.columns[0], B=state.columns[1], D=state.columns[3];
-        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''}`;
+        const yIdx = findYearColumnIndex();
+        const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
+        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok: ${year} | Body: ${getUserPointsForWineId(id) || '–'}`;
         div.appendChild(p);
       }else{
         const p = document.createElement('p'); p.className='error'; p.textContent = `Nebylo nalezeno víno s číslem A=${id}.`;
@@ -1497,7 +1508,9 @@ function renderWinnersPreview(){
       const w = resolveWineById(id);
       if(w){
         const A=state.columns[0], B=state.columns[1], D=state.columns[3];
-        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''}`;
+        const yIdx = findYearColumnIndex();
+        const year = yIdx!=null ? (w[state.columns[yIdx]]??'') : '';
+        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Rok: ${year} | Body: ${getUserPointsForWineId(id) || '–'}`;
       }else{
         li.innerHTML = `<span class="error">Nenalezeno A=${id}</span>`;
       }
