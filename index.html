@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Katalog vín – hodnocení</title>
-<meta name="description" content="HTML aplikace: import XLSX, filtry A–B–D, lokální ukládání hodnocení, publikace katalogu/branding, šampioni a vítězové odrůd s náhledem, export mých hodnocení do PDF." />
+<title>Katalog vín – vítězové a tabulka</title>
+<meta name="description" content="Jednostránková HTML aplikace: 1) Vítězové a šampioni, 2) kompletní tabulka s filtry a hodnocením. Načítání katalogu/vítězů z GitHubu, přihlášení, branding, export PDF." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <style>
@@ -19,7 +19,7 @@
 --yellow: rgb(255,255,96);
 --blue-accent: rgb(29,155,178);
 
-/* Původní primární modrá rozhraní */
+/* Primární modrá UI (původní) */
 --primary: rgb(0,79,152);
 --focus: rgb(0,79,152);
 
@@ -37,11 +37,11 @@
 --space-5: 1.5rem;
 --space-6: 2rem;
 
-/* Branding – přihlášení (overlay) */
+/* Branding – overlay */
 --branding-bg: none;
 --branding-fit: cover;
 
-/* Jemné pozadí v modrém headeru po přihlášení – použije stejné URL jako overlay */
+/* Jemné pozadí v headeru */
 --app-bg-url: none;
 --app-bg-fit: cover;
 --app-bg-opacity: 0.15;
@@ -55,6 +55,8 @@ color: var(--black);
 font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 line-height: 1.5;
 }
+a{ color: var(--primary); text-decoration:none; }
+a:focus{ outline:3px solid var(--focus); outline-offset:2px; border-radius:8px; }
 body.locked{ overflow:hidden; }
 
 .skip-link{ position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
@@ -79,14 +81,18 @@ background-position: center;
 background-repeat: no-repeat;
 opacity: var(--app-bg-opacity);
 pointer-events: none;
-z-index: 0;
 }
 .header__inner{ position: relative; z-index: 1; width:100%; padding: 1.2rem var(--space-4); }
 .header__text{ text-align:center; max-width:min(80ch,92vw); margin:0 auto; }
 .title{ margin:.2rem 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: .2px; }
 .subtitle{ margin:.2rem 0; color: var(--white); opacity: .98; font-weight: 600; }
 
-/* Statistiky */
+/* Top nav – přepínání pohledů */
+.topnav{ display:flex; gap:.6rem; justify-content:center; padding:.6rem; }
+.topnav button{ padding:.6rem .9rem; border:1px solid rgba(255,255,255,.45); border-radius:9999px; background:transparent; color:#fff; cursor:pointer; font-weight:700; }
+.topnav button[aria-current="page"]{ background: rgba(255,255,255,.18); }
+
+/* Statistiky (společné) */
 .header__stats{
 position: relative; z-index: 1;
 display:flex; gap: var(--space-4);
@@ -99,169 +105,92 @@ flex-wrap: wrap;
 
 .container{ max-width: 1200px; margin: var(--space-6) auto var(--space-6); padding: 0 var(--space-4); }
 
-/* Karty / Banner */
+/* Karta */
 .card{ border:1px solid var(--border); border-radius: var(--radius); background: var(--white); margin: var(--space-5) 0; box-shadow: var(--shadow-1); overflow: clip; }
 .card--nohead .card__header{ display:none; }
 .card__body{ padding: var(--space-5); }
-.banner{ display:none; }
-.banner.show{
-display:flex; align-items:center; gap:.6rem; padding:.7rem 1rem; margin: 0 auto var(--space-4);
-max-width: 1200px; border:1px solid var(--border); border-left:6px solid #b00020;
-background: #fff3f3; color:#6a0a0a; border-radius: var(--radius); box-shadow: var(--shadow-1);
-}
 
-/* ===== Winners (verejná sekce nad filtry) ===== */
-#winners-section .winners-grid{
-display:grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
-}
+/* ===== Winners (view) ===== */
+#winners-section .winners-grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
 #winners-section .block{
-grid-column: span 12; /* Každý blok na celou šířku – i šampioni */
-border:1px solid var(--border);
-border-radius: var(--radius);
-background: var(--white);
-box-shadow: var(--shadow-1);
+grid-column: span 12;
+border:1px solid var(--border); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-1);
 }
 #winners-section .block__head{
-display:flex; align-items:center; justify-content:space-between;
-padding:.8rem 1rem;
+display:flex; align-items:center; justify-content:space-between; padding:.8rem 1rem;
 background: linear-gradient(90deg, rgba(161,200,97,.28), rgba(206,213,218,.18));
 border-bottom:1px solid var(--border);
 }
-#winners-section .block__title{
-margin:0; font-weight:900; font-size: clamp(1rem, .8rem + .5vw, 1.2rem);
-color: var(--black);
-}
-#winners-section .block__body{ padding: .75rem .9rem; }
+#winners-section .block__title{ margin:0; font-weight:900; font-size: clamp(1rem, .8rem + .5vw, 1.2rem); color: var(--black); }
+#winners-section .block__body{ padding:.75rem .9rem; }
 #winners-section .mini-table{
-width:100%; border-collapse: separate; border-spacing:0; table-layout: fixed; font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
+width:100%; border-collapse:separate; border-spacing:0; table-layout: fixed; font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
 }
 #winners-section .mini-table th, #winners-section .mini-table td{
-border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; word-break: normal; overflow-wrap: break-word;
+border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; overflow-wrap: break-word;
 }
 #winners-section .mini-table thead th{
 background: linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7));
-position: sticky; top: 0; z-index: 1;
+position: sticky; top:0; z-index:1;
 }
-#winners-section .empty{
-color: var(--muted); font-style: italic;
-}
-
-/* ===== Filtry ===== */
-.filter-bar{
-display:flex; align-items:center; flex-wrap:wrap;
-gap:.6rem; margin:.25rem 0; padding:.6rem .8rem;
-background: rgba(206,213,218,.25);
-border:1px solid var(--border); border-radius: 14px;
-}
-.filter-bar .group{ display:flex; flex-direction:column; gap:.35rem; flex:1 1 260px; min-width:220px; max-width:100%; }
-.filter-bar label{ margin:0; font-weight:700; color: var(--black); }
-.input-pill, .select-pill{
-width:100%; max-width:100%; padding:.7rem .9rem;
-border:1px solid var(--border);
-background: var(--white);
-border-radius: 9999px; font-weight:700; color:var(--black); box-sizing:border-box; font-size: .95rem;
-}
-.btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:var(--white); color:var(--black); font-weight:700; flex:0 0 auto; }
-.btn-chip:hover{ background: rgba(206,213,218,.35); }
-
-/* ===== Tabulka ===== */
-.table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
-table{
-width:100%;
-border-collapse:separate; border-spacing:0; table-layout: fixed;
-font-size: clamp(.66rem, .51rem + 1.02vw, .81rem);
-}
-col.col-a{ width: 20%; } /* A + G */
-col.col-b{ width: 38%; } /* B + C */
-col.col-d{ width: 26%; } /* D + (E,F) */
-col.col-my{ width: 16%; } /* Body */
-
-thead th{ position:sticky; top:0; background:linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7)); z-index:2; }
-th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; word-break: normal; overflow-wrap: break-word; }
-tbody tr:nth-child(even){ background: rgba(206,213,218,.15); }
-tbody tr:hover{ background: rgba(0,79,152,.1); }
-
-/* Kompozitní buňky (spodní tabulka vzhled) */
-.cell-main{ font-weight: 700; }
+.cell-main{ font-weight:700; }
 .cell-sub{ display:block; color: var(--muted); font-size:.88em; line-height:1.35; margin-top:.15rem; }
-
-/* Vstup hodnocení */
-.rating-input{
-width: 100%; max-width: 120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px;
-transition: background-color .2s ease, color .2s ease, border-color .2s ease;
-}
+.rating-input{ width:100%; max-width:120px; font-size:1em; padding:.45rem .45rem; border:1px solid var(--border); border-radius:10px; }
 .rating-input.unrated{ background: rgba(161,200,97,.8); color: var(--black); }
-.rating-input.rated{ background: var(--primary); color: var(--white); border-color: var(--primary); }
-.rating-input.locked{ background: #eee; color:#666; }
-.rating-input::placeholder{ color: rgba(0,0,0,.5); }
-.rating-input.rated::placeholder{ color: rgba(255,255,255,.85); }
+.rating-input.rated{ background: var(--primary); color:#fff; border-color: var(--primary); }
+.rating-input.locked{ background:#eee; color:#666; }
 
-/* Buttons */
-.btn{ border:1px solid transparent; border-radius:999px; padding:.8rem 1.1rem; cursor:pointer; font-weight:700; transition: transform .05s, filter .15s, background-color .15s; display:inline-flex; align-items:center; gap:.5rem; }
-.btn:active{ transform: translateY(1px); }
-.btn-primary{ background: var(--primary); color: var(--white); box-shadow: 0 6px 14px rgba(0,79,152,.25); }
-.btn-primary:hover{ filter:brightness(0.96); }
-.btn-ghost{ background: var(--white); color: var(--black); border-color: var(--border); }
+/* ===== Tabuľka (view) ===== */
+.filter-bar{ display:flex; align-items:center; flex-wrap:wrap; gap:.6rem; margin:.25rem 0; padding:.6rem .8rem; background: rgba(206,213,218,.25); border:1px solid var(--border); border-radius: 14px; }
+.filter-bar .group{ display:flex; flex-direction:column; gap:.35rem; flex:1 1 260px; min-width:220px; }
+.input-pill,.select-pill{ width:100%; padding:.7rem .9rem; border:1px solid var(--border); background:#fff; border-radius:9999px; font-weight:700; color:#000; }
+.btn-chip{ border:1px solid var(--border); border-radius:9999px; padding:.7rem .95rem; background:#fff; font-weight:700; }
 
-/* Ikony (SVG) v tlačítkách */
-.btn svg{ width:18px; height:18px; }
+.table-responsive{ overflow-x:auto; -webkit-overflow-scrolling: touch; }
+table{ width:100%; border-collapse:separate; border-spacing:0; table-layout: fixed; font-size: clamp(.66rem, .51rem + 1.02vw, .81rem); }
+col.col-a{ width: 20%; } col.col-b{ width: 38%; } col.col-d{ width: 26%; } col.col-my{ width: 16%; }
+thead th{ position:sticky; top:0; background:linear-gradient(180deg, rgba(206,213,218,.9), rgba(206,213,218,.7)); z-index:2; }
+th,td{ border-bottom:1px solid var(--border); padding:.48rem .45rem; text-align:left; vertical-align:top; white-space: normal; overflow-wrap: break-word; }
+tbody tr:nth-child(even){ background: rgba(206,213,218,.15); } tbody tr:hover{ background: rgba(0,79,152,.1); }
 
-/* Status, footer, toast */
-.status{ margin-top:.5rem; min-height:1.2em; color: var(--primary); font-weight:600; }
-.error{ color:#b00020; font-weight:700; }
-.footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
-.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:var(--black); color:var(--white); border-radius:999px; box-shadow:var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
-.toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
+/* ADMIN Winners UI */
+.admin-winners .row{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:.5rem; }
+.admin-winners input[type="number"]{ padding:.5rem .6rem; border:1px solid var(--border); border-radius:8px; font-weight:600; min-width:140px; }
+.admin-winners .list{ border:1px dashed var(--border); border-radius:8px; padding:.6rem; background: rgba(206,213,218,.15); }
+.admin-winners .controls{ display:flex; gap:.5rem; flex-wrap:wrap; }
+.admin-winners .preview{ margin-top:1rem; border-top:1px solid var(--border); padding-top:.8rem; }
 
-/* ===== Přihlášení – gradient + bezpečný IMG fallback ===== */
+/* Přihlášení – overlay */
 .overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:10000; color:#fff; }
 .overlay.show{ display:flex; }
 .overlay .bg{
 position:absolute; inset:0; background:#000;
 background-image: var(--branding-bg), radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35), rgba(0,0,0,.65));
-background-size: var(--branding-fit), auto;
-background-position:center; background-repeat:no-repeat;
+background-size: var(--branding-fit), auto; background-position:center; background-repeat:no-repeat;
 }
-.overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%;
-object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none;
-}
-.overlay .shade{ position:absolute; inset:0;
-background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%);
-}
+.overlay .bg-img{ position:absolute; inset:0; width:100%; height:100%; object-fit: var(--branding-fit); object-position:center; z-index:0; display:none; pointer-events:none; }
+.overlay .shade{ position:absolute; inset:0; background: radial-gradient(1000px 500px at 50% 40%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.65) 100%); }
 .hero-wrap{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; width:min(1100px,92vw); padding:min(5vh,40px) 16px; }
-.hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; text-shadow:0 6px 22px rgba(0,0,0,.45); }
+.hero-title{ font-size: clamp(2rem, 5vw + 1.2rem, 5rem); line-height:1.05; margin:0 0 .4rem; font-weight:900; letter-spacing:.5px; }
 .hero-title .small{ display:block; font-size:.5em; line-height:1.1; letter-spacing:.06em; text-transform:uppercase; opacity:.95; }
-.hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight:900; text-shadow:0 6px 22px rgba(0,0,0,.45); }
-.hero-text{ max-width:980px; margin:0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height:1.65; color:rgba(255,255,255,.96); text-shadow:0 2px 12px rgba(0,0,0,.45); }
+.hero-year{ margin:.2rem 0 1.2rem; font-size: clamp(2rem, 4vw + .6rem, 4.2rem); font-weight:900; }
+.hero-text{ max-width:980px; margin:0 auto 1.2rem; font-size: clamp(1rem, .9rem + .4vw, 1.2rem); line-height:1.65; color:rgba(255,255,255,.96); }
 
-/* ADMIN Winners UI */
-.admin-winners .row{
-display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:.5rem;
-}
-.admin-winners input[type="number"]{
-padding:.5rem .6rem; border:1px solid var(--border); border-radius:8px; font-weight:600; min-width:140px;
-}
-.admin-winners .list{
-border:1px dashed var(--border); border-radius:8px; padding:.6rem; background: rgba(206,213,218,.15);
-}
-.admin-winners .controls{ display:flex; gap:.5rem; flex-wrap:wrap; }
-.admin-winners .preview{ margin-top:1rem; border-top:1px solid var(--border); padding-top: .8rem; }
+/* Footer + toast */
+.footer{ border-top:1px solid var(--border); background: var(--light); padding: var(--space-4); text-align:center; color: var(--black); }
+.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); padding:.75rem 1rem; background:#000; color:#fff; border-radius:999px; box-shadow:var(--shadow-2); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:9999; }
+.toast.show{ opacity:.96; transform:translateX(-50%) translateY(-6px); pointer-events:auto; }
 
-/* Mobilní doplnění */
+/* Mobile tweaks */
 @media (max-width: 820px){
-.filter-bar{ padding:.6rem; }
-.filter-bar .group{ flex:1 1 100%; min-width:0; }
-.input-pill, .select-pill{ width:100%; }
-th, td{ padding: .4rem .36rem; }
-.rating-input{ max-width: 96px; font-size:.95em; padding:.38rem .36rem; }
+  .rating-input{ max-width: 96px; font-size:.95em; padding:.38rem .36rem; }
 }
 @media (max-width: 480px){
-th, td{ padding: .34rem .3rem; }
-.rating-input{ max-width: 88px; font-size:.6em; }
+  .rating-input{ max-width: 88px; font-size:.6em; }
 }
 </style>
 
-<!-- CDN knihovny -->
+<!-- CDN knihovny pouze tam, kde jsou potřeba (PDF + XLSX jen pro tabulkový pohled) -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" defer></script>
@@ -281,27 +210,27 @@ th, td{ padding: .34rem .3rem; }
       PETROV
     </h1>
     <div class="hero-year">2026</div>
-    <p id="overlay-intro" class="hero-text">
-      Objevte svět výjimečných vín, kde se tradice snoubí s chutí a každý doušek vypráví svůj příběh.
-    </p>
+    <p id="overlay-intro" class="hero-text">Přihlaste se libovolným textem (ADMIN kód: PetrovSedivy492).</p>
 
     <div class="dialog" aria-label="Přihlašovací dialog">
       <h2>Přihlášení</h2>
       <label for="auth-input" class="required" style="display:none">Identifikátor</label>
       <input id="auth-input" type="text" placeholder="např. vaše jméno" aria-label="Text pro přihlášení" />
-      <button id="auth-submit" class="btn btn-primary" type="button">
-        Pokračovat
-      </button>
+      <button id="auth-submit" class="btn btn-primary" type="button">Pokračovat</button>
     </div>
     <p id="auth-status" class="overlay-status" role="status" aria-live="polite"></p>
   </div>
 </div>
 
-<header class="header" role="banner" aria-label="Hlavní banner" id="app-header">
+<header class="header" role="banner" aria-label="Hlavní banner">
   <div class="header__inner">
     <div class="header__text">
-      <h1 class="title">Katalog vín</h1>
-      <p class="subtitle">Za každou sklenkou stojí jedinečný příběh, pečlivě vybraná odrůda, poctivá práce vinařů a chuť, kterou si sami ohodnotíte od 0 do 100.</p>
+      <h1 class="title">Katalog vín – vítězové / tabulka</h1>
+      <p class="subtitle">Na 1. pohledu jsou šampioni a vítězové odrůd. Na 2. pohledu je kompletní tabulka s filtry a hodnocením.</p>
+      <nav class="topnav" aria-label="Přepínání pohledů">
+        <button id="btn-show-winners" type="button" aria-current="page">Vítězové</button>
+        <button id="btn-show-catalog" type="button">Katalog (tabulka)</button>
+      </nav>
     </div>
   </div>
   <div class="header__stats" role="region" aria-label="Statistiky">
@@ -314,228 +243,110 @@ th, td{ padding: .34rem .3rem; }
 
 <main id="main" class="container" role="main">
 
-<!-- ===== VÍTĚZOVÉ/ŠAMPIONI – veřejná sekce nad filtry ===== -->
-<section id="winners-section" class="card card--nohead" aria-label="Vítězové a šampioni" hidden>
-  <div class="card__body">
-    <div class="winners-grid" role="region" aria-label="Vítězové a šampioni">
-      <!-- Bloky se doplní skriptem -->
-    </div>
-  </div>
-</section>
+<!-- ===== VIEW 1: VÍTĚZOVÉ/ŠAMPIONI ===== -->
+<section id="view-winners" aria-labelledby="winners-title">
+  <h2 id="winners-title" class="visually-hidden" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Vítězové a šampioni</h2>
 
-<!-- ADMIN IDENTITA -->
-<section id="identity-section" class="card card--nohead" hidden>
-  <div class="card__body">
-    <p>Aktuální uživatel: <strong id="whoami">nepřihlášen</strong>.</p>
-    <div class="inline-row" style="display:flex;gap:.5rem;flex-wrap:wrap">
+  <!-- Veřejná sekce vítězů -->
+  <section id="winners-section" class="card card--nohead" aria-label="Vítězové a šampioni" hidden>
+    <div class="card__body">
+      <div class="winners-grid" role="region" aria-label="Vítězové a šampioni"></div>
+    </div>
+  </section>
+
+  <!-- ADMIN – identita + editor vítězů -->
+  <section id="identity-section" class="card card--nohead" hidden>
+    <div class="card__body">
+      <p>Aktuální uživatel: <strong id="whoami">nepřihlášen</strong>.</p>
       <button id="btn-relogin" class="btn btn-ghost" type="button">Změnit uživatele</button>
-      <button id="btn-load-catalog-gh" class="btn btn-ghost" type="button">Načíst katalog (auto)</button>
-      <button id="btn-set-gh-token" class="btn btn-ghost" type="button">Nastavit GitHub token</button>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ADMIN Nahrání XLSX + publikace -->
-<section id="upload-section" class="card card--nohead" hidden>
-  <div class="card__body">
-    <h3>Nahrání XLSX katalogu (ADMIN)</h3>
-    <p>Použije se první list. První řádek definuje hlavičky sloupců.</p>
-    <div class="input-group" style="margin-bottom:1rem">
-      <label for="file-input" class="required">Soubor XLSX</label>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-        <input id="file-input" type="file" accept=".xlsx,.xls" />
-        <button id="btn-load" class="btn btn-primary" type="button">Načíst</button>
-        <button id="btn-clear-data" class="btn btn-ghost" type="button">Smazat data</button>
-        <label style="display:flex;align-items:center;gap:.4rem"><input id="has-header" type="checkbox" checked /> Soubor obsahuje hlavičku</label>
-        <label style="display:flex;align-items:center;gap:.4rem" title="Pozor na velké soubory."><input id="persist-wines" type="checkbox" /> Ukládat katalog do prohlížeče</label>
+  <section id="winners-admin-section" class="card card--nohead" hidden aria-label="Nastavení vítězů a šampionů">
+    <div class="card__body admin-winners">
+      <h3>Vítězové a šampioni (ADMIN)</h3>
+      <p>Vyberte položky podle čísla z 1. sloupce (A).</p>
+
+      <h4>Šampioni</h4>
+      <div class="row"><label for="champ-white">Šampion bílých vín (A):</label><input id="champ-white" type="number" inputmode="numeric" placeholder="např. 12" /></div>
+      <div class="row"><label for="champ-red">Šampion červených vín (A):</label><input id="champ-red" type="number" inputmode="numeric" placeholder="např. 245" /></div>
+      <div class="row"><label for="champ-rose">Vítěz růžových vín (A):</label><input id="champ-rose" type="number" inputmode="numeric" placeholder="např. 88" /></div>
+
+      <h4>Vítězové odrůd – bílá vína</h4>
+      <div id="white-var-list" class="list" aria-label="Seznam vítězů bílých odrůd"></div>
+      <div class="controls"><button id="btn-add-white" class="btn btn-ghost" type="button">Přidat vítěze (bílá)</button></div>
+
+      <h4>Vítězové odrůd – červená vína</h4>
+      <div id="red-var-list" class="list" aria-label="Seznam vítězů červených odrůd"></div>
+      <div class="controls"><button id="btn-add-red" class="btn btn-ghost" type="button">Přidat vítěze (červená)</button></div>
+
+      <div class="controls" style="margin-top:.6rem">
+        <button id="btn-save-winners" class="btn btn-primary" type="button">Uložit vítěze na GitHub</button>
+        <button id="btn-load-winners" class="btn btn-ghost" type="button">Načíst vítěze z GitHubu</button>
+        <button id="btn-clear-winners-local" class="btn btn-ghost" type="button">Vyčistit (lokálně)</button>
+      </div>
+
+      <div class="preview" role="region" aria-label="Náhled vybraných vítězů">
+        <h4>Náhled</h4>
+        <div id="winners-preview"></div>
       </div>
     </div>
-    <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap">
-      <button id="btn-publish-github" class="btn btn-primary" type="button">Uložit katalog na GitHub (data/catalog.json)</button>
-    </div>
-  </div>
+  </section>
 </section>
 
-<!-- ADMIN Branding -->
-<section id="branding-section" class="card card--nohead" hidden>
-  <div class="card__body">
-    <h3>Branding (pozadí přihlášení)</h3>
-    <p>Konfigurace se ukládá do data/branding.json, aby byla viditelná na všech zařízeních.</p>
-    <div class="input-group" style="margin-bottom:1rem">
-      <label for="bg-file">Nahrát pozadí (PNG/JPG)</label>
-      <input id="bg-file" type="file" accept=".png,.jpg,.jpeg" />
-    </div>
-    <div class="input-group" style="margin-bottom:1rem">
-      <label for="bg-url">URL pozadí</label>
-      <input id="bg-url" type="url" placeholder="https://OWNER.github.io/REPO/assets/img/branding.jpg" />
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
-        <button id="btn-set-bg-url" class="btn btn-ghost" type="button">Použít URL pozadí</button>
-        <button id="btn-reset-bg" class="btn btn-ghost" type="button">Resetovat pozadí</button>
-        <label style="display:flex;align-items:center;gap:.4rem">Zobrazení
-          <select id="bg-fit" style="padding:.4rem;border:1px solid var(--border);border-radius:8px;margin-left:.3rem">
-            <option value="cover">Vyplnit (cover)</option>
-            <option value="contain">Obsáhnout (contain)</option>
-            <option value="auto">Auto</option>
+<!-- ===== VIEW 2: KATALOG (TABULKA) ===== -->
+<section id="view-catalog" hidden aria-labelledby="catalog-title">
+  <h2 id="catalog-title" class="visually-hidden" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Katalog – tabulka</h2>
+
+  <!-- Filtry A,B,D -->
+  <section class="card card--nohead" aria-label="Filtrování katalogu">
+    <div class="card__body" style="padding:.6rem var(--space-5);">
+      <div class="filter-bar" role="region" aria-label="Roletkové filtry">
+        <div class="group">
+          <label for="filter-poradie">Sloupec A (číslo)</label>
+          <input id="filter-poradie" class="input-pill" type="number" inputmode="numeric" placeholder="např. 12" aria-label="Filtr – Sloupec A číslo" />
+        </div>
+        <div class="group">
+          <label for="filter-vystavovatel">Sloupec B</label>
+          <select id="filter-vystavovatel" class="select-pill" aria-label="Filtr – Sloupec B">
+            <option value="">Vše</option>
           </select>
-        </label>
+        </div>
+        <div class="group">
+          <label for="filter-odroda">Sloupec D</label>
+          <select id="filter-odroda" class="select-pill" aria-label="Filtr – Sloupec D">
+            <option value="">Vše</option>
+          </select>
+        </div>
+        <button id="btn-clear-filters" class="btn-chip" type="button" aria-label="Zrušit filtry">Zrušit filtry</button>
       </div>
     </div>
-    <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap">
-      <button id="btn-upload-bg-github" class="btn btn-primary" type="button">Nahrát na GitHub a použít</button>
-      <button id="btn-use-gh-bg" class="btn btn-ghost" type="button">Použít obrázek z GitHubu</button>
-    </div>
+  </section>
 
-    <hr style="margin:1.5rem 0;border:none;border-top:1px solid var(--border)" />
-
-    <h3>Sociální odkazy</h3>
-    <p>Vyplňte URL. Tlačítka se zobrazí všem přihlášeným uživatelům dole vedle exportu PDF.</p>
-    <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
-      <label for="social-fb" style="min-width:120px">Facebook</label>
-      <input id="social-fb" type="url" placeholder="https://facebook.com/..." style="flex:1;min-width:260px" />
-    </div>
-    <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
-      <label for="social-ig" style="min-width:120px">Instagram</label>
-      <input id="social-ig" type="url" placeholder="https://instagram.com/..." style="flex:1;min-width:260px" />
-    </div>
-    <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
-      <label for="social-web" style="min-width:120px">Web</label>
-      <input id="social-web" type="url" placeholder="https://www.example.com" style="flex:1;min-width:260px" />
-    </div>
-    <div class="input-group" style="display:flex;gap:.5rem;flex-wrap:wrap">
-      <button id="btn-save-social" class="btn btn-primary" type="button">Uložit odkazy do GitHubu</button>
-    </div>
-  </div>
-</section>
-
-<!-- ADMIN Zdroj katalogu (URL) -->
-<section id="catalog-source-section" class="card card--nohead" hidden>
-  <div class="card__body">
-    <h3>Zdroj katalogu (URL – centrální)</h3>
-    <p>URL na JSON s katalogem. Uloží se do data/catalog_source.json a použije se na všech zařízeních.</p>
-    <label for="catalog-url">URL katalogu (JSON)</label>
-    <input id="catalog-url" type="url" placeholder="https://OWNER.github.io/REPO/data/catalog.json" />
-    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
-      <button id="btn-set-catalog-url" class="btn btn-ghost" type="button">Použít URL katalogu</button>
-      <button id="btn-reset-catalog-url" class="btn btn-ghost" type="button">Resetovat URL</button>
-      <button id="btn-load-catalog-now" class="btn btn-primary" type="button">Načíst katalog z URL</button>
-    </div>
-  </div>
-</section>
-
-<!-- ADMIN Winners – jednoduchý výběr číslem jako u šampionů -->
-<section id="winners-admin-section" class="card card--nohead" hidden aria-label="Nastavení vítězů a šampionů">
-  <div class="card__body admin-winners">
-    <h3>Vítězové a šampioni (ADMIN)</h3>
-    <p>Vyberte položky podle čísla z 1. sloupce (A). Náhled se zobrazí níže.</p>
-
-    <h4>Šampioni</h4>
-    <div class="row">
-      <label for="champ-white">Šampion bílých vín (A):</label>
-      <input id="champ-white" type="number" inputmode="numeric" placeholder="např. 12" aria-label="Šampion bílých vín – číslo A" />
-    </div>
-    <div class="row">
-      <label for="champ-red">Šampion červených vín (A):</label>
-      <input id="champ-red" type="number" inputmode="numeric" placeholder="např. 245" aria-label="Šampion červených vín – číslo A" />
-    </div>
-    <div class="row">
-      <label for="champ-rose">Vítěz růžových vín (A):</label>
-      <input id="champ-rose" type="number" inputmode="numeric" placeholder="např. 88" aria-label="Vítěz růžových vín – číslo A" />
-    </div>
-
-    <h4>Vítězové odrůd – bílá vína</h4>
-    <div id="white-var-list" class="list" aria-label="Seznam vítězů bílých odrůd">
-      <!-- řádky doplní skript (pouze číselné vstupy A) -->
-    </div>
-    <div class="controls" style="margin:.5rem 0 1rem">
-      <button id="btn-add-white" class="btn btn-ghost" type="button">Přidat vítěze (bílá)</button>
-    </div>
-
-    <h4>Vítězové odrůd – červená vína</h4>
-    <div id="red-var-list" class="list" aria-label="Seznam vítězů červených odrůd">
-      <!-- řádky doplní skript (pouze číselné vstupy A) -->
-    </div>
-    <div class="controls" style="margin:.5rem 0 1rem">
-      <button id="btn-add-red" class="btn btn-ghost" type="button">Přidat vítěze (červená)</button>
-    </div>
-
-    <div class="controls" style="margin-top:.5rem">
-      <button id="btn-save-winners" class="btn btn-primary" type="button">Uložit vítěze na GitHub (data/winners.json)</button>
-      <button id="btn-load-winners" class="btn btn-ghost" type="button">Načíst vítěze z GitHubu</button>
-      <button id="btn-clear-winners-local" class="btn btn-ghost" type="button">Vyčistit (lokálně)</button>
-    </div>
-
-    <div class="preview" role="region" aria-label="Náhled vybraných vítězů">
-      <h4>Náhled</h4>
-      <div id="winners-preview">
-        <!-- náhled doplní skript -->
+  <!-- Tabulka -->
+  <section class="card card--nohead" aria-label="Katalog vín">
+    <div class="card__body">
+      <div class="table-responsive" role="region" aria-label="Tabulka katalogu vín">
+        <table id="wine-table">
+          <colgroup><col class="col-a"><col class="col-b"><col class="col-d"><col class="col-my"></colgroup>
+          <thead id="wine-thead"><tr id="thead-row"></tr></thead>
+          <tbody id="wine-tbody"></tbody>
+        </table>
       </div>
+      <nav id="paginator" class="pager" aria-label="Stránkování" style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-top:var(--space-4);"></nav>
+      <p id="table-status" class="status" role="status"></p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===== Filtry A,B,D ===== -->
-<section class="card card--nohead" aria-label="Filtrování katalogu">
-  <div class="card__body" style="padding: .6rem var(--space-5);">
-    <div class="filter-bar" role="region" aria-label="Roletkové filtry">
-      <div class="group">
-        <label for="filter-poradie">Sloupec A (číslo)</label>
-        <input id="filter-poradie" class="input-pill" type="number" inputmode="numeric" placeholder="např. 12" aria-label="Filtr – Sloupec A číslo" />
-      </div>
-      <div class="group">
-        <label for="filter-vystavovatel">Sloupec B</label>
-        <select id="filter-vystavovatel" class="select-pill" aria-label="Filtr – Sloupec B">
-          <option value="">Vše</option>
-        </select>
-      </div>
-      <div class="group">
-        <label for="filter-odroda">Sloupec D</label>
-        <select id="filter-odroda" class="select-pill" aria-label="Filtr – Sloupec D">
-          <option value="">Vše</option>
-        </select>
-      </div>
-      <button id="btn-clear-filters" class="btn-chip" type="button" aria-label="Zrušit filtry">Zrušit filtry</button>
+  <!-- Export a odkazy -->
+  <section class="card card--nohead" aria-label="Exporty a odkazy">
+    <div class="card__body" style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
+      <button id="btn-export-pdf" class="btn btn-primary" type="button">Moje hodnocení do PDF</button>
+      <a id="btn-social-fb" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Facebook" title="Facebook" aria-disabled="true">Facebook</a>
+      <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">Instagram</a>
+      <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">Web</a>
     </div>
-  </div>
-</section>
-
-<!-- ===== Tabulka ===== -->
-<section class="card card--nohead" aria-label="Katalog vín">
-  <div class="card__body">
-    <div class="table-responsive" role="region" aria-label="Tabulka katalogu vín">
-      <table id="wine-table">
-        <colgroup>
-          <col class="col-a"><col class="col-b"><col class="col-d"><col class="col-my">
-        </colgroup>
-        <thead id="wine-thead">
-          <tr id="thead-row"></tr>
-        </thead>
-        <tbody id="wine-tbody"></tbody>
-      </table>
-    </div>
-    <nav id="paginator" class="pager" aria-label="Stránkování" style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-top:var(--space-4);"></nav>
-    <p id="table-status" class="status" role="status"></p>
-  </div>
-</section>
-
-<!-- ===== Export a odkazy ===== -->
-<section class="card card--nohead" aria-label="Exporty a odkazy">
-  <div class="card__body" style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
-    <button id="btn-export-pdf" class="btn btn-primary" type="button">Moje hodnocení do PDF</button>
-
-    <!-- Sociální tlačítka pro všechny přihlášené -->
-    <a id="btn-social-fb" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Facebook" title="Facebook" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22 12.06C22 6.48 17.52 2 12 2S2 6.48 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34v7.03C18.34 21.21 22 17.06 22 12.06z"/></svg>
-      Facebook
-    </a>
-    <a id="btn-social-ig" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Instagram" title="Instagram" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0  1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm4.7-.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg>
-      Instagram
-    </a>
-    <a id="btn-social-web" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" role="button" aria-label="Web" title="Web" aria-disabled="true">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm7.93 9h-3.17a15.4 15.4 0 0 0-2.13-6.07A8.01 8.01 0 0 1 19.93 11ZM12 4c.86 0 2.54 2.21 3.34 7H8.66C9.46 6.21 11.14 4 12 4ZM6.37 4.93A15.4 15.4 0 0 0 4.24 11H1.07a8.01 8.01 0 0 1 5.3-6.07ZM4.07 13h3.17c.2 2.27.87 4.37 2.13 6.07A8.01 8.01 0 0 1 4.07 13Zm7.93 7c-.86 0-2.54-2.21-3.34-7h6.68c-.8 4.79-2.48 7-3.34 7Zm1.56-.07A15.4 15.4 0  0 0 16.76 13h3.17a8.01 8.01 0 0 1-5.3 6.93Z"/></svg>
-      Web
-    </a>
-  </div>
+  </section>
 </section>
 </main>
 
@@ -548,10 +359,11 @@ th, td{ padding: .34rem .3rem; }
 <script>
 /* ===== KONSTANTY ===== */
 const ADMIN_CODE = 'PetrovSedivy492';
-const defaultCatalogPath = 'data/catalog.json';
+const defaultCatalogPath = 'data/catalog.json';         // lze přepsat přes data/catalog_source.json
 const defaultCatalogSourcePath = 'data/catalog_source.json';
 const defaultBrandingConfigPath = 'data/branding.json';
 const defaultWinnersPath = 'data/winners.json';
+const defaultBrandingPath = 'assets/img/branding.jpg';
 
 /* GH Pages base path (fonty atď.) */
 const __basePath = (()=> {
@@ -562,87 +374,278 @@ const __basePath = (()=> {
   return '';
 })();
 
-/* Výchozí obrázek – zůstává */
-const defaultBrandingPath = 'assets/img/branding.jpg';
-
 /* ===== STAV ===== */
 const state = {
-  wines: [],
-  columns: [],
-  idColumn: null,
-  ratings: [],
-  email: null,
-  isAdmin: false,
+  wines: [], columns: [], idColumn: null,
+  ratings: [], email: null, isAdmin: false,
   filters: { A:'', B:'', D:'' },
   gh: { owner:'', repo:'', branch:'', catalogPath:'', brandingPath: defaultBrandingPath, token:'' },
-  branding: {
-    bgUrl:'', bgFit:'cover',
-    social: { facebook:'', instagram:'', web:'' }
-  },
+  branding: { bgUrl:'', bgFit:'cover', social:{ facebook:'', instagram:'', web:'' } },
   catalog: { url:'' },
   pager: { page: 1, perPage: 30 },
   winners: {
     championWhite: { wineId: '' },
     championRed: { wineId: '' },
     championRose: { wineId: '' },
-    whiteVarietyWinners: [], // [ "12", "53", ... ] — pouze čísla A
-    redVarietyWinners: []    // [ "233", ... ]
+    whiteVarietyWinners: [],
+    redVarietyWinners: []
   }
 };
 const LS = {
-  email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding', wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', catalogSrc:'winecat_catalog_src',
+  email:'winecat_email', ratings:'winecat_ratings', gh:'winecat_github_cfg', branding:'winecat_branding',
+  wines:'winecat_wines', columns:'winecat_columns', idcol:'winecat_idcol', catalogSrc:'winecat_catalog_src',
   winners:'winecat_winners'
 };
 
-/* ===== DOM helper ===== */
+/* ===== DOM helpers ===== */
 const $=id=>document.getElementById(id);
-const el = {
-  overlay: ()=>$('auth-overlay'), authInput:()=>$('auth-input'), authSubmit:()=>$('auth-submit'), authStatus:()=>$('auth-status'),
-  wineBody:()=>$('wine-tbody'), theadRow:()=>$('thead-row'), paginator:()=>$('paginator'), tableStatus:()=>$('table-status'),
-  year:()=>$('year'), toast:()=>$('toast'),
-  fA:()=>$('filter-poradie'), fB:()=>$('filter-vystavovatel'), fD:()=>$('filter-odroda'), btnClearFilters:()=>$('btn-clear-filters'),
-  btnExportPDF:()=>$('btn-export-pdf'),
-  uploadSection:()=>$('upload-section'), brandingSection:()=>$('branding-section'), identitySection:()=>$('identity-section'),
-  btnRelogin:()=>$('btn-relogin'), btnLoadCatalogGH:()=>$('btn-load-catalog-gh'), btnSetGhToken:()=>$('btn-set-gh-token'),
-  file:()=>$('file-input'), hasHeader:()=>$('has-header'), persistWines:()=>$('persist-wines'), btnLoad:()=>$('btn-load'), btnClearData:()=>$('btn-clear-data'), btnPublishGH:()=>$('btn-publish-github'),
-  bgFile:()=>$('bg-file'), bgUrl:()=>$('bg-url'), btnSetBgUrl:()=>$('btn-set-bg-url'), btnResetBg:()=>$('btn-reset-bg'), bgFit:()=>$('bg-fit'),
-  btnUploadBgGH:()=>$('btn-upload-bg-github'), btnUseGhBg:()=>$('btn-use-gh-bg'), bgFallback:()=>$('bg-fallback'),
-  socialFb:()=>$('social-fb'), socialIg:()=>$('social-ig'), socialWeb:()=>$('social-web'), btnSaveSocial:()=>$('btn-save-social'),
-  btnSocialFB:()=>$('btn-social-fb'), btnSocialIG:()=>$('btn-social-ig'), btnSocialWEB:()=>$('btn-social-web'),
-  catalogUrl:()=>$('catalog-url'), btnSetCatalogUrl:()=>$('btn-set-catalog-url'), btnResetCatalogUrl:()=>$('btn-reset-catalog-url'), btnLoadCatalogNow:()=>$('btn-load-catalog-now'),
-  // Winners – veřejná sekce
-  winnersSection:()=>$('winners-section'),
-  winnersGrid:()=> document.querySelector('#winners-section .winners-grid'),
-  // Winners – admin UI
-  winnersAdmin:()=>$('winners-admin-section'),
-  champWhite:()=>$('champ-white'), champRed:()=>$('champ-red'), champRose:()=>$('champ-rose'),
-  listWhite:()=>$('white-var-list'), listRed:()=>$('red-var-list'),
-  btnAddWhite:()=>$('btn-add-white'), btnAddRed:()=>$('btn-add-red'),
-  btnSaveWinners:()=>$('btn-save-winners'), btnLoadWinners:()=>$('btn-load-winners'), btnClearWinnersLocal:()=>$('btn-clear-winners-local'),
-  winnersPreview:()=>$('winners-preview')
-};
+const Q=sel=>document.querySelector(sel);
 
 /* ===== UTIL ===== */
 const norm = v => String(v ?? '').trim().toLowerCase();
-function showToast(text){ const t=el.toast(); if(!t) return; t.textContent=text; t.hidden=false; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2500); }
-function toBase64FromArrayBuffer(buf){ let bin=''; const bytes=new Uint8Array(buf); for(let i=0;i<bytes.byteLength;i++) bin+=String.fromCharCode(bytes[i]); return btoa(bin); }
-function normalizeHeader(h){ return (h||h===0) ? String(h).trim() : ''; }
+function showToast(text){ const t=$('toast'); if(!t) return; t.textContent=text; t.hidden=false; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2500); }
 function ensureWineId(w){ const idCol = state.idColumn || state.columns[0]; if(idCol && w[idCol]!=null && String(w[idCol]).trim()!=='') return String(w[idCol]).trim(); return ''; }
-function dataURLtoBase64(dataURL){ return (dataURL||'').split(',')[1] || ''; }
-function resolveWineById(id){
-  if(!id) return null;
-  const A = state.columns[0];
-  return state.wines.find(w => String(w[A] ?? '').trim() === String(id).trim()) || null;
+
+/* ===== BRANDING + AUTH ===== */
+function applyBranding(){
+  try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved, social: { ...(state.branding.social||{}), ...(saved.social||{}) } }; }catch(_){}
+  const root=document.documentElement; const bgUrl=state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : '';
+  root.style.setProperty('--branding-bg', bgUrl ? `url("${bgUrl}")` : 'none');
+  root.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
+  root.style.setProperty('--app-bg-url', bgUrl ? `url("${bgUrl}")` : 'none');
+  root.style.setProperty('--app-bg-fit', 'cover'); root.style.setProperty('--app-bg-opacity', '0.15');
+
+  const img=$('bg-fallback'); if(img){ img.style.display='none'; if(bgUrl){ img.onload=()=>img.style.display='block'; img.onerror=()=>img.style.display='none'; img.src=bgUrl; } }
+
+  // sociální odkazy – jen v katalogu, ale nevadí nastavit zde
+  const fb=$('btn-social-fb'), ig=$('btn-social-ig'), wb=$('btn-social-web');
+  const setL=(a,u)=>{ if(!a) return; if(u && u.trim()){ a.href=u.trim(); a.removeAttribute('aria-disabled'); } else { a.href='#'; a.setAttribute('aria-disabled','true'); } };
+  setL(fb, state.branding.social?.facebook||'');
+  setL(ig, state.branding.social?.instagram||'');
+  setL(wb, state.branding.social?.web||'');
 }
-function getUserPointsForWineId(id){
-  if(!id || !state.email) return '';
-  const rec = state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(id));
-  return rec ? String(rec.points) : '';
+function showAuthOverlay(){ const ov=$('auth-overlay'); if(!ov) return; ov.classList.add('show'); document.body.classList.add('locked'); const i=$('auth-input'); if(i){ i.value=''; setTimeout(()=>i.focus(),60); } }
+function closeOverlay(){ const ov=$('auth-overlay'); if(!ov) return; ov.classList.remove('show'); document.body.classList.remove('locked'); }
+function updateIdentityUI(){
+  const who=$('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'nepřihlášen');
+  const idc=$('identity-section'); if(idc) idc.hidden=!state.isAdmin;
+  const winAdmin=$('winners-admin-section'); if(winAdmin) winAdmin.hidden=!state.isAdmin;
+}
+function rememberEmail(identifier){
+  try{ const list = JSON.parse(localStorage.getItem('id_list')||'[]'); if(Array.isArray(list) && !list.includes(identifier)){ list.push(identifier); localStorage.setItem('id_list', JSON.stringify(list)); } }catch(_){}
+}
+function handleAuthSubmit(){
+  const input=$('auth-input'); const val = input ? input.value.trim() : '';
+  const st=$('auth-status'); const setSt=(m,e)=>{ if(st){ st.textContent=m; st.style.color=e?'#b00020':''; } };
+  if(!val){ setSt('Zadejte libovolný text.', true); return; }
+  if(val === ADMIN_CODE){
+    state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
+    closeOverlay(); updateIdentityUI(); showToast('Admin mód aktivován.'); renderWinnersSection(); return;
+  }
+  state.isAdmin=false; state.email=val; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
+  closeOverlay(); updateIdentityUI(); showToast('Přihlášení úspěšné.');
 }
 
-/* ===== CZ -> ASCII mapa ===== */
-const CZ_MAP = {'á':'a','č':'c','ď':'d','é':'e','ě':'e','í':'i','ň':'n','ó':'o','ř':'r','š':'s','ť':'t','ú':'u','ů':'u','ý':'y','ž':'z','Á':'A','Č':'C','Ď':'D','É':'E','Ě':'E','Í':'I','Ň':'N','Ó':'O','Ř':'R','Š':'S','Ť':'T','Ú':'U','Ů':'U','Ý':'Y','Ž':'Z'};
-const asciiSanitize = s => String(s).replace(/[^\x20-\x7E]/g, ch => CZ_MAP[ch] ?? ch);
+/* ===== GH utils + fetch JSON ===== */
+function inferGhFromLocation(){
+  try{
+    const params = new URLSearchParams(location.search);
+    const catalogOverride = params.get('catalog');
+    const host = location.hostname; const path = location.pathname;
+    if(/\.github\.io$/i.test(host)){
+      const owner = host.split('.')[0];
+      const repo = (path.split('/').filter(Boolean)[0] || '');
+      if(owner && repo){
+        state.gh.owner ||= owner; state.gh.repo ||= repo; state.gh.branch ||= 'main';
+        state.gh.catalogPath ||= (catalogOverride || defaultCatalogPath);
+        state.gh.brandingPath ||= defaultBrandingPath;
+        localStorage.setItem(LS.gh, JSON.stringify(state.gh));
+      }
+    }
+  }catch(e){ console.warn('inferGhFromLocation error', e); }
+}
+async function safeFetchJSON(url){
+  const res=await fetch(url,{cache:'no-cache'});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const ct=(res.headers.get('content-type')||'').toLowerCase();
+  if(ct.includes('application/json')) return res.json();
+  const txt=await res.text();
+  const i = txt.search(/[\{\[]/);
+  if(i>=0){ return JSON.parse(txt.slice(i)); }
+  throw new Error('Neplatný JSON');
+}
+async function ghGetFile(path){
+  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(state.gh.branch||'main')}`;
+  const headers={ 'Accept':'application/vnd.github+json' };
+  const res=await fetch(url,{headers}); if(res.status===404) return null; if(!res.ok) throw new Error('GitHub GET error '+res.status); return res.json();
+}
+async function ghPutFile(path, contentText, message){
+  if(!state.gh.owner || !state.gh.repo){
+    inferGhFromLocation();
+    if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo'); return false; }
+  }
+  if(!state.gh.token){
+    const t = prompt('Zadejte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
+    if(!t){ showToast('GH token nebyl zadán.'); return false; }
+    state.gh.token=t.trim();
+    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
+  }
+  const existing = await ghGetFile(path);
+  const body = { message: message || 'update via app', content: btoa(unescape(encodeURIComponent(contentText))), branch: state.gh.branch||'main' };
+  if(existing && existing.sha) body.sha = existing.sha;
+  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}`;
+  const res=await fetch(url,{method:'PUT',headers:{'Accept':'application/vnd.github+json','Authorization':`Bearer ${state.gh.token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){ console.warn('GH PUT fail', await res.text()); return false; }
+  return true;
+}
+
+/* ===== Central configs (branding, catalog URL, winners) ===== */
+async function loadBrandingConfigFromRepo(){
+  try{
+    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+    if(!state.gh.owner || !state.gh.repo) return;
+    const rel = defaultBrandingConfigPath.replace(/^\//,'');
+    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
+    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
+    let cfg = null;
+    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
+    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
+    if(cfg && typeof cfg==='object'){
+      state.branding = { ...state.branding, ...cfg, social: { ...(state.branding.social||{}), ...(cfg.social||{}) } };
+      try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
+    }
+  }catch(e){ console.warn('Branding config load fail', e); }
+}
+async function loadCatalogSourceFromRepo(){
+  try{
+    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+    if(!state.gh.owner || !state.gh.repo) return;
+    const rel = defaultCatalogSourcePath.replace(/^\//,'');
+    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
+    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
+    let cfg = null;
+    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
+    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
+    if(cfg && typeof cfg==='object' && typeof cfg.url==='string'){
+      state.catalog.url = (cfg.url||'').trim();
+      try{ localStorage.setItem(LS.catalogSrc, state.catalog.url); }catch(_){}
+    }
+  }catch(e){ console.warn('Catalog source load fail', e); }
+}
+async function loadWinnersFromRepo(){
+  try{
+    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
+    if(!state.gh.owner || !state.gh.repo) return;
+    const rel = defaultWinnersPath.replace(/^\//,'');
+    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
+    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
+    let cfg = null;
+    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
+    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
+    if(cfg && typeof cfg==='object'){
+      state.winners = {
+        championWhite: { wineId: (cfg.championWhite?.wineId||'').toString() },
+        championRed:   { wineId: (cfg.championRed?.wineId||'').toString() },
+        championRose:  { wineId: (cfg.championRose?.wineId||'').toString() },
+        whiteVarietyWinners: Array.isArray(cfg.whiteVarietyWinners) ? cfg.whiteVarietyWinners.map(x=>x.toString()) : [],
+        redVarietyWinners:   Array.isArray(cfg.redVarietyWinners) ? cfg.redVarietyWinners.map(x=>x.toString()) : []
+      };
+      try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
+    }
+  }catch(e){ console.warn('Winners load fail', e); }
+}
+async function saveWinnersToRepo(){
+  const payload = {
+    championWhite: { wineId: (state.winners.championWhite?.wineId||'').toString().trim() },
+    championRed:   { wineId: (state.winners.championRed?.wineId||'').toString().trim() },
+    championRose:  { wineId: (state.winners.championRose?.wineId||'').toString().trim() },
+    whiteVarietyWinners: (state.winners.whiteVarietyWinners||[]).map(x=>x.toString().trim()).filter(Boolean),
+    redVarietyWinners:   (state.winners.redVarietyWinners||[]).map(x=>x.toString().trim()).filter(Boolean)
+  };
+  const ok = await ghPutFile(defaultWinnersPath, JSON.stringify(payload, null, 2), 'update winners');
+  if(ok){
+    try{ localStorage.setItem(LS.winners, JSON.stringify(payload)); }catch(_){}
+    showToast('Vítězové uloženi do repozitáře.');
+    renderWinnersSection(); renderWinnersPreview();
+  }else{
+    alert('Uložení vítězů na GitHub selhalo.');
+  }
+}
+
+/* ===== Katalog: načítání ===== */
+function adoptColumnsFromData(arr){ const first = arr[0] || {}; const cols = Object.keys(first); state.columns = cols; state.idColumn = state.columns[0] || null; }
+async function loadCatalogFromURL(url){
+  const arr = await safeFetchJSON(url);
+  if(!Array.isArray(arr)) throw new Error('Katalog není pole objektů.');
+  adoptColumnsFromData(arr);
+  state.wines = arr;
+  try{
+    localStorage.setItem(LS.wines, JSON.stringify(state.wines));
+    localStorage.setItem(LS.columns, JSON.stringify(state.columns));
+    localStorage.setItem(LS.idcol, state.idColumn||'');
+  }catch(_){}
+  afterDataChanged();
+  showToast(`Katalog (URL): ${arr.length}`);
+}
+async function loadCatalogFromGitHubAPI(){
+  try{
+    const path = state.gh.catalogPath || defaultCatalogPath;
+    const meta=await ghGetFile(path);
+    if(!meta || !meta.content){ alert('Katalog na GitHubu se nenašel.'); return; }
+    const json=atob(meta.content);
+    const arr=JSON.parse(json);
+    if(!Array.isArray(arr)) throw new Error('Formát JSON není pole.');
+    adoptColumnsFromData(arr);
+    state.wines=arr;
+    try{
+      localStorage.setItem(LS.wines, JSON.stringify(state.wines));
+      localStorage.setItem(LS.columns, JSON.stringify(state.columns));
+      localStorage.setItem(LS.idcol, state.idColumn||'');
+    }catch(_){}
+    afterDataChanged();
+    showToast(`Katalog (API): ${arr.length}`);
+  }catch(e){ console.error(e); alert('Načtení katalogu selhalo.'); }
+}
+async function loadCatalogSmart(){
+  const src = (state.catalog.url||'').trim();
+  if(src){
+    await loadCatalogFromURL(src);
+    return;
+  }
+  if(! (state.gh.owner && state.gh.repo) ){
+    inferGhFromLocation();
+    if(! (state.gh.owner && state.gh.repo) ){ showToast('Chybí GitHub nastavení.'); return; }
+  }
+  const catPath = (state.gh.catalogPath || defaultCatalogPath).replace(/^\//,'');
+  const t = Date.now();
+  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${catPath}?t=${t}`;
+  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${catPath}?t=${t}`;
+  try{
+    const arr=await safeFetchJSON(pagesUrl);
+    if(Array.isArray(arr)){
+      adoptColumnsFromData(arr); state.wines=arr;
+      try{
+        localStorage.setItem(LS.wines, JSON.stringify(arr));
+        localStorage.setItem(LS.columns, JSON.stringify(state.columns));
+        localStorage.setItem(LS.idcol, state.idColumn||'');
+      }catch(_){}
+      afterDataChanged(); showToast(`Katalog (Pages): ${arr.length}`); return;
+    }
+  }catch(_){}
+  try{
+    const arr=await safeFetchJSON(rawUrl);
+    if(Array.isArray(arr)){
+      adoptColumnsFromData(arr); state.wines=arr;
+      try{
+        localStorage.setItem(LS.wines, JSON.stringify(arr));
+        localStorage.setItem(LS.columns, JSON.stringify(state.columns));
+        localStorage.setItem(LS.idcol, state.idColumn||'');
+      }catch(_){}
+      afterDataChanged(); showToast(`Katalog (Raw): ${arr.length}`); return;
+    }
+  }catch(_){}
+  await loadCatalogFromGitHubAPI();
+}
 
 /* ===== STATISTIKY ===== */
 function updateStats(){
@@ -651,44 +654,10 @@ function updateStats(){
   const my = state.ratings.filter(r=>r.email===state.email);
   const rated = my.length;
   const avg = rated ? (my.reduce((s,r)=>s+(parseInt(r.points,10)||0),0)/rated) : null;
-  const t1=$('stat-total'), t2=$('stat-filtered'), t3=$('stat-rated'), t4=$('stat-avg');
-  if(t1) t1.textContent=total;
-  if(t2) t2.textContent=shown;
-  if(t3) t3.textContent=rated;
-  if(t4) t4.textContent=avg!==null ? avg.toFixed(1) : '–';
-}
-
-/* ===== AUTH ===== */
-function showAuthOverlay(){ const ov=el.overlay(); if(!ov) return; ov.classList.add('show'); document.body.classList.add('locked'); const s=el.authStatus(); if(s){ s.textContent=''; s.classList.remove('error'); } const i=el.authInput(); if(i){ i.value=''; setTimeout(()=> i.focus(), 60); } }
-function setStatus(msg, err){ const s=el.authStatus(); if(!s) return; s.textContent=msg; s.classList.toggle('error', !!err); }
-function closeOverlay(){ const ov=el.overlay(); if(!ov) return; ov.classList.remove('show'); document.body.classList.remove('locked'); }
-function updateIdentityUI(){
-  const who=$('whoami'); if(who) who.textContent = state.isAdmin ? 'ADMIN' : (state.email||'nepřihlášen');
-  const up=el.uploadSection(), br=el.brandingSection(), idc=el.identitySection(), winAdmin=el.winnersAdmin();
-  if(up) up.hidden = !state.isAdmin;
-  if(br) br.hidden = !state.isAdmin;
-  if(idc) idc.hidden = !state.isAdmin;
-  if(winAdmin) winAdmin.hidden = !state.isAdmin;
-}
-function rememberEmail(identifier){
-  try{
-    const list = JSON.parse(localStorage.getItem('id_list')||'[]');
-    if(Array.isArray(list) && !list.includes(identifier)){ list.push(identifier); localStorage.setItem('id_list', JSON.stringify(list)); }
-  }catch(_){}
-}
-function handleAuthSubmit(){
-  const input = el.authInput();
-  const val = input ? input.value.trim() : '';
-  if(!val){ setStatus('Zadejte libovolný text.', true); return; }
-  if(val === ADMIN_CODE){
-    state.isAdmin=true; state.email='admin@local'; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
-    closeOverlay(); updateIdentityUI(); renderAll(); showToast('Admin mód aktivován.');
-    return;
-  }
-  state.isAdmin=false; state.email=val; localStorage.setItem(LS.email, state.email); rememberEmail(state.email);
-  closeOverlay(); updateIdentityUI();
-  loadCatalogSmart().catch(()=>{});
-  renderAll(); showToast('Přihlášení úspěšné.');
+  if($('stat-total')) $('stat-total').textContent=total;
+  if($('stat-filtered')) $('stat-filtered').textContent=shown;
+  if($('stat-rated')) $('stat-rated').textContent=rated;
+  if($('stat-avg')) $('stat-avg').textContent=avg!==null ? avg.toFixed(1) : '–';
 }
 
 /* ===== FILTRY ===== */
@@ -698,8 +667,7 @@ function applyFilters(arr){
   if(!f.A && !f.B && !f.D) return arr;
   return arr.filter(w=>{
     if(f.A && A){
-      const wA = String(w[A] ?? '').trim();
-      if(String(f.A).trim() !== wA) return false;
+      if(String(f.A).trim() !== String(w[A] ?? '').trim()) return false;
     }
     if(f.B && B && norm(w[B]) !== norm(f.B)) return false;
     if(f.D && D && norm(w[D]) !== norm(f.D)) return false;
@@ -707,10 +675,9 @@ function applyFilters(arr){
   });
 }
 function onFilterChange(){
-  const fA=el.fA(), fB=el.fB(), fD=el.fD();
-  state.filters.A = fA ? String(fA.value||'').trim() : '';
-  state.filters.B = fB ? (fB.value||'') : '';
-  state.filters.D = fD ? (fD.value||'') : '';
+  state.filters.A = $('filter-poradie') ? String($('filter-poradie').value||'').trim() : '';
+  state.filters.B = $('filter-vystavovatel') ? $('filter-vystavovatel').value : '';
+  state.filters.D = $('filter-odroda') ? $('filter-odroda').value : '';
   state.pager.page=1; renderTable(); updateStats();
 }
 function rebuildFilterOptions(){
@@ -730,141 +697,19 @@ function rebuildFilterOptions(){
     sel.disabled = arr.length===0;
     const lab = sel.previousElementSibling;
     if(lab && lab.tagName==='LABEL'){
-      if(sel===el.fB() && B) lab.textContent = B;
-      if(sel===el.fD() && D) lab.textContent = D;
+      if(sel=== $('filter-vystavovatel') && B) lab.textContent = B;
+      if(sel=== $('filter-odroda') && D) lab.textContent = D;
     }
   };
-  fill(el.fB(), setB, 'Vše');
-  fill(el.fD(), setD, 'Vše');
-  const labA = (el.fA() && el.fA().previousElementSibling);
-  if(labA && labA.tagName==='LABEL' && A) labA.textContent = A+' (číslo)';
+  fill($('filter-vystavovatel'), setB, 'Vše');
+  fill($('filter-odroda'), setD, 'Vše');
+  const labA = $('filter-poradie') && $('filter-poradie').previousElementSibling;
+  if(labA && A) labA.textContent = A+' (číslo)';
 }
 
-/* ===== RENDER: Winners (veřejná sekce, shodné skládání s dolní tabulkou) ===== */
-function renderWinnersSection(){
-  const sec = el.winnersSection(); const grid = el.winnersGrid();
-  if(!sec || !grid) return;
-  const hasAny = Boolean(
-    (state.winners.championWhite?.wineId) ||
-    (state.winners.championRed?.wineId) ||
-    (state.winners.championRose?.wineId) ||
-    (state.winners.whiteVarietyWinners?.length) ||
-    (state.winners.redVarietyWinners?.length)
-  );
-  sec.hidden = !hasAny;
-  grid.innerHTML = '';
-  if(!hasAny) return;
-
-  const A = state.columns[0], B = state.columns[1], C = state.columns[2], D = state.columns[3], E = state.columns[4], F = state.columns[5], G = state.columns[6];
-
-  // Hlavička přesně jako dole
-  const mkMiniTableHead = ()=>{
-    const thead = document.createElement('thead');
-    const tr = document.createElement('tr');
-    [A||'Č', B||'Pěstitel', D||'Odrůda', 'Body'].forEach(h=>{
-      const th = document.createElement('th'); th.textContent = h; tr.appendChild(th);
-    });
-    thead.appendChild(tr); return thead;
-  };
-
-  // Jeden řádek – stejné skládání buněk jako v dolní tabulce + interaktivní vstup pro body
-  const mkRowComposite = (w)=>{
-    const tr = document.createElement('tr');
-    const wid = ensureWineId(w);
-
-    // A + G
-    const tdA=document.createElement('td');
-    const aMain=document.createElement('div'); aMain.className='cell-main'; aMain.textContent=A?String(w[A]??''):'';
-    tdA.appendChild(aMain);
-    if(G && w[G]){ const aSub=document.createElement('span'); aSub.className='cell-sub'; aSub.textContent=String(w[G]); tdA.appendChild(aSub); }
-    tr.appendChild(tdA);
-
-    // B + C
-    const tdB=document.createElement('td');
-    const bMain=document.createElement('div'); bMain.className='cell-main'; bMain.textContent=B?String(w[B]??''):'';
-    tdB.appendChild(bMain);
-    if(C && w[C]){ const bSub=document.createElement('span'); bSub.className='cell-sub'; bSub.textContent=String(w[C]); tdB.appendChild(bSub); }
-    tr.appendChild(tdB);
-
-    // D + (E,F) – jen jednou, bez duplikování roku; bereme stejně jako dole
-    const tdD=document.createElement('td');
-    const dMain=document.createElement('div'); dMain.className='cell-main'; dMain.textContent=D?String(w[D]??''):'';
-    tdD.appendChild(dMain);
-    const extras=[];
-    if(E && w[E]!==undefined && w[E]!==null && w[E]!=='') extras.push(String(w[E]));
-    if(F && w[F]) extras.push(String(w[F]));
-    if(extras.length){ const dSub=document.createElement('span'); dSub.className='cell-sub'; dSub.textContent=extras.join(' – '); tdD.appendChild(dSub); }
-    tr.appendChild(tdD);
-
-    // Body – stejný interaktivní vstup jako dole
-    const tdP=document.createElement('td');
-    const input=document.createElement('input');
-    input.type='number'; input.min='0'; input.max='100'; input.step='1';
-    input.placeholder='0–100'; input.className='rating-input';
-    input.setAttribute('aria-label','Body pro položku '+(wid||''));
-    const ex = state.email ? state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid)) : null;
-    if(ex){ input.value=ex.points; input.disabled=true; input.classList.add('rated'); }
-    else if(!state.email){ input.disabled=true; input.title='Pro hodnocení se přihlaste.'; input.classList.add('locked'); }
-    else{ input.classList.add('unrated'); }
-    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input); }});
-    input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input); }});
-    tdP.appendChild(input);
-    tr.appendChild(tdP);
-
-    return tr;
-  };
-
-  const mkBlockByIds = (title, ids)=>{
-    const block = document.createElement('div'); block.className='block';
-    const head = document.createElement('div'); head.className='block__head';
-    const h = document.createElement('h3'); h.className='block__title'; h.textContent = title;
-    head.appendChild(h); block.appendChild(head);
-    const body = document.createElement('div'); body.className='block__body';
-    const table = document.createElement('table'); table.className='mini-table'; table.setAttribute('aria-label', title);
-    const thead = mkMiniTableHead(); table.appendChild(thead);
-    const tbody = document.createElement('tbody');
-
-    let rows = 0;
-    for(const id of ids){
-      const w = resolveWineById(id);
-      if(!w) continue;
-      tbody.appendChild(mkRowComposite(w));
-      rows++;
-    }
-    if(rows===0){
-      const p = document.createElement('p'); p.className='empty'; p.textContent = 'Zatím není vybráno.'; body.appendChild(p);
-    }else{
-      table.appendChild(tbody); body.appendChild(table);
-    }
-    block.appendChild(body);
-    return block;
-  };
-
-  // ŠAMPIONI – každý na celý řádek
-  if(state.winners.championWhite?.wineId){
-    grid.appendChild(mkBlockByIds('Šampion bílých vín', [state.winners.championWhite.wineId]));
-  }
-  if(state.winners.championRed?.wineId){
-    grid.appendChild(mkBlockByIds('Šampion červených vín', [state.winners.championRed.wineId]));
-  }
-  if(state.winners.championRose?.wineId){
-    grid.appendChild(mkBlockByIds('Vítěz růžových vín', [state.winners.championRose.wineId]));
-  }
-
-  // VÍTĚZOVÉ ODRŮD – BÍLÁ
-  if(Array.isArray(state.winners.whiteVarietyWinners) && state.winners.whiteVarietyWinners.length){
-    grid.appendChild(mkBlockByIds('Vítězové odrůd bílých vín', state.winners.whiteVarietyWinners));
-  }
-
-  // VÍTĚZOVÉ ODRŮD – ČERVENÁ
-  if(Array.isArray(state.winners.redVarietyWinners) && state.winners.redVarietyWinners.length){
-    grid.appendChild(mkBlockByIds('Vítězové odrůd červených vín', state.winners.redVarietyWinners));
-  }
-}
-
-/* ===== RENDER: hlavní tabulka ===== */
+/* ===== RENDER – hlavička tabulky + stránkování + tabulka ===== */
 function renderHeader(){
-  const theadRow = el.theadRow(); if(!theadRow) return;
+  const theadRow = $('thead-row'); if(!theadRow) return;
   theadRow.innerHTML='';
   const cols=state.columns;
   const showCols=[];
@@ -877,7 +722,7 @@ function renderHeader(){
   const thMy=document.createElement('th'); thMy.textContent='Body'; theadRow.appendChild(thMy);
 }
 function renderPagination(total,page,pages){
-  const nav = el.paginator(); if(!nav) return;
+  const nav = $('paginator'); if(!nav) return;
   nav.innerHTML='';
   if(pages<=1) return;
   const mk=(lab,to,opts={})=>{
@@ -896,7 +741,7 @@ function renderPagination(total,page,pages){
   nav.appendChild(mk('»',pages,{disabled:page===pages}));
 }
 function renderTable(){
-  const tbody=el.wineBody(); if(!tbody) return; tbody.innerHTML='';
+  const tbody=$('wine-tbody'); if(!tbody) return; tbody.innerHTML='';
   const filtered=applyFilters(state.wines.slice());
   const total=filtered.length;
   const per=state.pager.perPage||30;
@@ -958,326 +803,109 @@ function renderTable(){
     tbody.appendChild(tr);
   }
 
-  const ts = el.tableStatus(); if(ts) ts.textContent=`Zobrazeno: ${slice.length} z ${total} (strana ${page})`;
+  const ts = $('table-status'); if(ts) ts.textContent=`Zobrazeno: ${slice.length} z ${total} (strana ${page})`;
   renderPagination(total,page,pages);
 }
 
-/* ===== GitHub I/O ===== */
-function inferGhFromLocation(){
-  try{
-    const params = new URLSearchParams(location.search);
-    const catalogOverride = params.get('catalog');
-    const host = location.hostname;
-    const path = location.pathname;
-    if(/\.github\.io$/i.test(host)){
-      const owner = host.split('.')[0];
-      const repo = (path.split('/').filter(Boolean)[0] || '');
-      if(owner && repo){
-        state.gh.owner ||= owner;
-        state.gh.repo ||= repo;
-        state.gh.branch ||= 'main';
-        state.gh.catalogPath ||= (catalogOverride || defaultCatalogPath);
-        state.gh.brandingPath ||= defaultBrandingPath;
-        try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
-      }
-    }
-  }catch(e){ console.warn('inferGhFromLocation error', e); }
+/* ===== Winners: veřejná sekce (view-winners) ===== */
+function resolveWineById(id){
+  if(!id) return null;
+  const A = state.columns[0];
+  return state.wines.find(w => String(w[A] ?? '').trim() === String(id).trim()) || null;
 }
-async function safeFetchJSON(url){
-  const res=await fetch(url,{cache:'no-cache'});
-  if(!res.ok) throw new Error('HTTP '+res.status);
-  const ct=(res.headers.get('content-type')||'').toLowerCase();
-  if(ct.includes('application/json')) return res.json();
-  const txt=await res.text();
-  const i = txt.search(/[\{\[]/);
-  if(i>=0){ return JSON.parse(txt.slice(i)); }
-  throw new Error('Neplatný formát odpovědi');
-}
-async function ghGetFile(path){
-  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(state.gh.branch||'main')}`;
-  const headers={ 'Accept':'application/vnd.github+json' };
-  const res=await fetch(url,{headers}); if(res.status===404) return null; if(!res.ok) throw new Error('GitHub GET error '+res.status); return res.json();
-}
-async function ghPutFile(path, contentText, message){
-  if(!state.gh.owner || !state.gh.repo){
-    inferGhFromLocation();
-    if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo'); return false; }
-  }
-  if(!state.gh.token){
-    const t = prompt('Zadejte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
-    if(!t){ showToast('GH token nebyl zadán.'); return false; }
-    state.gh.token=t.trim();
-    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
-  }
-  const existing = await ghGetFile(path);
-  const body = { message: message || 'update via app', content: btoa(unescape(encodeURIComponent(contentText))), branch: state.gh.branch||'main' };
-  if(existing && existing.sha) body.sha = existing.sha;
-  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}`;
-  const res=await fetch(url,{method:'PUT',headers:{'Accept':'application/vnd.github+json','Authorization':`Bearer ${state.gh.token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!res.ok){
-    console.warn('GH PUT fail', await res.text());
-    return false;
-  }
-  return true;
-}
-async function ghPutContentBase64(path, base64Content, message){
-  if(!state.gh.owner || !state.gh.repo){
-    inferGhFromLocation();
-    if(!state.gh.owner || !state.gh.repo){ showToast('GH: chybí owner/repo'); return false; }
-  }
-  if(!state.gh.token){
-    const t = prompt('Zadejte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
-    if(!t){ showToast('GH token nebyl zadán.'); return false; }
-    state.gh.token=t.trim();
-    try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){}
-  }
-  const existing = await ghGetFile(path);
-  const body = { message: message || 'update binary via app', content: base64Content, branch: state.gh.branch||'main' };
-  if(existing && existing.sha) body.sha = existing.sha;
-  const url=`https://api.github.com/repos/${encodeURIComponent(state.gh.owner)}/${encodeURIComponent(state.gh.repo)}/contents/${encodeURIComponent(path)}`;
-  const res=await fetch(url,{method:'PUT',headers:{'Accept':'application/vnd.github+json','Authorization':`Bearer ${state.gh.token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!res.ok){ console.warn('GH PUT (bin) fail', await res.text()); return false; }
-  return true;
-}
+function renderWinnersSection(){
+  const sec=$('winners-section'); const grid=Q('#winners-section .winners-grid'); if(!sec||!grid) return;
+  const hasAny = Boolean(state.winners.championWhite?.wineId || state.winners.championRed?.wineId || state.winners.championRose?.wineId || state.winners.whiteVarietyWinners?.length || state.winners.redVarietyWinners?.length);
+  sec.hidden = !hasAny; grid.innerHTML=''; if(!hasAny) return;
 
-/* ===== Branding (centrálne) ===== */
-async function loadBrandingConfigFromRepo(){
-  try{
-    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    if(!state.gh.owner || !state.gh.repo) return;
-    const rel = defaultBrandingConfigPath.replace(/^\//,'');
-    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
-    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
-    let cfg = null;
-    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
-    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
-    if(cfg && typeof cfg==='object'){
-      state.branding = { ...state.branding, ...cfg, social: { ...(state.branding.social||{}), ...(cfg.social||{}) } };
-      try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    }
-  }catch(e){ console.warn('Branding config load fail', e); }
-}
-async function saveBrandingConfigToRepo(){
-  const cfg = {
-    bgUrl: (state.branding.bgUrl||'').trim(),
-    bgFit: state.branding.bgFit||'cover',
-    social: {
-      facebook: (state.branding.social?.facebook||'').trim(),
-      instagram: (state.branding.social?.instagram||'').trim(),
-      web: (state.branding.social?.web||'').trim()
-    }
+  const A=state.columns[0], B=state.columns[1], C=state.columns[2], D=state.columns[3], E=state.columns[4], F=state.columns[5], G=state.columns[6];
+
+  const mkHead=()=>{ const thead=document.createElement('thead'); const tr=document.createElement('tr'); [A||'Č', B||'Pěstitel', D||'Odrůda', 'Body'].forEach(h=>{ const th=document.createElement('th'); th.textContent=h; tr.appendChild(th); }); thead.appendChild(tr); return thead; };
+  const mkRow=(w)=>{
+    const tr=document.createElement('tr'); const wid=ensureWineId(w);
+    // A + G
+    const tdA=document.createElement('td'); const am=document.createElement('div'); am.className='cell-main'; am.textContent=A?String(w[A]??''):'';
+    tdA.appendChild(am); if(G && w[G]){ const as=document.createElement('span'); as.className='cell-sub'; as.textContent=String(w[G]); tdA.appendChild(as); } tr.appendChild(tdA);
+    // B + C
+    const tdB=document.createElement('td'); const bm=document.createElement('div'); bm.className='cell-main'; bm.textContent=B?String(w[B]??''):'';
+    tdB.appendChild(bm); if(C && w[C]){ const bs=document.createElement('span'); bs.className='cell-sub'; bs.textContent=String(w[C]); tdB.appendChild(bs); } tr.appendChild(tdB);
+    // D + (E,F)
+    const tdD=document.createElement('td'); const dm=document.createElement('div'); dm.className='cell-main'; dm.textContent=D?String(w[D]??''):'';
+    tdD.appendChild(dm); const extras=[]; if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
+    if(extras.length){ const ds=document.createElement('span'); ds.className='cell-sub'; ds.textContent=extras.join(' – '); tdD.appendChild(ds); } tr.appendChild(tdD);
+    // Body – stejně jako v tabulce
+    const tdP=document.createElement('td'); const input=document.createElement('input'); input.type='number'; input.min='0'; input.max='100'; input.step='1'; input.placeholder='0–100'; input.className='rating-input';
+    const ex=state.email?state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wid)):null;
+    if(ex){ input.value=ex.points; input.disabled=true; input.classList.add('rated'); }
+    else if(!state.email){ input.disabled=true; input.title='Pro hodnocení se přihlaste.'; input.classList.add('locked'); }
+    else{ input.classList.add('unrated'); }
+    input.addEventListener('keydown',ev=>{ if(ev.key==='Enter'){ ev.preventDefault(); handleRateSubmit(w, input); }}); input.addEventListener('blur', ()=>{ if(input.value!=='' && !input.disabled){ handleRateSubmit(w, input); }});
+    tdP.appendChild(input); tr.appendChild(tdP);
+    return tr;
   };
-  const ok = await ghPutFile(defaultBrandingConfigPath, JSON.stringify(cfg, null, 2), 'update branding config');
-  if(ok){ showToast('Branding konfigurace uložena do repozitáře.'); }
-  else { alert('Uložení branding konfigurace na GitHub selhalo.'); }
-}
-function applyBranding(){
-  try{ const saved = JSON.parse(localStorage.getItem(LS.branding)||'{}'); state.branding = {...state.branding, ...saved, social: { ...(state.branding.social||{}), ...(saved.social||{}) } }; }catch(_){}
-  const bgUrl = state.branding.bgUrl && state.branding.bgUrl.trim() ? state.branding.bgUrl.trim() : '';
-  const root = document.documentElement;
-  if(bgUrl){ root.style.setProperty('--branding-bg', `url("${bgUrl}")`); }
-  else{ root.style.setProperty('--branding-bg', 'none'); }
-  root.style.setProperty('--branding-fit', state.branding.bgFit||'cover');
-  const appBg = bgUrl ? `url("${bgUrl}")` : 'none';
-  root.style.setProperty('--app-bg-url', appBg);
-  root.style.setProperty('--app-bg-fit', 'cover');
-  root.style.setProperty('--app-bg-opacity', '0.15');
 
-  const img = el.bgFallback();
-  if(img){
-    img.style.display = 'none';
-    if(bgUrl){
-      img.onload = ()=>{ img.style.display = 'block'; };
-      img.onerror = ()=>{ img.style.display = 'none'; };
-      img.src = bgUrl;
-    }else{
-      img.removeAttribute('src');
-    }
-  }
-
-  const fb = el.btnSocialFB(), ig = el.btnSocialIG(), wb = el.btnSocialWEB();
-  const setLink = (anchor, url)=> {
-    if(!anchor) return;
-    if(url && url.trim()){
-      anchor.href = url.trim();
-      anchor.removeAttribute('aria-disabled');
-      anchor.classList.remove('disabled');
-    }else{
-      anchor.href = '#';
-      anchor.setAttribute('aria-disabled','true');
-    }
+  const mkBlock=(title, ids)=>{
+    const block=document.createElement('div'); block.className='block';
+    const head=document.createElement('div'); head.className='block__head'; const h=document.createElement('h3'); h.className='block__title'; h.textContent = title; head.appendChild(h); block.appendChild(head);
+    const body=document.createElement('div'); body.className='block__body';
+    const table=document.createElement('table'); table.className='mini-table'; table.appendChild(mkHead()); const tbody=document.createElement('tbody');
+    let rows=0;
+    for(const id of ids){ const w=resolveWineById(id); if(!w) continue; tbody.appendChild(mkRow(w)); rows++; }
+    if(rows===0){ const p=document.createElement('p'); p.className='empty'; p.textContent='Zatím není vybráno.'; body.appendChild(p); }
+    else { table.appendChild(tbody); body.appendChild(table); }
+    block.appendChild(body); return block;
   };
-  setLink(fb, state.branding.social?.facebook||'');
-  setLink(ig, state.branding.social?.instagram||'');
-  setLink(wb, state.branding.social?.web||'');
-}
-function handleBgFile(ev){
-  const f = ev.target.files && ev.target.files[0]; if(!f) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    state.branding.bgUrl = e.target.result;
-    try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    applyBranding();
-    showToast('Pozadí bylo nahráno (lokálně). Pro sdílení použijte „Nahrát na GitHub a použít“ nebo uložte URL.');
-  };
-  reader.readAsDataURL(f);
+
+  if(state.winners.championWhite?.wineId) grid.appendChild(mkBlock('Šampion bílých vín', [state.winners.championWhite.wineId]));
+  if(state.winners.championRed?.wineId)   grid.appendChild(mkBlock('Šampion červených vín', [state.winners.championRed.wineId]));
+  if(state.winners.championRose?.wineId)  grid.appendChild(mkBlock('Vítěz růžových vín', [state.winners.championRose.wineId]));
+  if(state.winners.whiteVarietyWinners?.length) grid.appendChild(mkBlock('Vítězové odrůd bílých vín', state.winners.whiteVarietyWinners));
+  if(state.winners.redVarietyWinners?.length)   grid.appendChild(mkBlock('Vítězové odrůd červených vín', state.winners.redVarietyWinners));
 }
 
-/* ===== Zdroj katalogu (centrální URL) ===== */
-async function loadCatalogSourceFromRepo(){
-  try{
-    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    if(!state.gh.owner || !state.gh.repo) return;
-    const rel = defaultCatalogSourcePath.replace(/^\//,'');
-    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
-    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
-    let cfg = null;
-    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
-    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
-    if(cfg && typeof cfg==='object' && typeof cfg.url==='string'){
-      state.catalog.url = (cfg.url||'').trim();
-      try{ localStorage.setItem(LS.catalogSrc, state.catalog.url); }catch(_){}
-    }
-  }catch(e){ console.warn('Catalog source load fail', e); }
+/* ===== Winners – Admin UI (view-winners) ===== */
+function addVarietyRow(containerEl, type, idValue=''){
+  const row=document.createElement('div'); row.className='row';
+  const label=document.createElement('label'); label.textContent='Číslo (A):'; label.style.minWidth='90px';
+  const inp=document.createElement('input'); inp.type='number'; inp.inputMode='numeric'; inp.placeholder='např. 53'; inp.value=idValue||''; inp.setAttribute('aria-label','Číslo položky (A)');
+  const del=document.createElement('button'); del.type='button'; del.className='btn btn-ghost'; del.textContent='Odebrat';
+  const sync=()=>{ const ids=[]; for(const r of containerEl.querySelectorAll('.row')){ const id=r.querySelector('input[type="number"]')?.value||''; if(id.trim()) ids.push(id.toString().trim()); } if(type==='white') state.winners.whiteVarietyWinners=ids; if(type==='red') state.winners.redVarietyWinners=ids; try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
+    renderWinnersPreview(); renderWinnersSection(); };
+  del.addEventListener('click',()=>{ containerEl.removeChild(row); sync(); });
+  inp.addEventListener('input', sync);
+  row.appendChild(label); row.appendChild(inp); row.appendChild(del); containerEl.appendChild(row);
 }
-async function saveCatalogSourceToRepo(){
-  const cfg = { url: (state.catalog.url||'').trim() };
-  const ok = await ghPutFile(defaultCatalogSourcePath, JSON.stringify(cfg, null, 2), 'update catalog source url');
-  if(ok){ showToast('URL katalogu uložena do repozitáře.'); }
-  else { alert('Uložení URL katalogu na GitHub selhalo.'); }
+function rebuildVarietyLists(){
+  const wC=$('white-var-list'), rC=$('red-var-list');
+  if(wC){ wC.innerHTML=''; (state.winners.whiteVarietyWinners||[]).forEach(id=> addVarietyRow(wC,'white',id)); }
+  if(rC){ rC.innerHTML=''; (state.winners.redVarietyWinners||[]).forEach(id=> addVarietyRow(rC,'red',id)); }
 }
-
-/* ===== Winners – I/O (centrální) ===== */
-async function loadWinnersFromRepo(){
-  try{
-    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    if(!state.gh.owner || !state.gh.repo) return;
-    const rel = defaultWinnersPath.replace(/^\//,'');
-    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${rel}`;
-    const rawUrl = `https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${rel}`;
-    let cfg = null;
-    try{ cfg = await safeFetchJSON(pagesUrl); }catch(_){}
-    if(!cfg){ try{ cfg = await safeFetchJSON(rawUrl); }catch(_){ } }
-    if(cfg && typeof cfg==='object'){
-      state.winners = {
-        championWhite: { wineId: (cfg.championWhite?.wineId||'').toString() },
-        championRed: { wineId: (cfg.championRed?.wineId||'').toString() },
-        championRose: { wineId: (cfg.championRose?.wineId||'').toString() },
-        whiteVarietyWinners: Array.isArray(cfg.whiteVarietyWinners) ? cfg.whiteVarietyWinners.map(x=>x.toString()) : [],
-        redVarietyWinners: Array.isArray(cfg.redVarietyWinners) ? cfg.redVarietyWinners.map(x=>x.toString()) : []
-      };
-      try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
-    }
-  }catch(e){ console.warn('Winners load fail', e); }
+function syncChampionsInputsFromState(){
+  if($('champ-white')) $('champ-white').value = state.winners.championWhite?.wineId || '';
+  if($('champ-red'))   $('champ-red').value   = state.winners.championRed?.wineId   || '';
+  if($('champ-rose'))  $('champ-rose').value  = state.winners.championRose?.wineId  || '';
 }
-async function saveWinnersToRepo(){
-  const payload = {
-    championWhite: { wineId: (state.winners.championWhite?.wineId||'').toString().trim() },
-    championRed: { wineId: (state.winners.championRed?.wineId||'').toString().trim() },
-    championRose: { wineId: (state.winners.championRose?.wineId||'').toString().trim() },
-    whiteVarietyWinners: (state.winners.whiteVarietyWinners||[]).map(x=>x.toString().trim()).filter(Boolean),
-    redVarietyWinners: (state.winners.redVarietyWinners||[]).map(x=>x.toString().trim()).filter(Boolean)
-  };
-  const ok = await ghPutFile(defaultWinnersPath, JSON.stringify(payload, null, 2), 'update winners');
-  if(ok){
-    try{ localStorage.setItem(LS.winners, JSON.stringify(payload)); }catch(_){}
-    showToast('Vítězové uloženi do repozitáře.');
-    renderWinnersSection();
-    renderWinnersPreview();
-  }else{
-    alert('Uložení vítězů na GitHub selhalo.');
-  }
+function readChampionsInputsToState(){
+  if($('champ-white')) state.winners.championWhite.wineId = ($('champ-white').value||'').toString().trim();
+  if($('champ-red'))   state.winners.championRed.wineId   = ($('champ-red').value||'').toString().trim();
+  if($('champ-rose'))  state.winners.championRose.wineId  = ($('champ-rose').value||'').toString().trim();
+  try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
+  renderWinnersPreview(); renderWinnersSection();
+}
+function renderWinnersPreview(){
+  const wrap=$('winners-preview'); if(!wrap) return; wrap.innerHTML='';
+  const mkInfo=(title,id)=>{ const d=document.createElement('div'); const h=document.createElement('h5'); h.textContent=title; d.appendChild(h);
+    if(id){ const w=resolveWineById(id);
+      if(w){ const A=state.columns[0], B=state.columns[1], D=state.columns[3]; const p=document.createElement('p'); p.textContent=`Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''}`; d.appendChild(p); }
+      else{ const p=document.createElement('p'); p.style.color='#b00020'; p.textContent=`Nenalezeno A=${id}`; d.appendChild(p); }
+    }else{ const p=document.createElement('p'); p.style.opacity=.7; p.textContent='Nevyplněno.'; d.appendChild(p); }
+    return d; };
+  wrap.appendChild(mkInfo('Šampion bílých vín', state.winners.championWhite?.wineId));
+  wrap.appendChild(mkInfo('Šampion červených vín', state.winners.championRed?.wineId));
+  wrap.appendChild(mkInfo('Vítěz růžových vín', state.winners.championRose?.wineId));
 }
 
-/* ===== XLSX IMPORT ===== */
-function parseRowsWithHeader(rows){
-  if(!rows || !rows.length) return { columns:[], data:[] };
-  const chk = el.hasHeader();
-  const start= (chk && chk.checked) ? 1 : 0;
-  let header = [];
-  if(start===1){
-    header = (rows[0]||[]).map(normalizeHeader);
-  }else{
-    const maxLen = Math.max(...rows.map(r=>r.length)); for(let i=0;i<maxLen;i++) header.push('Sloupec '+(i+1));
-  }
-  const data=[];
-  for(let r=start; r<rows.length; r++){
-    const row = rows[r]||[];
-    const obj = {};
-    let emptyCount=0;
-    for(let c=0;c<header.length;c++){
-      const key = header[c] || ('Sloupec '+(c+1));
-      const val = row[c];
-      if(val===''||val==null) emptyCount++;
-      obj[key] = (val==null) ? '' : val;
-    }
-    if(emptyCount===header.length) continue;
-    data.push(obj);
-  }
-  return { columns: header, data };
-}
-function onLoadXLSX(){
-  if(typeof XLSX==='undefined'){ alert('Knihovna XLSX se nenačetla.'); return; }
-  const file = el.file() && el.file().files && el.file().files[0]; if(!file){ alert('Vyberte XLSX soubor.'); return; }
-  const reader = new FileReader();
-  reader.onload = e=>{
-    try{
-      const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]]; if(!ws){ alert('Nepodařilo se načíst první list.'); return; }
-      const rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true});
-      const parsed = parseRowsWithHeader(rows);
-      state.columns = parsed.columns.filter(c=>c && String(c).trim()!=='').map(String);
-      if(state.columns.length===0){ alert('Hlavička nebyla rozpoznána.'); return; }
-      state.idColumn = state.columns[0];
-      state.wines = parsed.data;
-      const persist = el.persistWines();
-      if(persist && persist.checked){
-        try{
-          localStorage.setItem(LS.wines, JSON.stringify(state.wines));
-          localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-          localStorage.setItem(LS.idcol, state.idColumn||'');
-        }catch(_){ showToast('Dataset je velký – uložen pouze v paměti.'); }
-      }
-      afterDataChanged();
-      showToast(`Načtených položek: ${state.wines.length}`);
-      renderWinnersSection(); renderWinnersPreview();
-    }catch(err){ console.error(err); alert('Chyba při čtení XLSX.'); }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-/* ===== JSON -> columns ===== */
-function adoptColumnsFromData(arr){
-  const first = arr[0] || {};
-  const cols = Object.keys(first);
-  state.columns = cols;
-  state.idColumn = state.columns[0] || null;
-}
-
-/* ===== Uložení hodnocení – lokálně ===== */
-function handleRateSubmit(wineObj, inputEl){
-  const v = inputEl.value.trim();
-  if(v===''){ return; }
-  const n = Number(v);
-  if(!Number.isFinite(n) || n<0 || n>100){
-    showToast('Zadejte číslo 0–100.');
-    inputEl.focus(); return;
-  }
-  if(!state.email){ showToast('Pro uložení hodnocení se přihlaste.'); return; }
-  const wineId = ensureWineId(wineObj);
-  if(!wineId){ showToast('Nelze identifikovat položku.'); return; }
-  if(state.ratings.find(r=>r.email===state.email && String(r.wineId)===String(wineId))){
-    inputEl.disabled=true; inputEl.classList.remove('unrated'); inputEl.classList.add('rated'); return;
-  }
-  const rec = { email: state.email, wineId: String(wineId), points: Math.round(n), timestamp: new Date().toISOString() };
-  state.ratings.push(rec);
-  try{ localStorage.setItem(LS.ratings, JSON.stringify(state.ratings)); }catch(_){}
-  inputEl.disabled=true; inputEl.classList.remove('unrated'); inputEl.classList.add('rated');
-  updateStats();
-  showToast('Hodnocení uloženo.');
-}
-
-/* ===== VYMAZÁNÍ ===== */
+/* ===== VYMAZÁNÍ VŠEHO ===== */
 function wipeAllData(){
   if(!confirm('Smazat úplně vše (katalog, hodnocení, branding, GH nastavení, přihlášení)?')) return;
   try{ Object.values(LS).forEach(k=>localStorage.removeItem(k)); }catch(_){}
@@ -1287,7 +915,7 @@ function wipeAllData(){
   state.branding={ bgUrl:'', bgFit:'cover', social:{ facebook:'', instagram:'', web:'' } };
   state.catalog={ url:'' };
   state.pager={ page:1, perPage:30 };
-  state.winners = { championWhite:{wineId:''}, championRed:{wineId:''}, championRose:{wineId:''}, whiteVarietyWinners:[], redVarietyWinners:[] };
+  state.winners={ championWhite:{wineId:''}, championRed:{wineId:''}, championRose:{wineId:''}, whiteVarietyWinners:[], redVarietyWinners:[] };
   applyBranding(); renderHeader(); rebuildFilterOptions(); renderTable(); updateStats();
   renderWinnersSection(); renderWinnersPreview();
   showToast('Aplikace byla vyčištěna.'); showAuthOverlay();
@@ -1300,263 +928,44 @@ async function exportMyRatingsPDF(){
   const my = state.ratings.filter(r=>r.email===state.email);
   const { jsPDF } = window.jspdf || window;
   const doc=new jsPDF({unit:'pt', format:'a4'});
-
-  const dejavuLoaded = await tryLoadCustomFont(doc);
-  if(dejavuLoaded){ doc.setFont('DejaVuSans','normal'); }
-  else{ doc.setFont('helvetica','bold'); }
-
+  doc.setFont('helvetica','bold');
   doc.setFontSize(15);
-  const titleRaw = 'Moje hodnocení – '+(state.email||'nepřihlášen');
-  const title = dejavuLoaded ? titleRaw : asciiSanitize(titleRaw);
-  doc.text(title,40,40);
-
+  doc.text('Moje hodnocení – '+(state.email||'nepřihlášen'),40,40);
   if(my.length===0){
-    doc.setFontSize(12);
-    const msg = dejavuLoaded ? 'Zatím žádná hodnocení.' : asciiSanitize('Zatím žádná hodnocení.');
-    doc.text(msg,40,70);
-    doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
-    return;
+    doc.setFontSize(12); doc.text('Zatím žádná hodnocení.',40,70);
+    doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`); return;
   }
-
-  const headRaw = [...state.columns, 'Body', 'Čas hodnocení'];
-  const head = dejavuLoaded ? headRaw : headRaw.map(asciiSanitize);
-
-  const map = new Map();
-  for(const w of state.wines){ const wid = ensureWineId(w); if(wid) map.set(String(wid), w); }
-
-  const body = [];
+  const head=[...state.columns,'Body','Čas hodnocení'];
+  const map=new Map(); for(const w of state.wines){ const wid=ensureWineId(w); if(wid) map.set(String(wid), w); }
+  const body=[];
   for(const r of my){
     const rowObj = map.get(String(r.wineId)) || {};
-    const row = [];
-    for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
-    row.push(String(r.points));
-    row.push(new Date(r.timestamp).toLocaleString());
-    body.push(dejavuLoaded ? row : row.map(asciiSanitize));
+    const row=[]; for(const col of state.columns){ row.push(rowObj[col]!==undefined ? String(rowObj[col]) : ''); }
+    row.push(String(r.points)); row.push(new Date(r.timestamp).toLocaleString());
+    body.push(row);
   }
-
-  doc.autoTable({
-    startY:60,
-    head:[head],
-    body,
-    styles:{font: dejavuLoaded ? 'DejaVuSans' : 'helvetica', fontSize:9, cellPadding:3},
-    headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] },
-    bodyStyles:{ valign:'top' }
-  });
+  doc.autoTable({ startY:60, head:[head], body, styles:{font:'helvetica', fontSize:9, cellPadding:3}, headStyles:{ fillColor:[0,79,152], textColor:[255,255,255] } });
   doc.save(`moje_hodnoceni_${new Date().toISOString().slice(0,10)}.pdf`);
 }
-async function tryLoadCustomFont(doc){
-  const urls = [];
-  urls.push(`${__basePath}/assets/fonts/DejaVuSans.ttf`);
-  try{
-    const host = location.hostname, path = location.pathname.split('/').filter(Boolean)[0]||'';
-    if(/\.github\.io$/i.test(host) && path){
-      urls.push(`https://${host}/${path}/assets/fonts/DejaVuSans.ttf`);
-    }
-  }catch(_){}
-  for(const url of urls){
-    try{
-      const res = await fetch(url, {cache:'no-cache'});
-      if(!res.ok) continue;
-      const buf = await res.arrayBuffer();
-      const b64 = toBase64FromArrayBuffer(buf);
-      doc.addFileToVFS('DejaVuSans.ttf', b64);
-      doc.addFont('DejaVuSans.ttf', 'DejaVuSans', 'normal');
-      return true;
-    }catch(_){}
-  }
-  return false;
-}
 
-/* ===== Katalog: načítání ===== */
-function ensureGhConfigured(){ return !!(state.gh.owner && state.gh.repo); }
-
-async function loadCatalogFromURL(url){
-  try{
-    const arr = await safeFetchJSON(url);
-    if(!Array.isArray(arr)) throw new Error('Katalog není pole objektů.');
-    adoptColumnsFromData(arr);
-    state.wines = arr;
-    try{
-      localStorage.setItem(LS.wines, JSON.stringify(state.wines));
-      localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-      localStorage.setItem(LS.idcol, state.idColumn||'');
-    }catch(_){}
-    afterDataChanged();
-    showToast(`Katalog (URL): ${arr.length}`);
-    renderWinnersSection(); renderWinnersPreview();
-  }catch(e){
-    console.warn('Load from URL fail', e);
-    alert('Načtení katalogu z URL selhalo. Zkontrolujte, že URL vrací validní JSON pole.');
+/* ===== PŘEPNUTÍ VIEW ===== */
+function showView(which){
+  const winners=$('view-winners'), catalog=$('view-catalog');
+  const bW=$('btn-show-winners'), bC=$('btn-show-catalog');
+  if(which==='winners'){
+    if(winners) winners.hidden=false;
+    if(catalog) catalog.hidden=true;
+    if(bW){ bW.setAttribute('aria-current','page'); }
+    if(bC){ bC.removeAttribute('aria-current'); }
+  }else{
+    if(winners) winners.hidden=true;
+    if(catalog) catalog.hidden=false;
+    if(bC){ bC.setAttribute('aria-current','page'); }
+    if(bW){ bW.removeAttribute('aria-current'); }
   }
 }
 
-async function loadCatalogFromGitHubAPI(){
-  try{
-    const path = state.gh.catalogPath || defaultCatalogPath;
-    const meta=await ghGetFile(path);
-    if(!meta || !meta.content){ alert('Katalog na GitHubu se nenašel.'); return; }
-    const json=atob(meta.content);
-    const arr=JSON.parse(json);
-    if(!Array.isArray(arr)) throw new Error('Formát JSON není pole.');
-    adoptColumnsFromData(arr);
-    state.wines=arr;
-    try{
-      localStorage.setItem(LS.wines, JSON.stringify(state.wines));
-      localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-      localStorage.setItem(LS.idcol, state.idColumn||'');
-    }catch(_){}
-    afterDataChanged();
-    showToast(`Katalog (API): ${arr.length}`);
-    renderWinnersSection(); renderWinnersPreview();
-  }catch(e){ console.error(e); alert('Načtení katalogu selhalo.'); }
-}
-
-async function loadCatalogSmart(){
-  const src = (state.catalog.url||'').trim();
-  if(src){
-    await loadCatalogFromURL(src);
-    return;
-  }
-  if(!ensureGhConfigured()){
-    inferGhFromLocation();
-    if(!ensureGhConfigured()){ showToast('Chybí GitHub nastavení.'); return; }
-  }
-  const catPath = (state.gh.catalogPath || defaultCatalogPath).replace(/^\//,'');
-  const t = Date.now();
-  const pagesUrl=`https://${state.gh.owner}.github.io/${state.gh.repo}/${catPath}?t=${t}`;
-  const rawUrl=`https://raw.githubusercontent.com/${state.gh.owner}/${state.gh.repo}/${state.gh.branch||'main'}/${catPath}?t=${t}`;
-  try{
-    const arr=await safeFetchJSON(pagesUrl);
-    if(Array.isArray(arr)){
-      adoptColumnsFromData(arr); state.wines=arr;
-      try{
-        localStorage.setItem(LS.wines, JSON.stringify(arr));
-        localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-        localStorage.setItem(LS.idcol, state.idColumn||'');
-      }catch(_){}
-      afterDataChanged(); showToast(`Katalog (Pages): ${arr.length}`);
-      renderWinnersSection(); renderWinnersPreview();
-      return;
-    }
-  }catch(e){ console.warn('Pages fetch fail', e); }
-  try{
-    const arr=await safeFetchJSON(rawUrl);
-    if(Array.isArray(arr)){
-      adoptColumnsFromData(arr); state.wines=arr;
-      try{
-        localStorage.setItem(LS.wines, JSON.stringify(arr));
-        localStorage.setItem(LS.columns, JSON.stringify(state.columns));
-        localStorage.setItem(LS.idcol, state.idColumn||'');
-      }catch(_){}
-      afterDataChanged(); showToast(`Katalog (Raw): ${arr.length}`);
-      renderWinnersSection(); renderWinnersPreview();
-      return;
-    }
-  }catch(e){ console.warn('Raw fetch fail', e); }
-  await loadCatalogFromGitHubAPI();
-}
-
-/* ===== Winners – Admin UI (pouze čísla jako u šampionů) ===== */
-function addVarietyRow(containerEl, type, idValue=''){
-  const row = document.createElement('div'); row.className='row';
-  const label = document.createElement('label'); label.textContent = 'Číslo (A):'; label.style.minWidth='90px';
-  const inpId = document.createElement('input'); inpId.type='number'; inpId.inputMode='numeric'; inpId.placeholder='např. 53'; inpId.value=idValue||''; inpId.setAttribute('aria-label','Číslo položky (A)');
-  const btnDel = document.createElement('button'); btnDel.type='button'; btnDel.className='btn btn-ghost'; btnDel.textContent='Odebrat';
-  btnDel.addEventListener('click', ()=>{
-    containerEl.removeChild(row);
-    syncVarietyListFromDOM();
-    renderWinnersPreview();
-  });
-  const syncVarietyListFromDOM = ()=>{
-    const ids = [];
-    for(const r of containerEl.querySelectorAll('.row')){
-      const id = r.querySelector('input[type="number"]')?.value || '';
-      if(id.trim()) ids.push(id.toString().trim());
-    }
-    if(type==='white') state.winners.whiteVarietyWinners = ids;
-    if(type==='red') state.winners.redVarietyWinners = ids;
-    try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
-  };
-  inpId.addEventListener('input', ()=>{ syncVarietyListFromDOM(); renderWinnersPreview(); });
-  row.appendChild(label); row.appendChild(inpId); row.appendChild(btnDel);
-  containerEl.appendChild(row);
-}
-
-function rebuildVarietyLists(){
-  const wC = el.listWhite(), rC = el.listRed();
-  if(wC){ wC.innerHTML=''; (state.winners.whiteVarietyWinners||[]).forEach(id=> addVarietyRow(wC, 'white', id)); }
-  if(rC){ rC.innerHTML=''; (state.winners.redVarietyWinners||[]).forEach(id=> addVarietyRow(rC, 'red', id)); }
-}
-
-function readChampionsInputsToState(){
-  state.winners.championWhite.wineId = (el.champWhite()?.value||'').toString().trim();
-  state.winners.championRed.wineId = (el.champRed()?.value||'').toString().trim();
-  state.winners.championRose.wineId = (el.champRose()?.value||'').toString().trim();
-  try{ localStorage.setItem(LS.winners, JSON.stringify(state.winners)); }catch(_){}
-}
-
-function syncChampionsInputsFromState(){
-  if(el.champWhite()) el.champWhite().value = state.winners.championWhite?.wineId || '';
-  if(el.champRed()) el.champRed().value = state.winners.championRed?.wineId || '';
-  if(el.champRose()) el.champRose().value = state.winners.championRose?.wineId || '';
-}
-
-function renderWinnersPreview(){
-  const wrap = el.winnersPreview(); if(!wrap) return;
-  wrap.innerHTML = '';
-  const section = document.createElement('section'); section.id='winners-preview-inner';
-
-  const mkInfo = (title, id)=>{
-    const div = document.createElement('div');
-    const h = document.createElement('h5'); h.textContent = title; div.appendChild(h);
-    if(id){
-      const w = resolveWineById(id);
-      if(w){
-        const A=state.columns[0], B=state.columns[1], C=state.columns[2], D=state.columns[3], E=state.columns[4], F=state.columns[5];
-        const extras=[]; if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
-        const p = document.createElement('p'); p.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Extra: ${extras.join(' – ')}`;
-        div.appendChild(p);
-      }else{
-        const p = document.createElement('p'); p.className='error'; p.textContent = `Nebylo nalezeno víno s číslem A=${id}.`;
-        div.appendChild(p);
-      }
-    }else{
-      const p = document.createElement('p'); p.className='empty'; p.textContent = 'Nevyplněno.';
-      div.appendChild(p);
-    }
-    return div;
-  };
-
-  section.appendChild(mkInfo('Vítěz růžových vín', state.winners.championRose?.wineId));
-  section.appendChild(mkInfo('Šampion bílých vín', state.winners.championWhite?.wineId));
-  section.appendChild(mkInfo('Šampion červených vín', state.winners.championRed?.wineId));
-
-  const mkListPreview = (title, list)=>{
-    const d = document.createElement('div');
-    const h = document.createElement('h5'); h.textContent = title; d.appendChild(h);
-    if(!list || !list.length){ const p=document.createElement('p'); p.className='empty'; p.textContent='Zatím prázdné.'; d.appendChild(p); return d; }
-    const ul = document.createElement('ul');
-    for(const id of list){
-      const li = document.createElement('li');
-      const w = resolveWineById(id);
-      if(w){
-        const A=state.columns[0], B=state.columns[1], D=state.columns[3], E=state.columns[4], F=state.columns[5];
-        const extras=[]; if(E && w[E]) extras.push(String(w[E])); if(F && w[F]) extras.push(String(w[F]));
-        li.textContent = `Č: ${w[A]??''} | Pěstitel: ${w[B]??''} | Odrůda: ${w[D]??''} | Extra: ${extras.join(' – ')}`;
-      }else{
-        li.innerHTML = `<span class="error">Nenalezeno A=${id}</span>`;
-      }
-      ul.appendChild(li);
-    }
-    d.appendChild(ul); return d;
-  };
-  section.appendChild(mkListPreview('Vítězové odrůd – bílá vína', state.winners.whiteVarietyWinners));
-  section.appendChild(mkListPreview('Vítězové odrůd – červená vína', state.winners.redVarietyWinners));
-
-  wrap.appendChild(section);
-}
-
-/* ===== Po změně dat ===== */
+/* ===== Po zmene dat / render ===== */
 function afterDataChanged(){
   renderHeader();
   rebuildFilterOptions();
@@ -1578,9 +987,10 @@ function renderAll(){
 document.addEventListener('DOMContentLoaded', async ()=>{
   const y=$('year'); if(y) y.textContent = new Date().getFullYear();
 
+  // Obnovení stavu
   try{
     const em=localStorage.getItem(LS.email); if(em) state.email=em;
-    if(state.email === 'admin@local'){ state.isAdmin = true; }
+    if(state.email === 'admin@local') state.isAdmin = true;
     const rt=localStorage.getItem(LS.ratings); if(rt) state.ratings=JSON.parse(rt)||[];
     const gh=localStorage.getItem(LS.gh); if(gh){ try{ state.gh={...state.gh, ...(JSON.parse(gh)||{})}; }catch{} }
     const br=localStorage.getItem(LS.branding); if(br){ try{ state.branding={...state.branding, ...(JSON.parse(br)||{}), social: { ...(state.branding.social||{}), ...((JSON.parse(br)||{}).social||{}) } }; }catch{} }
@@ -1595,12 +1005,12 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
   inferGhFromLocation();
 
-  // Načti centrální branding, katalog URL a vítěze
+  // Načtení central configs
   await loadBrandingConfigFromRepo();
   await loadCatalogSourceFromRepo();
   await loadWinnersFromRepo();
 
-  // Pokud není bgUrl, nastav default Pages obrázek
+  // Pokud není bgUrl, použij defaultní obrázek z Pages
   if(!state.branding.bgUrl && state.gh.owner && state.gh.repo){
     const targetPath = (state.gh.brandingPath || defaultBrandingPath).replace(/^\//,'');
     const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath}`;
@@ -1610,130 +1020,51 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
   applyBranding();
 
+  // Přihlášení
   showAuthOverlay();
-  const btnAuth=el.authSubmit(), inpAuth=el.authInput();
+  const btnAuth=$('auth-submit'), inpAuth=$('auth-input');
   if(btnAuth) btnAuth.addEventListener('click', handleAuthSubmit);
   if(inpAuth) inpAuth.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); handleAuthSubmit(); }});
 
-  const bLoad=el.btnLoadCatalogGH(), bTok=el.btnSetGhToken(), bRel=el.btnRelogin(), bLoadX=el.btnLoad(), bClr=el.btnClearData(), bPub=el.btnPublishGH();
-  if(bLoad) bLoad.addEventListener('click', ()=>{ loadCatalogSmart(); });
-  if(bTok) bTok.addEventListener('click', async ()=>{
-    if(!state.gh.owner || !state.gh.repo) inferGhFromLocation();
-    const t = prompt('Zadejte GitHub Personal Access Token (repo – Contents):', state.gh.token||'');
-    if(t){ state.gh.token=t.trim(); try{ localStorage.setItem(LS.gh, JSON.stringify(state.gh)); }catch(_){} showToast('GH token nastaven.'); }
-  });
-  if(bRel) bRel.addEventListener('click', showAuthOverlay);
-  if(bLoadX) bLoadX.addEventListener('click', onLoadXLSX);
-  if(bClr) bClr.addEventListener('click', wipeAllData);
-  if(bPub) bPub.addEventListener('click', ()=>{
-    if(!state.wines.length){ alert('Žádná data k publikování.'); return; }
-    const payload = JSON.stringify(state.wines, null, 2);
-    ghPutFile(state.gh.catalogPath || defaultCatalogPath, payload, 'publish catalog')
-      .then(ok=> ok && showToast('Katalog byl uložen na GitHub.'))
-      .catch(()=> alert('Uložení na GitHub selhalo.'));
-  });
+  // Přepínání pohledů
+  const bW=$('btn-show-winners'), bC=$('btn-show-catalog');
+  if(bW) bW.addEventListener('click', ()=> showView('winners'));
+  if(bC) bC.addEventListener('click', ()=> showView('catalog'));
 
-  const fA=el.fA(), fB=el.fB(), fD=el.fD(), bCF=el.btnClearFilters();
-  if(fA) fA.addEventListener('input', onFilterChange);
-  if(fB) fB.addEventListener('change', onFilterChange);
-  if(fD) fD.addEventListener('change', onFilterChange);
-  if(bCF) bCF.addEventListener('click', ()=>{
-    const iA=el.fA(), sB=el.fB(), sD=el.fD();
-    if(iA) iA.value='';
-    if(sB) sB.value='';
-    if(sD) sD.value='';
+  // Filtry
+  if($('filter-poradie')) $('filter-poradie').addEventListener('input', onFilterChange);
+  if($('filter-vystavovatel')) $('filter-vystavovatel').addEventListener('change', onFilterChange);
+  if($('filter-odroda')) $('filter-odroda').addEventListener('change', onFilterChange);
+  if($('btn-clear-filters')) $('btn-clear-filters').addEventListener('click', ()=>{
+    if($('filter-poradie')) $('filter-poradie').value='';
+    if($('filter-vystavovatel')) $('filter-vystavovatel').value='';
+    if($('filter-odroda')) $('filter-odroda').value='';
     onFilterChange();
   });
 
-  const bPdf=el.btnExportPDF();
-  if(bPdf) bPdf.addEventListener('click', exportMyRatingsPDF);
-
-  // Branding – overlay handlers
-  if(el.bgFile()) el.bgFile().addEventListener('change', handleBgFile);
-  if(el.btnSetBgUrl()) el.btnSetBgUrl().addEventListener('click', ()=>{
-    const v = el.bgUrl() && el.bgUrl().value.trim();
-    if(!v){ alert('Zadejte URL.'); return; }
-    state.branding.bgUrl = v;
-    try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    applyBranding(); showToast('URL pozadí uložena (lokálně).'); 
-  });
-  if(el.btnResetBg()) el.btnResetBg().addEventListener('click', ()=>{
-    state.branding.bgUrl = '';
-    try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    applyBranding(); showToast('Pozadí resetováno.');
-  });
-  if(el.bgFit()) el.bgFit().addEventListener('change', ()=>{
-    state.branding.bgFit = el.bgFit().value;
-    try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    applyBranding();
-  });
-  if(el.btnUploadBgGH()) el.btnUploadBgGH().addEventListener('click', async ()=>{
-    const f = el.bgFile() && el.bgFile().files && el.bgFile().files[0];
-    if(!f){ alert('Vyberte soubor s obrázkem.'); return; }
-    const rdr = new FileReader();
-    rdr.onload = async e=>{
-      const base64 = dataURLtoBase64(e.target.result);
-      const targetPath = 'assets/img/branding.jpg';
-      const ok = await ghPutContentBase64(targetPath, base64, 'upload branding overlay');
-      if(ok){
-        const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath}`;
-        state.branding.bgUrl = pagesUrl;
-        try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-        await saveBrandingConfigToRepo();
-        applyBranding(); showToast('Obrázek nahrán a použit.');
-      }else{
-        alert('Nahrání na GitHub selhalo.');
-      }
-    };
-    rdr.readAsDataURL(f);
-  });
-  if(el.btnUseGhBg()) el.btnUseGhBg().addEventListener('click', ()=>{
-    if(!state.gh.owner || !state.gh.repo){ inferGhFromLocation(); }
-    if(!state.gh.owner || !state.gh.repo){ alert('Neznámý GitHub owner/repo.'); return; }
-    const targetPath = 'assets/img/branding.jpg';
-    const pagesUrl = `https://${state.gh.owner}.github.io/${state.gh.repo}/${targetPath}`;
-    state.branding.bgUrl = pagesUrl;
-    try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    saveBrandingConfigToRepo().then(()=>{ applyBranding(); showToast('Použit obrázek z GitHub Pages.'); });
-  });
-
-  // Sociální odkazy
-  if(el.socialFb()) el.socialFb().value = state.branding.social?.facebook || '';
-  if(el.socialIg()) el.socialIg().value = state.branding.social?.instagram || '';
-  if(el.socialWeb()) el.socialWeb().value = state.branding.social?.web || '';
-  if(el.btnSaveSocial()) el.btnSaveSocial().addEventListener('click', async ()=>{
-    state.branding.social = {
-      facebook: el.socialFb() ? (el.socialFb().value||'') : '',
-      instagram: el.socialIg() ? (el.socialIg().value||'') : '',
-      web: el.socialWeb() ? (el.socialWeb().value||'') : ''
-    };
-    try{ localStorage.setItem(LS.branding, JSON.stringify(state.branding)); }catch(_){}
-    await saveBrandingConfigToRepo();
-    applyBranding();
-    showToast('Sociální odkazy uloženy.');
-  });
-
-  // Winners – admin UI events
-  if(el.btnAddWhite()) el.btnAddWhite().addEventListener('click', ()=>{ const c=el.listWhite(); if(c){ addVarietyRow(c,'white',''); renderWinnersPreview(); } });
-  if(el.btnAddRed()) el.btnAddRed().addEventListener('click', ()=>{ const c=el.listRed(); if(c){ addVarietyRow(c,'red',''); renderWinnersPreview(); } });
-  if(el.btnSaveWinners()) el.btnSaveWinners().addEventListener('click', saveWinnersToRepo);
-  if(el.btnLoadWinners()) el.btnLoadWinners().addEventListener('click', async ()=>{ await loadWinnersFromRepo(); syncChampionsInputsFromState(); rebuildVarietyLists(); renderWinnersPreview(); renderWinnersSection(); showToast('Vítězové načteni.'); });
-  if(el.btnClearWinnersLocal()) el.btnClearWinnersLocal().addEventListener('click', ()=>{
+  // Winners admin: bindy
+  if($('btn-add-white')) $('btn-add-white').addEventListener('click', ()=>{ const c=$('white-var-list'); if(c){ addVarietyRow(c,'white',''); renderWinnersPreview(); } });
+  if($('btn-add-red')) $('btn-add-red').addEventListener('click', ()=>{ const c=$('red-var-list'); if(c){ addVarietyRow(c,'red',''); renderWinnersPreview(); } });
+  if($('btn-save-winners')) $('btn-save-winners').addEventListener('click', saveWinnersToRepo);
+  if($('btn-load-winners')) $('btn-load-winners').addEventListener('click', async ()=>{ await loadWinnersFromRepo(); syncChampionsInputsFromState(); rebuildVarietyLists(); renderWinnersPreview(); renderWinnersSection(); showToast('Vítězové načteni.'); });
+  if($('btn-clear-winners-local')) $('btn-clear-winners-local').addEventListener('click', ()=>{
     if(!confirm('Vyčistit lokální nastavení vítězů?')) return;
     state.winners = { championWhite:{wineId:''}, championRed:{wineId:''}, championRose:{wineId:''}, whiteVarietyWinners:[], redVarietyWinners:[] };
     try{ localStorage.removeItem(LS.winners); }catch(_){}
     syncChampionsInputsFromState(); rebuildVarietyLists(); renderWinnersPreview(); renderWinnersSection();
     showToast('Vítězové vyčištěni (lokálně).');
   });
-  if(el.champWhite()) el.champWhite().addEventListener('input', ()=>{ readChampionsInputsToState(); renderWinnersPreview(); });
-  if(el.champRed()) el.champRed().addEventListener('input', ()=>{ readChampionsInputsToState(); renderWinnersPreview(); });
-  if(el.champRose()) el.champRose().addEventListener('input', ()=>{ readChampionsInputsToState(); renderWinnersPreview(); });
+  if($('champ-white')) $('champ-white').addEventListener('input', readChampionsInputsToState);
+  if($('champ-red')) $('champ-red').addEventListener('input', readChampionsInputsToState);
+  if($('champ-rose')) $('champ-rose').addEventListener('input', readChampionsInputsToState);
 
-  // Inicializace admin winners UI
-  syncChampionsInputsFromState();
-  rebuildVarietyLists();
+  // Export PDF
+  if($('btn-export-pdf')) $('btn-export-pdf').addEventListener('click', exportMyRatingsPDF);
 
-  updateIdentityUI();
+  // Základní render a načtení katalogu
+  showView('winners');             // defaultně pohled „Vítězové“
+  renderAll();
+  await loadCatalogSmart();        // centrální načtení
   renderAll();
 });
 </script>
